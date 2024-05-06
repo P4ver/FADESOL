@@ -3,7 +3,6 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 
 
-//=======================================
 const mysql = require('mysql');
 const pool = mysql.createPool({
     connectionLimit: 10,
@@ -51,7 +50,6 @@ router.post('/login', (req, res) => {
 
 module.exports = router;
 
-// module.exports = { router, verifyToken };
 
 
 //=======================================
