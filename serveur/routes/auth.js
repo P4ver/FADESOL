@@ -36,6 +36,12 @@ router.post('/login', (req, res) => {
 });
 
 
+router.post('/logout', (req, res) => {
+    // Clear the JWT cookie by setting an expired date
+    res.cookie('jwt', '', { expires: new Date(0), httpOnly: true });
+    res.json({ message: 'Déconnecté avec succès' });
+});
+
 
 module.exports = router;
 
