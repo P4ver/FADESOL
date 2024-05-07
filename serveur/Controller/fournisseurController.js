@@ -11,7 +11,7 @@ const obtenirDonnéesFournisseur = (req, res)=>{
             res.send(rows)
         })
     })
-}		
+}
 
 
 const obtenirFournisseurID = (req, res)=>{

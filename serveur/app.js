@@ -8,6 +8,8 @@ const auth = require('./routes/auth')
 const users = require('./routes/users')
 const produits = require('./routes/productRoutes')
 const fournisseur = require("./routes/fournisseurRoutes")
+const client = require("./routes/clientRoutes")
+const user = require("./routes/userRoutes")
 // const pool = require("./db")
 
 // app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,6 +23,8 @@ app.use('/users', users);
 
 app.use('/', produits);
 app.use('/', fournisseur);
+app.use('/', client);
+app.use('/', user);
 
 
 app.listen(3000, () => {
