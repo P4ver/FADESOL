@@ -1,0 +1,73 @@
+const pool = require("../db")
+
+
+const obtenirProduits = (req, res)=>{
+    pool.getConnection((err, connection)=>{
+        if (err) throw err; // not connected!
+        console.log(`connected as id ${connection.threadId}`)
+        connection.query('SELECT * from produit', (err, rows)=>{
+            connection.release() // return the connection to pool 
+            if (err) throw err
+            res.send(rows)
+        })
+    })
+}
+
+
+const obtenirProduitsID = (req, res)=>{
+    pool.getConnection((err, connection)=>{
+        if (err) throw err
+        console.log("connection as id", connection.threadId)
+        connection.query('SELECT * FROM produit WHERE id_Produit=?', [req.params.id], (err, rows)=>{
+            connection.release()
+            if (err) throw err
+            console.log(rows)
+            res.send(rows)
+        })
+    })
+}
+
+
+const ajouterProduit = (req, res)=>{
+    pool.getConnection((err, connection)=>{
+        if (err) throw err
+        console.log("connection as id", connection.threadId)
+        
+        connection.query("INSERT INTO produit SET ?", [req.body], (err, rows)=>{
+            connection.release()
+            if (err) throw err
+            res.send("Les données ont été insérées.")
+        })
+    })
+}
+
+const modifierProduit = (req, res)=>{
+    pool.getConnection((err, connection)=>{
+        if (err) throw err
+        console.log("connection as id", connection.threadId)
+  
+        // const {id, name , age, email} = req.body
+        const { id_Produit, pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut} = req.body
+        connection.query("UPDATE produit SET pu_Produit = ?, type_Produit = ?, prix_Vente = ?, note_Produit = ?, code_Barre = ?, numero_Serie = ?, unite = ?, statut = ?  WHERE id_Produit = ?", [ pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut, id_Produit],(err, rows)=>{
+            connection.release()
+            if (err) throw err
+            res.send("Les données ont été mises à jour.")
+        })
+    })
+  }
+
+const supprimerProduit = (req, res) =>{
+    pool.getConnection((err, connection)=>{
+        if (err) throw err
+        console.log("connection as id", connection.threadId)
+        connection.query("DELETE FROM produit WHERE id_Produit = ?", [req.params.id],(err, rows)=>{
+            connection.release()
+            if(err) throw err
+            console.log(rows)
+            res.send("Les données ont été supprimées.")
+        })
+    })
+}
+
+
+module.exports = {obtenirProduits, obtenirProduitsID, ajouterProduit, modifierProduit, supprimerProduit};

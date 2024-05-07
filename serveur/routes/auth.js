@@ -1,17 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-
-
-const mysql = require('mysql');
-const pool = mysql.createPool({
-    connectionLimit: 10,
-    host: 'localhost',
-    user: 'root', // Your MySQL username
-    password: null, // Your MySQL password
-    database: 'fadtestdb', // Name of the database you created
-})
-
+const pool = require("../db")
 
 router.post('/login', (req, res) => {
     const { name, password } = req.body;
@@ -20,7 +10,6 @@ router.post('/login', (req, res) => {
         if (err) {
             return res.status(500).json({ message: 'Erreur de connexion à la base de données' });
         }
-
         // const query = 'SELECT id_User, type_User FROM Users WHERE login_User = ? AND password_User = ?';
         const query = 'SELECT * FROM user WHERE login_User = ? AND password_User = ?';
         connection.query(query, [name, password], (err, results) => {
@@ -49,7 +38,6 @@ router.post('/login', (req, res) => {
 
 
 module.exports = router;
-
 
 
 //=======================================
