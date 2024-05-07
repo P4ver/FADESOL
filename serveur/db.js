@@ -1,0 +1,11 @@
+const mysql = require('mysql');
+
+const pool = mysql.createPool({
+    connectionLimit: 10,
+    host: 'localhost',
+    user: 'root', // Your MySQL username
+    password: null, // Your MySQL password
+    database: 'fadtestdb', // Name of the database you created
+});
+
+module.exports = pool;
