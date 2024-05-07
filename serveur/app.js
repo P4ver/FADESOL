@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const auth = require('./routes/auth')
 const users = require('./routes/users')
 const produits = require('./routes/productRoutes')
+const fournisseur = require("./routes/fournisseurRoutes")
 // const pool = require("./db")
 
 // app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,6 +20,7 @@ app.use('/auth', auth);
 app.use('/users', users);
 
 app.use('/', produits);
+app.use('/', fournisseur);
 
 
 app.listen(3000, () => {
