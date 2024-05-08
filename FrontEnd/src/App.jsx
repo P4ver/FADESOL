@@ -4,6 +4,7 @@ import store from './store/store'
 import Login from './component/login'
 import Test from './component/test'
 import ProductComponent from './component/ProductComponent'
+import UserComponent from './component/userComponent'
 import './App.css'
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
+          <Route path="/user" element={<UserComponent/>} />
           <Route path="/produits" element={<ProductComponent/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/test" element={<Test/>} />
