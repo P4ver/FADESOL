@@ -40,20 +40,38 @@ const ajouterUser = (req, res)=>{
     })
 }
 
-const modifierUser = (req, res)=>{
-    pool.getConnection((err, connection)=>{
-        if (err) throw err
-        console.log("connection as id", connection.threadId)
-  
-        // const {id, name , age, email} = req.body
-        const { id_User, login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User} = req.body
-        connection.query("UPDATE user SET login_User = ?, password_User = ?, nom_User = ?, prenom_User = ?, tel_User = ?, note_User = ?, type_User = ?  WHERE id_User = ?", [ login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User, id_User],(err, rows)=>{
-            connection.release()
-            if (err) throw err
-            res.send("Les données ont été mises à jour.")
-        })
-    })
-  }
+// const modifierUser = (req, res)=>{
+//     pool.getConnection((err, connection)=>{
+//         if (err) throw err
+//         console.log("connection as id", connection.threadId)
+//         const { id_User, login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User} = req.body
+//         connection.query("UPDATE user SET login_User = ?, password_User = ?, nom_User = ?, prenom_User = ?, tel_User = ?, note_User = ?, type_User = ?  WHERE id_User = ?", [ login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User, id_User],(err, rows)=>{
+//             connection.release()
+//             if (err) throw err
+//             res.send("Les données ont été mises à jour.")
+//         })
+//     })
+//   }
+
+const modifierUser = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("connection as id", connection.threadId);
+        const { login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User} = req.body
+        const { id } = req.params; // Assuming id is the name of the parameter in the route
+
+        connection.query(
+            "UPDATE user SET login_User = ?, password_User = ?, nom_User = ?, prenom_User = ?, tel_User = ?, note_User = ?, type_User = ?  WHERE id_User = ?",
+            [ login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User,  id],
+            (err, rows) => {
+                connection.release();
+                if (err) throw err;
+                res.send("Les données ont été mises à jour.");
+            }
+        );
+    });
+};
+
 
 const supprimerUser = (req, res) =>{
     pool.getConnection((err, connection)=>{

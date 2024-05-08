@@ -6,7 +6,7 @@ const {obtenirDonnéesUser, supprimerUser, ajouterUser, obtenirUserID, modifierU
 router.get('/user', obtenirDonnéesUser)
 router.get('/user/:id', obtenirUserID)
 router.post('/user', ajouterUser)
-router.put('/user', modifierUser)
+router.put('/user/:id', modifierUser)
 router.delete('/user/:id', supprimerUser)
 
 module.exports = router;
