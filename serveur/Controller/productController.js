@@ -41,20 +41,41 @@ const ajouterProduit = (req, res)=>{
     })
 }
 
-const modifierProduit = (req, res)=>{
-    pool.getConnection((err, connection)=>{
-        if (err) throw err
-        console.log("connection as id", connection.threadId)
+// const modifierProduit = (req, res)=>{
+//     pool.getConnection((err, connection)=>{
+//         if (err) throw err
+//         console.log("connection as id", connection.threadId)
   
-        // const {id, name , age, email} = req.body
-        const { id_Produit, pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut} = req.body
-        connection.query("UPDATE produit SET pu_Produit = ?, type_Produit = ?, prix_Vente = ?, note_Produit = ?, code_Barre = ?, numero_Serie = ?, unite = ?, statut = ?  WHERE id_Produit = ?", [ pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut, id_Produit],(err, rows)=>{
-            connection.release()
-            if (err) throw err
-            res.send("Les données ont été mises à jour.")
-        })
-    })
-  }
+//         // const {id, name , age, email} = req.body
+//         const { id_Produit, pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut} = req.body
+//         connection.query("UPDATE produit SET pu_Produit = ?, type_Produit = ?, prix_Vente = ?, note_Produit = ?, code_Barre = ?, numero_Serie = ?, unite = ?, statut = ?  WHERE id_Produit = ?", [ pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut, id_Produit],(err, rows)=>{
+//             connection.release()
+//             if (err) throw err
+//             res.send("Les données ont été mises à jour.")
+//         })
+//     })
+//   }
+
+const modifierProduit = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("connection as id", connection.threadId);
+
+        const { pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut } = req.body;
+        const { id } = req.params; // Assuming id is the name of the parameter in the route
+
+        connection.query(
+            "UPDATE produit SET pu_Produit = ?, type_Produit = ?, prix_Vente = ?, note_Produit = ?, code_Barre = ?, numero_Serie = ?, unite = ?, statut = ? WHERE id_Produit = ?",
+            [pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut, id],
+            (err, rows) => {
+                connection.release();
+                if (err) throw err;
+                res.send("Les données ont été mises à jour.");
+            }
+        );
+    });
+};
+
 
 const supprimerProduit = (req, res) =>{
     pool.getConnection((err, connection)=>{

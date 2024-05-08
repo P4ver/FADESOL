@@ -13,7 +13,6 @@ const obtenirDonnéesUser = (req, res)=>{
     })
 }
 
-
 const obtenirUserID = (req, res)=>{
     pool.getConnection((err, connection)=>{
         if (err) throw err

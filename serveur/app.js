@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 // Routes d'authentification
 const auth = require('./routes/auth')
@@ -10,11 +11,16 @@ const produits = require('./routes/productRoutes')
 const fournisseur = require("./routes/fournisseurRoutes")
 const client = require("./routes/clientRoutes")
 const user = require("./routes/userRoutes")
-// const pool = require("./db")
 
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(cors(
+  {
+    origin: 'http://localhost:5173',
+    credentials: true,
+  }
+));
 
 // Routes d'authentification
 app.use('/auth', auth);
