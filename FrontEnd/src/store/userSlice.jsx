@@ -49,11 +49,11 @@ export const fetchUserData = createAsyncThunk(
   );
 
 
-export const updateProductData = createAsyncThunk(
-  'product/updateProductData',
-  async ({ productId, updatedProductData }, thunkAPI) => {
+export const updateUserData = createAsyncThunk(
+  'product/updateUserData',
+  async ({ id_User, updateUserData }, thunkAPI) => {
     try {
-      const response = await axios.put(`http://localhost:3000/produits/${productId}`, updatedProductData, {
+      const response = await axios.put(`http://localhost:3000/user/${id_User}`, updateUserData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -64,18 +64,21 @@ export const updateProductData = createAsyncThunk(
       }
       // Fetch product data again after updating
       await thunkAPI.dispatch(fetchUserData());
-      return { productId, updatedProductData };
+      return { id_User, updateUserData };
     } catch (error) {
       throw error;
     }
   }
 );
 
-export const deleteProductData = createAsyncThunk(
-  'product/deleteProductData',
-  async (productId, thunkAPI) => {
+
+
+
+export const deleteUserData = createAsyncThunk(
+  'user/deleteUserData',
+  async (id_User, thunkAPI) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/produits/${productId}`,{
+      const response = await axios.delete(`http://localhost:3000/user/${id_User}`,{
           withCredentials: true,
       });
       if (response.status !== 200) {
@@ -83,7 +86,7 @@ export const deleteProductData = createAsyncThunk(
       }
       // Fetch product data again after deletion
       await thunkAPI.dispatch(fetchUserData());
-      return productId; // Return the ID of the deleted product
+      return id_User; // Return the ID of the deleted product
     } catch (error) {
       throw error;
     }
@@ -133,33 +136,33 @@ const userSlice = createSlice({
         })
  
         // reducer for deleting product data
-        .addCase(deleteProductData.pending, (state, action) => {
+        .addCase(deleteUserData.pending, (state, action) => {
           state.loading = true;
           state.error = null
         })
-        .addCase(deleteProductData.fulfilled, (state, action) => {
+        .addCase(deleteUserData.fulfilled, (state, action) => {
           state.loading = false;
-          state.productData = state.productData.filter(product => product.idProduct !== action.payload);
+          state.userData = state.userData.filter(user => user.id_User !== action.payload);
         })
-        .addCase(deleteProductData.rejected, (state, action) => {
+        .addCase(deleteUserData.rejected, (state, action) => {
           state.loading = false;
           state.error = action.error.message
         })
 
         //reducer for update product
-        .addCase(updateProductData.pending, (state) => {
+        .addCase(updateUserData.pending, (state) => {
           state.loading = true;
           state.error = null;
         })
-        .addCase(updateProductData.fulfilled, (state, action) => {
+        .addCase(updateUserData.fulfilled, (state, action) => {
           state.loading = false;
           const updatedData = action.payload;
           console.log(updatedData);
-          state.productData = state.productData.map(product =>
-            product.idProduct === updatedData.idProduct ? updatedData : product
+          state.userData = state.userData.map(user =>
+            user.id_User === updatedData.id_User ? updatedData : user
           );
         })
-        .addCase(updateProductData.rejected, (state, action) => {
+        .addCase(updateUserData.rejected, (state, action) => {
           state.loading = false;
           console.log(action)
           state.error = action.error.message;
