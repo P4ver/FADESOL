@@ -55,12 +55,49 @@ router.post('/logout', (req, res) => {
 //     })
 // }
 
-router.post('/register', (req, res) => {
-    const { name, password } = req.body;
+// router.post('/register', (req, res) => {
+//     const { name, password } = req.body;
 
-    // Check if the name and password are provided
-    if (!name || !password) {
-        return res.status(400).json({ message: 'Veuillez fournir un nom et un mot de passe' });
+//     // Check if the name and password are provided
+//     if (!name || !password) {
+//         return res.status(400).json({ message: 'Veuillez fournir un nom et un mot de passe' });
+//     }
+
+//     // Check if the user already exists
+//     pool.getConnection((err, connection) => {
+//         if (err) {
+//             return res.status(500).json({ message: 'Erreur de connexion à la base de données' });
+//         }
+        
+//         const query = 'SELECT * FROM user WHERE login_User = ?';
+//         connection.query(query, [name], (err, results) => {
+//             connection.release();
+//             if (err) {
+//                 return res.status(500).json({ message: 'Erreur lors de la vérification de l\'utilisateur existant' });
+//             }
+//             if (results.length > 0) {
+//                 return res.status(409).json({ message: 'L\'utilisateur existe déjà' });
+//             }
+            
+//             // If the user doesn't exist, insert into the database
+//             const insertQuery = 'INSERT INTO user (login_User, password_User) VALUES (?, ?)';
+//             connection.query(insertQuery, [name, password], (err, results) => {
+//                 if (err) {
+//                     return res.status(500).json({ message: 'Erreur lors de l\'enregistrement de l\'utilisateur' });
+//                 }
+//                 res.json({ message: 'Utilisateur enregistré avec succès' });
+//             });
+//         });
+//     });
+// });
+
+router.post('/register', (req, res) => {
+    const { login_User, password_User, nom_User, prenom_User, tel_User, email_User } = req.body;
+    const type_User = "Utilisateur"
+
+    // Check if all required fields are provided
+    if (!login_User || !password_User || !nom_User || !prenom_User || !tel_User || !email_User) {
+        return res.status(400).json({ message: 'Veuillez fournir tous les champs requis' });
     }
 
     // Check if the user already exists
@@ -70,7 +107,7 @@ router.post('/register', (req, res) => {
         }
         
         const query = 'SELECT * FROM user WHERE login_User = ?';
-        connection.query(query, [name], (err, results) => {
+        connection.query(query, [login_User], (err, results) => {
             connection.release();
             if (err) {
                 return res.status(500).json({ message: 'Erreur lors de la vérification de l\'utilisateur existant' });
@@ -80,8 +117,8 @@ router.post('/register', (req, res) => {
             }
             
             // If the user doesn't exist, insert into the database
-            const insertQuery = 'INSERT INTO user (login_User, password_User) VALUES (?, ?)';
-            connection.query(insertQuery, [name, password], (err, results) => {
+    const insertQuery = 'INSERT INTO user (login_User, password_User, nom_User, prenom_User, tel_User, type_User, email_User) VALUES (?, ?, ?, ?, ?, ?, ?)';
+            connection.query(insertQuery, [login_User, password_User, nom_User, prenom_User, tel_User, type_User,email_User], (err, results) => {
                 if (err) {
                     return res.status(500).json({ message: 'Erreur lors de l\'enregistrement de l\'utilisateur' });
                 }
