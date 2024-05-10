@@ -12,15 +12,20 @@ export const GetUserData = () => {
     useEffect(() => {
         dispatch(fetchUserData()); // Dispatch the fetchProductData action when the component mounts
     }, [dispatch]);
-    return (
-    <>
-    <p >Affichage des utilisateurs</p>
-    <ul>
-        {userData.map((user) => (
-            <li key={user.id_User}>
-                <span>Login : {user.login_User}</span><span> , Login : {user.password_User}</span>
-            </li>
-        ))}
-    </ul> 
-    </>);
+    return (  
+        <>
+            {userData.length > 0 &&(
+                <div className='p-10 '>
+                    <p >Affichage des utilisateurs</p>
+                    <ul>
+                        {userData.map((user) => (
+                            <li key={user.id_User}>
+                                <span>Login : {user.login_User}</span><span> , Login : {user.password_User}</span>
+                            </li>
+                        ))}
+                    </ul> 
+                </div>
+            )}   
+        </>
+    );
 }

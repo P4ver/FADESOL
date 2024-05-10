@@ -2,6 +2,8 @@ import React from 'react';
 import { GetUserData } from './usrDashBoard/getUserData';
 import UserTable from './usrDashBoard/UserTable';
 import AddUser from './usrDashBoard/addUser';
+import Logout from './logout';
+import logo from "../pictures/logo.png"
 // import UpdateDeleteUser from './usrDashBoard/updateDeleteUser';
 import UpdateDeleteUsers from './usrDashBoard/updateDeleteUser';
 const Dashboard = () => {
@@ -18,10 +20,11 @@ const Dashboard = () => {
       </svg>
     </label>
     <nav aria-label="Sidebar Navigation" class="peer-checked:w-64 left-0 z-10 flex h-screen w-0 flex-col overflow-hidden bg-gray-700 text-white transition-all md:h-screen md:w-64 lg:w-72">
-      <div class="bg-slate-800 mt-5 py-4 pl-10 md:mt-10">
+      <div class="bg-slate-900 mt-5 py-4 px-10 md:mt-10">
         <span class="">
-          <span class="mr-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 align-bottom text-2xl font-bold">U</span>
-          <span class="text-xl">rbane</span>
+          <img src={logo} />
+          {/* <span class="mr-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 align-bottom text-2xl font-bold">U</span> */}
+          {/* <span class="text-xl">rbane</span> */}
         </span>
       </div>
       <ul class="mt-8 space-y-3 md:mt-20">
@@ -117,15 +120,15 @@ const Dashboard = () => {
             </button>
           </li>
           <li class="">
-            <button class="flex h-8 w-8 items-center justify-center rounded-xl border text-gray-600 hover:text-black hover:shadow">
-test6
+            <button class="flex h-8 w-20 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
+                <Logout/>
             </button>
           </li>
-          <li class="">
+          {/* <li class="">
             <button class="flex h-8 w-8 items-center justify-center rounded-xl border text-gray-600 hover:text-black hover:shadow">
-test7
+              test7
             </button>
-          </li>
+          </li> */}
         </ul>
       </div>
     </header>
@@ -137,19 +140,20 @@ test7
         {/* <!-- Put your content inside of the <main/> tag --> */}
         <h1 class="text-2xl font-black text-gray-800">Good Morning!</h1>
         <p class="mb-6 text-gray-600">Here's an overview of project</p>
+        
         <div class="flex flex-wrap gap-x-4 gap-y-8">
-        <div class="h-56 w-72 rounded-xl bg-white p-10 shadow-md">
-            <GetUserData/>
-        </div>
-        <div class="h-56 w-72 rounded-xl bg-white p-10 shadow-md">
-            <AddUser/>
-        </div>
-        <div class="h-56 w-full rounded-xl bg-white p-10 shadow-md"></div>
-        <div class=" w-full rounded-xl bg-white p-10 shadow-md">
-            <UpdateDeleteUsers/>
-            {/* <UserTable/> */}
-        </div>
-        {/* <div class="h-56 w-full rounded-xl bg-white p-10 shadow-md"></div> */}
+            <div class=" w-[350px] rounded-xl bg-white shadow-md">
+                <GetUserData/>
+            </div>
+
+              <div class=" max-w-[350px] rounded-xl bg-white  shadow-md ">
+                  <AddUser/>
+              </div>
+            <div class=" w-full rounded-xl bg-white shadow-md">
+              <UpdateDeleteUsers/>
+            </div>
+
+            {/* <div class="h-56 w-full rounded-xl bg-white p-10 shadow-md"></div> */}
         </div>
     </main>
     </div>

@@ -69,85 +69,87 @@ const handleEdit = (product)=>{
 
 return (
     <> 
-        <ul>
-        <div className="py-1">
-            {userData.map((user) => (
-                <li key={user.id_User} className='border-b-2 pb-10'>
+        {userData.length > 0 &&(
+            <div className='p-10'>
+                <ul>
+                <div className="py-1">
+                    {userData.map((user) => (
+                        <li key={user.id_User} className='border-b-2 pb-10'>
 
-                    <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
-                        <strong className="font-semibold">login:</strong> {user.login_User}
-                    </div>
-
-                    <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
-                        <strong className="font-semibold">password:</strong> {user.password_User}
-                    </div>
-                    <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
-                        <strong className="font-semibold">nom:</strong> {user.nom_User}
-                    </div>
-                    <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
-                        <strong className="font-semibold">prenom:</strong> {user.prenom_User}
-                    </div>
-                    <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
-                        <strong className="font-semibold">tel:</strong> {user.tel_User}
-                    </div>
-                    <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
-                        <strong className="font-semibold">note user:</strong> {user.note_User}
-                    </div>
-                    <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
-                        <strong className="font-semibold">type:</strong> {user.type_User}
-                    </div>
-                
-                    {displayEdit === user.id_User ? (
-                        <>
-                            <input type="text" value={formData[user.id_User]?.login_User || ''} name="login_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="login" />
-                            <input type="text" value={formData[user.id_User]?.password_User || ''} name="password_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="password" />
-                            <input type="text" value={formData[user.id_User]?.nom_User || ''} name="nom_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="nom" />
-                            <input type="text" value={formData[user.id_User]?.prenom_User || ''} name="prenom_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="prenom" />
-                            <input type="text" value={formData[user.id_User]?.tel_User || ''} name="tel_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="tel" />
-                            <input type="text" value={formData[user.id_User]?.note_User || ''} name="note_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="note" />
-                            <input type="text" value={formData[user.id_User]?.type_User || ''} name="type_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="type" />
-                            <div>
-                                <button onClick={() => handleUpdate(user.id_User)}
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2"
-                                >Update</button>
-                                <button onClick={() => setDislayEdit(null)}
-                                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded mr-2"
-                                >Cancel</button>
-                                {/* bg-gray-500 hover:bg-gray-700 */}
+                            <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
+                                <strong className="font-semibold">login:</strong> {user.login_User}
                             </div>
-                        </>
-                    ) : (
-                        <>
-                        <div>
-                            <button onClick={() => handleEdit(user)}
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2"
-                            >Edit</button>
-                            {/* <button onClick={(event) => handleDelete(user.id_User, event)} */}
-                            <button onClick={(event) => askForDelete(user.id_User, event)}
-                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2"
-                            >Delete</button>
-                        </div>
-                        </>
-                    )}
-                </li>
-            ))}
-        </div>
-        </ul>
 
-            {/* Confirmation Popup */}
-            {showConfirmation && (
-                <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
-                    <div className="bg-white p-7 py-10 rounded-lg">
-                        <p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
-                        <div className="flex justify-between mt-4">
-                            <button onClick={confirmDelete} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2">Oui</button>
-                            <button onClick={() => setShowConfirmation(false)} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded">Annuler</button>
+                            <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
+                                <strong className="font-semibold">password:</strong> {user.password_User}
+                            </div>
+                            <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
+                                <strong className="font-semibold">nom:</strong> {user.nom_User}
+                            </div>
+                            <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
+                                <strong className="font-semibold">prenom:</strong> {user.prenom_User}
+                            </div>
+                            <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
+                                <strong className="font-semibold">tel:</strong> {user.tel_User}
+                            </div>
+                            <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
+                                <strong className="font-semibold">note user:</strong> {user.note_User}
+                            </div>
+                            <div className='grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-6 p-2'>
+                                <strong className="font-semibold">type:</strong> {user.type_User}
+                            </div>
+                        
+                            {displayEdit === user.id_User ? (
+                                <>
+                                    <input type="text" value={formData[user.id_User]?.login_User || ''} name="login_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="login" />
+                                    <input type="text" value={formData[user.id_User]?.password_User || ''} name="password_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="password" />
+                                    <input type="text" value={formData[user.id_User]?.nom_User || ''} name="nom_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="nom" />
+                                    <input type="text" value={formData[user.id_User]?.prenom_User || ''} name="prenom_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="prenom" />
+                                    <input type="text" value={formData[user.id_User]?.tel_User || ''} name="tel_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="tel" />
+                                    <input type="text" value={formData[user.id_User]?.note_User || ''} name="note_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="note" />
+                                    <input type="text" value={formData[user.id_User]?.type_User || ''} name="type_User" onChange={(event) => handleUpdateChange(user.id_User, event)} placeholder="type" />
+                                    <div>
+                                        <button onClick={() => handleUpdate(user.id_User)}
+                                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2"
+                                        >Update</button>
+                                        <button onClick={() => setDislayEdit(null)}
+                                            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded mr-2"
+                                        >Cancel</button>
+                                        {/* bg-gray-500 hover:bg-gray-700 */}
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div>
+                                        <button onClick={() => handleEdit(user)}
+                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2"
+                                        >Edit</button>
+                                        {/* <button onClick={(event) => handleDelete(user.id_User, event)} */}
+                                        <button onClick={(event) => askForDelete(user.id_User, event)}
+                                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2"
+                                        >Delete</button>
+                                    </div>
+                                </>
+                            )}
+                        </li>
+                    ))}
+                </div>
+                </ul>
+
+                {/* Confirmation Popup */}
+                {showConfirmation && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
+                        <div className="bg-white p-7 py-10 rounded-lg">
+                            <p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
+                            <div className="flex justify-between mt-4">
+                                <button onClick={confirmDelete} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2">Oui</button>
+                                <button onClick={() => setShowConfirmation(false)} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded">Annuler</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
-
-
+                )}
+            </div>
+        )}
     </>
     );
 }
