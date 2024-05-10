@@ -62,8 +62,7 @@ const Dashboard = () => {
               ><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36">
                 <path fill="currentColor" d="M32 15h-1V9a1 1 0 0 0-1-1H6a1 1 0 0 1-1-.82v-.36A1 1 0 0 1 6 6h23.58a1 1 0 0 0 0-2H6a3 3 0 0 0-3 3a3.08 3.08 0 0 0 0 .36v20.57A4.1 4.1 0 0 0 7.13 32H30a1 1 0 0 0 1-1v-6h1a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1Zm-3 15H7.13A2.11 2.11 0 0 1 5 27.93V9.88A3.11 3.11 0 0 0 6 10h23v5h-7a5 5 0 0 0 0 10h7Zm2-7h-9a3 3 0 0 1 0-6h9Z" class="clr-i-outline clr-i-outline-path-1" />
                 <circle cx="23.01" cy="20" r="1.5" fill="currentColor" class="clr-i-outline clr-i-outline-path-2" />
-                <path fill="none" d="M0 0h36v36H0z" /></svg></span
-            ><span class="">Test4</span>
+                <path fill="none" d="M0 0h36v36H0z" /></svg></span><span class="">Test4</span>
           </button>
         </li>
         <li class="relative">
@@ -103,20 +102,17 @@ const Dashboard = () => {
     {/* <!-- Navbar --> */}
     <header class="relative flex flex-col items-center bg-white px-4 py-4 shadow sm:flex-row md:h-20">
       <div class="flex w-full flex-col justify-between overflow-hidden transition-all sm:max-h-full sm:flex-row sm:items-center">
-        <div class="relative ml-10 flex items-center justify-between rounded-md sm:ml-auto">
+        {/* <div class="relative ml-10 flex items-center justify-between rounded-md sm:ml-auto">
           <svg class="absolute left-2 block h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8" class=""></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65" class=""></line>
           </svg>
           <input type="name" name="search" class="h-12 w-full rounded-md border border-gray-100 bg-gray-100 py-4 pr-4 pl-12 shadow-sm outline-none focus:border-blue-500" placeholder="Search for anything" />
-        </div>
-
+        </div> */}
         <ul class="mx-auto mt-4 flex space-x-6 sm:mx-5 sm:mt-0">
           <li class="">
-            <button class="flex h-8 w-8 items-center justify-center rounded-xl border text-gray-600 hover:text-black hover:shadow">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+            <button class="flex h-8 w-20 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
+              Test S
             </button>
           </li>
           <li class="">
@@ -124,11 +120,6 @@ const Dashboard = () => {
                 <Logout/>
             </button>
           </li>
-          {/* <li class="">
-            <button class="flex h-8 w-8 items-center justify-center rounded-xl border text-gray-600 hover:text-black hover:shadow">
-              test7
-            </button>
-          </li> */}
         </ul>
       </div>
     </header>
