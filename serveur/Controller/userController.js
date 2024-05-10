@@ -1,11 +1,11 @@
 const pool = require("../db")
 
 
-const obtenirProduits = (req, res)=>{
+const obtenirDonnéesUser = (req, res)=>{
     pool.getConnection((err, connection)=>{
         if (err) throw err; // not connected!
         console.log(`connected as id ${connection.threadId}`)
-        connection.query('SELECT * from produit', (err, rows)=>{
+        connection.query('SELECT * from user', (err, rows)=>{
             connection.release() // return the connection to pool 
             if (err) throw err
             res.send(rows)
@@ -13,12 +13,11 @@ const obtenirProduits = (req, res)=>{
     })
 }
 
-
-const obtenirProduitsID = (req, res)=>{
+const obtenirUserID = (req, res)=>{
     pool.getConnection((err, connection)=>{
         if (err) throw err
         console.log("connection as id", connection.threadId)
-        connection.query('SELECT * FROM produit WHERE id_Produit=?', [req.params.id], (err, rows)=>{
+        connection.query('SELECT * FROM user WHERE id_User = ?', [req.params.id], (err, rows)=>{
             connection.release()
             if (err) throw err
             console.log(rows)
@@ -28,12 +27,12 @@ const obtenirProduitsID = (req, res)=>{
 }
 
 
-const ajouterProduit = (req, res)=>{
+const ajouterUser = (req, res)=>{
     pool.getConnection((err, connection)=>{
         if (err) throw err
         console.log("connection as id", connection.threadId)
         
-        connection.query("INSERT INTO produit SET ?", [req.body], (err, rows)=>{
+        connection.query("INSERT INTO user SET ?", [req.body], (err, rows)=>{
             connection.release()
             if (err) throw err
             res.send("Les données ont été insérées.")
@@ -41,32 +40,29 @@ const ajouterProduit = (req, res)=>{
     })
 }
 
-// const modifierProduit = (req, res)=>{
+// const modifierUser = (req, res)=>{
 //     pool.getConnection((err, connection)=>{
 //         if (err) throw err
 //         console.log("connection as id", connection.threadId)
-  
-//         // const {id, name , age, email} = req.body
-//         const { id_Produit, pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut} = req.body
-//         connection.query("UPDATE produit SET pu_Produit = ?, type_Produit = ?, prix_Vente = ?, note_Produit = ?, code_Barre = ?, numero_Serie = ?, unite = ?, statut = ?  WHERE id_Produit = ?", [ pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut, id_Produit],(err, rows)=>{
+//         const { id_User, login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User} = req.body
+//         connection.query("UPDATE user SET login_User = ?, password_User = ?, nom_User = ?, prenom_User = ?, tel_User = ?, note_User = ?, type_User = ?  WHERE id_User = ?", [ login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User, id_User],(err, rows)=>{
 //             connection.release()
 //             if (err) throw err
 //             res.send("Les données ont été mises à jour.")
 //         })
 //     })
-//   }
+//}
 
-const modifierProduit = (req, res) => {
+const modifierUser = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("connection as id", connection.threadId);
-
-        const { pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut } = req.body;
+        const { login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User, email_User} = req.body
         const { id } = req.params; // Assuming id is the name of the parameter in the route
 
         connection.query(
-            "UPDATE produit SET pu_Produit = ?, type_Produit = ?, prix_Vente = ?, note_Produit = ?, code_Barre = ?, numero_Serie = ?, unite = ?, statut = ? WHERE id_Produit = ?",
-            [pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut, id],
+            "UPDATE user SET login_User = ?, password_User = ?, nom_User = ?, prenom_User = ?, tel_User = ?, note_User = ?, type_User = ?, email_User = ?  WHERE id_User = ?",
+            [ login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User, email_User, id],
             (err, rows) => {
                 connection.release();
                 if (err) throw err;
@@ -77,11 +73,11 @@ const modifierProduit = (req, res) => {
 };
 
 
-const supprimerProduit = (req, res) =>{
+const supprimerUser = (req, res) =>{
     pool.getConnection((err, connection)=>{
         if (err) throw err
         console.log("connection as id", connection.threadId)
-        connection.query("DELETE FROM produit WHERE id_Produit = ?", [req.params.id],(err, rows)=>{
+        connection.query("DELETE FROM user WHERE id_User = ?", [req.params.id],(err, rows)=>{
             connection.release()
             if(err) throw err
             console.log(rows)
@@ -90,5 +86,4 @@ const supprimerProduit = (req, res) =>{
     })
 }
 
-
-module.exports = {obtenirProduits, obtenirProduitsID, ajouterProduit, modifierProduit, supprimerProduit};
+module.exports = {obtenirDonnéesUser, supprimerUser, ajouterUser, obtenirUserID, modifierUser}

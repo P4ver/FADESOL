@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const verifyToken = require("../middleware/verifyToken")
+const {verifyToken} = require("../middleware/verifyToken")
 // const {verifyToken} = require("../routes/auth")
 
 
@@ -14,17 +14,30 @@ router.get('/greeting', verifyToken, (req, res) => {
     let greeting;
     switch (role) {
         case 'Super Admin':
-            greeting = 'Bonjour Super Admin !';
+            greeting = 'Super Admin';
             break;
         case 'Admin':
-            greeting = 'Bonjour Admin !';
+            greeting = 'Admin';
             break;
         case 'Utilisateur':
-            greeting = 'Bonjour Utilisateur !';
+            greeting = 'Utilisateur';
             break;
         default:
-            greeting = 'Bonjour !';
+            greeting = 'bonjour !';
     }
+    // switch (role) {
+    //     case 'Super Admin':
+    //         greeting = 'Bonjour Super Admin !';
+    //         break;
+    //     case 'Admin':
+    //         greeting = 'Bonjour Admin !';
+    //         break;
+    //     case 'Utilisateur':
+    //         greeting = 'Bonjour Utilisateur !';
+    //         break;
+    //     default:
+    //         greeting = 'Bonjour !';
+    // }
     res.json({ message: greeting });
 });
 

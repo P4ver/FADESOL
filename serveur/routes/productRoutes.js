@@ -6,7 +6,7 @@ const {obtenirProduits, obtenirProduitsID, ajouterProduit, modifierProduit, supp
 router.get('/produits', obtenirProduits)
 router.get('/produits/:id', obtenirProduitsID)
 router.post('/produits', ajouterProduit)
-router.put('/produits', modifierProduit)
+router.put('/produits/:id', modifierProduit)
 router.delete('/produits/:id', supprimerProduit)
 
 module.exports = router;
