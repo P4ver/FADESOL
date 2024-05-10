@@ -7,6 +7,7 @@ import ProductComponent from './component/ProductComponent'
 import UserComponent from './component/userComponent'
 import Access from './component/access'
 import Dashboard from './component/dashboard'
+import Register from './component/register'
 import './App.css'
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           {/* <Route path="/test" element={<Test/>} /> */}
           <Route path="/access" element={<Access/>} />
           <Route path="/test" element={<Dashboard/>} />
+          <Route path="/register" element={<Register/>} />
         </Routes>
       </BrowserRouter>
     </Provider>
