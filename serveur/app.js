@@ -8,14 +8,10 @@ const cors = require('cors');
 const auth = require('./routes/auth')
 const users = require('./routes/users')
 const produits = require('./routes/productRoutes')
-<<<<<<< HEAD
-const fournisseur = require("./Controller/fournisseurController")
-// const pool = require("./db")
-=======
 const fournisseur = require("./routes/fournisseurRoutes")
 const client = require("./routes/clientRoutes")
 const user = require("./routes/userRoutes")
->>>>>>> habti
+
 
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -33,13 +29,11 @@ app.use('/auth', auth);
 app.use('/users', users);
 
 app.use('/', produits);
-<<<<<<< HEAD
-app.use('/', produits);
-=======
+
 app.use('/', fournisseur);
 app.use('/', client);
 app.use('/', user);
->>>>>>> habti
+
 
 
 app.listen(3000, () => {
