@@ -8,6 +8,7 @@ import UserComponent from './component/userComponent'
 import Access from './component/access'
 import Dashboard from './component/dashboard'
 import Register from './component/register'
+import Access2 from './component/access2'
 import './App.css'
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={<Login/>} />
           {/* <Route path="/test" element={<Test/>} /> */}
           <Route path="/access" element={<Access/>} />
+          <Route path="/access2" element={<Access2/>} />
           <Route path="/test" element={<Dashboard/>} />
           <Route path="/register" element={<Register/>} />
         </Routes>

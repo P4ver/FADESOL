@@ -4,7 +4,7 @@ import { FaLock, FaUser,FaPhoneAlt, FaMailBulk } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Register = ()  =>{
+const Access2 = ()  =>{
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -36,11 +36,6 @@ const Register = ()  =>{
   const redirectToLogin = () => {
     navigate('/login'); // Redirect to the login page
   };
-
-  const handleLoginClick = () => {
-    navigate('/login');
-};
-
 
     return(
     <div className="log-main">
@@ -145,7 +140,7 @@ const Register = ()  =>{
 
             <div className="sign-up-button">
                 <a href="#">J'ai déjà un compte</a>
-                <button type="button" onClick={handleLoginClick} >Me connecter</button>
+                <button type="button" >Me connecter</button>
             </div>
     </form>
     {registrationSuccess && (
@@ -162,5 +157,4 @@ const Register = ()  =>{
     )
 }
 
-export default Register;
-
+export default Access2;
