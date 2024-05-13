@@ -1,5 +1,5 @@
 import React,{ useState } from "react";
-import { Header } from "./Header";
+import { Header } from "../Header";
 import { FaLock, FaUser,FaPhoneAlt, FaMailBulk } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';

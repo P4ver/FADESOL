@@ -110,11 +110,11 @@ const Dashboard = () => {
           <input type="name" name="search" class="h-12 w-full rounded-md border border-gray-100 bg-gray-100 py-4 pr-4 pl-12 shadow-sm outline-none focus:border-blue-500" placeholder="Search for anything" />
         </div> */}
         <ul class="mx-auto mt-4 flex space-x-6 sm:mx-5 sm:mt-0">
-          <li class="">
+          {/* <li class="">
             <button class="flex h-8 w-20 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
               Test S
             </button>
-          </li>
+          </li> */}
           <li class="">
             <button class="flex h-8 w-20 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
                 <Logout/>

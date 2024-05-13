@@ -1,16 +1,15 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate  } from 'react-router-dom'
+import React, { useState } from 'react';
 import { Provider } from 'react-redux'
 import store from './store/store'
 import Login from './component/login'
-import Test from './component/test'
 import ProductComponent from './component/ProductComponent'
 import UserComponent from './component/userComponent'
-import Access from './component/access'
 import Dashboard from './component/dashboard'
 import Register from './component/register'
-import Access2 from './component/access2'
 import './App.css'
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <>
@@ -19,11 +18,14 @@ function App() {
         <Routes>
           <Route path="/user" element={<UserComponent/>} />
           <Route path="/produits" element={<ProductComponent/>} />
-          <Route path="/login" element={<Login/>} />
-          {/* <Route path="/test" element={<Test/>} /> */}
-          <Route path="/access" element={<Access/>} />
-          <Route path="/access2" element={<Access2/>} />
-          <Route path="/test" element={<Dashboard/>} />
+          <Route
+            path="/login"
+            element={<Login setIsAuthenticated={setIsAuthenticated} />}
+          />
+          <Route
+            path="/test"
+            element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
+          />
           <Route path="/register" element={<Register/>} />
         </Routes>
       </BrowserRouter>

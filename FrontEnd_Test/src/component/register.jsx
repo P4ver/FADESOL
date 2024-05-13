@@ -1,6 +1,7 @@
 import React,{ useState } from "react";
 import { Header } from "./Header";
-import { FaLock, FaUser,FaPhoneAlt, FaMailBulk } from "react-icons/fa";
+import { FaLock, FaUser,FaPhoneAlt } from "react-icons/fa";
+import { FaEnvelope, FaEnvelopeCircleCheck, FaEnvelopesBulk } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -136,7 +137,7 @@ const Register = ()  =>{
                     onChange={handleChange}
                     required
                     />
-                    <FaMailBulk className="icon"/>
+                    <FaEnvelope className="icon"/>
             </div>
 
             <div className="log-button">

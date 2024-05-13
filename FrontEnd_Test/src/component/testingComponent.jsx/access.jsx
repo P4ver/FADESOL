@@ -4,8 +4,8 @@ import axios from 'axios';
 import { FaLock, FaUser } from "react-icons/fa";
 
 
-import './LoginForm.css'
-import { Header } from "./Header";
+// import './LoginForm.css'
+import { Header } from "../Header";
 
 
 const Access = ({handleSignUp})=>{

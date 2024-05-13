@@ -8,7 +8,7 @@ import './LoginForm.css'
 import { Header } from "./Header";
 
 
-const Login = ({handleSignUp})=>{
+const Login = ({setIsAuthenticated})=>{
 
     const [formData, setFormData] = useState({
         name: '',
@@ -27,8 +27,9 @@ const Login = ({handleSignUp})=>{
           });
           // After successful login, you might want to store the JWT token in local storage or a state management system.
           console.log('Login successful:', response.data);
+          
+          setIsAuthenticated(true);
           // Redirect the user to another page, for example, the dashboard.
-          // window.location.href = '/test';
           navigate('/test');
         } catch (error) {
           console.error('Login failed:', error);

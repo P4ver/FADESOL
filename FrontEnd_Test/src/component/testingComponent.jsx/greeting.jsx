@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Test = () => {
+const Greeting = () => {
 //   const [greeting, setGreeting] = useState('');
 const [greeting, setGreeting] = useState('');
 
@@ -30,4 +30,4 @@ const fetchData = async () => {
 };
 
 
-export default Test;
+export default Greeting;
