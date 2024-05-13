@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { useNavigate  } from 'react-router-dom'; 
 import { FaLock, FaUser } from "react-icons/fa";
 import axios from 'axios';
@@ -8,17 +8,24 @@ import './LoginForm.css'
 import { Header } from "./Header";
 
 
-const Login = ({setIsAuthenticated})=>{
+const Login = ({handleLogin })=>{
 
     const [formData, setFormData] = useState({
         name: '',
         password: ''
       });
+  
+      // useEffect(() => {
+      //   if (localStorage.getItem('isAuthenticated') === 'true') {
+      //     navigate('/test');
+      //   }
+      // }, []);
+
       const navigate = useNavigate();
       const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
       };
-    
+
       const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -27,8 +34,9 @@ const Login = ({setIsAuthenticated})=>{
           });
           // After successful login, you might want to store the JWT token in local storage or a state management system.
           console.log('Login successful:', response.data);
-          
-          setIsAuthenticated(true);
+          localStorage.setItem('isAuthenticated', 'true');
+          // setIsAuthenticated(true);
+          // handleLogin();
           // Redirect the user to another page, for example, the dashboard.
           navigate('/test');
         } catch (error) {
@@ -48,16 +56,16 @@ const Login = ({setIsAuthenticated})=>{
             <div className="login-section">
                 <label htmlFor="name">Nom d'utilisateur</label>
                 <input 
-                    id="login"
-                    className='login-input'
-                    type='text'
-                    placeholder='Saisir votre nom'
-                    name='name'
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    />
-                    <FaUser className="icon"/>
+                  id="login"
+                  className='login-input'
+                  type='text'
+                  placeholder='Saisir votre nom'
+                  name='name'
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  />
+                  <FaUser className="icon"/>
             </div>
 
             <div className="password-section">
@@ -91,11 +99,6 @@ const Login = ({setIsAuthenticated})=>{
 }
 
 export default Login;
-
-
-
-
-
 
 
 

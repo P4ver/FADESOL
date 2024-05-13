@@ -1,11 +1,12 @@
 import React from 'react';
 import { GetUserData } from './usrDashBoard/getUserData';
-import UserTable from './usrDashBoard/UserTable';
 import AddUser from './usrDashBoard/addUser';
 import Logout from './logout';
+import LogoutComponent from './logoutComponent';
 import logo from "../pictures/logo.png"
 // import UpdateDeleteUser from './usrDashBoard/updateDeleteUser';
 import UpdateDeleteUsers from './usrDashBoard/updateDeleteUser';
+import TableTest from './table';
 const Dashboard = () => {
     return (
     <>
@@ -117,7 +118,8 @@ const Dashboard = () => {
           </li> */}
           <li class="">
             <button class="flex h-8 w-20 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
-                <Logout/>
+                {/* <Logout/> */}
+                <LogoutComponent/>
             </button>
           </li>
         </ul>
@@ -140,8 +142,11 @@ const Dashboard = () => {
               <div class=" max-w-[350px] rounded-xl bg-white  shadow-md ">
                   <AddUser/>
               </div>
-            <div class=" w-full rounded-xl bg-white shadow-md">
+            {/* <div class=" w-full rounded-xl bg-white shadow-md">
               <UpdateDeleteUsers/>
+            </div> */}
+            <div class=" w-full rounded-xl bg-white shadow-md">
+              <TableTest/>
             </div>
 
             {/* <div class="h-56 w-full rounded-xl bg-white p-10 shadow-md"></div> */}
