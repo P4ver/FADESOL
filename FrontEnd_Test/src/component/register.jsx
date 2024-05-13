@@ -1,7 +1,8 @@
 import React,{ useState } from "react";
 import { Header } from "./Header";
 import { FaLock, FaUser,FaPhoneAlt } from "react-icons/fa";
-import { FaEnvelope, FaEnvelopeCircleCheck, FaEnvelopesBulk } from "react-icons/fa6";
+import { FaEnvelope, FaEnvelopeCircleCheck, FaEnvelopesBulk, FaRegCircleCheck } from "react-icons/fa6";
+
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -149,16 +150,36 @@ const Register = ()  =>{
                 <button type="button" onClick={handleLoginClick} >Me connecter</button>
             </div>
     </form>
-    {registrationSuccess && (
+
+
+     {/* {registrationSuccess && (
         <div className="fixed top-0 left-0 flex justify-center items-center w-full h-full bg-gray-100 bg-opacity-50">
           <div className="relative bg-white rounded-lg p-8">
-            {/* <button className="absolute top-0 right-0 p-2" onClick={() => setRegistrationSuccess(false)}>X</button> */}
             <h2 className="text-2xl p-2 font-bold mb-4">Inscription réussie !</h2>
             <p>Votre compte a été enregistré avec succès.</p>
             <button className="absolute bottom-0 right-[40%]  w-[20%] border bg-green-400 rounded-md text-white" onClick={redirectToLogin}>OK</button>
           </div>
         </div>
-      )}
+      )}  */}
+
+         {/* <div class="flex h-screen items-center justify-center bg-gray-100 py-10"> */}
+        {registrationSuccess && (
+          <div class="fixed top-0 left-0 flex h-full w-full items-center justify-center bg-gray-100 bg-opacity-50 py-10">
+          <div class="mx-auto max-w-md overflow-hidden rounded-3xl text-gray-700 shadow-md">
+          <div class=" flex justify-center items-center text-white text-[90px] bg-green-600 pt-4 sm:h-44">
+            <FaRegCircleCheck />
+          </div>
+            <div class="flex flex-col items-center bg-white px-4 py-6">
+              <h2 class="mb-2 text-3xl font-bold text-green-700 sm:text-4xl">Merci!</h2>
+              <p class="mb-8 font-medium text-gray-500">Votre compte a été enregistré avec succès.</p>
+              <div class="flex items-center  w-[50%]">
+              <button className="p-2 w-[100%] border bg-green-600 rounded-full text-white" onClick={redirectToLogin}>OK</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        )}
+
     </div>
     )
 }

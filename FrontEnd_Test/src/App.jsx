@@ -25,6 +25,7 @@
                 <Route element={<Dashboard/>} path='/test' exact/>
              </Route>
              <Route path="/login" element={<Login/>} />
+             <Route path="/register" element={<Register/>} />
           </Routes>
         </BrowserRouter>
       </Provider>
@@ -37,7 +38,6 @@
   <Route path="/produits" element={<ProductComponent/>} /> */}
   {/* <Route path="/login" element={<LoginComponent/>} />
   <Route path="/test" element={ <Dashboard />} /> */}
-  {/* <Route path="/register" element={<Register/>} /> */}
 
       // const [isAuthenticated, setIsAuthenticated] = useState(true);
 
