@@ -1,7 +1,10 @@
-  import { BrowserRouter, Route, Routes, Navigate , useNavigate   } from 'react-router-dom'
+  import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
   import React from 'react';
-  import { Provider  } from 'react-redux'
+  // import { Provider  } from 'react-redux'
+  import { Provider } from 'react-redux';
+
   import store from './store/store'
+
   import Login from './component/login'
   import ProductComponent from './component/ProductComponent'
   import UserComponent from './component/userComponent'
@@ -9,28 +12,19 @@
   import Register from './component/register'
   import './App.css'
   import LoginComponent from './component/loginComponent';
-  import { selectAuth } from './store/authSlice';
+  import PrivateRoute from './component/PrivateRoute';
 
   function App() {
-
-
-    const { isAuthenticated } = useSelector(selectAuth);
 
     return (
       <>
       <Provider store={store}>
         <BrowserRouter>
           <Routes>
-            <Route path="/user" element={<UserComponent/>} />
-            <Route path="/produits" element={<ProductComponent/>} />
-            {/* <Route path="/login" element={<Login/>} /> */}
-            <Route path="/login" element={<LoginComponent/>} />
-            {/* <Route path="/test" element={ <Dashboard />} /> */}
-            <Route
-            path="/test"
-            element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
-          />
-            <Route path="/register" element={<Register/>} />
+             <Route element={<PrivateRoute />}>
+                <Route element={<Dashboard/>} path='/test' exact/>
+             </Route>
+             <Route path="/login" element={<Login/>} />
           </Routes>
         </BrowserRouter>
       </Provider>
@@ -39,6 +33,11 @@
   }
 
   export default App
+  {/* <Route path="/user" element={<UserComponent/>} />
+  <Route path="/produits" element={<ProductComponent/>} /> */}
+  {/* <Route path="/login" element={<LoginComponent/>} />
+  <Route path="/test" element={ <Dashboard />} /> */}
+  {/* <Route path="/register" element={<Register/>} /> */}
 
       // const [isAuthenticated, setIsAuthenticated] = useState(true);
 

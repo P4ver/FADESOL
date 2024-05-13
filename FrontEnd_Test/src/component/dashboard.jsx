@@ -74,27 +74,8 @@ const Dashboard = () => {
             ><span class="">Test5</span>
           </button>
         </li>
-        {/* Settings */}
-        {/* <li class="relative">
-          <button class="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none">
-            <span
-              ><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg></span
-            ><span class="">Settings</span>
-          </button>
-        </li> */}
       </ul>
 
-      {/* <div class="my-6 mt-auto ml-10 flex cursor-pointer">
-        <div>
-          <img class="h-12 w-12 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
-        </div>
-        <div class="ml-3">
-          <p class="font-medium">Diana Reeves</p>
-          <p class="text-sm text-gray-300">Kyiv, Ukraine</p>
-        </div>
-      </div> */}
     </nav>
   </aside>
   {/* <!-- /Sidebar --> */}
@@ -103,19 +84,8 @@ const Dashboard = () => {
     {/* <!-- Navbar --> */}
     <header class="relative flex flex-col items-center bg-white px-4 py-4 shadow sm:flex-row md:h-20">
       <div class="flex w-full flex-col justify-between overflow-hidden transition-all sm:max-h-full sm:flex-row sm:items-center">
-        {/* <div class="relative ml-10 flex items-center justify-between rounded-md sm:ml-auto">
-          <svg class="absolute left-2 block h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8" class=""></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65" class=""></line>
-          </svg>
-          <input type="name" name="search" class="h-12 w-full rounded-md border border-gray-100 bg-gray-100 py-4 pr-4 pl-12 shadow-sm outline-none focus:border-blue-500" placeholder="Search for anything" />
-        </div> */}
         <ul class="mx-auto mt-4 flex space-x-6 sm:mx-5 sm:mt-0">
-          {/* <li class="">
-            <button class="flex h-8 w-20 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
-              Test S
-            </button>
-          </li> */}
+
           <li class="">
             <button class="flex h-8 w-20 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
                 {/* <Logout/> */}

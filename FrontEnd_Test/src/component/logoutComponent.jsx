@@ -11,7 +11,8 @@ const LogoutComponent = () => {
   const handleLogout = () => {
     dispatch(logoutAsync())
       .then(() => {
-        navigate('/login'); // Navigate to the login page after successful logout
+        localStorage.removeItem("isAuthenticated");
+        navigate('/login'); 
       })
       .catch((error) => {
         console.error('Logout failed:', error);
