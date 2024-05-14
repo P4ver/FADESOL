@@ -7,7 +7,14 @@ import logo from "../pictures/logo.png"
 // import UpdateDeleteUser from './usrDashBoard/updateDeleteUser';
 import UpdateDeleteUsers from './usrDashBoard/updateDeleteUser';
 import TableTest from './table';
+import { useSelector } from 'react-redux';
+
 const Dashboard = () => {
+  // const authData = useSelector(state => state.auth);
+  // console.log(authData.user.name)
+  // const userData = useSelector(state => state.user);
+  // console.log(userData.userData.map(user=>user.login_User))  
+  // console.log(userData) 
     return (
     <>
     
