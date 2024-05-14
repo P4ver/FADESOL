@@ -1,13 +1,10 @@
   import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
   import React from 'react';
-  // import { Provider  } from 'react-redux'
   import { Provider } from 'react-redux';
-
   import store from './store/store'
-
-  import Login from './component/login'
-  import ProductComponent from './component/ProductComponent'
-  import UserComponent from './component/userComponent'
+  // import Login from './component/oldComponent/login'
+  // import ProductComponent from './component/ProductComponent'
+  // import UserComponent from './component/userComponent'
   import Dashboard from './component/dashboard'
   import Register from './component/register'
   import './App.css'
@@ -24,7 +21,8 @@
              <Route element={<PrivateRoute />}>
                 <Route element={<Dashboard/>} path='/test' exact/>
              </Route>
-             <Route path="/login" element={<Login/>} />
+             {/* <Route path="/login" element={<Login/>} /> */}
+             <Route path="/login" element={<LoginComponent/>} />
              <Route path="/register" element={<Register/>} />
           </Routes>
         </BrowserRouter>
@@ -34,6 +32,7 @@
   }
 
   export default App
+  
   {/* <Route path="/user" element={<UserComponent/>} />
   <Route path="/produits" element={<ProductComponent/>} /> */}
   {/* <Route path="/login" element={<LoginComponent/>} />

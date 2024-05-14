@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginAsync, selectAuth, loginSuccess } from '../store/authSlice';
 import { FaLock, FaUser } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import './LoginForm.css'
 
 const LoginComponent = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const LoginComponent = () => {
     e.preventDefault();
     dispatch(loginAsync(formData))
       .then(() => {
+        localStorage.setItem('isAuthenticated', 'true');
         // Navigate to '/test' upon successful login
         dispatch(loginSuccess(formData)); // You might want to pass user data instead of formData
         
@@ -33,6 +35,11 @@ const LoginComponent = () => {
         console.error('Login failed:', error);
       });
   };
+
+  const handleSignUpClick = () => {
+    navigate('/register');
+};
+
 
   return (
     <div className='log-main'>
@@ -74,7 +81,8 @@ const LoginComponent = () => {
 
         <div className="sign-up-button">
           <a href="#">Je n'ai pas de compte</a>
-          <button type="button">M'inscrire</button>
+          <button type="button" onClick={handleSignUpClick}>M'inscrire</button>
+
         </div>
       </form>
     </div>

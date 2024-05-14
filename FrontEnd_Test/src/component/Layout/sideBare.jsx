@@ -1,19 +1,9 @@
-import React from 'react';
-import { GetUserData } from './usrDashBoard/getUserData';
-import AddUser from './usrDashBoard/addUser';
-import Logout from './oldComponent/logout';
-import LogoutComponent from './logoutComponent';
-import logo from "../pictures/logo.png"
-// import UpdateDeleteUser from './usrDashBoard/updateDeleteUser';
-import UpdateDeleteUsers from './usrDashBoard/updateDeleteUser';
-import TableTest from './table';
-const Dashboard = () => {
-    return (
-    <>
-    
-<div class="bg-slate-200 flex h-screen">
-  <aside class="fixed z-50 md:relative">
-    {/* <!-- Sidebar --> */}
+import React from 'react'
+
+const SideBare = () => {
+  return (
+    <div>
+        <div class="fixed z-50 md:relative">
     <input type="checkbox" class="peer hidden" id="sidebar-open" />
     <label class="peer-checked:rounded-full peer-checked:p-2 peer-checked:right-6 peer-checked:bg-gray-600 peer-checked:text-white absolute top-8 z-20 mx-4 cursor-pointer md:hidden" for="sidebar-open">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -21,13 +11,13 @@ const Dashboard = () => {
       </svg>
     </label>
     <nav aria-label="Sidebar Navigation" class="peer-checked:w-64 left-0 z-10 flex h-screen w-0 flex-col overflow-hidden bg-gray-700 text-white transition-all md:h-screen md:w-64 lg:w-72">
-      <div class="bg-slate-900 mt-5 py-4 px-10 md:mt-10">
+      {/* <div class="bg-slate-900 mt-5 py-4 px-10 md:mt-10">
         <span class="">
           <img src={logo} />
-          {/* <span class="mr-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 align-bottom text-2xl font-bold">U</span> */}
-          {/* <span class="text-xl">rbane</span> */}
+          <span class="mr-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 align-bottom text-2xl font-bold">U</span>
+          <span class="text-xl">rbane</span>
         </span>
-      </div>
+      </div> */}
       <ul class="mt-8 space-y-3 md:mt-20">
         <li class="relative">
           <button class="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none">
@@ -77,58 +67,9 @@ const Dashboard = () => {
       </ul>
 
     </nav>
-  </aside>
-  {/* <!-- /Sidebar --> */}
-
-  <div class="flex h-full w-full flex-col">
-    {/* <!-- Navbar --> */}
-    <header class="relative flex flex-col items-center bg-white px-4 py-4 shadow sm:flex-row md:h-20">
-      <div class="flex w-full flex-col justify-between overflow-hidden transition-all sm:max-h-full sm:flex-row sm:items-center">
-        <ul class="mx-auto mt-4 flex space-x-6 sm:mx-5 sm:mt-0">
-
-          <li class="">
-            <button class="flex h-8 w-20 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
-                {/* <Logout/> */}
-                <LogoutComponent/>
-            </button>
-          </li>
-        </ul>
-      </div>
-    </header>
-    {/* <!-- /Navbar --> */}
-
-    {/* <!-- Main --> */}
-    <div class="h-full overflow-hidden pl-10">
-    <main id="dashboard-main" class="h-[calc(100vh-10rem)] overflow-auto px-4 py-10">
-        {/* <!-- Put your content inside of the <main/> tag --> */}
-        <h1 class="text-2xl font-black text-gray-800">Good Morning!</h1>
-        <p class="mb-6 text-gray-600">Here's an overview of project</p>
-        
-        <div class="flex flex-wrap gap-x-4 gap-y-8">
-            {/* <div class=" w-[350px] rounded-xl bg-white shadow-md">
-                <GetUserData/>
-            </div>
-
-              <div class=" max-w-[350px] rounded-xl bg-white  shadow-md ">
-                  <AddUser/>
-              </div> */}
-            {/* <div class=" w-full rounded-xl bg-white shadow-md">
-              <UpdateDeleteUsers/>
-            </div> */}
-            <div class=" w-full rounded-xl bg-white shadow-md">
-              <TableTest/>
-            </div>
-
-            {/* <div class="h-56 w-full rounded-xl bg-white p-10 shadow-md"></div> */}
-        </div>
-    </main>
+  </div>
     </div>
-        {/* <!-- /Main --> */}
-    </div>
-    </div>
-
-    </>
-    ) ;
+  )
 }
- 
-export default Dashboard;
+
+export default SideBare

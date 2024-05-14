@@ -1,5 +1,5 @@
 import React,{ useState } from "react";
-import { Header } from "./Header";
+import { Header } from "./oldComponent/Header";
 import { FaLock, FaUser,FaPhoneAlt } from "react-icons/fa";
 import { FaEnvelope, FaEnvelopeCircleCheck, FaEnvelopesBulk, FaRegCircleCheck } from "react-icons/fa6";
 
