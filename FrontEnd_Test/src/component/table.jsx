@@ -6,6 +6,7 @@ import { RiEdit2Fill } from "react-icons/ri";
 import { GrView } from "react-icons/gr";
 import swal from "sweetalert";
 
+
 const TableTest = () => {
   const dispatch = useDispatch();
   const { userData, loading, error } = useSelector((state) => state.user);
@@ -168,13 +169,13 @@ toast.error(error.message.toString() || "Failed to update user details. Please t
                             <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
                             <input type="text" name="login_User" id="username" value={editedUser.login_User} onChange={handleEditChange} autoComplete="login_User" required className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                           </div>
-                          {/* <div className="col-span-6 sm:col-span-4">
+                          <div className="col-span-6 sm:col-span-4">
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="email" name="email" id="email" value={editedUser.email} onChange={handleEditChange} autoComplete="email" required className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                          </div> */}
+                            <input type="email" name="email_User" id="email" value={editedUser.email_User} onChange={handleEditChange} autoComplete="email_User" required className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                          </div>
                           <div className="col-span-6 sm:col-span-4">
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-                            <input type="password" name="password_User" id="password" value={editedUser.password_User} onChange={handleEditChange} autoComplete="password_User" required className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                            <input type="text" name="password_User" id="password" value={editedUser.password_User} onChange={handleEditChange} autoComplete="password_User" required className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                           </div>
                           <div className="col-span-6 sm:col-span-4">
                           <div className="col-span-6 sm:col-span-4">
@@ -192,13 +193,16 @@ toast.error(error.message.toString() || "Failed to update user details. Please t
                             <label htmlFor="note" className="block text-sm font-medium text-gray-700">Note</label>
                             <input type="note" name="note_User" id="note" value={editedUser.note_User} onChange={handleEditChange} autoComplete="note_User" required className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                           </div>
+
                           <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="role" className="block text-sm font-medium text-gray-700">Role</label>
-                            <select id="role" name="role_User" autoComplete="role" value={editedUser.type_User} onChange={handleEditChange} className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                              <option value="admin">Admin</option>
-                              <option value="user">Super Admin</option>
+                            <select id="role" name="type_User" autoComplete="type_User" value={editedUser.type_User} onChange={handleEditChange} className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                              <option value="Admin">Admin</option>
+                              <option value="Super Admin">Super Admin</option>
+                              <option value="Utilisateur">Utilisateur</option>
                             </select>
                           </div>
+
                         </div>
                       </form>
                     </div>
