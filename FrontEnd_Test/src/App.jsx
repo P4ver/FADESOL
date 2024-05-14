@@ -21,7 +21,6 @@
              <Route element={<PrivateRoute />}>
                 <Route element={<Dashboard/>} path='/test' exact/>
              </Route>
-             {/* <Route path="/login" element={<Login/>} /> */}
              <Route path="/login" element={<LoginComponent/>} />
              <Route path="/register" element={<Register/>} />
           </Routes>
@@ -37,14 +36,9 @@
   <Route path="/produits" element={<ProductComponent/>} /> */}
   {/* <Route path="/login" element={<LoginComponent/>} />
   <Route path="/test" element={ <Dashboard />} /> */}
-
-      // const [isAuthenticated, setIsAuthenticated] = useState(true);
-
-
-    // console.log("=====>",isAuthenticated)
-
+  // const [isAuthenticated, setIsAuthenticated] = useState(true);
+  // console.log("=====>",isAuthenticated)
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   // useEffect(() => {
   //   // Check if user is authenticated

@@ -10,15 +10,39 @@ import TableTest from './table';
 import { useSelector } from 'react-redux';
 
 const Dashboard = () => {
-  // const authData = useSelector(state => state.auth);
-  // console.log(authData.user.name)
-  // const userData = useSelector(state => state.user);
-  // console.log(userData.userData.map(user=>user.login_User))  
-  // console.log(userData) 
-    return (
-    <>
+  const authData = useSelector(state => state.auth);
+  const userData = useSelector(state => state.user);
+  
+  const helloMessage = () => {
+    const helloUser = userData.userData.filter(user => user.login_User === authData.user?.name);
+    if (helloUser.length > 0) {
+        return helloUser[0].nom_User + " " + helloUser[0].prenom_User;
+    } else {
+      return ""; // or handle the case when user is not found
+    }
+}
+
+const userRole = () => {
+    const helloUser = userData.userData.filter(user => user.login_User === authData.user?.name);
+    if (helloUser.length > 0) {
+        return helloUser[0].type_User;
+    } else {
+      return ""; // or handle the case when user is not found
+    }
+  }
+  // const helloMessage = ()=>{
+  //   const helloUser = userData.userData.filter(user=>user.login_User == authData.user.name)
+  //   return helloUser[0].nom_User + " " + helloUser[0].prenom_User
+  // }
+  // const userRole= () => {
+  //   const helloUser = userData.userData.filter(user=>user.login_User == authData.user.name)
+  //   return helloUser[0].type_User 
+  // }
+
+return (
+  <>
     
-<div class="bg-slate-200 flex h-screen">
+    <div class="bg-slate-200 flex h-screen">
   <aside class="fixed z-50 md:relative">
     {/* <!-- Sidebar --> */}
     <input type="checkbox" class="peer hidden" id="sidebar-open" />
@@ -91,13 +115,21 @@ const Dashboard = () => {
     {/* <!-- Navbar --> */}
     <header class="relative flex flex-col items-center bg-white px-4 py-4 shadow sm:flex-row md:h-20">
       <div class="flex w-full flex-col justify-between overflow-hidden transition-all sm:max-h-full sm:flex-row sm:items-center">
-        <ul class="mx-auto mt-4 flex space-x-6 sm:mx-5 sm:mt-0">
+        <ul class="mx-auto mt-4  flex justify-between w-full sm:mx-5 sm:mt-0">
 
           <li class="">
             <button class="flex h-8 w-20 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
                 {/* <Logout/> */}
                 <LogoutComponent/>
             </button>
+          </li>
+          <li class="flex">
+            <div class="flex h-8 w-60 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
+                {helloMessage()}
+            </div>
+            <div class="flex h-8 w-60 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
+                <p className='px-4'>Role :</p> {userRole()}
+            </div>
           </li>
         </ul>
       </div>
@@ -107,26 +139,13 @@ const Dashboard = () => {
     {/* <!-- Main --> */}
     <div class="h-full overflow-hidden pl-10">
     <main id="dashboard-main" class="h-[calc(100vh-10rem)] overflow-auto px-4 py-10">
-        {/* <!-- Put your content inside of the <main/> tag --> */}
-        <h1 class="text-2xl font-black text-gray-800">Good Morning!</h1>
-        <p class="mb-6 text-gray-600">Here's an overview of project</p>
-        
+        <p class="text-2xl font-black text-gray-800 py-5">Bonjour <span className='text-4xl px-3'> {helloMessage()}</span></p>
+        {/* <p class="mb-6 text-gray-600">Here's an overview of project</p> */}
         <div class="flex flex-wrap gap-x-4 gap-y-8">
-            {/* <div class=" w-[350px] rounded-xl bg-white shadow-md">
-                <GetUserData/>
-            </div>
-
-              <div class=" max-w-[350px] rounded-xl bg-white  shadow-md ">
-                  <AddUser/>
-              </div> */}
-            {/* <div class=" w-full rounded-xl bg-white shadow-md">
-              <UpdateDeleteUsers/>
-            </div> */}
             <div class=" w-full rounded-xl bg-white shadow-md">
-              <TableTest/>
+            {userRole() === 'Super Admin' || userRole() === 'Admin' ? <TableTest/> : null}
+              {/* <TableTest/> */}
             </div>
-
-            {/* <div class="h-56 w-full rounded-xl bg-white p-10 shadow-md"></div> */}
         </div>
     </main>
     </div>
@@ -134,7 +153,7 @@ const Dashboard = () => {
     </div>
     </div>
 
-    </>
+  </>
     ) ;
 }
  

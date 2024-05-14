@@ -24,6 +24,7 @@ const LogoutComponent = () => {
     <>
       <button onClick={handleLogout}>
       <IoLogOutOutline />
+      {/* logout */}
       </button>
     </>
   );
