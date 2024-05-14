@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUserData, postUserData, deleteUserData , updateUserData} from '../store/userSlice';
 
-
 const UserComponent = () => {
     const dispatch = useDispatch();
     const { userData, loading, error } = useSelector((state) => state.user);
