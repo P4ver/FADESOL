@@ -8,8 +8,10 @@ import { RiEdit2Fill } from "react-icons/ri";
 import { GrView } from "react-icons/gr";
 import swal from "sweetalert";
 import { toast } from "react-toastify";
-import { Collapse, Card, CardContent } from "@material-ui/core";
+// import { Collapse, Card, CardContent } from "@material-ui/core";
+import { Collapse, Card, CardContent, Menu, MenuItem } from "@material-ui/core";
 import Pagination from "@mui/material/Pagination";
+import * as XLSX from "xlsx";
 
 const TableTest = () => {
   const dispatch = useDispatch();
@@ -105,14 +107,56 @@ const TableTest = () => {
       [name]: value
     }));
   };
+  const [anchorEl, setAnchorEl] = useState(null);
   const [page, setPage] = useState(1);
   const usersPerPage = 5; 
 
   const startIndex = (page - 1) * usersPerPage;
   const endIndex = startIndex + usersPerPage;
   const displayedUsers = userData.slice(startIndex, endIndex);
+
+  const exportToExcel = () => {
+    const filteredProducts = userData
+    const worksheet = XLSX.utils.json_to_sheet(filteredProducts);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
+    XLSX.writeFile(workbook, "users.xlsx");
+    setAnchorEl(null); // Fermer le menu après l'exportation
+  };
+  const printData = () => {
+    window.print();
+    setAnchorEl(null); // Fermer le menu après l'impression
+  };
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <>
+         <div className="py-3 px-4 flex justify-between items-center">
+              <button
+                  aria-controls="export-menu"
+                  aria-haspopup="true"
+                  onClick={handleMenuOpen}
+                  className="inline-flex py-2 px-3 text-sm text-white bg-green-600 hover:bg-green-700 focus:bg-green-700 rounded-md ml-4 mb-3"
+                >
+                  Export
+                </button>
+                <Menu
+                  id="export-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem onClick={exportToExcel}>Excel</MenuItem>
+                  <MenuItem onClick={printData}>Print</MenuItem>
+                </Menu>
+                </div>
 
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
