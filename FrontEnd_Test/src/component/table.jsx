@@ -145,39 +145,39 @@ const TableTest = () => {
   };
   return (
     <>
-         <div className="py-3 px-4 flex justify-between items-center">
+     <div className="py-3 px-4 flex justify-between items-center">
          <div className="flex">
-    <div className="relative max-w-md">
-  <label className="sr-only">Search</label>
-  <input
-    type="text"
-    value={searchQuery}
-    onChange={(e) => setSearchQuery(e.target.value)}
-    className="py-2 px-3 block w-auto border border-black shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-    placeholder="Search for users"
-  />
-</div>
+          <div className="relative max-w-md">
+        <label className="sr-only">Search</label>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="py-2 px-3 block w-auto border border-black shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+          placeholder="Search for users"
+        />
+      </div>
 
-              </div>
-              <button
-                  aria-controls="export-menu"
-                  aria-haspopup="true"
-                  onClick={handleMenuOpen}
-                  className="inline-flex py-2 px-3 text-sm text-white bg-green-600 hover:bg-green-700 focus:bg-green-700 rounded-md ml-4 mb-3"
-                >
-                  Export
-                </button>
-                <Menu
-                  id="export-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  onClose={handleMenuClose}
-                >
-                  <MenuItem onClick={exportToExcel}>Excel</MenuItem>
-                  <MenuItem onClick={printData}>Print</MenuItem>
-                </Menu>
-                </div>
+      </div>
+      <button
+          aria-controls="export-menu"
+          aria-haspopup="true"
+          onClick={handleMenuOpen}
+          className="inline-flex py-2 px-3 text-sm text-white bg-green-600 hover:bg-green-700 focus:bg-green-700 rounded-md ml-4 mb-3"
+        >
+          Export
+        </button>
+        <Menu
+          id="export-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={exportToExcel}>Excel</MenuItem>
+          <MenuItem onClick={printData}>Print</MenuItem>
+        </Menu>
+        </div>
 
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">

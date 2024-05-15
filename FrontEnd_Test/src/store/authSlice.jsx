@@ -1,6 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+// export const loginAsync = createAsyncThunk(
+//   'auth/login',
+//   async (formData, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.post('http://localhost:3000/auth/login', formData, {
+//         withCredentials: true,
+//       });
+//       return response.data;
+//     } catch (error) {
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
+
 export const loginAsync = createAsyncThunk(
   'auth/login',
   async (formData, { rejectWithValue }) => {
@@ -10,10 +24,17 @@ export const loginAsync = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      if (error.response && error.response.data && error.response.data.message) {
+        // Extract the error message from the response data
+        return rejectWithValue(error.response.data.message);
+      } else {
+        // If there's no specific error message, return a generic one
+        return rejectWithValue('Login failed. Please try again.');
+      }
     }
   }
 );
+
 
 
 
