@@ -107,13 +107,21 @@ const TableTest = () => {
       [name]: value
     }));
   };
+  const [searchQuery, setSearchQuery] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [page, setPage] = useState(1);
   const usersPerPage = 5; 
 
+  const filteredData = () => {
+    return userData.filter((user) =>
+      user && user.login_User && user.login_User.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  };
+
   const startIndex = (page - 1) * usersPerPage;
   const endIndex = startIndex + usersPerPage;
   const displayedUsers = userData.slice(startIndex, endIndex);
+  const displayedUsersforQuery = filteredData().slice(startIndex, endIndex);
 
   const exportToExcel = () => {
     const filteredProducts = userData
@@ -138,6 +146,19 @@ const TableTest = () => {
   return (
     <>
          <div className="py-3 px-4 flex justify-between items-center">
+         <div className="flex">
+    <div className="relative max-w-md">
+  <label className="sr-only">Search</label>
+  <input
+    type="text"
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    className="py-2 px-3 block w-auto border border-black shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+    placeholder="Search for users"
+  />
+</div>
+
+              </div>
               <button
                   aria-controls="export-menu"
                   aria-haspopup="true"
@@ -170,7 +191,8 @@ const TableTest = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {displayedUsers.map((user) => (
+              {displayedUsersforQuery.map((user) => (
+              // {displayedUsers.map((user) => (
                 <React.Fragment key={user.id_User}>
                   <tr>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 flex items-center">
