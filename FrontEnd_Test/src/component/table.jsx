@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { Collapse, Card, CardContent, Menu, MenuItem } from "@material-ui/core";
 import Pagination from "@mui/material/Pagination";
 import * as XLSX from "xlsx";
+import AddUser from "./usrDashBoard/addUser";
 
 const TableTest = () => {
   const dispatch = useDispatch();
@@ -143,9 +144,39 @@ const TableTest = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
   return (
     <>
      <div className="py-3 px-4 flex justify-between items-center">
+     <div className="flex justify-center items-center z-10">
+      <button onClick={toggleModal} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Add User
+      </button>
+      {showModal && (
+        <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+          <div className="relative bg-white rounded-lg p-8 max-w-md">
+            <span className="absolute top-0 right-0 p-2 cursor-pointer" onClick={toggleModal}>&times;</span>
+            <h2 className="text-xl font-bold mb-4">Add User</h2>
+            <AddUser />
+            <div className="mt-4 flex justify-end">
+              <button onClick={toggleModal} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2">
+                Cancel
+              </button>
+              {/* Add any other buttons or actions here */}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+
+
          <div className="flex">
           <div className="relative max-w-md">
         <label className="sr-only">Search</label>
