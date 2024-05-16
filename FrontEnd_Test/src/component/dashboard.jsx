@@ -1,6 +1,4 @@
 import React from 'react';
-import { GetUserData } from './usrDashBoard/getUserData';
-import AddUser from './usrDashBoard/addUser';
 import Logout from './oldComponent/logout';
 import LogoutComponent from './logoutComponent';
 import logo from "../pictures/logo.png"
@@ -10,9 +8,9 @@ import TableTest from './table';
 import { useSelector } from 'react-redux';
 
 const Dashboard = () => {
+  const authReducer = useSelector(state => state.auth);
   const authData = useSelector(state => state.auth);
   const userData = useSelector(state => state.user);
-  
   const helloMessage = () => {
     const helloUser = userData.userData.filter(user => user.login_User === authData.user?.name);
     if (helloUser.length > 0) {
@@ -21,8 +19,18 @@ const Dashboard = () => {
       return ""; // or handle the case when user is not found
     }
   }
+  const getUserName = () => {
+    if (authReducer.isAuthenticated && authReducer.user) {
+      return authReducer.user;
+    } else {
+      return "Guest";
+    }
+  }
 
-console.log("=============.....============", authData)
+  console.log("Logged-in user:", getUserName());
+
+console.log("=====authDAta======", authReducer.user)
+// console.log("=====authDAta======", dispatch(loginSuccess(userData)))
   
 const userRole = () => {
     const helloUser = userData.userData.filter(user => user.login_User === authData.user?.name);

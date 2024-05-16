@@ -1,33 +1,73 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { logoutAsync } from '../store/authSlice';
+import axios from 'axios';
+import { logoutSuccess, logoutFailure } from '../store/authActions';
 import { useNavigate } from 'react-router-dom';
-import { IoLogOutOutline } from "react-icons/io5";
 
+import './LoginForm.css'
 const LogoutComponent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    dispatch(logoutAsync())
-      .then(() => {
-        localStorage.removeItem("isAuthenticated");
-        navigate('/login'); 
-      })
-      .catch((error) => {
-        console.error('Logout failed:', error);
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:3000/auth/logout', {}, {
+        withCredentials: true,
       });
+      dispatch(logoutSuccess());
+      localStorage.removeItem("isAuthenticated");
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      dispatch(logoutFailure(error.message));
+    }
   };
 
   return (
-    <button onClick={handleLogout}>
-      <span><IoLogOutOutline /></span>
-      {/* logout */}
-    </button>
+    <>
+      <button onClick={handleLogout}>
+        Logout
+      </button>
+    </>
   );
 };
 
 export default LogoutComponent;
+
+
+
+
+
+// import React from 'react';
+// import { useDispatch } from 'react-redux';
+// import { logoutAsync } from '../store/authSlice';
+// import { useNavigate } from 'react-router-dom';
+// import { IoLogOutOutline } from "react-icons/io5";
+
+// const LogoutComponent = () => {
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+
+//   const handleLogout = () => {
+//     dispatch(logoutAsync())
+//       .then(() => {
+//         localStorage.removeItem("isAuthenticated");
+//         navigate('/login'); 
+//       })
+//       .catch((error) => {
+//         console.error('Logout failed:', error);
+//       });
+//   };
+
+//   return (
+//     <button onClick={handleLogout}>
+//       <span><IoLogOutOutline /></span>
+//       {/* logout */}
+//     </button>
+//   );
+// };
+
+// export default LogoutComponent;
 
 
 // // Logout.js
