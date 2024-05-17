@@ -153,24 +153,6 @@ const TableTest = () => {
     setShowModal(!showModal);
   };
 
-  // const toggleStatus = async (id_User, status) => {
-  //   try {
-
-  //     const updatedData = userData.map(item => {
-  //       if (item.id_User === id_User) {
-  //         // console.log("userDataStatus===",item.status)
-  //         return { ...item, status: status === 'Active' ? 'inActive' : 'Active' };
-  //       }
-  //       return item;
-  //     });
-  //     // console.log(updatedData)
-  //     // dispatch(updateUserData(updatedData));
-  //     // dispatch(updateUserData({ id_User: editUser.id_User, updateUserData: updatedData }))
-  //   } catch (error) {
-  //     console.error('Error toggling users status:', error);
-  //     toast.error('Failed to toggle user status. Please try again.');
-  //   }
-  // };
 
   const toggleStatus = async (id_User, status) => {
     try {
