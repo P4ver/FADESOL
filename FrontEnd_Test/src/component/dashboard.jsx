@@ -1,6 +1,4 @@
 import React from 'react';
-import { GetUserData } from './usrDashBoard/getUserData';
-import AddUser from './usrDashBoard/addUser';
 import Logout from './oldComponent/logout';
 import LogoutComponent from './logoutComponent';
 import logo from "../pictures/logo.png"
@@ -10,9 +8,9 @@ import TableTest from './table';
 import { useSelector } from 'react-redux';
 
 const Dashboard = () => {
+  const authReducer = useSelector(state => state.auth);
   const authData = useSelector(state => state.auth);
   const userData = useSelector(state => state.user);
-  
   const helloMessage = () => {
     const helloUser = userData.userData.filter(user => user.login_User === authData.user?.name);
     if (helloUser.length > 0) {
@@ -20,8 +18,20 @@ const Dashboard = () => {
     } else {
       return ""; // or handle the case when user is not found
     }
-}
+  }
+  // const getUserName = () => {
+  //   if (authReducer.isAuthenticated && authReducer.user) {
+  //     return authReducer.user;
+  //   } else {
+  //     return "Guest";
+  //   }
+  // }
 
+  // console.log("Logged-in user:", getUserName());
+
+console.log("=====authDAta======", authReducer.user)
+// console.log("=====authDAta======", dispatch(loginSuccess(userData)))
+  
 const userRole = () => {
     const helloUser = userData.userData.filter(user => user.login_User === authData.user?.name);
     if (helloUser.length > 0) {
@@ -30,14 +40,6 @@ const userRole = () => {
       return ""; // or handle the case when user is not found
     }
   }
-  // const helloMessage = ()=>{
-  //   const helloUser = userData.userData.filter(user=>user.login_User == authData.user.name)
-  //   return helloUser[0].nom_User + " " + helloUser[0].prenom_User
-  // }
-  // const userRole= () => {
-  //   const helloUser = userData.userData.filter(user=>user.login_User == authData.user.name)
-  //   return helloUser[0].type_User 
-  // }
 
 return (
   <>
@@ -53,11 +55,9 @@ return (
     </label>
     <nav aria-label="Sidebar Navigation" class="peer-checked:w-64 left-0 z-10 flex h-screen w-0 flex-col overflow-hidden bg-gray-700 text-white transition-all md:h-screen md:w-64 lg:w-72">
       <div class="bg-slate-900 mt-5 py-4 px-10 md:mt-10">
-        <span class="">
+        <div class=" w-36">
           <img src={logo} />
-          {/* <span class="mr-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 align-bottom text-2xl font-bold">U</span> */}
-          {/* <span class="text-xl">rbane</span> */}
-        </span>
+        </div>
       </div>
       <ul class="mt-8 space-y-3 md:mt-20">
         <li class="relative">
@@ -115,22 +115,46 @@ return (
     {/* <!-- Navbar --> */}
     <header class="relative flex flex-col items-center bg-white px-4 py-4 shadow sm:flex-row md:h-20">
       <div class="flex w-full flex-col justify-between overflow-hidden transition-all sm:max-h-full sm:flex-row sm:items-center">
-        <ul class="mx-auto mt-4  flex justify-between w-full sm:mx-5 sm:mt-0">
+        <ul class="mx-auto mt-4  flex justify-between items-center w-full sm:mx-5 sm:mt-0">
 
+          <li class="w-32">
+            <img src={logo} />
+          </li>
+          <li class="max-w-96">
+                <div className="relative w-full max-w-md sm:-ml-2 ">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="absolute h-6 w-6 mt-2.5 ml-2 text-gray-400"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <input
+                type="text"
+                role="search"
+                placeholder="Search..."
+                className="py-2 pl-10 pr-4 w-full border-2  placeholder-gray-400 focus:bg-gray-50 rounded-lg"
+              />
+            </div>
+          </li>
           <li class="">
-            <button class="flex h-8 w-20 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
-                {/* <Logout/> */}
+            <button class="flex h-8 w-8 items-center justify-center bg-customGreen rounded-full  text-gray-600 hover:text-black hover:shadow">
                 <LogoutComponent/>
             </button>
           </li>
-          <li class="flex">
+          {/* <li class="flex">
             <div class="flex h-8 w-60 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
                 {helloMessage()}
             </div>
             <div class="flex h-8 w-60 items-center justify-center rounded-l border text-gray-600 hover:text-black hover:shadow">
                 <p className='px-4'>Role :</p> {userRole()}
             </div>
-          </li>
+          </li> */}
         </ul>
       </div>
     </header>

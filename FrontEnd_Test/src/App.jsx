@@ -1,4 +1,50 @@
-  import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+// import React from 'react';
+// import { BrowserRouter, Route, Routes } from 'react-router-dom';
+// import { Provider } from 'react-redux';
+// import store from './store/store';
+// import Layout from './component/Layout/layout';
+// import Dashboard from './component/dashboard';
+// import Register from './component/register';
+// import LoginComponent from './component/loginComponent';
+// import PrivateRoute from './component/PrivateRoute';
+// import ErrorPage from './component/ErrorPage';
+
+// function App() {
+//   return (
+//     <Provider store={store}>
+//       <BrowserRouter>
+//         <Routes>
+//           {/* Use layout for routes that need it */}
+//           <Route
+//             element={
+//               <Layout>
+//                 {/* Protected routes */}
+//                 <Route
+//                   element={<PrivateRoute />}
+//                   path="/test"
+//                   exact
+//                 >
+//                   <Route path="/" element={<Dashboard />} />
+//                 </Route>
+
+//                 {/* Public routes */}
+//                 <Route path="/login" element={<LoginComponent />} />
+//                 <Route path="/register" element={<Register />} />
+//               </Layout>
+//             }
+//           />
+//           {/* Fallback route for 404 */}
+//           <Route path="/*" element={<ErrorPage />} />
+//         </Routes>
+//       </BrowserRouter>
+//     </Provider>
+//   );
+// }
+
+// export default App;
+
+
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
   import React from 'react';
   import { Provider } from 'react-redux';
   import store from './store/store'
@@ -10,6 +56,7 @@
   import './App.css'
   import LoginComponent from './component/loginComponent';
   import PrivateRoute from './component/PrivateRoute';
+  import ErrorPage from './component/ErrorPage';
 
   function App() {
 
@@ -23,6 +70,7 @@
              </Route>
              <Route path="/login" element={<LoginComponent/>} />
              <Route path="/register" element={<Register/>} />
+             <Route path="/*" element={<ErrorPage/>} />
           </Routes>
         </BrowserRouter>
       </Provider>
