@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 // import { Collapse, Card, CardContent } from "@material-ui/core";
 import { Collapse, Card, CardContent, Menu, MenuItem } from "@material-ui/core";
 import Pagination from "@mui/material/Pagination";
+import Switch from "@mui/material/Switch";
 import * as XLSX from "xlsx";
 import AddUser from "./usrDashBoard/addUser";
 
@@ -30,7 +31,7 @@ const TableTest = () => {
       tel_User:"",
       note_User:"",
       type_User:"",
-      email_User:""
+      email_User:"",
   });
 
   useEffect(() => {
@@ -152,62 +153,102 @@ const TableTest = () => {
     setShowModal(!showModal);
   };
 
+  // const toggleStatus = async (id_User, status) => {
+  //   try {
+
+  //     const updatedData = userData.map(item => {
+  //       if (item.id_User === id_User) {
+  //         // console.log("userDataStatus===",item.status)
+  //         return { ...item, status: status === 'Active' ? 'inActive' : 'Active' };
+  //       }
+  //       return item;
+  //     });
+  //     // console.log(updatedData)
+  //     // dispatch(updateUserData(updatedData));
+  //     // dispatch(updateUserData({ id_User: editUser.id_User, updateUserData: updatedData }))
+  //   } catch (error) {
+  //     console.error('Error toggling users status:', error);
+  //     toast.error('Failed to toggle user status. Please try again.');
+  //   }
+  // };
+
+  const toggleStatus = async (id_User, status) => {
+    try {
+      const updatedUser = userData.find(item => item.id_User === id_User);
+      if (updatedUser) {
+        const updatedStatus = status === 'Active' ? 'inActive' : 'Active';
+        const updatedUserData = { ...updatedUser, status: updatedStatus };
+        await dispatch(updateUserData({ id_User: id_User, updateUserData: updatedUserData }));
+        toast.success('User status updated successfully');
+      }
+    } catch (error) {
+      console.error('Error toggling user status:', error);
+      toast.error('Failed to toggle user status. Please try again.');
+    }
+  };
+
   return (
     <>
      <div className="py-3 px-4 flex justify-between items-center">
-     <div className="flex justify-center items-center z-10">
-      <button onClick={toggleModal} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Add User
-      </button>
-      {showModal && (
-        <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
-          <div className="relative bg-white rounded-lg p-8 max-w-md">
-            <span className="absolute top-0 right-0 p-2 cursor-pointer" onClick={toggleModal}>&times;</span>
-            <h2 className="text-xl font-bold mb-4">Add User</h2>
-            <AddUser />
-            <div className="mt-4 flex justify-end">
-              <button onClick={toggleModal} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2">
-                Cancel
-              </button>
-              {/* Add any other buttons or actions here */}
-            </div>
+        <div className="flex">
+              <div className="relative max-w-md">
+            <label className="sr-only">Search</label>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="py-2 px-3 block w-auto border border-black shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+              placeholder="Search for users"
+            />
           </div>
+
+
+ 
+
+      </div>
+      <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center z-10">
+          <button onClick={toggleModal} className="bg-customBlue hover:bg-blue-500 text-white font-bold py-2 px-3 rounded-lg">
+            Add User
+          </button>
+          {showModal && (
+            <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+              <div className="relative bg-white rounded-lg p-8 max-w-md">
+                <span className="absolute top-0 right-0 p-2 cursor-pointer" onClick={toggleModal}>&times;</span>
+
+                <AddUser />
+                <div className="mt-4 flex justify-end">
+                  <button onClick={toggleModal} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2">
+                    Cancel
+                  </button>
+                  {/* Add any other buttons or actions here */}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+          <button
+              aria-controls="export-menu"
+              aria-haspopup="true"
+              onClick={handleMenuOpen}
+              className="inline-flex py-2 px-3  text-white font-bold bg-customGreen hover:bg-green-500 focus:bg-green-600 rounded-md ml-4 "
+            >
+              Export
+            </button>
 
-
-         <div className="flex">
-          <div className="relative max-w-md">
-        <label className="sr-only">Search</label>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="py-2 px-3 block w-auto border border-black shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-          placeholder="Search for users"
-        />
+            <Menu
+              id="export-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+            >
+              <MenuItem onClick={exportToExcel}>Excel</MenuItem>
+              <MenuItem onClick={printData}>Print</MenuItem>
+            </Menu>
       </div>
 
-      </div>
-      <button
-          aria-controls="export-menu"
-          aria-haspopup="true"
-          onClick={handleMenuOpen}
-          className="inline-flex py-2 px-3 text-sm text-white bg-green-600 hover:bg-green-700 focus:bg-green-700 rounded-md ml-4 mb-3"
-        >
-          Export
-        </button>
-        <Menu
-          id="export-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-        >
-          <MenuItem onClick={exportToExcel}>Excel</MenuItem>
-          <MenuItem onClick={printData}>Print</MenuItem>
-        </Menu>
+
         </div>
 
           <table className="min-w-full divide-y divide-gray-200">
@@ -232,11 +273,30 @@ const TableTest = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{user.type_User}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{user.email_User}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">Today</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    {/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium"> */}
+                      {/* <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                         Active
-                      </span>
-                    </td>
+                      </span> */}
+                          {/*================================================*/}
+                          {/* <button
+                            type="button"
+                            className="text-green-600 hover:text-green-900 focus:outline-none"
+                            onClick={() => handleOpenEditDialog(user)}
+                            >
+                            <RiEdit2Fill />
+                            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2z"></path>
+                        </button> */}
+                          {/*====================================================*/}
+                    {/* </td> */}
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <Switch
+                          checked={user.status === 'Active'}
+                          onChange={() => toggleStatus(user.id_User, user.status)}
+                          color="secondary"
+                        />
+                        {user.status}
+                      </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex justify-end items-center space-x-3">
                         <button

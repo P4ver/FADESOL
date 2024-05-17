@@ -43,7 +43,7 @@ const LoginComponent = () => {
   };
 
   const handleSignUpClick = () => {
-    // navigate('/register');
+    navigate('/register');
   };
 
   return (

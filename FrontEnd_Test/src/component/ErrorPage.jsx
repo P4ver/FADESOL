@@ -8,9 +8,12 @@ const ErrorPage = () => {
     const handleGoBack = () => {
       navigate('/login');
     };
+    
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 to-green-600">
       <div className="max-w-lg w-full bg-white p-8 rounded-lg shadow-lg">
+        {/* <p className='text-[200px] text-center'>404</p>
+        <h2 className="text-3xl font-extrabold text-gray-900 mb-4">Page non trouvée</h2> */}
         <h2 className="text-3xl font-extrabold text-gray-900 mb-4">404 - Page non trouvée</h2>
         <p className="text-gray-700">Désolé, la page que vous recherchez n'existe pas.</p>
         {/* <img src="/error-image.png" alt="Error" className="mt-8 mx-auto" /> */}

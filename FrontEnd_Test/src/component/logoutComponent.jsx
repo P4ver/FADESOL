@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { logoutSuccess, logoutFailure } from '../store/authActions';
 import { useNavigate } from 'react-router-dom';
+import { AiOutlineLogout } from "react-icons/ai";
+
 
 import './LoginForm.css'
 const LogoutComponent = () => {
@@ -25,8 +27,9 @@ const LogoutComponent = () => {
 
   return (
     <>
-      <button onClick={handleLogout}>
-        Logout
+      <button onClick={handleLogout} className='text-white text-xl'>
+        {/* Logout */}
+        <AiOutlineLogout />
       </button>
     </>
   );

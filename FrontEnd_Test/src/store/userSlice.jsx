@@ -50,7 +50,7 @@ export const fetchUserData = createAsyncThunk(
 
 
 export const updateUserData = createAsyncThunk(
-  'product/updateUserData',
+  'user/updateUserData',
   async ({ id_User, updateUserData }, thunkAPI) => {
     try {
       const response = await axios.put(`http://localhost:3000/user/${id_User}`, updateUserData, {
@@ -70,7 +70,6 @@ export const updateUserData = createAsyncThunk(
     }
   }
 );
-
 
 
 
@@ -154,14 +153,23 @@ const userSlice = createSlice({
           state.loading = true;
           state.error = null;
         })
+        // .addCase(updateUserData.fulfilled, (state, action) => {
+        //   state.loading = false;
+        //   const updatedData = action.payload;
+        //   console.log(updatedData);
+        //   state.userData = state.userData.map(user =>
+        //     user.id_User === updatedData.id_User ? updatedData : user
+        //   );
+        // })
         .addCase(updateUserData.fulfilled, (state, action) => {
           state.loading = false;
-          const updatedData = action.payload;
-          console.log(updatedData);
+          const { id_User, updateUserData } = action.payload;
           state.userData = state.userData.map(user =>
-            user.id_User === updatedData.id_User ? updatedData : user
+            user.id_User === id_User ? updateUserData : user
           );
         })
+        
+        
         .addCase(updateUserData.rejected, (state, action) => {
           state.loading = false;
           console.log(action)
