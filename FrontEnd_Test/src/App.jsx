@@ -8,12 +8,10 @@ import './App.css';
 import LoginComponent from './component/loginComponent';
 import PrivateRoute from './component/PrivateRoute';
 import ErrorPage from './component/ErrorPage';
-import PageUsers from './component/pages/pageUsers';
-import PageDashboard from './component/pages/pageDashboard';
+import PageUsers from '../src/pages/pageUsers';
+import PageDashboard from '../src/pages/pageDashboard';
 import Layout from './component/layout';
-// import ProductTable from './component/ProductComponent';
-// import PageUsers from './component/pages/pageusers';
-import pageProducts from './component/pages/pageProducts'
+import PageProducts from './pages/pageProducts';
 
 function App() {
   return (
@@ -29,8 +27,7 @@ function App() {
               <Route element={<Layout />}>
                 <Route path="/users" element={<PageUsers />} />
                 <Route path="/" element={<PageDashboard />} exact />
-                <Route path="/prod" element={<pageProducts/>} exact />
-                {/* <Route path="/test" element={<ProductComponent />} exact /> */}
+                <Route path="/products" element={<PageProducts/>} />
               </Route>
             </Route>
           </Routes>
