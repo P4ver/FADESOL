@@ -32,7 +32,7 @@ const LoginComponent = () => {
       console.log('Login successful:', response.data);
       localStorage.setItem('isAuthenticated', 'true');
       dispatch(loginSuccess(response.data)); // Assuming response.data contains user info
-      navigate('/test'); // Assuming navigate is defined somewhere
+      navigate('/'); // Assuming navigate is defined somewhere
     } catch (error) {
       console.error('Login failed:', error);
       dispatch(loginFailure(error.message));

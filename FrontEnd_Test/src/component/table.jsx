@@ -184,9 +184,6 @@ const TableTest = () => {
             />
           </div>
 
-
- 
-
       </div>
       <div className="flex justify-center items-center">
         <div className="flex justify-center items-center z-10">
