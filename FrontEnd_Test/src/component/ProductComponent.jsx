@@ -11,6 +11,7 @@ import { Edit, Delete, Search } from '@mui/icons-material';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { fetchProductData } from '../store/productSlice';
+// import { deleteUserData, updateUserData } from '../store/userSlice';
 
 const ProductTable = () => {
     const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const ProductTable = () => {
     // const initialProducts = [
       
     // ];
-
+    // console.log(productData)
     const [products, setProducts] = useState(null);
     const [search, setSearch] = useState('');
     const [page, setPage] = useState(0);
@@ -49,6 +50,7 @@ const ProductTable = () => {
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
     };
+
 
     // const filteredProducts = products.filter((product) => {
     //     if (tabValue === 1 && !product.published) return false;
@@ -81,7 +83,9 @@ const ProductTable = () => {
     };
 
     const handleDeleteProduct = () => {
-        setProducts(products.filter(product => product.id !== selectedProduct.id));
+        console.log()
+        // dispatch(deleteUserData(product.id_Produit))
+        // setProducts(productData.filter(product => product.id_Produit !== selectedProduct.id_Produit));
         handleDeleteDialogClose();
     };
 
@@ -175,7 +179,7 @@ const ProductTable = () => {
                         </Button>
                         <Button onClick={handleDeleteProduct} color="secondary">
                             Delete
-                            </Button>
+                        </Button>
                     </DialogActions>
                 </Dialog>
             </Paper>
