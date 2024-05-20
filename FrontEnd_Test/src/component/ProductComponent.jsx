@@ -50,11 +50,11 @@ const ProductTable = () => {
         setTabValue(newValue);
     };
 
-    const filteredProducts = products.filter((product) => {
-        if (tabValue === 1 && !product.published) return false;
-        if (tabValue === 2 && product.published) return false;
-        return product.name.toLowerCase().includes(search.toLowerCase());
-    });
+    // const filteredProducts = products.filter((product) => {
+    //     if (tabValue === 1 && !product.published) return false;
+    //     if (tabValue === 2 && product.published) return false;
+    //     return product.name.toLowerCase().includes(search.toLowerCase());
+    // });
 
     const handleTogglePublished = (id) => {
         setProducts(products.map(product => product.id === id ? { ...product, published: !product.published } : product));
@@ -90,29 +90,101 @@ const ProductTable = () => {
         handleEditDialogClose();
     };
     return (
+        <>   
+            {/*
+            <ul>
+                {productData.map((product) => (
+                    <li key={product.id_Produit}>
+                        {product.type_Produit}
+                    </li>
+                ))}
+            </ul>
+            */}
+            <Paper>
+                <Toolbar>
+                    <Typography variant="h6" style={{ flex: '1' }}>Product Table</Typography>
+                    <TextField
+                        variant="outlined"
+                        placeholder="Search..."
+                        size="small"
+                        value={search}
+                        onChange={handleSearchChange}
+                        InputProps={{
+                            startAdornment: <Search />
+                        }}
+                    />
+                </Toolbar>
+                <TableContainer>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell padding="checkbox">
+                                    <Checkbox color="primary" />
+                                </TableCell>
+                                <TableCell>Item</TableCell>
+                                <TableCell>Type</TableCell>
+                                <TableCell>Stocks</TableCell>
+                                <TableCell>SKU</TableCell>
+                                <TableCell>Price</TableCell>
+                                <TableCell>Available In</TableCell>
+                                <TableCell>Published</TableCell>
+                                <TableCell align="center">Actions</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {productData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
+                                <TableRow key={product.id}>
+                                    <TableCell padding="checkbox">
+                                        <Checkbox color="primary" />
+                                    </TableCell>
+                                    <TableCell>{product.note_Produit}</TableCell>
+                                    <TableCell>{product.type_Produit}</TableCell>
+                                    <TableCell>
+                                        <Switch checked={product.stock} />
+                                    </TableCell>
+                                    <TableCell>{product.pu_Produit}</TableCell>
+                                    <TableCell>${product.prix_Vente}</TableCell>
+                                    <TableCell>
+                                        {product.statut}
+                                        {product.online && <span>Online</span>}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Switch checked={product.published} onChange={() => handleTogglePublished(product.id)} />
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <IconButton color="primary" onClick={() => handleEditClick(product)}><Edit /></IconButton>
+                                        <IconButton color="secondary" onClick={() => handleDeleteClick(product)}><Delete /></IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
 
-                <ul>
-                    {productData.map((product) => (
-                        <li key={product.id_Produit}>
-                            {product.type_Produit}
-                        </li>
-                    ))}
-                </ul>
-                
+                {/* Delete Dialog */}
+                <Dialog open={openDeleteDialog} onClose={handleDeleteDialogClose}>
+                    <DialogTitle>Delete Product</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Are you sure you want to delete this product?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleDeleteDialogClose} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={handleDeleteProduct} color="secondary">
+                            Delete
+                            </Button>
+                    </DialogActions>
+                </Dialog>
+            </Paper>
+
+        </>
 
     );
 };
 
 export default ProductTable;
 
-// const [ formData, setFormData ] = useState({
-//     pu_Produit:"",		
-//     type_Produit:"",		
-//     prix_Vente:"",		
-//     note_Produit:"",		
-//     code_Barre:"",		
-//     numero_Serie:"",		
-//     unite:"",		
-//     statut:""
-// })
 
