@@ -11,7 +11,7 @@ import { Edit, Delete, Search } from '@mui/icons-material';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { fetchProductData } from '../store/productSlice';
-// import { deleteUserData, updateUserData } from '../store/userSlice';
+import { deleteProductData, updateProductData } from '../store/productSlice';
 
 const ProductTable = () => {
     const dispatch = useDispatch();
@@ -33,6 +33,18 @@ const ProductTable = () => {
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    
+    const [editProduct, setEditProduct] = useState({
+        id_Produit:"",
+        pu_Produit:"",
+        type_Produit:"",
+        prix_Vente:"",
+        note_Produit:"",
+        code_Barre:"",
+        numero_Serie:"",
+        unite:"", 
+        statut:""
+    });
 
     const handleSearchChange = (event) => {
         setSearch(event.target.value);
@@ -51,7 +63,6 @@ const ProductTable = () => {
         setTabValue(newValue);
     };
 
-
     // const filteredProducts = products.filter((product) => {
     //     if (tabValue === 1 && !product.published) return false;
     //     if (tabValue === 2 && product.published) return false;
@@ -64,6 +75,17 @@ const ProductTable = () => {
 
     const handleEditClick = (product) => {
         setSelectedProduct(product);
+        setEditProduct({
+            id_Produit:product.id_Produit,
+            pu_Produit:product.pu_Produit,
+            type_Produit:product.type_Produit,
+            prix_Vente:product.prix_Vente,
+            note_Produit:product.note_Produit,
+            code_Barre:product.code_Barre,
+            numero_Serie:product.numero_Serie,
+            unite:product.unite, 
+            statut:product.statut
+        });
         setOpenEditDialog(true);
     };
 
@@ -82,16 +104,35 @@ const ProductTable = () => {
         setSelectedProduct(null);
     };
 
-    const handleDeleteProduct = () => {
-        console.log()
-        // dispatch(deleteUserData(product.id_Produit))
-        // setProducts(productData.filter(product => product.id_Produit !== selectedProduct.id_Produit));
-        handleDeleteDialogClose();
+    const handleEditInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditProduct({ ...editProduct, [name]: value });
     };
 
-    const handleEditSave = () => {
-        // Save changes to the product (this can be extended to include actual editing logic)
-        handleEditDialogClose();
+    const handleEditSave = async() => {
+        try {
+            await dispatch(updateProductData({ id_Produit: editProduct.id_Produit, updateProductData: editProduct }));
+            setOpenDialog(false);
+            dispatch(fetchProductData());
+            toast.success('User updated successfully');
+          } catch (error) {
+            console.error("Error updating user:", error);
+            toast.error(error.message.toString() || "Failed to update user details. Please try again.");
+          }
+    };
+    // const handleEditSave = () => {
+    //     if (editProduct) {
+    //         dispatch(updateProductData(editProduct));
+    //     }
+    //     handleEditDialogClose();
+    // };
+    console.log("-----",selectedProduct)
+
+    const handleDeleteProduct = () => {
+        if (selectedProduct) {
+            dispatch(deleteProductData(selectedProduct.id_Produit));
+        }
+        handleDeleteDialogClose();
     };
     return (
         <>   
@@ -137,7 +178,7 @@ const ProductTable = () => {
                         </TableHead>
                         <TableBody>
                             {productData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
-                                <TableRow key={product.id}>
+                                <TableRow key={product.id_Produit}>
                                     <TableCell padding="checkbox">
                                         <Checkbox color="primary" />
                                     </TableCell>
@@ -165,6 +206,64 @@ const ProductTable = () => {
                     </Table>
                 </TableContainer>
 
+                <Dialog open={openEditDialog} onClose={handleEditDialogClose}>
+                    <DialogTitle>Edit Product</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            margin="dense"
+                            name="note_Produit"
+                            label="Note"
+                            type="text"
+                            fullWidth
+                            value={editProduct.note_Produit || ''}
+                            onChange={handleEditInputChange}
+                        />
+                        <TextField
+                            margin="dense"
+                            name="type_Produit"
+                            label="Type"
+                            type="text"
+                            fullWidth
+                            value={editProduct.type_Produit || ''}
+                            onChange={handleEditInputChange}
+                        />
+                        <TextField
+                            margin="dense"
+                            name="pu_Produit"
+                            label="SKU"
+                            type="text"
+                            fullWidth
+                            value={editProduct.pu_Produit || ''}
+                            onChange={handleEditInputChange}
+                        />
+                        <TextField
+                            margin="dense"
+                            name="prix_Vente"
+                            label="Price"
+                            type="number"
+                            fullWidth
+                            value={editProduct.prix_Vente || ''}
+                            onChange={handleEditInputChange}
+                        />
+                        <TextField
+                            margin="dense"
+                            name="statut"
+                            label="Status"
+                            type="text"
+                            fullWidth
+                            value={editProduct.statut || ''}
+                            onChange={handleEditInputChange}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleEditDialogClose} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={handleEditSave} color="primary">
+                            Save
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 {/* Delete Dialog */}
                 <Dialog open={openDeleteDialog} onClose={handleDeleteDialogClose}>
                     <DialogTitle>Delete Product</DialogTitle>
