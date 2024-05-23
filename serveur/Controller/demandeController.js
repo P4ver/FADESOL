@@ -1,100 +1,90 @@
 const pool = require("../db")
-// Controller function to create a new product
-const createDemande = (req, res) => {
-  const { code, desi, quat2, qt2, projet, nonProjet, delivered } = req.body;
-  
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error getting MySQL connection: ', err);
-      res.status(500).json({ error: 'Error connecting to database' });
-      return;
-    }
-    
-    const sql = 'INSERT INTO demande (code, desi, quat2, qt2, projet, nonProjet, delivered) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    connection.query(sql, [code, desi, quat2, qt2, projet, nonProjet, delivered], (err, result) => {
-      connection.release(); // Release the connection
-      if (err) {
-        console.error('Error creating Demande: ', err);
-        res.status(500).json({ error: 'Error creating product' });
-        return;
-      }
-      console.log('Demande created successfully');
-      res.status(201).json({ message: 'Demande created successfully' });
+
+
+const obtenirDemandes = (req, res)=>{
+    pool.getConnection((err, connection)=>{
+        if (err) throw err; // not connected!
+        console.log(`connected as id ${connection.threadId}`)
+        connection.query('SELECT * from demande', (err, rows)=>{
+            connection.release() // return the connection to pool 
+            if (err) throw err
+            res.send(rows)
+        })
+    })
+}
+
+const obtenirDemandesID = (req, res)=>{
+    pool.getConnection((err, connection)=>{
+        // console.log("eeeeeeeeeeeeeeeeeeeee")
+        if (err) throw err
+        console.log("connection as id", connection.threadId)
+        connection.query('SELECT * FROM demande WHERE id_Demande = ?', [req.params.id], (err, rows)=>{
+            connection.release()
+            if (err) throw err
+            console.log(rows)
+            res.send(rows)
+        })
+    })
+}
+
+const ajouterDemande = (req, res)=>{
+    pool.getConnection((err, connection)=>{
+        if (err) throw err
+        console.log("connection as id", connection.threadId)
+        
+        connection.query("INSERT INTO demande SET ?", [req.body], (err, rows)=>{
+            connection.release()
+            if (err) throw err
+            res.send("Les données ont été insérées.")
+        })
+    })
+}
+
+// const modifierDemande = (req, res)=>{
+//     pool.getConnection((err, connection)=>{
+//         if (err) throw err
+//         console.log("connection as id", connection.threadId)
+//         const { code, designation, quat2, qt2, projet, nonProjet, delivered} = req.body
+//         connection.query("UPDATE demande SET code = ?, designation = ?, quat2 = ?, qt2 = ?, projet = ?, nonProjet = ?  WHERE id_Demande = ?", [  code, designation, quat2, qt2, projet, nonProjet, delivered, id_Demande],(err, rows)=>{
+//             connection.release()
+//             if (err) throw err
+//             res.send("Les données ont été mises à jour.")
+//         })
+//     })
+//   }
+
+  const modifierUser = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("connection as id", connection.threadId);
+        { code, designation, quat2, qt2, projet, nonProjet, delivered} = req.body
+        const { login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User, email_User, status} = req.body
+        // const { login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User, email_User, status} = req.body
+        const { id } = req.params; 
+        connection.query(
+            "UPDATE user SET login_User = ?, password_User = ?, nom_User = ?, prenom_User = ?, tel_User = ?, note_User = ?, type_User = ?, email_User = ?, status = ?  WHERE id_User = ?",
+            [ login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User, email_User, status, id],
+            (err, rows) => {
+                connection.release();
+                if (err) throw err;
+                res.send("Les données ont été mises à jour.");
+            }
+        );
     });
-  });
 };
 
-// Controller function to fetch all demande
-const getAllDemandes = (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error getting MySQL connection: ', err);
-      res.status(500).json({ error: 'Error connecting to database' });
-      return;
-    }
-    
-    const sql = 'SELECT * FROM demande';
-    connection.query(sql, (err, results) => {
-      connection.release(); // Release the connection
-      if (err) {
-        console.error('Error fetching demande: ', err);
-        res.status(500).json({ error: 'Error fetching demande' });
-        return;
-      }
-      res.json(results);
-    });
-  });
-};
+// const supprimerFournisseur = (req, res) =>{
+//     pool.getConnection((err, connection)=>{
+//         if (err) throw err
+//         console.log("connection as id", connection.threadId)
+//         connection.query("DELETE FROM demande WHERE id_Fournisseur = ?", [req.params.id],(err, rows)=>{
+//             connection.release()
+//             if(err) throw err
+//             console.log(rows)
+//             res.send("Les données ont été supprimées.")
+//         })
+//     })
+// }
 
-// Controller function to update a product
-const updateDemande = (req, res) => {
-  const productId = req.params.id;
-  const { code, desi, quat2, qt2, projet, nonProjet, delivered } = req.body;
-  
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error getting MySQL connection: ', err);
-      res.status(500).json({ error: 'Error connecting to database' });
-      return;
-    }
-    
-    const sql = 'UPDATE demande SET code=?, desi=?, quat2=?, qt2=?, projet=?, nonProjet=?, delivered=? WHERE id=?';
-    connection.query(sql, [code, desi, quat2, qt2, projet, nonProjet, delivered, productId], (err, result) => {
-      connection.release(); // Release the connection
-      if (err) {
-        console.error('Error updating product: ', err);
-        res.status(500).json({ error: 'Error updating product' });
-        return;
-      }
-      console.log('Demande updated successfully');
-      res.json({ message: 'Demande updated successfully' });
-    });
-  });
-};
 
-// Controller function to delete a product
-const deleteDemande = (req, res) => {
-  const demandeId = req.params.id;
-  
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error getting MySQL connection: ', err);
-      res.status(500).json({ error: 'Error connecting to database' });
-      return;
-    }
-    
-    const sql = 'DELETE FROM demande WHERE id=?';
-    connection.query(sql, [productId], (err, result) => {
-      connection.release(); // Release the connection
-      if (err) {
-        console.error('Error deleting product: ', err);
-        res.status(500).json({ error: 'Error deleting product' });
-        return;
-      }
-      console.log('Product deleted successfully');
-      res.json({ message: 'Product deleted successfully' });
-    });
-  });
-};
-
-module.exports = {deleteDemande, createDemande, updateDemande, getAllDemandes}
+module.exports = {obtenirDemandes, obtenirDemandesID, ajouterDemande, modifierDemande};

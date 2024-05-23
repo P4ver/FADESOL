@@ -1,16 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const {deleteDemande, createDemande, updateDemande, getAllDemandes} = require("../Controller/demandeController")
-// Route to create a new product
-router.post('/', createDemande);
+const {obtenirDemandes, obtenirDemandesID, ajouterDemande, modifierDemande} = require("../Controller/demandeController")
 
+
+// Route to create a new product
+router.post('/demande', ajouterDemande);
 // Route to fetch all products
-router.get('/', getAllDemandes);
+router.get('/demande', obtenirDemandes);
+
+router.get('/demande/:id', obtenirDemandesID);
 
 // Route to update a product
-router.put('/:id', updateDemande);
+router.put('/demande/:id', modifierDemande);
 
 // Route to delete a product
-router.delete('/:id', deleteDemande);
+// router.delete('/demande/:id', supprimerDemande);
 
 module.exports = router;

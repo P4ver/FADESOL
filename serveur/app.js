@@ -12,7 +12,7 @@ const fournisseur = require("./routes/fournisseurRoutes")
 const client = require("./routes/clientRoutes")
 const user = require("./routes/userRoutes")
 const barcodeRoutes = require('./routes/barcodeRoutes');
-const { default: Demande } = require('../FrontEnd_Test/src/component/demande');
+const demande = require("./routes/demandeRoutes")
 
 
 

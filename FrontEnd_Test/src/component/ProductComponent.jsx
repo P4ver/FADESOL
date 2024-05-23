@@ -17,6 +17,7 @@ import { Collapse, Card, CardContent, Menu, MenuItem } from "@material-ui/core";
 import Barcode from 'react-barcode';
 // import QRCode from 'react-qr-code';
 import { QRCode } from 'react-qrcode-logo';
+import * as XLSX from 'xlsx'
 const ProductTable = () => {
     const dispatch = useDispatch();
     const { productData, loading, error } = useSelector((state) => state.product);
