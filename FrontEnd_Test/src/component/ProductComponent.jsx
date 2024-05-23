@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-
+import { IoQrCode } from "react-icons/io5";
+import { FaBarcode } from "react-icons/fa";
 import {
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
     Switch, Paper, Checkbox, IconButton, Typography, Toolbar, TextField,
@@ -14,8 +15,8 @@ import { deleteProductData, updateProductData, postProductData } from '../store/
 import JsBarcode from 'jsbarcode';
 import { Collapse, Card, CardContent, Menu, MenuItem } from "@material-ui/core";
 import Barcode from 'react-barcode';
-import QRCode from 'react-qr-code';
-
+// import QRCode from 'react-qr-code';
+import { QRCode } from 'react-qrcode-logo';
 const ProductTable = () => {
     const dispatch = useDispatch();
     const { productData, loading, error } = useSelector((state) => state.product);
@@ -200,6 +201,43 @@ const handleDeleteProduct = () => {
     handleDeleteDialogClose();
 };
 
+const downloadQRCode = (numArticle) => {
+    const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
+    const pngUrl = canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+    let downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = `${numArticle}.png`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+};
+
+const downloadBarcode = (numArticle) => {
+    const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+    const pngUrl = canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+    let downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = `${numArticle}-barcode.png`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+};
+useEffect(() => {
+    productData.forEach((product) => {
+        const canvas = document.getElementById(`barcodeCanvas-${product.Numéro_Article}`);
+        if (canvas) {
+            JsBarcode(canvas, product.Numéro_Article, {
+                format: "CODE128",
+                displayValue: true,
+                fontSize: 18
+            });
+        }
+    });
+}, [productData]);
     return (
         <>
             <Paper>
@@ -237,29 +275,9 @@ const handleDeleteProduct = () => {
                     }}
                 />
             </Toolbar>
-            <Tabs value={tabValue} onChange={handleTabChange}>
-                <Tab label="All" />
-                <Tab label="Publish" />
-                <Tab label="Unpublish" />
-            </Tabs>
-                {/* <Toolbar>
-                    <Typography variant="h6" style={{ flex: '1' }}>Product Table</Typography>
-                    <button onClick={handleAddClick} className='bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded-md mx-1'>
-                        Ajouter <Add />
-                    </button>
-                    <TextField
-                        variant="outlined"
-                        placeholder="Search..."
-                        size="small"
-                        value={search}
-                        onChange={handleSearchChange}
-                        InputProps={{
-                            startAdornment: <Search key="search-icon" />
-                        }}
-                    />
-                </Toolbar> */}
+
                 <TableContainer>
-                    <Table>
+                    <Table size={"small"}>
                         <TableHead>
                             <TableRow>
                                 <TableCell padding="checkbox">
@@ -301,7 +319,19 @@ const handleDeleteProduct = () => {
                                             >
                                             <GrView />
                                             <path d="M10 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-3m-4 8v4m0-8V6m4 8h3m2-3h-8"></path>
-                                            </button>
+                                        </button>
+                                        <div style={{ display: 'none' }}>
+                                            <QRCode
+                                                id={`qrCodeCanvas-${product.Numéro_Article}`}
+                                                value={product.Numéro_Article}
+                                                size={150}
+                                                level={"H"}
+                                                includeMargin={true}
+                                                renderAs="canvas"
+                                            />
+                                        </div>
+                                        <canvas id={`barcodeCanvas-${product.Numéro_Article}`} style={{ display: 'none' }}></canvas>
+
                                     </TableCell>
                                 </TableRow>
                                 <TableRow>
@@ -316,9 +346,15 @@ const handleDeleteProduct = () => {
                                                     <Typography><strong>Date actualisation: </strong>{product.Date_Actualisation}</Typography>
                                                     <Typography><strong>Code barre: </strong></Typography>
                                                     <Barcode value={product.Numéro_Article} />
+
+                                                    <button onClick={() => downloadBarcode(product.Numéro_Article)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
+                                                       <p className='px-1'>Télécharge CodeBare</p><FaBarcode />
+                                                    </button>
                                                     <Typography><strong>QRcode </strong></Typography>
                                                     <QRCode value={product.Numéro_Article} size={156} />
-
+                                                    <button onClick={() => downloadQRCode(product.Numéro_Article)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
+                                                       <p className='px-1'>Télécharge QRCode</p><IoQrCode />
+                                                    </button>
                                                 </CardContent>
                                             </Card>
                                         </Collapse>

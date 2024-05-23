@@ -12,6 +12,8 @@ const fournisseur = require("./routes/fournisseurRoutes")
 const client = require("./routes/clientRoutes")
 const user = require("./routes/userRoutes")
 const barcodeRoutes = require('./routes/barcodeRoutes');
+const { default: Demande } = require('../FrontEnd_Test/src/component/demande');
+
 
 
 // app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,6 +40,8 @@ app.use('/', produits);
 app.use('/', fournisseur);
 app.use('/', client);
 app.use('/', user);
+app.use('/', demande);
+
 
 // app.use('/', barcodeRoutes);
 

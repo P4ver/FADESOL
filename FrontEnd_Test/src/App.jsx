@@ -12,6 +12,8 @@ import PageUsers from '../src/pages/pageUsers';
 import PageDashboard from '../src/pages/pageDashboard';
 import Layout from './component/layout';
 import PageProducts from './pages/pageProducts';
+import Entree from './component/entree';
+import Demande from './component/demande';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
                 <Route path="/users" element={<PageUsers />} />
                 <Route path="/" element={<PageDashboard />} exact />
                 <Route path="/products" element={<PageProducts/>} />
+                <Route path="/entree" element={<Entree/>} />
+                <Route path="/demande" element={<Demande/>} />
               </Route>
             </Route>
           </Routes>
@@ -52,7 +56,6 @@ export default App;
 // import PageUsers from './component/pages/pageusers';
 // import Layout from './component/layout'; // Import the Layout component
 // import pageDashboard from './component/pages/pageDashboard';
-
 // function App() {
 //   return (
 //     <>
@@ -61,8 +64,7 @@ export default App;
 //           <Routes>
 //             <Route path="/login" element={<LoginComponent />} />
 //             <Route path="/register" element={<Register />} />
-//             <Route path="/*" element={<ErrorPage />} />
-
+//             <Route path="/*" element={<ErrorPage />} /
 //             <Route element={<PrivateRoute />}>
 //               <Route element={<Layout />}>
 //                 <Route path="/users" element={<PageUsers />} />
@@ -76,9 +78,7 @@ export default App;
 //     </>
 //   );
 // }
-
 // export default App;
-
 // import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 //   import React from 'react';
 //   import { Provider } from 'react-redux';
@@ -91,10 +91,7 @@ export default App;
 //   import ErrorPage from './component/ErrorPage';
 // import PageUsers from './component/pages/pageusers';
 // // import pageDashboard from './component/pages/pageDashboard';
-
-
 //   function App() {
-
 //     return (
 //       <>
 //       <Provider store={store}>
@@ -113,7 +110,5 @@ export default App;
 //       </>
 //     )
 //   }
-
 //   export default App
-  
     {/* <Route element={<pageDashboard/>} path='/test' exact/> */}
