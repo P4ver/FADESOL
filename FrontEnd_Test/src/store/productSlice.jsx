@@ -14,7 +14,7 @@ export const fetchProductData = createAsyncThunk(
         if (response.status !== 200) {
           throw new Error('Failed to fetch product data');
         }
-        console.log('FPD:res:', response.data);
+        // console.log('FPD:res:', response.data);
         
         return response.data;
       } catch (error) {
@@ -48,28 +48,68 @@ export const fetchProductData = createAsyncThunk(
     }
   );
 
-
-export const updateProductData = createAsyncThunk(
-  'product/updateProductData',
-  async ({ productId, updatedProductData }, thunkAPI) => {
-    try {
-      const response = await axios.put(`http://localhost:3000/produits/${productId}`, updatedProductData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      });
-      if (response.status !== 200) {
-        throw new Error('Failed to update product data');
+  // export const updateProductData = createAsyncThunk(
+  //   'product/updateProductData',
+  //   async ({ productId, updatedProductData }, thunkAPI) => {
+  //     try {
+  //       const response = await axios.put(`http://localhost:3000/produits/${productId}`, updatedProductData, {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         withCredentials: true,
+  //       });
+  //       if (response.status !== 200) {
+  //         throw new Error('Failed to update product data');
+  //       }
+  //       await thunkAPI.dispatch(fetchProductData());
+  //       return { productId, updatedProductData: response.data };
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  //   }
+  // );
+  export const updateProductData = createAsyncThunk(
+    'product/updateProductData',
+    async ({ productId, updatedProductData }, thunkAPI) => {
+      try {
+        console.log("updatedProductData",updatedProductData)
+        const response = await axios.put(`http://localhost:3000/produits/${productId}`, updatedProductData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        });
+        if (response.status !== 200) {
+          throw new Error('Failed to update product data');
+        }
+        await thunkAPI.dispatch(fetchProductData());
+        return { idProduct: productId, updatedProductData: response.data };
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
       }
-      // Fetch product data again after updating
-      await thunkAPI.dispatch(fetchProductData());
-      return { productId, updatedProductData };
-    } catch (error) {
-      throw error;
     }
-  }
-);
+  );
+// export const updateProductData = createAsyncThunk(
+//   'product/updateProductData',
+//   async ({ productId, updatedProductData }, thunkAPI) => {
+//     try {
+//       const response = await axios.put(`http://localhost:3000/produits/${productId}`, updatedProductData, {
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         withCredentials: true,
+//       });
+//       if (response.status !== 200) {
+//         throw new Error('Failed to update product data');
+//       }
+//       // Fetch product data again after updating
+//       await thunkAPI.dispatch(fetchProductData());
+//       return { productId, updatedProductData };
+//     } catch (error) {
+//       throw error;
+//     }
+//   }
+// );
 
 export const deleteProductData = createAsyncThunk(
   'product/deleteProductData',
@@ -151,12 +191,18 @@ const productSlice = createSlice({
           state.loading = true;
           state.error = null;
         })
+        // .addCase(updateProductData.fulfilled, (state, action) => {
+        //   state.loading = false;
+        //   const { idProduct, updateProductData } = action.payload;
+        //   state.productData = state.productData.map(product =>
+        //     product.idProduct === idProduct ? updateProductData : product
+        //   );
+        // })
         .addCase(updateProductData.fulfilled, (state, action) => {
           state.loading = false;
-          const updatedData = action.payload;
-          console.log(updatedData);
+          const { idProduct, updatedProductData } = action.payload;
           state.productData = state.productData.map(product =>
-            product.idProduct === updatedData.idProduct ? updatedData : product
+            product.idProduct === idProduct ? updatedProductData : product
           );
         })
         .addCase(updateProductData.rejected, (state, action) => {

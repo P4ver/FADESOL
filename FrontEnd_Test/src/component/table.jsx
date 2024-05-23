@@ -14,6 +14,8 @@ import Pagination from "@mui/material/Pagination";
 import Switch from "@mui/material/Switch";
 import * as XLSX from "xlsx";
 import AddUser from "./usrDashBoard/addUser";
+import { createCanvas } from 'canvas';
+import JsBarcode from 'jsbarcode';
 
 const TableTest = () => {
   const dispatch = useDispatch();
@@ -168,7 +170,11 @@ const TableTest = () => {
       toast.error('Failed to toggle user status. Please try again.');
     }
   };
-
+  // const generateBarcode = (text) => {
+  //   const canvas = createCanvas();
+  //   JsBarcode(canvas, text, { format: 'CODE128' });
+  //   return canvas.toDataURL('image/png');
+  // };
   return (
     <>
      <div className="py-3 px-4 flex justify-between items-center">
@@ -318,6 +324,8 @@ const TableTest = () => {
                               <p><strong>Tel: </strong>{user.tel_User}</p>
                               <p><strong>Note: </strong>{user.note_User}</p>
                               <p><strong>Email: </strong>{user.email_User}</p>
+                              <p><strong>Code: </strong>{user.email_User}</p>
+
                             </div>
                           </CardContent>
                         </Card>

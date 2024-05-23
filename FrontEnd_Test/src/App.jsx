@@ -22,7 +22,6 @@ function App() {
             <Route path="/login" element={<LoginComponent />} />
             <Route path="/register" element={<Register />} />
             <Route path="/*" element={<ErrorPage />} />
-
             <Route element={<PrivateRoute />}>
               <Route element={<Layout />}>
                 <Route path="/users" element={<PageUsers />} />

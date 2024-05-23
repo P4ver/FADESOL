@@ -11,6 +11,7 @@ const produits = require('./routes/productRoutes')
 const fournisseur = require("./routes/fournisseurRoutes")
 const client = require("./routes/clientRoutes")
 const user = require("./routes/userRoutes")
+const barcodeRoutes = require('./routes/barcodeRoutes');
 
 
 // app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,6 +24,10 @@ app.use(cors(
   }
 ));
 
+
+
+
+
 // Routes d'authentification
 app.use('/auth', auth);
 // Routes des fonctionnalités utilisateur
@@ -34,6 +39,7 @@ app.use('/', fournisseur);
 app.use('/', client);
 app.use('/', user);
 
+// app.use('/', barcodeRoutes);
 
 
 app.listen(3000, () => {
