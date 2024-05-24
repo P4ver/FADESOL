@@ -1,6 +1,5 @@
 const pool = require("../db")
 
-
 const obtenirDemandes = (req, res)=>{
     pool.getConnection((err, connection)=>{
         if (err) throw err; // not connected!
@@ -40,30 +39,18 @@ const ajouterDemande = (req, res)=>{
     })
 }
 
-// const modifierDemande = (req, res)=>{
-//     pool.getConnection((err, connection)=>{
-//         if (err) throw err
-//         console.log("connection as id", connection.threadId)
-//         const { code, designation, quat2, qt2, projet, nonProjet, delivered} = req.body
-//         connection.query("UPDATE demande SET code = ?, designation = ?, quat2 = ?, qt2 = ?, projet = ?, nonProjet = ?  WHERE id_Demande = ?", [  code, designation, quat2, qt2, projet, nonProjet, delivered, id_Demande],(err, rows)=>{
-//             connection.release()
-//             if (err) throw err
-//             res.send("Les données ont été mises à jour.")
-//         })
-//     })
-//   }
 
-  const modifierUser = (req, res) => {
+
+  const modifierDemande = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("connection as id", connection.threadId);
-        { code, designation, quat2, qt2, projet, nonProjet, delivered} = req.body
-        const { login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User, email_User, status} = req.body
-        // const { login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User, email_User, status} = req.body
+
+        const { code, designation, quantité} = req.body
         const { id } = req.params; 
         connection.query(
-            "UPDATE user SET login_User = ?, password_User = ?, nom_User = ?, prenom_User = ?, tel_User = ?, note_User = ?, type_User = ?, email_User = ?, status = ?  WHERE id_User = ?",
-            [ login_User, password_User, nom_User, prenom_User, tel_User, note_User, type_User, email_User, status, id],
+            "UPDATE demande SET code = ?, designation = ?, quantité = ? WHERE id_Demande = ?",
+            [ code, designation, quantité, id],
             (err, rows) => {
                 connection.release();
                 if (err) throw err;
@@ -73,18 +60,16 @@ const ajouterDemande = (req, res)=>{
     });
 };
 
-// const supprimerFournisseur = (req, res) =>{
-//     pool.getConnection((err, connection)=>{
-//         if (err) throw err
-//         console.log("connection as id", connection.threadId)
-//         connection.query("DELETE FROM demande WHERE id_Fournisseur = ?", [req.params.id],(err, rows)=>{
-//             connection.release()
-//             if(err) throw err
-//             console.log(rows)
-//             res.send("Les données ont été supprimées.")
-//         })
-//     })
-// }
-
-
-module.exports = {obtenirDemandes, obtenirDemandesID, ajouterDemande, modifierDemande};
+const supprimerDemande = (req, res) =>{
+    pool.getConnection((err, connection)=>{
+        if (err) throw err
+        console.log("connection as id", connection.threadId)
+        connection.query("DELETE FROM demande WHERE id_Demande = ?", [req.params.id],(err, rows)=>{
+            connection.release()
+            if(err) throw err
+            console.log(rows)
+            res.send("Les données ont été supprimées.")
+        })
+    })
+}
+module.exports = {obtenirDemandes, obtenirDemandesID, ajouterDemande, modifierDemande, supprimerDemande};

@@ -5,6 +5,8 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import productReducer from './productSlice';
 import userReducer from './userSlice';
 import authReducer from './authSlice';
+import demandeReducer from "./demandeSlice"
+import projetReducer from "./projetSlice"
 
 const persistConfig = {
   key: 'root',
@@ -14,7 +16,9 @@ const persistConfig = {
 const rootReducer = combineReducers({
   product: productReducer,
   user: userReducer,
-  auth: authReducer
+  auth: authReducer,
+  demande: demandeReducer,
+  projet: projetReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

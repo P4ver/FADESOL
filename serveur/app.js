@@ -13,6 +13,7 @@ const client = require("./routes/clientRoutes")
 const user = require("./routes/userRoutes")
 const barcodeRoutes = require('./routes/barcodeRoutes');
 const demande = require("./routes/demandeRoutes")
+const projet = require("./routes/projetRoutes")
 
 
 
@@ -41,6 +42,7 @@ app.use('/', fournisseur);
 app.use('/', client);
 app.use('/', user);
 app.use('/', demande);
+app.use('/', projet);
 
 
 // app.use('/', barcodeRoutes);

@@ -41,21 +41,6 @@ const ajouterProduit = (req, res)=>{
     })
 }
 
-// const modifierProduit = (req, res)=>{
-//     pool.getConnection((err, connection)=>{
-//         if (err) throw err
-//         console.log("connection as id", connection.threadId)
-  
-//         // const {id, name , age, email} = req.body
-//         const { id_Article, pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut} = req.body
-//         connection.query("UPDATE articles SET pu_Produit = ?, type_Produit = ?, prix_Vente = ?, note_Produit = ?, code_Barre = ?, numero_Serie = ?, unite = ?, statut = ?  WHERE id_Article = ?", [ pu_Produit, type_Produit, prix_Vente, note_Produit, code_Barre, numero_Serie, unite, statut, id_Article],(err, rows)=>{
-//             connection.release()
-//             if (err) throw err
-//             res.send("Les données ont été mises à jour.")
-//         })
-//     })
-//   }
-
 
 const modifierProduit = (req, res) => {
     pool.getConnection((err, connection) => {
