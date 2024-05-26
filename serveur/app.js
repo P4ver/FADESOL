@@ -14,7 +14,7 @@ const user = require("./routes/userRoutes")
 const barcodeRoutes = require('./routes/barcodeRoutes');
 const demande = require("./routes/demandeRoutes")
 const projet = require("./routes/projetRoutes")
-
+const achatRoutes = require("./routes/achatRoutes")
 
 
 // app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,7 +37,7 @@ app.use('/auth', auth);
 app.use('/users', users);
 
 app.use('/', produits);
-
+app.use('/', achatRoutes);
 app.use('/', fournisseur);
 app.use('/', client);
 app.use('/', user);
