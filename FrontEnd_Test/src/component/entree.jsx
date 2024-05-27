@@ -40,13 +40,15 @@ const Entree = () => {
         setProjetDetails(projet);
     };
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (demandeDetails && projetDetails) {
             const achatPayload = {
                 code: demandeDetails.code,
                 designation: demandeDetails.designation,
-                quantite: demandeDetails.quantité,
+                quantite: 5,
+                qte_En_Stock: demandeDetails.quantité,
                 code_Projet: projetDetails.code_Projet,
                 nom_Projet: projetDetails.nom_Projet,
                 date: projetDetails.date,
@@ -57,13 +59,31 @@ const Entree = () => {
         }
     };
 
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     if (demandeDetails && projetDetails) {
+    //         const achatPayload = {
+    //             code: demandeDetails.code,
+    //             designation: demandeDetails.designation,
+    //             quantite: demandeDetails.quantité,
+    //             qte_En_Stock: demandeDetails.quantité,
+    //             code_Projet: projetDetails.code_Projet,
+    //             nom_Projet: projetDetails.nom_Projet,
+    //             date: projetDetails.date,
+    //         };
+    //         dispatch(postAchatData(achatPayload));
+    //     } else {
+    //         console.error('Demande or Projet details are not available');
+    //     }
+    // };
+    
     return (
         <div>
             <h2>Achat Form</h2>
             <ul>
                 {achatData.map((achat) => (
                     <li key={achat.id_Achat}>
-                        {achat.code} - {achat.designation} - {achat.quantite} - {achat.code_Projet} - {achat.nom_Projet} - {achat.date}
+                        {achat.code} - {achat.designation} - {achat.qte_En_Stock} - {achat.quantite} - {achat.code_Projet} - {achat.nom_Projet} - {achat.date}
                     </li>
                 ))}
             </ul>
