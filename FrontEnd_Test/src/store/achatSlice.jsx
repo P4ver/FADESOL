@@ -47,6 +47,28 @@ export const deleteAchatData = createAsyncThunk('achat/deleteAchatData', async (
     }
 });
 
+export const updateAchatData = createAsyncThunk(
+    'achat/updateAchatData',
+    async ({ id_Achat, updateAchatData }, thunkAPI) => {
+      try {
+        const response = await axios.put(`http://localhost:3000/achat/${id_User}`, updateAchatData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        });
+        if (response.status !== 200) {
+          throw new Error('Failed to update product data');
+        }
+        // Fetch product data again after updating
+        await thunkAPI.dispatch(fetchUserData());
+        return { id_Achat, updateAchatData };
+      } catch (error) {
+        throw error;
+      }
+    }
+  );
+
 const achatSlice = createSlice({
     name: 'achat',
     initialState: {
@@ -95,7 +117,26 @@ const achatSlice = createSlice({
             .addCase(deleteAchatData.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
-            });
+            })
+            //====================================
+            .addCase(updateAchatData.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+              })
+              .addCase(updateAchatData.fulfilled, (state, action) => {
+                state.loading = false;
+                const { id_Achat, updateAchatData } = action.payload;
+                state.userData = state.achatData.map(user =>
+                  user.id_Achat === id_Achat ? updateAchatData : user
+                );
+              })
+              
+              
+              .addCase(updateAchatData.rejected, (state, action) => {
+                state.loading = false;
+                console.log(action)
+                state.error = action.error.message;
+              })
     },
 });
 

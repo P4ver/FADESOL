@@ -1,20 +1,5 @@
 const pool = require('../db');
 
-// Create achat
-// const createAchat = (req, res) => {
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-//         const { code, code_Projet, designation, qte_En_Stock, quantité, nom_Projet, date } = req.body;
-//         connection.query('INSERT INTO achat (code, code_Projet, designation, qte_En_Stock, quantité, nom_Projet, date) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-//         [code, code_Projet, designation, qte_En_Stock, quantité, nom_Projet, date], 
-//         (err, result) => {
-//             connection.release();
-//             if (err) return res.status(500).send(err);
-//             res.send('Achat added.');
-//         });
-//     });
-// };
-
 
 // const createAchat = (req, res) => {
 //     pool.getConnection((err, connection) => {
@@ -31,14 +16,13 @@ const pool = require('../db');
 //         );
 //     });
 // };
-
 const createAchat = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        const { code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date } = req.body;  // Notice quantite instead of quantité for consistency
+        const { code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery } = req.body; // Added check_Delivery
         connection.query(
-            'INSERT INTO achat (code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-            [code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date], 
+            'INSERT INTO achat (code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+            [code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery], // Included check_Delivery in values
             (err, result) => {
                 connection.release();
                 if (err) return res.status(500).send(err);
@@ -47,7 +31,6 @@ const createAchat = (req, res) => {
         );
     });
 };
-
 
 // Get all achats
 const getAllAchats = (req, res) => {
@@ -79,19 +62,34 @@ const getAchatDetails = (req, res) => {
 };
 
 // Update achat
+// const updateAchat = (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         if (err) throw err;
+//         const { id_Achat } = req.params;
+//         const { code, code_Projet } = req.body;
+//         connection.query('UPDATE achat SET code = ?, code_Projet = ? WHERE id_Achat = ?', [code, code_Projet, id_Achat], (err, result) => {
+//             connection.release();
+//             if (err) return res.status(500).send(err);
+//             res.send('Achat updated.');
+//         });
+//     });
+// };
 const updateAchat = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        const { id_Achat } = req.params;
-        const { code, code_Projet } = req.body;
-        connection.query('UPDATE achat SET code = ?, code_Projet = ? WHERE id_Achat = ?', [code, code_Projet, id_Achat], (err, result) => {
-            connection.release();
-            if (err) return res.status(500).send(err);
-            res.send('Achat updated.');
-        });
+        const { id_Achat } = req.params; // Extracting id_Achat from URL parameters
+        const { check_Delivery } = req.body; // Extracting check_Delivery from request body
+        connection.query(
+            'UPDATE achat SET check_Delivery = ? WHERE id_Achat = ?',
+            [check_Delivery, id_Achat],
+            (err, result) => {
+                connection.release();
+                if (err) return res.status(500).send(err);
+                res.send('Achat delivery status updated.');
+            }
+        );
     });
 };
-
 // Delete achat
 const deleteAchat = (req, res) => {
     pool.getConnection((err, connection) => {

@@ -147,10 +147,14 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDemandeData } from '../store/demandeSlice';
 import { fetchProjetData } from '../store/projetSlice';
-import { fetchAchatData, postAchatData } from '../store/achatSlice';
+// import { fetchAchatData, postAchatData } from '../store/achatSlice';
+import { fetchAchatData, postAchatData , updateAchatData } from '../store/achatSlice';
+
 import { deleteAchatData, deleteAchatItem } from '../store/achatSlice';
 import { RiDeleteBinFill } from "react-icons/ri";
 import { FaDeleteLeft } from "react-icons/fa6";
+import Switch from "@mui/material/Switch";
+
 
 const Entree = () => {
     const [demandeCode, setDemandeCode] = useState('');
@@ -158,7 +162,7 @@ const Entree = () => {
     const [quantite, setQuantite] = useState('');
     const [demandeDetails, setDemandeDetails] = useState(null);
     const [projetDetails, setProjetDetails] = useState(null);
-
+    const [checkDelivery, setCheckDelivery] = useState(false);
     const dispatch = useDispatch();
 
     const { demandeData, demandeLoading, demandeError } = useSelector((state) => state.demande);
@@ -201,6 +205,7 @@ const Entree = () => {
         }
     };
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (demandeDetails && projetDetails && quantite) {
@@ -212,6 +217,7 @@ const Entree = () => {
                 code_Projet: projetDetails.code_Projet,
                 nom_Projet: projetDetails.nom_Projet,
                 date: projetDetails.date,
+                check_Delivery: checkDelivery, // Added check_Delivery to the payload
             };
             dispatch(postAchatData(achatPayload));
         } else {
@@ -222,6 +228,24 @@ const Entree = () => {
     const handleDelete = (id_Achat) => {
         dispatch(deleteAchatData(id_Achat));
     };
+    const handleCheckDeliveryChange = (e) => { // Added handler for checkbox change
+        setCheckDelivery(e.target.checked);
+    };
+
+    const toggleStatus = async (id_Achat, status) => {
+        try {
+          const updatedAchat = achatData.find(item => item.id_Achat === id_Achat);
+          if (updatedAchat) {
+            const updatedStatus = status === 'Active' ? 'inActive' : 'Active';
+            const updatedAchatData = { ...updatedAchat, status: updatedStatus };
+            await dispatch(updateUserData({ id_Achat: id_Achat, updateUserData: updatedAchatData }));
+            toast.success('User status updated successfully');
+          }
+        } catch (error) {
+          console.error('Error toggling user status:', error);
+          toast.error('Failed to toggle user status. Please try again.');
+        }
+      };
 
     return (
         <div className="container mx-auto p-4 w-full">
@@ -269,6 +293,14 @@ const Entree = () => {
                     <label className="block text-sm font-bold mb-2 w-20">Quantite:</label>
                     <input type="number" value={quantite} placeholder='0' onChange={(e) => setQuantite(e.target.value)} className="w-full border rounded py-2 px-3" />
                 </div>
+                <div className="mb-4">
+                    <label className="block text-sm font-bold mb-2">Delivery:</label>
+                    <input
+                        type="checkbox"
+                        checked={checkDelivery}
+                        onChange={handleCheckDeliveryChange}
+                    />
+                </div>
                 <div className="mb-4 ml-10 ">
                     <button onClick={handleSubmit} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 mt-6 px-10 rounded">Create </button>
                 </div>
@@ -299,12 +331,22 @@ const Entree = () => {
                                 <td className="border px-4 py-2">{achat.code_Projet}</td>
                                 <td className="border px-4 py-2">{achat.nom_Projet}</td>
                                 <td className="border px-4 py-2">{achat.date}</td>
-                                <td className="border py-2 px-4 text-center">
+                                {/* <td className="border px-4 py-2">{achat.check_Delivery}</td> */}
+                                
+                                {/* <td className="border py-2 px-4 text-center">
                                     <input
                                     type="checkbox"
                                     // checked={livraison[index]}
                                     // onChange={() => handleLivraisonChange(index)}
                                     />
+                                </td> */}
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <Switch
+                                    checked={achat.status === 'Active'}
+                                    onChange={() => toggleStatus(achat.id_Achat, achat.check_Delivery)}
+                                    color="secondary"
+                                    />
+                                    {achat.check_Delivery}
                                 </td>
                                 <td className="border py-2 px-4  text-center">
                                     <button
