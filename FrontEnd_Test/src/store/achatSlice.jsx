@@ -33,6 +33,20 @@ export const postAchatData = createAsyncThunk('achat/postAchatData', async (post
     }
 });
 
+export const deleteAchatData = createAsyncThunk('achat/deleteAchatData', async (id_Achat, thunkAPI) => {
+    try {
+        const response = await axios.delete(`http://localhost:3000/achat/${id_Achat}`);
+        if (response.status !== 200) {
+            throw new Error('Failed to delete achat data');
+        }
+        // Fetch achat data again
+        await thunkAPI.dispatch(fetchAchatData());
+        return id_Achat;
+    } catch (error) {
+        throw error;
+    }
+});
+
 const achatSlice = createSlice({
     name: 'achat',
     initialState: {
@@ -43,6 +57,9 @@ const achatSlice = createSlice({
     reducers: {
         clearError: (state) => {
             state.error = null;
+        },
+        deleteAchatItem: (state, action) => {
+            state.achatData = state.achatData.filter(item => item.id_Achat !== action.payload);
         },
     },
     extraReducers: (builder) => {
@@ -69,12 +86,21 @@ const achatSlice = createSlice({
             .addCase(postAchatData.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
+            })
+            .addCase(deleteAchatData.fulfilled, (state, action) => {
+                state.loading = false;
+                // call deleteAchatItem reducer to update state
+                achatSlice.caseReducers.deleteAchatItem(state, action);
+            })
+            .addCase(deleteAchatData.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
             });
     },
 });
 
 export default achatSlice.reducer;
-export const { clearError } = achatSlice.actions;
+export const { clearError , deleteAchatItem } = achatSlice.actions;
 
 
 // import { createSlice } from '@reduxjs/toolkit';

@@ -18,6 +18,7 @@ import Barcode from 'react-barcode';
 // import QRCode from 'react-qr-code';
 import { QRCode } from 'react-qrcode-logo';
 import * as XLSX from 'xlsx'
+import { Grid } from '@mui/material';
 const ProductTable = () => {
     const dispatch = useDispatch();
     const { productData, loading, error } = useSelector((state) => state.product);
@@ -134,9 +135,12 @@ const ProductTable = () => {
         }
     };
 
-    const filteredProducts = productData.filter((product) => {
-        return (product.Numéro_Article || '').toLowerCase().includes(search.toLowerCase());
-    });
+    const filteredProducts = productData ? productData.filter((product) => {
+        return (
+            (product.Numéro_Article && product.Numéro_Article.toLowerCase().includes(search.toLowerCase())) ||
+            (product.Description_Article && product.Description_Article.toLowerCase().includes(search.toLowerCase()))
+        );
+    }) : [];
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -276,7 +280,11 @@ useEffect(() => {
                     }}
                 />
             </Toolbar>
-
+            <Tabs value={tabValue} onChange={handleTabChange}>
+                <Tab label="All" />
+                <Tab label="Publish" />
+                <Tab label="Unpublish" />
+            </Tabs>
                 <TableContainer>
                     <Table size={"small"}>
                         <TableHead>
@@ -289,6 +297,7 @@ useEffect(() => {
                                 <TableCell>Groupe d'articles</TableCell>
                                 <TableCell>Date d'actualisation</TableCell>
                                 <TableCell>id</TableCell>
+                                <TableCell>Published</TableCell>
                                 <TableCell align="center">Actions</TableCell>
                             </TableRow>
                         </TableHead>
@@ -305,6 +314,13 @@ useEffect(() => {
                                     <TableCell>{product.Groupe_Articles}</TableCell>
                                     <TableCell>{product.Date_Actualisation}</TableCell>
                                     <TableCell>{product.id_Article}</TableCell>
+                                    <TableCell>
+                                        <Switch
+                                            checked={product.published}
+                                            onChange={() => handleTogglePublished(product.id_article)}
+                                            color="primary"
+                                        />
+                                    </TableCell>
                                     <TableCell align="center">
                                         <button
                                             type="button"
@@ -336,7 +352,7 @@ useEffect(() => {
                                     </TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell colSpan={9} style={{ paddingBottom: 0, paddingTop: 0 }}>
+                                    {/* <TableCell colSpan={9} style={{ paddingBottom: 0, paddingTop: 0 }}>
                                         <Collapse in={expandedUser === product.id_Article} timeout="auto" unmountOnExit>
                                             <Card>
                                                 <CardContent>
@@ -359,7 +375,46 @@ useEffect(() => {
                                                 </CardContent>
                                             </Card>
                                         </Collapse>
-                                    </TableCell>
+                                    </TableCell> */}
+                                    <TableCell colSpan={9} style={{ paddingBottom: 0, paddingTop: 0 }}>
+       <Collapse in={expandedUser === product.id_Article} timeout="auto" unmountOnExit>
+           <Grid container spacing={2}>
+               <Grid item xs={4}>
+                   <Card>
+                       <CardContent>
+                           <Typography variant="h6">Product Details</Typography>
+                           <Typography><strong>Numéro article: </strong>{product.Numéro_Article}</Typography>
+                           <Typography><strong>Description article: </strong>{product.Description_Article}</Typography>
+                           <Typography><strong>Groupe d'articles: </strong>{product.Groupe_Articles}</Typography>
+                           <Typography><strong>Date actualisation: </strong>{product.Date_Actualisation}</Typography>
+                       </CardContent>
+                   </Card>
+               </Grid>
+               <Grid item xs={4}>
+                   <Card>
+                       <CardContent>
+                           <Typography><strong>Code barre: </strong></Typography>
+                           <Barcode value={product.Numéro_Article} />
+                           <button onClick={() => downloadBarcode(product.Numéro_Article)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
+                               <p className='px-1'>Télécharge CodeBare</p><FaBarcode />
+                           </button>
+                       </CardContent>
+                   </Card>
+               </Grid>
+               <Grid item xs={4}>
+                   <Card>
+                       <CardContent>
+                           <Typography><strong>QRcode </strong></Typography>
+                           <QRCode value={product.Numéro_Article} size={156} />
+                           <button onClick={() => downloadQRCode(product.Numéro_Article)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
+                               <p className='px-1'>Télécharge QRCode</p><IoQrCode />
+                           </button>
+                       </CardContent>
+                   </Card>
+               </Grid>
+           </Grid>
+       </Collapse>
+   </TableCell>
                                 </TableRow>
                                 </>
                             ))}
