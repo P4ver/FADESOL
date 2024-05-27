@@ -4,8 +4,10 @@ const pool = require('../db');
 // const createAchat = (req, res) => {
 //     pool.getConnection((err, connection) => {
 //         if (err) throw err;
-//         const { code, code_Projet } = req.body;
-//         connection.query('INSERT INTO achat (code, code_Projet) VALUES (?, ?)', [code, code_Projet], (err, result) => {
+//         const { code, code_Projet, designation, qte_En_Stock, quantité, nom_Projet, date } = req.body;
+//         connection.query('INSERT INTO achat (code, code_Projet, designation, qte_En_Stock, quantité, nom_Projet, date) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+//         [code, code_Projet, designation, qte_En_Stock, quantité, nom_Projet, date], 
+//         (err, result) => {
 //             connection.release();
 //             if (err) return res.status(500).send(err);
 //             res.send('Achat added.');
@@ -13,17 +15,36 @@ const pool = require('../db');
 //     });
 // };
 
+
+// const createAchat = (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         if (err) throw err;
+//         const { code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date } = req.body;  // Notice quantite instead of quantité for consistency
+//         connection.query(
+//             'INSERT INTO achat (code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+//             [code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date], 
+//             (err, result) => {
+//                 connection.release();
+//                 if (err) return res.status(500).send(err);
+//                 res.send('Achat added.');
+//             }
+//         );
+//     });
+// };
+
 const createAchat = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        const { code, code_Projet, designation, quantite, nom_Projet, date } = req.body;
-        connection.query('INSERT INTO achat (code, code_Projet, designation, quantite, nom_Projet, date) VALUES (?, ?, ?, ?, ?, ?)', 
-        [code, code_Projet, designation, quantite, nom_Projet, date], 
-        (err, result) => {
-            connection.release();
-            if (err) return res.status(500).send(err);
-            res.send('Achat added.');
-        });
+        const { code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date } = req.body;  // Notice quantite instead of quantité for consistency
+        connection.query(
+            'INSERT INTO achat (code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+            [code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date], 
+            (err, result) => {
+                connection.release();
+                if (err) return res.status(500).send(err);
+                res.send('Achat added.');
+            }
+        );
     });
 };
 
