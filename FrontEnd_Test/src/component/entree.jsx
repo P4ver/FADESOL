@@ -7,6 +7,7 @@ import { fetchAchatData, postAchatData } from '../store/achatSlice';
 const Entree = () => {
     const [demandeCode, setDemandeCode] = useState('');
     const [projetCode, setProjetCode] = useState('');
+    const [quantite, setQuantite] = useState('');
     const [demandeDetails, setDemandeDetails] = useState(null);
     const [projetDetails, setProjetDetails] = useState(null);
 
@@ -21,13 +22,16 @@ const Entree = () => {
         dispatch(fetchProjetData());
         dispatch(fetchAchatData());
     }, [dispatch]);
-
     const handleDemandeCodeChange = (e) => {
         setDemandeCode(e.target.value);
     };
 
     const handleProjetCodeChange = (e) => {
         setProjetCode(e.target.value);
+    };
+
+    const handleQuantiteChange = (e) => {
+        setQuantite(e.target.value);
     };
 
     const fetchDemandeDetails = () => {
@@ -40,14 +44,13 @@ const Entree = () => {
         setProjetDetails(projet);
     };
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (demandeDetails && projetDetails) {
+        if (demandeDetails && projetDetails && quantite) {
             const achatPayload = {
                 code: demandeDetails.code,
                 designation: demandeDetails.designation,
-                quantite: 5,
+                quantite: parseInt(quantite, 10),
                 qte_En_Stock: demandeDetails.quantité,
                 code_Projet: projetDetails.code_Projet,
                 nom_Projet: projetDetails.nom_Projet,
@@ -55,28 +58,10 @@ const Entree = () => {
             };
             dispatch(postAchatData(achatPayload));
         } else {
-            console.error('Demande or Projet details are not available');
+            console.error('Demande or Projet details or quantite are not available');
         }
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     if (demandeDetails && projetDetails) {
-    //         const achatPayload = {
-    //             code: demandeDetails.code,
-    //             designation: demandeDetails.designation,
-    //             quantite: demandeDetails.quantité,
-    //             qte_En_Stock: demandeDetails.quantité,
-    //             code_Projet: projetDetails.code_Projet,
-    //             nom_Projet: projetDetails.nom_Projet,
-    //             date: projetDetails.date,
-    //         };
-    //         dispatch(postAchatData(achatPayload));
-    //     } else {
-    //         console.error('Demande or Projet details are not available');
-    //     }
-    // };
-    
     return (
         <div>
             <h2>Achat Form</h2>
@@ -118,6 +103,12 @@ const Entree = () => {
             )}
             {demandeDetails && projetDetails && (
                 <div>
+                    <label>Quantite:</label>
+                    <input type="number" value={quantite} onChange={handleQuantiteChange} />
+                </div>
+            )}
+            {demandeDetails && projetDetails && quantite && (
+                <div>
                     <button onClick={handleSubmit}>Create Achat</button>
                 </div>
             )}
@@ -126,6 +117,137 @@ const Entree = () => {
 };
 
 export default Entree;
+
+{/************************************************************************************************/}
+
+// import React, { useState, useEffect } from 'react';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { fetchDemandeData } from '../store/demandeSlice';
+// import { fetchProjetData } from '../store/projetSlice';
+// import { fetchAchatData, postAchatData } from '../store/achatSlice';
+
+// const Entree = () => {
+//     const [demandeCode, setDemandeCode] = useState('');
+//     const [projetCode, setProjetCode] = useState('');
+//     const [demandeDetails, setDemandeDetails] = useState(null);
+//     const [projetDetails, setProjetDetails] = useState(null);
+
+//     const dispatch = useDispatch();
+
+//     const { demandeData, demandeLoading, demandeError } = useSelector((state) => state.demande);
+//     const { projetData, projetLoading, projetError } = useSelector((state) => state.projet);
+//     const { achatData, loading, error } = useSelector((state) => state.achat);
+
+//     useEffect(() => {
+//         dispatch(fetchDemandeData());
+//         dispatch(fetchProjetData());
+//         dispatch(fetchAchatData());
+//     }, [dispatch]);
+
+//     const handleDemandeCodeChange = (e) => {
+//         setDemandeCode(e.target.value);
+//     };
+
+//     const handleProjetCodeChange = (e) => {
+//         setProjetCode(e.target.value);
+//     };
+
+//     const fetchDemandeDetails = () => {
+//         const demande = demandeData.find((d) => d.code === demandeCode);
+//         setDemandeDetails(demande);
+//     };
+
+//     const fetchProjetDetails = () => {
+//         const projet = projetData.find((p) => p.code_Projet == projetCode);
+//         setProjetDetails(projet);
+//     };
+
+
+//     const handleSubmit = (e) => {
+//         e.preventDefault();
+//         if (demandeDetails && projetDetails) {
+//             const achatPayload = {
+//                 code: demandeDetails.code,
+//                 designation: demandeDetails.designation,
+//                 quantite: 5,
+//                 qte_En_Stock: demandeDetails.quantité,
+//                 code_Projet: projetDetails.code_Projet,
+//                 nom_Projet: projetDetails.nom_Projet,
+//                 date: projetDetails.date,
+//             };
+//             dispatch(postAchatData(achatPayload));
+//         } else {
+//             console.error('Demande or Projet details are not available');
+//         }
+//     };
+
+//     // const handleSubmit = (e) => {
+//     //     e.preventDefault();
+//     //     if (demandeDetails && projetDetails) {
+//     //         const achatPayload = {
+//     //             code: demandeDetails.code,
+//     //             designation: demandeDetails.designation,
+//     //             quantite: demandeDetails.quantité,
+//     //             qte_En_Stock: demandeDetails.quantité,
+//     //             code_Projet: projetDetails.code_Projet,
+//     //             nom_Projet: projetDetails.nom_Projet,
+//     //             date: projetDetails.date,
+//     //         };
+//     //         dispatch(postAchatData(achatPayload));
+//     //     } else {
+//     //         console.error('Demande or Projet details are not available');
+//     //     }
+//     // };
+    
+//     return (
+//         <div>
+//             <h2>Achat Form</h2>
+//             <ul>
+//                 {achatData.map((achat) => (
+//                     <li key={achat.id_Achat}>
+//                         {achat.code} - {achat.designation} - {achat.qte_En_Stock} - {achat.quantite} - {achat.code_Projet} - {achat.nom_Projet} - {achat.date}
+//                     </li>
+//                 ))}
+//             </ul>
+
+//             <div>
+//                 <label>Demande Code:</label>
+//                 <input type="text" value={demandeCode} onChange={handleDemandeCodeChange} />
+//                 <button onClick={fetchDemandeDetails}>Fetch Demande Details</button>
+//             </div>
+//             {demandeDetails && (
+//                 <div>
+//                     <h3>Demande Details:</h3>
+//                     <p>Code: {demandeDetails.code}</p>
+//                     <p>Designation: {demandeDetails.designation}</p>
+//                     <p>Quantité: {demandeDetails.quantité}</p>
+//                 </div>
+//             )}
+//             {demandeDetails && (
+//                 <div>
+//                     <label>Projet Code:</label>
+//                     <input type="text" value={projetCode} onChange={handleProjetCodeChange} />
+//                     <button onClick={fetchProjetDetails}>Fetch Projet Details</button>
+//                 </div>
+//             )}
+//             {projetDetails && (
+//                 <div>
+//                     <h3>Projet Details:</h3>
+//                     <p>Code Projet: {projetDetails.code_Projet}</p>
+//                     <p>Nom Projet: {projetDetails.nom_Projet}</p>
+//                     <p>Date: {projetDetails.date}</p>
+//                 </div>
+//             )}
+//             {demandeDetails && projetDetails && (
+//                 <div>
+//                     <button onClick={handleSubmit}>Create Achat</button>
+//                 </div>
+//             )}
+//         </div>
+//     );
+// };
+
+// export default Entree;
 
 {/************************************************************************************************/}
 
