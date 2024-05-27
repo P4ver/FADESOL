@@ -150,6 +150,7 @@ import { fetchProjetData } from '../store/projetSlice';
 import { fetchAchatData, postAchatData } from '../store/achatSlice';
 import { deleteAchatData, deleteAchatItem } from '../store/achatSlice';
 import { RiDeleteBinFill } from "react-icons/ri";
+import { FaDeleteLeft } from "react-icons/fa6";
 
 const Entree = () => {
     const [demandeCode, setDemandeCode] = useState('');
@@ -310,7 +311,8 @@ const Entree = () => {
                                         className="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-2 rounded-full"
                                         onClick={() => handleDelete(achat.id_Achat)} // pass id_Achat to handleDelete
                                     >
-                                        <RiDeleteBinFill/>
+                                        <FaDeleteLeft/>
+                                        {/* <RiDeleteBinFill/> */}
                                     </button>
                                 </td>
                             </tr>
