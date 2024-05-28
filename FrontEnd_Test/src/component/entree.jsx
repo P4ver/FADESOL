@@ -200,8 +200,8 @@ const Entree = () => {
                 </table>
                 <div className="mt-4 flex justify-center">
                     <button className="bg-customBlue text-white py-2 px-4 mx-2 rounded-md" onClick={handlePrint}>Imprimer</button>
-                    <button className="bg-customBlue text-white py-2 px-4 mx-2 rounded-md">Transformer</button>
-                    <Link to="/Livraison" className="bg-customBlue text-white py-2 px-4 mx-2 rounded-md">Voir Livraisons</Link>
+                    {/* <button className="bg-customBlue text-white py-2 px-4 mx-2 rounded-md">Transformer</button> */}
+                    <Link to="/Livraison" className="bg-customBlue text-white py-2 px-4 mx-2 rounded-md">Transformer</Link>
                 </div>
             </div>
         </div>

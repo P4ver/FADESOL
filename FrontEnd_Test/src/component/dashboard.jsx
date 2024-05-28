@@ -561,7 +561,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { PieChart } from "@mui/x-charts";
+import { PieChart ,LineChart } from "@mui/x-charts";
 
 const BasicPie = ({ data }) => {
   return (
@@ -731,15 +731,15 @@ const Dashboard = () => {
         </div>
       </section>
       <section className="bg-white shadow rounded-lg p-6 md:p-8">
-        <h2 className="text-xl font-semibold mb-4">Upcoming tests</h2>
-        <div className="flex space-x-6">
-          <div className="flex-shrink-0 w-32 h-32 bg-gray-100 rounded-lg"></div>
-          <div className="flex-1">
+        <h2 className="text-xl font-semibold mb-4">Gestion de stock pieces Rechanges</h2>
+        {/* <div className="flex space-x-6">
+          <div className="flex-shrink-0 w-32 h-32 bg-gray-100 rounded-lg"></div> */}
+          {/* <div className="flex-1">
             <h3 className="text-lg font-semibold mb-1"></h3>
             <p className="text-gray-600 mb-2">2 weeks • Design basics and principles</p>
             <p className="text-sm text-gray-500">Starts on April 29, 2024</p>
-          </div>
-          <a
+          </div> */}
+          {/* <a
             href="#"
             className="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg"
           >
@@ -759,8 +759,43 @@ const Dashboard = () => {
               ></path>
             </svg>
           </a>
-        </div>
-        <div className="mt-8">
+        </div> */}
+
+        <section className="grid md:grid-cols-2 gap-6">
+         <div className="bg-white shadow rounded-lg p-6">
+           <h3 className="text-xl font-semibold mb-4">
+             Total Registered Supliers
+           </h3>
+           <LineChart
+             xAxis={[{ data: [1, 2, 3, 5, 8, 10, 12] }]}
+             series={[
+               {
+                 data: [10, 15, 25, 30, 40, 50, 60],
+               },
+             ]}
+             width={500}
+             height={300}
+           />
+         </div>
+         {/* <div className="bg-white shadow rounded-lg p-6">
+           <h3 className="text-xl font-semibold mb-4">Number of Sales</h3>
+
+           <PieChart
+             series={[
+               {
+                 data: [
+                   { id: 0, value: 10, label: "series A" },
+                   { id: 1, value: 15, label: "series B" },
+                   { id: 2, value: 20, label: "series C" },
+                 ],
+               },
+             ]}
+             width={400}
+             height={200}
+           />
+  
+         </div> */}
+                       <div className="mt-8">
           <BasicPie
             data={[
               { id: 0, value: stats.users, label: 'Users' },
@@ -769,6 +804,8 @@ const Dashboard = () => {
             ]}
           />
         </div>
+       </section>
+   
       </section>
     </main>
   );
