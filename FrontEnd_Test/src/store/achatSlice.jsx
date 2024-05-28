@@ -47,28 +47,48 @@ export const deleteAchatData = createAsyncThunk('achat/deleteAchatData', async (
     }
 });
 
+// export const updateAchatData = createAsyncThunk(
+//     'achat/updateAchatData',
+//     async ({ id_Achat, updateAchatData }, thunkAPI) => {
+//       try {
+//         const response = await axios.put(`http://localhost:3000/achat/${id_User}`, updateAchatData, {
+//           headers: {
+//             'Content-Type': 'application/json',
+//           },
+//           withCredentials: true,
+//         });
+//         if (response.status !== 200) {
+//           throw new Error('Failed to update product data');
+//         }
+//         // Fetch product data again after updating
+//         await thunkAPI.dispatch(fetchUserData());
+//         return { id_Achat, updateAchatData };
+//       } catch (error) {
+//         throw error;
+//       }
+//     }
+//   );
 export const updateAchatData = createAsyncThunk(
     'achat/updateAchatData',
-    async ({ id_Achat, updateAchatData }, thunkAPI) => {
+    async ({ id_Achat, updatedAchatData }, thunkAPI) => {
       try {
-        const response = await axios.put(`http://localhost:3000/achat/${id_User}`, updateAchatData, {
+        const response = await axios.put(`http://localhost:3000/achat/${id_Achat}`, updatedAchatData, {
           headers: {
             'Content-Type': 'application/json',
           },
           withCredentials: true,
         });
         if (response.status !== 200) {
-          throw new Error('Failed to update product data');
+          throw new Error('Failed to update achat data');
         }
-        // Fetch product data again after updating
-        await thunkAPI.dispatch(fetchUserData());
-        return { id_Achat, updateAchatData };
+        // Fetch achat data again after updating
+        await thunkAPI.dispatch(fetchAchatData());
+        return { id_Achat, updatedAchatData };
       } catch (error) {
         throw error;
       }
     }
   );
-
 const achatSlice = createSlice({
     name: 'achat',
     initialState: {
@@ -123,14 +143,20 @@ const achatSlice = createSlice({
                 state.loading = true;
                 state.error = null;
               })
-              .addCase(updateAchatData.fulfilled, (state, action) => {
+            //   .addCase(updateAchatData.fulfilled, (state, action) => {
+            //     state.loading = false;
+            //     const { id_Achat, updateAchatData } = action.payload;
+            //     state.userData = state.achatData.map(user =>
+            //       user.id_Achat === id_Achat ? updateAchatData : user
+            //     );
+            //   })
+            .addCase(updateAchatData.fulfilled, (state, action) => {
                 state.loading = false;
-                const { id_Achat, updateAchatData } = action.payload;
-                state.userData = state.achatData.map(user =>
-                  user.id_Achat === id_Achat ? updateAchatData : user
+                const { id_Achat, updatedAchatData } = action.payload;
+                state.achatData = state.achatData.map(achat =>
+                  achat.id_Achat === id_Achat ? { ...achat, ...updatedAchatData } : achat
                 );
               })
-              
               
               .addCase(updateAchatData.rejected, (state, action) => {
                 state.loading = false;
