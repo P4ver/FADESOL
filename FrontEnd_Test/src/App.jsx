@@ -13,8 +13,9 @@ import PageDashboard from '../src/pages/pageDashboard';
 import Layout from './component/layout';
 import PageProducts from './pages/pageProducts';
 import Entree from './component/entree';
-import Demande from './component/demande';
-
+import Livraisons from './component/Livraison';
+import Sortie from './component/sortie';
+import Dashboard from "./component/dashboard"
 function App() {
   return (
     <>
@@ -30,7 +31,9 @@ function App() {
                 <Route path="/" element={<PageDashboard />} exact />
                 <Route path="/products" element={<PageProducts/>} />
                 <Route path="/entree" element={<Entree/>} />
-                <Route path="/demande" element={<Demande/>} />
+                <Route path="/sortie" element={<Sortie/>} />
+                <Route path="/Livraison" element={<Livraisons/>} />
+                <Route path="/dashboard" element={<Dashboard/>} />
               </Route>
             </Route>
           </Routes>

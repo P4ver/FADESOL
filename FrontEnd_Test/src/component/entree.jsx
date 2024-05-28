@@ -385,7 +385,7 @@ import { fetchAchatData, postAchatData, updateAchatData, deleteAchatData } from 
 import { RiDeleteBinFill } from "react-icons/ri";
 import { FaDeleteLeft } from "react-icons/fa6";
 import Switch from "@mui/material/Switch";
-
+import { Link } from 'react-router-dom'
 const Entree = () => {
     const [demandeCode, setDemandeCode] = useState('');
     const [projetCode, setProjetCode] = useState('');
@@ -429,7 +429,7 @@ const Entree = () => {
 
     const handleProjetCodeChange = (e) => {
         setProjetCode(e.target.value);
-        const selectedProjet = projetData.find(projet => projet.code_Projet == e.target.value);
+        const selectedProjet = projetData.find(projet => projet.code_Projet === e.target.value);
         if (selectedProjet) {
             setProjetDetails(selectedProjet);
         }
@@ -499,7 +499,8 @@ const Entree = () => {
                     )}
                     {demandeDetails && (
                         <div className="mr-2">
-                            <label className="block text-sm font-bold mb-2">Quantite:</label>
+                            {/* <label className="block text-sm font-bold mb-2">Quantite:</label> */}
+                            <label className="block text-sm font-bold mb-2">Quantite En Stock:</label>
                             <input type="text" value={demandeDetails.quantité} className="w-full border rounded py-2 px-3" disabled />
                         </div>
                     )}
@@ -520,8 +521,8 @@ const Entree = () => {
                     <label className="block text-sm font-bold mb-2 w-20">Quantite:</label>
                     <input type="number" value={quantite} placeholder='0' onChange={(e) => setQuantite(e.target.value)} className="w-full border rounded py-2 px-3" />
                 </div>
-                <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Delivery:</label>
+                <div className="mb-4 text-center">
+                    <label className="block text-sm font-bold mb-2 ">Delivery:</label>
                     <input
                         type="checkbox"
                         checked={checkDelivery}
@@ -558,7 +559,6 @@ const Entree = () => {
                                 <td className="border px-4 py-2">{achat.code_Projet}</td>
                                 <td className="border px-4 py-2">{achat.nom_Projet}</td>
                                 <td className="border px-4 py-2">{achat.date}</td>
-                                {/* <td className="border px-4 py-2">{achat.check_Delivery}</td> */}
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <Switch
                                         checked={achat.check_Delivery}
@@ -576,7 +576,7 @@ const Entree = () => {
                 </table>
                 <div className="mt-4 flex justify-center">
                     <button className="bg-customBlue text-white py-2 px-4 mx-2 rounded-md" onClick={handlePrint}>Imprimer</button>
-                    <button className="bg-customBlue text-white py-2 px-4 mx-2 rounded-md">Transformer</button>
+                    <Link to="/Livraison" className="bg-customBlue text-white py-2 px-4 mx-2 rounded-md">Transformer</Link>
                 </div>
             </div>
         </div>

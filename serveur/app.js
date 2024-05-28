@@ -15,8 +15,8 @@ const barcodeRoutes = require('./routes/barcodeRoutes');
 const demande = require("./routes/demandeRoutes")
 const projet = require("./routes/projetRoutes")
 const achatRoutes = require("./routes/achatRoutes")
-
-
+const vente = require("./routes/venteRoutes")
+const statsRoutes = require('./routes/statsRoutes');
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -38,12 +38,13 @@ app.use('/users', users);
 
 app.use('/', produits);
 app.use('/', achatRoutes);
+app.use('/', vente);
 app.use('/', fournisseur);
 app.use('/', client);
 app.use('/', user);
 app.use('/', demande);
 app.use('/', projet);
-
+app.use('/', statsRoutes);
 
 // app.use('/', barcodeRoutes);
 
