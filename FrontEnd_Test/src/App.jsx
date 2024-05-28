@@ -30,7 +30,7 @@ function App() {
                 <Route path="/" element={<PageDashboard />} exact />
                 <Route path="/products" element={<PageProducts/>} />
                 <Route path="/entree" element={<Entree/>} />
-                <Route path="/demande" element={<Demande/>} />
+                <Route path="/Livraison" element={<Demande/>} />
               </Route>
             </Route>
           </Routes>

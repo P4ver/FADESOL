@@ -201,7 +201,7 @@ const Entree = () => {
                 <div className="mt-4 flex justify-center">
                     <button className="bg-customBlue text-white py-2 px-4 mx-2 rounded-md" onClick={handlePrint}>Imprimer</button>
                     <button className="bg-customBlue text-white py-2 px-4 mx-2 rounded-md">Transformer</button>
-                    <Link to="/demande" className="bg-customBlue text-white py-2 px-4 mx-2 rounded-md">Voir Livraisons</Link>
+                    <Link to="/Livraison" className="bg-customBlue text-white py-2 px-4 mx-2 rounded-md">Voir Livraisons</Link>
                 </div>
             </div>
         </div>

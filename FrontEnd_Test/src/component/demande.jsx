@@ -273,7 +273,7 @@ const Livraisons = () => {
                             <th className="px-4 py-2">Code Projet</th>
                             <th className="px-4 py-2">Nom Projet</th>
                             <th className="px-4 py-2">Date</th>
-                            <th className="px-4 py-2">Action</th>
+                   
                         </tr>
                     </thead>
                     <tbody>
@@ -286,15 +286,16 @@ const Livraisons = () => {
                                 <td className="border px-4 py-2">{achat.code_Projet}</td>
                                 <td className="border px-4 py-2">{achat.nom_Projet}</td>
                                 <td className="border px-4 py-2">{achat.date}</td>
-                                <td className="border px-4 py-2 text-center">
-                                    <button onClick={() => handleDelete(achat.id_Achat)} className="text-red-600 hover:text-red-800">
-                                        <RiDeleteBinFill />
-                                    </button>
-                                </td>
+                               
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                <div className="mt-4 flex justify-center">
+                
+                    <button className="bg-customBlue text-white py-2 px-4 mx-2 rounded-md">Valider</button>
+               
+                </div>
             </div>
         </div>
     );
