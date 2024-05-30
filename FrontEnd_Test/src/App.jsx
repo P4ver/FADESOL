@@ -16,6 +16,7 @@ import Entree from './component/entree';
 import Livraisons from './component/Livraison';
 import Sortie from './component/sortie';
 import Dashboard from "./component/dashboard"
+import ListeDemandes from './component/listeDemande';
 function App() {
   return (
     <>
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/sortie" element={<Sortie/>} />
                 <Route path="/Livraison" element={<Livraisons/>} />
                 <Route path="/dashboard" element={<Dashboard/>} />
+                <Route path="/liste-demandes" element={<ListeDemandes />} />
               </Route>
             </Route>
           </Routes>

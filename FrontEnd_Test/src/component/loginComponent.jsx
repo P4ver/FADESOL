@@ -29,9 +29,11 @@ const LoginComponent = () => {
       const response = await axios.post('http://localhost:3000/auth/login', formData, {
         withCredentials: true,
       });
-      console.log('Login successful:', response.data);
+      console.log('Login successful:', response.config.data);
       localStorage.setItem('isAuthenticated', 'true');
-      dispatch(loginSuccess(response.data)); // Assuming response.data contains user info
+const objtext = response.config.data;
+const obj = JSON.parse(objtext)
+      dispatch(loginSuccess(obj)); // Assuming response.data contains user info
       navigate('/'); // Assuming navigate is defined somewhere
     } catch (error) {
       console.error('Login failed:', error);
