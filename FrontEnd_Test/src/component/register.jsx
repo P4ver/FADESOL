@@ -151,18 +151,6 @@ const Register = ()  =>{
             </div>
     </form>
 
-
-     {/* {registrationSuccess && (
-        <div className="fixed top-0 left-0 flex justify-center items-center w-full h-full bg-gray-100 bg-opacity-50">
-          <div className="relative bg-white rounded-lg p-8">
-            <h2 className="text-2xl p-2 font-bold mb-4">Inscription réussie !</h2>
-            <p>Votre compte a été enregistré avec succès.</p>
-            <button className="absolute bottom-0 right-[40%]  w-[20%] border bg-green-400 rounded-md text-white" onClick={redirectToLogin}>OK</button>
-          </div>
-        </div>
-      )}  */}
-
-         {/* <div class="flex h-screen items-center justify-center bg-gray-100 py-10"> */}
         {registrationSuccess && (
           <div class="fixed top-0 left-0 flex h-full w-full items-center justify-center bg-gray-100 bg-opacity-50 py-10">
           <div class="mx-auto max-w-md overflow-hidden rounded-3xl text-gray-700 shadow-md">

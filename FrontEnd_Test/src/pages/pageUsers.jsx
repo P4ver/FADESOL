@@ -38,38 +38,3 @@ const PageUsers = () => {
 };
 
 export default PageUsers;
-
-
-
-// import React from "react";
-// import { useSelector } from "react-redux";
-// import TableTest from '../component/table';
-
-// const PageUsers = () => {
-//   const authState = useSelector(state => state.auth);
-//   const userData = useSelector(state => state.user);
-//   const username = authState.user.username;
-
-//   const findUser = userData.userData.find(user => user.login_User === username);
-  
-//   if (!findUser) {
-//     return <div>User not found</div>;
-//   }
-
-//   const userRole = findUser.type_User;
-//   console.log("|---findRole--->", userRole);
-
-//   return (
-//     <div>
-//       {userRole === 'Super Admin' || userRole === 'Admin' ? (
-//         <TableTest />
-//       ) : (
-//         <div>You do not have access to this page.</div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default PageUsers;
-
-
