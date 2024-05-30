@@ -34,7 +34,7 @@ const LoginComponent = () => {
 const objtext = response.config.data;
 const obj = JSON.parse(objtext)
       dispatch(loginSuccess(obj)); // Assuming response.data contains user info
-      navigate('/'); // Assuming navigate is defined somewhere
+      navigate('/dashboard'); // Assuming navigate is defined somewhere
     } catch (error) {
       console.error('Login failed:', error);
       dispatch(loginFailure(error.message));
