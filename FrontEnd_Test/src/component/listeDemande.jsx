@@ -377,6 +377,7 @@
 
 // export default ListeDemandes;
 
+//woooooooooorks
 
 import { useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
@@ -431,29 +432,61 @@ const ListeDemandes = () => {
     setReceivedQuantities(updatedQuantities);
   };
 
+  // const handleSuiviLivraison = (index) => {
+  //   const receivedQuantity = parseInt(receivedQuantities[index] || 0, 10);
+  //   const updatedEntries = [...allAchatEntries];
+  //   const currentEntry = updatedEntries[index];
+
+  //   if (receivedQuantity > 0 && receivedQuantity <= currentEntry.quantite) {
+  //     currentEntry.quantite -= receivedQuantity;
+  //     currentEntry.status = currentEntry.quantite === 0 ? 'Livré' : 'Partiellement livré';
+
+  //     setAllAchatEntries(updatedEntries);
+
+  //     const keys = Object.keys(localStorage).filter(key => key.startsWith('achatEntries_'));
+  //     keys.forEach(key => {
+  //       const entries = JSON.parse(localStorage.getItem(key)) || [];
+  //       const entryIndex = entries.findIndex(entry => entry.id === currentEntry.id);
+  //       if (entryIndex !== -1) {
+  //         entries[entryIndex] = currentEntry;
+  //         localStorage.setItem(key, JSON.stringify(entries));
+  //       }
+  //     });
+  //   }
+  // };
   const handleSuiviLivraison = (index) => {
     const receivedQuantity = parseInt(receivedQuantities[index] || 0, 10);
     const updatedEntries = [...allAchatEntries];
     const currentEntry = updatedEntries[index];
-
+  
     if (receivedQuantity > 0 && receivedQuantity <= currentEntry.quantite) {
       currentEntry.quantite -= receivedQuantity;
       currentEntry.status = currentEntry.quantite === 0 ? 'Livré' : 'Partiellement livré';
-
+  
+      // Mettre à jour la quantité livrée dans localStorage
+      const deliveredEntries = JSON.parse(localStorage.getItem('deliveredEntries')) || [];
+      const deliveredEntryIndex = deliveredEntries.findIndex(entry => entry.idAchat === currentEntry.idAchat);
+  
+      if (deliveredEntryIndex !== -1) {
+        deliveredEntries[deliveredEntryIndex].quantiteLivre += receivedQuantity;
+      } else {
+        deliveredEntries.push({
+          idAchat: currentEntry.idAchat,
+          date: currentEntry.date,
+          utilisateur: user.username,
+          quantiteLivre: receivedQuantity
+        });
+      }
+  
+      localStorage.setItem('deliveredEntries', JSON.stringify(deliveredEntries));
+  
+      // Mettre à jour les autres entrées nécessaires (localStorage ou backend)
+  
+      // Mettre à jour l'état local
       setAllAchatEntries(updatedEntries);
-
-      const keys = Object.keys(localStorage).filter(key => key.startsWith('achatEntries_'));
-      keys.forEach(key => {
-        const entries = JSON.parse(localStorage.getItem(key)) || [];
-        const entryIndex = entries.findIndex(entry => entry.id === currentEntry.id);
-        if (entryIndex !== -1) {
-          entries[entryIndex] = currentEntry;
-          localStorage.setItem(key, JSON.stringify(entries));
-        }
-      });
     }
   };
-
+  
   return (
     <div className="container mx-auto p-4 w-full">
       <h2>Liste des demandes précédentes :</h2>
