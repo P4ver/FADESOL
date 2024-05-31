@@ -17,6 +17,7 @@ import Livraisons from './component/Livraison';
 import Sortie from './component/sortie';
 import Dashboard from "./component/dashboard"
 import ListeDemandes from './component/listeDemande';
+import DeliveredItemsPage from './component/livrePage';
 function App() {
   return (
     <>
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/Livraison" element={<Livraisons/>} />
                 <Route path="/dashboard" element={<Dashboard/>} />
                 <Route path="/liste-demandes" element={<ListeDemandes />} />
+                <Route path="/delivered" element={<DeliveredItemsPage />} />
               </Route>
             </Route>
           </Routes>
