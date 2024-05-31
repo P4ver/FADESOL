@@ -4,7 +4,7 @@ import { fetchDemandeData } from '../store/demandeSlice';
 import { fetchProjetData } from '../store/projetSlice';
 import { fetchVenteData , postVenteData, deleteVenteData} from '../store/venteSlice';
 import { fetchProductData } from '../store/productSlice';
-import { fetchAchatData, postAchatData, updateAchatData, deleteAchatData } from '../store/achatSlice';
+import { fetchAchatempoData} from '../store/achatempoSlice';
 import { RiDeleteBinFill } from "react-icons/ri";
 import { FaDeleteLeft } from "react-icons/fa6";
 import Switch from "@mui/material/Switch";
@@ -30,7 +30,7 @@ const Sortie = () => {
     useEffect(() => {
         dispatch(fetchDemandeData());
         dispatch(fetchProjetData());
-        dispatch(fetchAchatData());
+        dispatch(fetchAchatempoData());
         dispatch(fetchVenteData());
         dispatch(fetchProductData());
     }, [dispatch]);
@@ -181,7 +181,7 @@ export default Sortie;
 // import { fetchProjetData } from '../store/projetSlice';
 // import { fetchVenteData , postVenteData} from '../store/venteSlice';
 // import {fetchProductData} from '../store/productSlice'
-// import { fetchAchatData, postAchatData, updateAchatData, deleteAchatData } from '../store/achatSlice';
+// import { fetchAchatempoData} from '../store/achatSlice';
 // // import {}
 // import { RiDeleteBinFill } from "react-icons/ri";
 // import { FaDeleteLeft } from "react-icons/fa6";
@@ -204,7 +204,7 @@ export default Sortie;
 //     useEffect(() => {
 //         dispatch(fetchDemandeData());
 //         dispatch(fetchProjetData());
-//         dispatch(fetchAchatData());
+//         dispatch(fetchAchatempoData());
 //         dispatch(fetchVenteData());
 //         dispatch(fetchProductData());
 //     }, [dispatch]);

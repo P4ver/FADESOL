@@ -34,10 +34,10 @@ function App() {
                 <Route path="/products" element={<PageProducts/>} />
                 <Route path="/entree" element={<Entree/>} />
                 <Route path="/sortie" element={<Sortie/>} />
-                <Route path="/Livraison" element={<Livraisons/>} />
+                {/* <Route path="/Livraison" element={<Livraisons/>} /> */}
                 <Route path="/dashboard" element={<Dashboard/>} />
                 <Route path="/liste-demandes" element={<ListeDemandes />} />
-                <Route path="/delivered" element={<DeliveredItemsPage />} />
+                <Route path="/livraison" element={<DeliveredItemsPage />} />
               </Route>
             </Route>
           </Routes>

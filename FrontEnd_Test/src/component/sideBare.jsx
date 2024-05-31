@@ -215,7 +215,7 @@ const SideBare = () => {
                   </li>
                   <li className="pt-5">
                     <Link
-                      to="/Livraison"
+                      to="/livraison"
                       className="text-customGreen text-lg hover:text-gray-800"
                     >
                    
