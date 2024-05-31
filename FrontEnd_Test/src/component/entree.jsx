@@ -541,7 +541,10 @@ const Entree = () => {
     const demandeData = useSelector((state) => state.demande.demandeData);
     const projetData = useSelector((state) => state.projet.projetData);
     const [code_Achat, setCode_Achat] = useState('');
-
+    
+    const authState = useSelector(state => state.auth);
+    const user = authState.user;
+//   console.log("whoami", user.username)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -560,13 +563,15 @@ const Entree = () => {
         setLines(newLines);
     };
 
-
     const handleCode_AchatChange = (e) => {
         setCode_Achat(e.target.value);
     };
 
     const handleSubmit = async () => {
         try {
+            const currentDate = new Date(); // Get the current date and time
+            const formattedDate = currentDate.toISOString(); // Format the date as ISO string
+    
             for (const line of lines) {
                 if (line.demandeCode && line.projetCode && line.quantite) {
                     const achatPayload = {
@@ -576,19 +581,60 @@ const Entree = () => {
                         qte_En_Stock: demandeData.find(demande => demande.code === line.demandeCode)?.quantité || '',
                         code_Projet: line.projetCode,
                         nom_Projet: projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || '',
-                        check_Delivery: false, // Assuming default value
-                        code_Achat:5
+                        check_Delivery: false,
+                        code_Achat: code_Achat, // Adding code_Achat here
+                        user_Dmd: user.username,
+                        date: formattedDate // Add the formatted date to the payload
                     };
-                    await dispatch(postAchatData(achatPayload));
+                    const response = await dispatch(postAchatData(achatPayload));
+                    console.log("=======>",response)
+                    if (response.error) {
+                        throw new Error(response.error.message);
+                    }
+                    console.log("achatPayload", achatPayload);
                 }
             }
-            // Clear lines after successful submission
             setLines([{ demandeCode: '', projetCode: '', quantite: '' }]);
+            setCode_Achat(''); // Resetting code_Achat after submission
         } catch (error) {
-            console.error('Error submitting data:', error);
+            console.error('Error submitting data:', error.message);
         }
     };
     
+    
+
+    // const handleSubmit = async () => {
+    //     try {
+    //         for (const line of lines) {
+    //             if (line.demandeCode && line.projetCode && line.quantite) {
+    //                 const achatPayload = {
+    //                     code: line.demandeCode,
+    //                     designation: demandeData.find(demande => demande.code === line.demandeCode)?.designation || '',
+    //                     quantite: parseInt(line.quantite, 10),
+    //                     qte_En_Stock: demandeData.find(demande => demande.code === line.demandeCode)?.quantité || '',
+    //                     code_Projet: line.projetCode,
+    //                     nom_Projet: projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || '',
+    //                     check_Delivery: false,
+    //                     code_Achat: code_Achat, // Adding code_Achat here
+    //                     user_Dmd: user.username,
+    //                     date:"add date of now when i click create"
+    //                 };
+    //                 const response = await dispatch(postAchatData(achatPayload));
+    //                 console.log("=======>",response)
+    //                 if (response.error) {
+    //                     throw new Error(response.error.message);
+    //                 }
+    //                 console.log("achatPayload", achatPayload);
+    //             }
+    //         }
+    //         setLines([{ demandeCode: '', projetCode: '', quantite: '' }]);
+    //         setCode_Achat(''); // Resetting code_Achat after submission
+    //     } catch (error) {
+    //         console.error('Error submitting data:', error.message);
+    //     }
+    // };
+    
+
     return (
         <div className="container mx-auto p-4 w-full">
             <div className="text-center bg-customBlue text-white py-2 mb-4">
@@ -599,7 +645,6 @@ const Entree = () => {
                     <label className="block text-sm font-bold mb-2">Code Achat:</label>
                     <input type="text" value={code_Achat} placeholder='Code Achat' onChange={handleCode_AchatChange} className="w-full border rounded py-2 px-3" />
                 </div>
-                {/* <button onClick={handleAddLine} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 mt-6 px-10 rounded">Add Line</button> */}
             </div>
             {lines.map((line, index) => (
                 <div key={index}>
