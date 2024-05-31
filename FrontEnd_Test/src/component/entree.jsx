@@ -584,7 +584,8 @@ const Entree = () => {
                         check_Delivery: false,
                         code_Achat: code_Achat, // Adding code_Achat here
                         user_Dmd: user.username,
-                        date: formattedDate // Add the formatted date to the payload
+                        date: formattedDate, // Add the formatted date to the payload
+                        qte_Reçu:0
                     };
                     const response = await dispatch(postAchatData(achatPayload));
                     console.log("=======>",response)
