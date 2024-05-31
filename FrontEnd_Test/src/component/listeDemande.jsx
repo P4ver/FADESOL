@@ -202,7 +202,7 @@
 // export default ListeDemande;
 
 
-
+//classic
 // import React from 'react';
 // import { useSelector } from 'react-redux';
 
@@ -246,6 +246,103 @@
 // export default ListeDemande;
 
 
+// import React, { useState } from 'react';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { updateAchatData } from '../store/achatSlice';
+
+// function ListeDemande() {
+//     const { achatData } = useSelector(state => state.achat);
+//     const authState = useSelector(state => state.auth);
+//     const user = authState.user;
+//     const dispatch = useDispatch();
+
+//     const [updatedQuantites, setUpdatedQuantites] = useState({});
+
+//     // Filter the achatData based on the user_Dmd matching the current user's username
+//     const filteredAchatData = achatData.filter(data => data.user_Dmd === user.username);
+
+//     // const handleUpdateQuantite = (id_Achat) => {
+//     //     const updatedAchatData = updatedQuantites[id_Achat];
+//     //     // Ensure that updatedQuantite is not empty
+//     //     if (updatedAchatData && updatedAchatData.trim() !== '') {
+//     //         dispatch(updateAchatData({ id_Achat, updatedAchatData }));
+//     //         // Clear the updatedQuantites state after updating
+//     //         setUpdatedQuantites(prevState => ({
+//     //             ...prevState,
+//     //             [id_Achat]: ''
+//     //         }));
+//     //     } else {
+//     //         alert('Please enter a valid quantity.');
+//     //     }
+//     // };
+
+//     const handleUpdateQuantite = (id_Achat) => {
+//       const updatedAchatData = updatedQuantites[id_Achat];
+//       console.log("Updated Achat Data:", updatedAchatData); // Add this line to log the updated data
+//       // Ensure that updatedQuantite is not empty
+//       if (updatedAchatData && updatedAchatData.trim() !== '') {
+//           dispatch(updateAchatData({ id_Achat, updatedAchatData }));
+//           console.log(dispatch(updateAchatData({ id_Achat, updatedAchatData })))
+//           // Clear the updatedQuantites state after updating
+//           setUpdatedQuantites(prevState => ({
+//               ...prevState,
+//               [id_Achat]: ''
+//           }));
+//       } else {
+//           alert('Please enter a valid quantity.');
+//       }
+//   };
+  
+
+//     const handleChangeQuantite = (id_Achat, value) => {
+//         setUpdatedQuantites(prevState => ({
+//             ...prevState,
+//             [id_Achat]: value
+//         }));
+//     };
+
+//     return (
+//         <div>
+//             <h1>Achat Data Table</h1>
+//             <table>
+//                 <thead>
+//                     <tr>
+//                         <th>Code</th>
+//                         <th>Quantite en Stock</th>
+//                         <th>Quantite</th>
+//                         <th>User</th>
+//                         <th>Actions</th>
+//                     </tr>
+//                 </thead>
+//                 <tbody>
+//                     {filteredAchatData.map((data, index) => (
+//                         <tr key={index}>
+//                             <td>{data.code}</td>
+//                             <td>{data.qte_En_Stock}</td>
+//                             <td>
+//                                 <input
+//                                     type="number"
+//                                     value={updatedQuantites[data.id_Achat] || ''}
+//                                     onChange={(e) => handleChangeQuantite(data.id_Achat, e.target.value)}
+//                                 />
+//                             </td>
+//                             <td>{data.quantite}</td>
+//                             <td>{data.user_Dmd}</td>
+//                             <td>
+//                                 <button onClick={() => handleUpdateQuantite(data.id_Achat)}>Update Quantite</button>
+//                             </td>
+//                         </tr>
+//                     ))}
+//                 </tbody>
+//             </table>
+//         </div>
+//     );
+// }
+
+// export default ListeDemande;
+
+
+
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateAchatData } from '../store/achatSlice';
@@ -256,48 +353,38 @@ function ListeDemande() {
     const user = authState.user;
     const dispatch = useDispatch();
 
-    const [updatedQuantites, setUpdatedQuantites] = useState({});
-
     // Filter the achatData based on the user_Dmd matching the current user's username
     const filteredAchatData = achatData.filter(data => data.user_Dmd === user.username);
 
-    // const handleUpdateQuantite = (id_Achat) => {
-    //     const updatedAchatData = updatedQuantites[id_Achat];
-    //     // Ensure that updatedQuantite is not empty
-    //     if (updatedAchatData && updatedAchatData.trim() !== '') {
-    //         dispatch(updateAchatData({ id_Achat, updatedAchatData }));
-    //         // Clear the updatedQuantites state after updating
-    //         setUpdatedQuantites(prevState => ({
-    //             ...prevState,
-    //             [id_Achat]: ''
-    //         }));
-    //     } else {
-    //         alert('Please enter a valid quantity.');
-    //     }
-    // };
-
-    const handleUpdateQuantite = (id_Achat) => {
-      const updatedAchatData = updatedQuantites[id_Achat];
-      console.log("Updated Achat Data:", updatedAchatData); // Add this line to log the updated data
-      // Ensure that updatedQuantite is not empty
-      if (updatedAchatData && updatedAchatData.trim() !== '') {
-          dispatch(updateAchatData({ id_Achat, updatedAchatData }));
-          // Clear the updatedQuantites state after updating
-          setUpdatedQuantites(prevState => ({
-              ...prevState,
-              [id_Achat]: ''
-          }));
-      } else {
-          alert('Please enter a valid quantity.');
-      }
-  };
-  
-
-    const handleChangeQuantite = (id_Achat, value) => {
-        setUpdatedQuantites(prevState => ({
+    // State to manage the qte_Reçu inputs
+    const [qteRecu, setQteRecu] = useState({});
+    console.log(filteredAchatData)
+    // Handle input change
+    const handleInputChange = (id, value) => {
+        setQteRecu(prevState => ({
             ...prevState,
-            [id_Achat]: value
+            [id]: value,
         }));
+    };
+
+    // Handle form submission
+    const handleFormSubmit = async (id) => {
+        const quantityReceived = qteRecu[id];
+        if (quantityReceived !== undefined) {
+            try {
+                // Dispatch the updateAchatData action
+                await dispatch(updateAchatData({
+                    id_Achat: id,
+                    updatedAchatData: { qte_Reçu: quantityReceived }
+                }));
+                alert('Quantity received updated successfully!');
+            } catch (error) {
+                console.error('Error updating quantity received:', error);
+                alert('Failed to update quantity received.');
+            }
+        } else {
+            alert('Please enter a quantity received.');
+        }
     };
 
     return (
@@ -307,28 +394,35 @@ function ListeDemande() {
                 <thead>
                     <tr>
                         <th>Code</th>
+                        {/* <th>Designation</th> */}
                         <th>Quantite en Stock</th>
                         <th>Quantite</th>
                         <th>User</th>
-                        <th>Actions</th>
+                        <th>Quantite Reçu</th>
+                        <th>Quantite Reçu</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {filteredAchatData.map((data, index) => (
                         <tr key={index}>
                             <td>{data.code}</td>
+                            {/* <td>{data.designation}</td> */}
                             <td>{data.qte_En_Stock}</td>
-                            <td>
-                                <input
-                                    type="number"
-                                    value={updatedQuantites[data.id_Achat] || ''}
-                                    onChange={(e) => handleChangeQuantite(data.id_Achat, e.target.value)}
-                                />
-                            </td>
                             <td>{data.quantite}</td>
                             <td>{data.user_Dmd}</td>
                             <td>
-                                <button onClick={() => handleUpdateQuantite(data.id_Achat)}>Update Quantite</button>
+                                <input
+                                    type="number"
+                                    value={qteRecu[data.id_Achat] || ''}
+                                    onChange={(e) => handleInputChange(data.id_Achat, e.target.value)}
+                                    />
+                            </td>
+                            <td>
+                                {data.qte_Reçu}
+                            </td>
+                            <td>
+                                <button onClick={() => handleFormSubmit(data.id_Achat)}>Quantite Reçu</button>
                             </td>
                         </tr>
                     ))}
@@ -339,3 +433,5 @@ function ListeDemande() {
 }
 
 export default ListeDemande;
+
+

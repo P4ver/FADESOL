@@ -1,12 +1,13 @@
 const pool = require('../db');
 
+
 const createAchat = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        const { code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery, code_Achat, user_Dmd, qte_Reçu } = req.body; // Added check_Delivery
+        const { code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery } = req.body; // Added check_Delivery
         connection.query(
-            'INSERT INTO achat (code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery, code_Achat, user_Dmd, qte_Reçu) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-            [code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery, code_Achat, user_Dmd, qte_Reçu], // Included check_Delivery in values
+            'INSERT INTO achat (code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+            [code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery], // Included check_Delivery in values
             (err, result) => {
                 connection.release();
                 if (err) return res.status(500).send(err);
@@ -45,14 +46,27 @@ const getAchatDetails = (req, res) => {
     });
 };
 
+// Update achat
+// const updateAchat = (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         if (err) throw err;
+//         const { id_Achat } = req.params;
+//         const { code, code_Projet } = req.body;
+//         connection.query('UPDATE achat SET code = ?, code_Projet = ? WHERE id_Achat = ?', [code, code_Projet, id_Achat], (err, result) => {
+//             connection.release();
+//             if (err) return res.status(500).send(err);
+//             res.send('Achat updated.');
+//         });
+//     });
+// };
 const updateAchat = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         const { id_Achat } = req.params; // Extracting id_Achat from URL parameters
-        const { qte_Reçu } = req.body; // Extracting qte_Reçu from request body
+        const { check_Delivery } = req.body; // Extracting check_Delivery from request body
         connection.query(
-            'UPDATE achat SET qte_Reçu = ? WHERE id_Achat = ?',
-            [qte_Reçu, id_Achat],
+            'UPDATE achat SET check_Delivery = ? WHERE id_Achat = ?',
+            [check_Delivery, id_Achat],
             (err, result) => {
                 connection.release();
                 if (err) return res.status(500).send(err);
@@ -61,25 +75,6 @@ const updateAchat = (req, res) => {
         );
     });
 };
-// const updateAchat = (req, res) => {
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-//         const { id_Achat } = req.params; // Extracting id_Achat from URL parameters
-//         const { check_Delivery } = req.body; // Extracting check_Delivery from request body
-//         connection.query(
-//             'UPDATE achat SET check_Delivery = ? WHERE id_Achat = ?',
-//             [check_Delivery, id_Achat],
-//             (err, result) => {
-//                 connection.release();
-//                 if (err) return res.status(500).send(err);
-//                 res.send('Achat delivery status updated.');
-//             }
-//         );
-//     });
-// };
-
-
-
 // Delete achat
 const deleteAchat = (req, res) => {
     pool.getConnection((err, connection) => {

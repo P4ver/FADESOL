@@ -601,7 +601,6 @@ const Entree = () => {
         }
     };
     
-    
 
     // const handleSubmit = async () => {
     //     try {
