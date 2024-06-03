@@ -1,99 +1,125 @@
-// import React from 'react';
-// import { BrowserRouter, Route, Routes } from 'react-router-dom';
-// import { Provider } from 'react-redux';
-// import store from './store/store';
-// import Layout from './component/Layout/layout';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import React from 'react';
+import { Provider } from 'react-redux';
+import store from './store/store';
 // import Dashboard from './component/dashboard';
-// import Register from './component/register';
-// import LoginComponent from './component/loginComponent';
-// import PrivateRoute from './component/PrivateRoute';
-// import ErrorPage from './component/ErrorPage';
+import Register from './component/register';
+import './App.css';
+import LoginComponent from './component/loginComponent';
+import PrivateRoute from './component/PrivateRoute';
+import ErrorPage from './component/ErrorPage';
+import PageUsers from '../src/pages/pageUsers';
+import PageDashboard from '../src/pages/pageDashboard';
+import Layout from './component/layout';
+import PageProducts from './pages/pageProducts';
+import Entree from './component/entree';
+import Livraisons from './component/Livraison';
+import Sortie from './component/sortie';
+import Dashboard from "./component/dashboard"
+import ListeDemandes from './component/listeDemande';
+import DeliveredItemsPage from './component/livrePage';
+import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 
-// function App() {
-//   return (
-//     <Provider store={store}>
-//       <BrowserRouter>
-//         <Routes>
-//           {/* Use layout for routes that need it */}
-//           <Route
-//             element={
-//               <Layout>
-//                 {/* Protected routes */}
-//                 <Route
-//                   element={<PrivateRoute />}
-//                   path="/test"
-//                   exact
-//                 >
-//                   <Route path="/" element={<Dashboard />} />
-//                 </Route>
+// disableReactDevTools()
 
-//                 {/* Public routes */}
-//                 <Route path="/login" element={<LoginComponent />} />
-//                 <Route path="/register" element={<Register />} />
-//               </Layout>
-//             }
-//           />
-//           {/* Fallback route for 404 */}
-//           <Route path="/*" element={<ErrorPage />} />
-//         </Routes>
-//       </BrowserRouter>
-//     </Provider>
-//   );
-// }
-
-// export default App;
-
-
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
-  import React from 'react';
-  import { Provider } from 'react-redux';
-  import store from './store/store'
-  // import Login from './component/oldComponent/login'
-  // import ProductComponent from './component/ProductComponent'
-  // import UserComponent from './component/userComponent'
-  import Dashboard from './component/dashboard'
-  import Register from './component/register'
-  import './App.css'
-  import LoginComponent from './component/loginComponent';
-  import PrivateRoute from './component/PrivateRoute';
-  import ErrorPage from './component/ErrorPage';
-
-  function App() {
-
-    return (
-      <>
+function App() {
+  return (
+    <>
       <Provider store={store}>
         <BrowserRouter>
           <Routes>
-             <Route element={<PrivateRoute />}>
-                <Route element={<Dashboard/>} path='/test' exact/>
-             </Route>
-             <Route path="/login" element={<LoginComponent/>} />
-             <Route path="/register" element={<Register/>} />
-             <Route path="/*" element={<ErrorPage/>} />
+            <Route path="/login" element={<LoginComponent />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/*" element={<ErrorPage />} />
+            <Route element={<PrivateRoute />}>
+              <Route element={<Layout />}>
+                <Route path="/users" element={<PageUsers />} />
+                <Route path="/" element={<PageDashboard />} exact />
+                <Route path="/products" element={<PageProducts/>} />
+                <Route path="/entree" element={<Entree/>} />
+                <Route path="/sortie" element={<Sortie/>} />
+                {/* <Route path="/Livraison" element={<Livraisons/>} /> */}
+                <Route path="/dashboard" element={<Dashboard/>} />
+                <Route path="/liste-demandes" element={<ListeDemandes />} />
+                <Route path="/livraison" element={<DeliveredItemsPage />} />
+              </Route>
+            </Route>
           </Routes>
         </BrowserRouter>
       </Provider>
-      </>
-    )
-  }
+    </>
+  );
+}
 
-  export default App
-  
-  {/* <Route path="/user" element={<UserComponent/>} />
-  <Route path="/produits" element={<ProductComponent/>} /> */}
-  {/* <Route path="/login" element={<LoginComponent/>} />
-  <Route path="/test" element={ <Dashboard />} /> */}
-  // const [isAuthenticated, setIsAuthenticated] = useState(true);
-  // console.log("=====>",isAuthenticated)
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // useEffect(() => {
-  //   // Check if user is authenticated
-  //   const isAuth = localStorage.getItem('isAuth');
-  //   setIsLoggedIn(!!isAuth); // Convert string to boolean
-  // }, []);
+export default App;
 
 
-  {/* <Route path="/login" element={<Login/>} /> */}
-  {/* <Route path="/test" element={<Dashboard/>} /> */}
+// import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+// import React from 'react';
+// import { Provider } from 'react-redux';
+// import store from './store/store';
+// import Dashboard from './component/dashboard';
+// import Register from './component/register';
+// import './App.css';
+// import LoginComponent from './component/loginComponent';
+// import PrivateRoute from './component/PrivateRoute';
+// import ErrorPage from './component/ErrorPage';
+// import PageUsers from './component/pages/pageusers';
+// import Layout from './component/layout'; // Import the Layout component
+// import pageDashboard from './component/pages/pageDashboard';
+// function App() {
+//   return (
+//     <>
+//       <Provider store={store}>
+//         <BrowserRouter>
+//           <Routes>
+//             <Route path="/login" element={<LoginComponent />} />
+//             <Route path="/register" element={<Register />} />
+//             <Route path="/*" element={<ErrorPage />} /
+//             <Route element={<PrivateRoute />}>
+//               <Route element={<Layout />}>
+//                 <Route path="/users" element={<PageUsers />} />
+//                 <Route path="/test" element={<pageDashboard />}  />
+//                 {/* <Route path="/test" element={<Dashboard />} exact /> */}
+//               </Route>
+//             </Route>
+//           </Routes>
+//         </BrowserRouter>
+//       </Provider>
+//     </>
+//   );
+// }
+// export default App;
+// import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+//   import React from 'react';
+//   import { Provider } from 'react-redux';
+//   import store from './store/store'
+//   import Dashboard from './component/dashboard'
+//   import Register from './component/register'
+//   import './App.css'
+//   import LoginComponent from './component/loginComponent';
+//   import PrivateRoute from './component/PrivateRoute';
+//   import ErrorPage from './component/ErrorPage';
+// import PageUsers from './component/pages/pageusers';
+// // import pageDashboard from './component/pages/pageDashboard';
+//   function App() {
+//     return (
+//       <>
+//       <Provider store={store}>
+//         <BrowserRouter>
+//           <Routes>
+//              <Route path="/login" element={<LoginComponent/>} />
+//              <Route element={<PrivateRoute />}>
+//                 <Route element={<Dashboard/>} path='/test' exact/>
+//              </Route>
+//              <Route path="/register" element={<Register/>} />
+//              <Route path="/*" element={<ErrorPage/>} />
+//              <Route path="/users" element={<PageUsers/>} />
+//           </Routes>
+//         </BrowserRouter>
+//       </Provider>
+//       </>
+//     )
+//   }
+//   export default App
+    {/* <Route element={<pageDashboard/>} path='/test' exact/> */}

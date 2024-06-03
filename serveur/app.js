@@ -11,8 +11,13 @@ const produits = require('./routes/productRoutes')
 const fournisseur = require("./routes/fournisseurRoutes")
 const client = require("./routes/clientRoutes")
 const user = require("./routes/userRoutes")
-
-
+const barcodeRoutes = require('./routes/barcodeRoutes');
+const demande = require("./routes/demandeRoutes")
+const projet = require("./routes/projetRoutes")
+const achatRoutes = require("./routes/achatempoRoutes")
+const achat = require("./routes/achatRoutes")
+const vente = require("./routes/venteRoutes")
+const statsRoutes = require('./routes/statsRoutes');
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -23,17 +28,27 @@ app.use(cors(
   }
 ));
 
+
+
+
+
 // Routes d'authentification
 app.use('/auth', auth);
 // Routes des fonctionnalités utilisateur
 app.use('/users', users);
 
 app.use('/', produits);
-
+app.use('/', achatRoutes);
+app.use('/', achat);
+app.use('/', vente);
 app.use('/', fournisseur);
 app.use('/', client);
 app.use('/', user);
+app.use('/', demande);
+app.use('/', projet);
+app.use('/', statsRoutes);
 
+// app.use('/', barcodeRoutes);
 
 
 app.listen(3000, () => {
