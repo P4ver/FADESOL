@@ -18,6 +18,10 @@ import Sortie from './component/sortie';
 import Dashboard from "./component/dashboard"
 import ListeDemandes from './component/listeDemande';
 import DeliveredItemsPage from './component/livrePage';
+import { disableReactDevTools } from '@fvilers/disable-react-devtools';
+
+// disableReactDevTools()
+
 function App() {
   return (
     <>

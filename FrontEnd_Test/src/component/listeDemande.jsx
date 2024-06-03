@@ -1228,7 +1228,7 @@ function ListeDemande() {
           </IconButton>
         </Modal>
       )}
-      <div id="print-area" className={classes.printArea}>
+      {/* <div id="print-area" className={classes.printArea}>
         <div className='w-32 mx-auto'>
           <img src={logo} alt="Logo" />
         </div>
@@ -1291,15 +1291,100 @@ function ListeDemande() {
         <div className='my-[60px] float-end'>
           <p>Signature__________________________</p>
         </div>
-      </div>
-       {/* <Button
-         variant="contained"
-         color="secondary"
-         onClick={handleDeleteDuplicates}
-         style={{ marginTop: 20, marginLeft: 10 }}
-       >
-         Delete Duplicates
-       </Button> */}
+      </div> */}
+{/* <div id="print-area" className={`${classes.printArea}`}>
+  <div className=' w-32 mx-auto'>
+    <img src={logo} alt="Logo" />
+  </div>
+  <h5 className='mt-4'>Demande Achat</h5>
+  <table className='w-2/5'>
+    <tbody>
+      {[
+        { label: 'Code Achat', value: selectedAchat?.code_Achat },
+        { label: 'Date', value: selectedAchat?.date ? new Date(selectedAchat.date).toISOString().split('T')[0] : '' },
+        { label: 'User', value: selectedAchat?.user_Dmd }
+      ].map((item, idx) => (
+        <tr key={idx}>
+          <td><h6>{item.label}</h6></td>
+          <td>: {item.value}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <div className='my-4'>
+    <table className={`${classes.table} w-full border-collapse border border-gray-500 rounded-lg shadow-sm`}>
+      <thead>
+        <tr>
+          <td className="border  text-[12px] text-center">Code</td>
+          <td className="border  text-[12px] text-center">Designation</td>
+          <td className="border  text-[12px] text-center">Quantité</td>
+          <td className="border  text-[12px] text-center">Projet</td>
+        </tr>
+      </thead>
+      <tbody>
+        {achatempoData.filter(a => a.code_Achat === selectedAchat?.code_Achat).map((item, idx) => (
+          <tr key={idx}>
+            <td className="border  text-[12px] text-center">{item.code}</td>
+            <td className="border  text-[12px] text-center">{item.designation}</td>
+            <td className="border  text-[12px] text-center">{item.quantite}</td>
+            <td className="border  text-[12px] text-center">{item.nom_Projet}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <div className='my-2 float-right'><p>Signature____________</p></div>
+</div> */}
+<div id="print-area" className={`${classes.printArea}`}>
+  <div className='w-32 mx-auto'>
+    <img src={logo} alt="Logo" />
+  </div>
+  <h5 className='mt-4'>Demande Achat</h5>
+
+  <table className='w-2/5 shadow-y-lg'> 
+    <tbody>
+      {[
+        { label: 'Code Achat', value: selectedAchat?.code_Achat },
+        { label: 'Date', value: selectedAchat?.date ? new Date(selectedAchat.date).toISOString().split('T')[0] : '' },
+        { label: 'User', value: selectedAchat?.user_Dmd }
+      ].map((item, idx) => (
+        <tr key={idx}>
+          <td><h6>{item.label}</h6></td>
+          <td>: {item.value}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <br />
+  <br />
+  <div className='my-4'>
+    <table className={`${classes.table} w-full border-collapse border border-green-800 rounded-lg shadow-sm`}> 
+      <thead>
+        <tr className='border'>
+          <td className="border  text-[13px] font-medium text-center">Code</td>
+          <td className="border  text-[13px] font-medium text-center">Designation</td>
+          <td className="border  text-[13px] font-medium text-center">Quantité</td>
+          <td className="border  text-[13px] font-medium text-center">Projet</td>
+        </tr>
+      </thead>
+      <tbody>
+        {achatempoData.filter(a => a.code_Achat === selectedAchat?.code_Achat).map((item, idx) => (
+          <tr key={idx} className='border'>
+            <td className=" border text-[13px] text-center">{item.code}</td>
+            <td className=" border text-[13px] text-center">{item.designation}</td>
+            <td className=" border text-[13px] text-center">{item.quantite}</td>
+            <td className=" border text-[13px] text-center">{item.nom_Projet}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <br />
+  <div className='my-2 float-right'><p>Signature_____________________</p></div>
+</div>
+
+
+
     </Box>
   );
 }

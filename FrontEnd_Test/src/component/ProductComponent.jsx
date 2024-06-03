@@ -296,7 +296,7 @@ useEffect(() => {
                                 <TableCell>Description article</TableCell>
                                 <TableCell>Groupe d'articles</TableCell>
                                 <TableCell>Date d'actualisation</TableCell>
-                                <TableCell>id</TableCell>
+                                {/* <TableCell>id</TableCell> */}
                                 <TableCell>Published</TableCell>
                                 <TableCell align="center">Actions</TableCell>
                             </TableRow>
@@ -313,7 +313,7 @@ useEffect(() => {
                                     <TableCell>{product.Description_Article}</TableCell>
                                     <TableCell>{product.Groupe_Articles}</TableCell>
                                     <TableCell>{product.Date_Actualisation}</TableCell>
-                                    <TableCell>{product.id_Article}</TableCell>
+                                    {/* <TableCell>{product.id_Article}</TableCell> */}
                                     <TableCell>
                                         <Switch
                                             checked={product.published}
