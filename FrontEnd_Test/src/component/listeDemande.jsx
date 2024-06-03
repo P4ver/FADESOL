@@ -1108,7 +1108,7 @@ function ListeDemande() {
 
   return (
     <Box padding={3}>
-      <Typography variant="h4" gutterBottom>Achat Data Table</Typography>
+      <Typography variant="h4" gutterBottom>Demande Table</Typography>
       <TableContainer component={Paper}>
         <Table className={classes.table} size="small">
           <TableHead>
@@ -1130,12 +1130,16 @@ function ListeDemande() {
                   <TableCell>{getGeneralStatus(achat.code_Achat)}</TableCell>
                   <TableCell>
                     <IconButton onClick={() => openModal(achat)}>
-                      <FaEye />
+                      <div className='text-blue-600'>
+                        <FaEye />
+                      </div>
                     </IconButton>
                   </TableCell>
                   <TableCell>
                     <IconButton onClick={() => handleDelete(achat.id_Achat)}>
-                      <FaTimes />
+                      <div className='text-red-700'>
+                        <FaTimes />
+                      </div>
                     </IconButton>
                   </TableCell>
                 </TableRow>
@@ -1165,7 +1169,7 @@ function ListeDemande() {
                   <TableCell>Quantité</TableCell>
                   <TableCell>Quantité Reçue</TableCell>
                   <TableCell>Status</TableCell>
-                  <TableCell>Action</TableCell>
+                  {/* <TableCell>Action</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -1183,14 +1187,14 @@ function ListeDemande() {
                       />
                     </TableCell>
                     <TableCell>{getStatus(item.quantite, qteRecu[item.id_Achat] || item.qte_Reçu)}</TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       <IconButton
                         onClick={() => handleFormSubmit(item.id_Achat)}
                         className={classes.updateButton}
                       >
                         <FaPencilAlt />
                       </IconButton>
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>

@@ -343,8 +343,9 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, Modal, Button } from '@mui/material';
-import { FaCheck } from 'react-icons/fa';
+import { FaCheck ,FaEye} from 'react-icons/fa';
 
+// import { , FaPencilAlt, FaCheck, FaTimes, FaTruck, FaPrint } from 'react-icons/fa';
 
 const DeliveredItemsPage = () => {
   const { achatempoData } = useSelector(state => state.achatempo);
@@ -397,12 +398,17 @@ const DeliveredItemsPage = () => {
                   <TableCell>{item.code_Achat}</TableCell>
                   <TableCell>{item.user_Dmd}</TableCell>
                   <TableCell>
-                    <span>
-                      <FaCheck /> Livré
+                    <span className='text-green-600'>
+                      <FaCheck />
                     </span>
+                      Livré
                   </TableCell>
                   <TableCell>
-                    <Button variant="outlined" onClick={() => handleExpand(item.code_Achat)}>View</Button>
+                    <Button  onClick={() => handleExpand(item.code_Achat)}>
+                    <div className='text-xlg text-center'>
+                      <FaEye />
+                    </div>
+                    </Button>
                   </TableCell>
                 </TableRow>
               );
