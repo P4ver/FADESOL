@@ -792,7 +792,7 @@ import { makeStyles } from '@mui/styles';
 import { confirmAlert } from 'react-confirm-alert'; // Import confirmation dialog
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import confirmation dialog styles
 import logo from '../pictures/logo.png';
-import { fetchAchatData, postAchatData } from '../store/achatSlice';
+import { fetchAchatData, postAchatData, deleteAchatData } from '../store/achatSlice';
 
 Modal.setAppElement('#root');
 
@@ -976,23 +976,63 @@ function ListeDemande() {
   //     alert('Failed to update quantities.');
   //   }
   // };
-
+  useEffect(() => {
+    const handleDeleteDuplicates = async () => {
+      try {
+        const achatMap = {};
+        const duplicates = [];
+  
+        achatData.forEach(achat => {
+          const key = `${achat.code}-${achat.code_Projet}-${achat.designation}-${achat.quantite}-${achat.nom_Projet}-${achat.date}-${achat.code_Achat}-${achat.user_Dmd}`;
+          if (achatMap[key]) {
+            duplicates.push(achat.id_Achat);
+          } else {
+            achatMap[key] = true;
+          }
+        });
+  
+        const deletePromises = duplicates.map(id => dispatch(deleteAchatData(id)));
+        await Promise.all(deletePromises);
+      } catch (error) {
+        console.error('Error deleting duplicates:', error);
+        alert('Failed to delete duplicates.');
+      }
+    };
+  
+    handleDeleteDuplicates();
+  }, [achatData, qteRecu]);
+  
   const handleValidation = async () => {
     try {
-      const promises = Object.keys(qteRecu).map(id =>
+      // First, update all quantities in achatempo
+      const updatePromises = Object.keys(qteRecu).map(id =>
         dispatch(updateAchatempoData({
           id_Achat: id,
           updatedAchatempoData: { qte_Reçu: qteRecu[id] }
         }))
       );
-      await Promise.all(promises);
+      await Promise.all(updatePromises);
       setUpdateSuccess(true);
       setModalIsOpen(false); // Close the modal after validation
   
+      // Function to check if an item already exists in the achat table
+      const itemExistsInAchat = (item) => {
+        return achatData.some(achat =>
+          achat.code === item.code &&
+          achat.code_Projet === item.code_Projet &&
+          achat.designation === item.designation &&
+          achat.quantite === item.quantite &&
+          achat.nom_Projet === item.nom_Projet &&
+          achat.date === item.date &&
+          achat.code_Achat === item.code_Achat &&
+          achat.user_Dmd === item.user_Dmd
+        );
+      };
+  
       // Check the status of each demand and add to achatData if 'livré'
-      filteredAchatData.forEach(async item => {
+      const addAchatPromises = filteredAchatData.map(async item => {
         const quantityReceived = qteRecu[item.id_Achat] !== undefined ? qteRecu[item.id_Achat] : item.qte_Reçu;
-        if (item.quantite === quantityReceived) {
+        if (item.quantite === quantityReceived && !itemExistsInAchat(item)) {
           await dispatch(postAchatData({
             code: item.code,
             code_Projet: item.code_Projet,
@@ -1005,6 +1045,8 @@ function ListeDemande() {
           }));
         }
       });
+  
+      await Promise.all(addAchatPromises);
   
     } catch (error) {
       console.error('Error updating quantities:', error);
@@ -1039,6 +1081,30 @@ function ListeDemande() {
 
     return 'Pending';
   };
+
+  const handleDeleteDuplicates = async () => {
+  try {
+    const achatMap = {};
+    const duplicates = [];
+
+    achatData.forEach(achat => {
+      const key = `${achat.code}-${achat.code_Projet}-${achat.designation}-${achat.quantite}-${achat.nom_Projet}-${achat.date}-${achat.code_Achat}-${achat.user_Dmd}`;
+      if (achatMap[key]) {
+        duplicates.push(achat.id_Achat);
+      } else {
+        achatMap[key] = true;
+      }
+    });
+
+    const deletePromises = duplicates.map(id => dispatch(deleteAchatData(id)));
+    await Promise.all(deletePromises);
+    window.location.reload();
+  } catch (error) {
+    console.error('Error deleting duplicates:', error);
+    alert('Failed to delete duplicates.');
+  }
+};
+
 
   return (
     <Box padding={3}>
@@ -1222,9 +1288,447 @@ function ListeDemande() {
           <p>Signature__________________________</p>
         </div>
       </div>
-
+       {/* <Button
+         variant="contained"
+         color="secondary"
+         onClick={handleDeleteDuplicates}
+         style={{ marginTop: 20, marginLeft: 10 }}
+       >
+         Delete Duplicates
+       </Button> */}
     </Box>
   );
 }
 
 export default ListeDemande;
+
+
+
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { fetchAchatempoData, updateAchatempoData, deleteAchatempoData } from '../store/achatempoSlice';
+// import Modal from 'react-modal';
+// import { FaEye, FaPencilAlt, FaCheck, FaTimes, FaTruck, FaPrint } from 'react-icons/fa';
+// import {
+//   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+//   Paper, IconButton, TextField, Button, Typography, Box
+// } from '@mui/material';
+// import { makeStyles } from '@mui/styles';
+// import { confirmAlert } from 'react-confirm-alert';
+// import 'react-confirm-alert/src/react-confirm-alert.css';
+// import logo from '../pictures/logo.png';
+// import { fetchAchatData, postAchatData, deleteAchatData } from '../store/achatSlice';
+
+// Modal.setAppElement('#root');
+
+// const useStyles = makeStyles({
+//   table: {
+//     minWidth: 650,
+//   },
+//   modal: {
+//     position: 'absolute',
+//     top: '50%',
+//     left: '50%',
+//     transform: 'translate(-50%, -50%)',
+//     width: '80%',
+//     maxWidth: 800,
+//     backgroundColor: 'white',
+//     boxShadow: 24,
+//     padding: 20,
+//   },
+//   modalHeader: {
+//     display: 'flex',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     marginBottom: 20,
+//   },
+//   input: {
+//     marginBottom: '10px',
+//     width: '100px', // Adjusted width for quantity input
+//   },
+//   updateButton: {
+//     marginLeft: 10,
+//   },
+//   statusIcon: {
+//     marginRight: 5,
+//     verticalAlign: 'middle',
+//   },
+//   validateButton: {
+//     marginTop: 10,
+//   },
+//   printArea: {
+//     display: 'none',
+//   },
+// });
+
+// function ListeDemande() {
+//   const classes = useStyles();
+//   const { achatempoData } = useSelector(state => state.achatempo);
+//   const { achatData } = useSelector(state => state.achat);
+//   const authState = useSelector(state => state.auth);
+//   const user = authState.user;
+//   const dispatch = useDispatch();
+
+//   useEffect(() => {
+//     dispatch(fetchAchatData());
+//     dispatch(fetchAchatempoData());
+//   }, [dispatch]);
+
+//   const filteredAchatData = achatempoData.filter(data => data.user_Dmd === user.username);
+//   const [qteRecu, setQteRecu] = useState({});
+//   const [updateSuccess, setUpdateSuccess] = useState(false);
+//   const [modalIsOpen, setModalIsOpen] = useState(false);
+//   const [selectedAchat, setSelectedAchat] = useState(null);
+
+//   const handleInputChange = (id, value) => {
+//     setQteRecu(prevState => ({
+//       ...prevState,
+//       [id]: value,
+//     }));
+//   };
+
+//   const handleFormSubmit = async (id) => {
+//     const quantityReceived = qteRecu[id];
+//     if (quantityReceived !== undefined) {
+//       try {
+//         await dispatch(updateAchatempoData({
+//           id_Achat: id,
+//           updatedAchatempoData: { qte_Reçu: quantityReceived }
+//         }));
+//         setUpdateSuccess(true);
+//       } catch (error) {
+//         console.error('Error updating quantity received:', error);
+//         alert('Failed to update quantity received.');
+//       }
+//     } else {
+//       alert('Please enter a quantity received.');
+//     }
+//   };
+
+//   const handleDelete = (id) => {
+//     confirmAlert({
+//       title: 'Confirmation',
+//       message: 'Are you sure you want to delete this demand?',
+//       buttons: [
+//         {
+//           label: 'Yes',
+//           onClick: () => dispatch(deleteAchatempoData(id)), // Implement delete action
+//         },
+//         {
+//           label: 'No',
+//           onClick: () => {},
+//         }
+//       ]
+//     });
+//   };
+
+//   useEffect(() => {
+//     if (updateSuccess) {
+//       window.location.reload(); // Reload the page to update data
+//     }
+//   }, [updateSuccess]);
+
+//   const getStatus = (quantite, qteRecu) => {
+//     if (qteRecu == 0) {
+//       return (
+//         <span>
+//           <FaTruck className={classes.statusIcon} /> Pending
+//         </span>
+//       );
+//     } else if (quantite > qteRecu) {
+//       return (
+//         <span>
+//           <FaTruck className={classes.statusIcon} /> Partiellement livré
+//         </span>
+//       );
+//     } else if (quantite == qteRecu) {
+//       return (
+//         <span>
+//           <FaCheck className={classes.statusIcon} /> Livré
+//         </span>
+//       );
+//     } else {
+//       return 'Unknown';
+//     }
+//   };
+
+//   const openModal = (achat) => {
+//     setSelectedAchat(achat);
+//     setModalIsOpen(true);
+//   };
+
+//   const closeModal = () => {
+//     setModalIsOpen(false);
+//     setSelectedAchat(null);
+//   };
+
+//   const uniqueCodeAchats = [...new Set(filteredAchatData.map(data => data.code_Achat))];
+
+//   const handleValidation = async () => {
+//     try {
+//       // First, update all quantities in achatempo
+//       const updatePromises = Object.keys(qteRecu).map(id =>
+//         dispatch(updateAchatempoData({
+//           id_Achat: id,
+//           updatedAchatempoData: { qte_Reçu: qteRecu[id] }
+//         }))
+//       );
+//       await Promise.all(updatePromises);
+//       setUpdateSuccess(true);
+//       setModalIsOpen(false); // Close the modal after validation
+  
+//       // Function to check if an item already exists in the achat table
+//       const itemExistsInAchat = (item) => {
+//         return achatData.some(achat =>
+//           achat.code === item.code &&
+//           achat.code_Projet === item.code_Projet &&
+//           achat.designation === item.designation &&
+//           achat.quantite === item.quantite &&
+//           achat.nom_Projet === item.nom_Projet &&
+//           achat.date === item.date &&
+//           achat.code_Achat === item.code_Achat &&
+//           achat.user_Dmd === item.user_Dmd
+//         );
+//       };
+  
+//       // Check the status of each demand and add to achatData if 'livré'
+//       const addAchatPromises = filteredAchatData.map(async item => {
+//         const quantityReceived = qteRecu[item.id_Achat] !== undefined ? qteRecu[item.id_Achat] : item.qte_Reçu;
+//         if (item.quantite === quantityReceived && !itemExistsInAchat(item)) {
+//           await dispatch(postAchatData({
+//             code: item.code,
+//             code_Projet: item.code_Projet,
+//             designation: item.designation,
+//             quantite: item.quantite,
+//             nom_Projet: item.nom_Projet,
+//             date: item.date,
+//             code_Achat: item.code_Achat,
+//             user_Dmd: item.user_Dmd
+//           }));
+//         }
+//       });
+  
+//       await Promise.all(addAchatPromises);
+  
+//     } catch (error) {
+//       console.error('Error updating quantities:', error);
+//       alert('Failed to update quantities.');
+//     }
+//   };
+
+//   const handlePrint = () => {
+//     const printContents = document.getElementById('print-area').innerHTML;
+//     const originalContents = document.body.innerHTML;
+//     document.body.innerHTML = printContents;
+//     window.print();
+//     document.body.innerHTML = originalContents;
+//     window.location.reload();
+//   };
+
+//   const getGeneralStatus = (codeAchat) => {
+//     const relatedDemands = filteredAchatData.filter(data => data.code_Achat === codeAchat);
+
+//     if (relatedDemands.every(demand => demand.qte_Reçu === 0)) {
+//       return 'Pending';
+//     }
+
+//     if (relatedDemands.every(demand => demand.qte_Reçu === demand.quantite)) {
+//       return 'Livré';
+//     }
+
+//     if (relatedDemands.some(demand => demand.qte_Reçu > 0 && demand.qte_Reçu < demand.quantite)) {
+//       return 'Partiellement livré';
+//     }
+
+//     return 'Pending';
+//   };
+
+//   const handleDeleteDuplicates = async () => {
+//     try {
+//       const achatMap = {};
+//       const duplicates = [];
+
+//       achatData.forEach(achat => {
+//         const key = `${achat.code}-${achat.code_Projet}-${achat.designation}-${achat.quantite}-${achat.nom_Projet}-${achat.date}-${achat.code_Achat}-${achat.user_Dmd}`;
+//         if (achatMap[key]) {
+//           duplicates.push(achat.id_Achat);
+//         } else {
+//           achatMap[key] = true;
+//         }
+//       });
+
+//       const deletePromises = duplicates.map(id => dispatch(deleteAchatData(id)));
+//       await Promise.all(deletePromises);
+//       window.location.reload();
+//     } catch (error) {
+//       console.error('Error deleting duplicates:', error);
+//       alert('Failed to delete duplicates.');
+//     }
+//   };
+
+//   return (
+//     <Box padding={3}>
+//       <Typography variant="h4" gutterBottom>Achat Data Table</Typography>
+//       <TableContainer component={Paper}>
+//         <Table className={classes.table} size="small">
+//           <TableHead>
+//             <TableRow>
+//               <TableCell>Code-Achat</TableCell>
+//               <TableCell>User</TableCell>
+//               <TableCell>Status</TableCell>
+//               <TableCell>Suivi Status</TableCell>
+//               <TableCell>Action</TableCell> {/* Added column for delete action */}
+//             </TableRow>
+//           </TableHead>
+//           <TableBody>
+//             {uniqueCodeAchats.map((codeAchat, index) => {
+//               const achat = filteredAchatData.find(data => data.code_Achat === codeAchat);
+//               return (
+//                 <TableRow key={index}>
+//                   <TableCell>{achat.code_Achat}</TableCell>
+//                   <TableCell>{achat.user_Dmd}</TableCell>
+//                   <TableCell>{getGeneralStatus(achat.code_Achat)}</TableCell>
+//                   <TableCell>
+//                     <IconButton onClick={() => openModal(achat)}>
+//                       <FaEye />
+//                     </IconButton>
+//                   </TableCell>
+//                   <TableCell>
+//                     <IconButton onClick={() => handleDelete(achat.id_Achat)}>
+//                       <FaTimes />
+//                     </IconButton>
+//                   </TableCell>
+//                 </TableRow>
+//               );
+//             })}
+//           </TableBody>
+//         </Table>
+//       </TableContainer>
+//       {selectedAchat && (
+//         <Modal
+//           isOpen={modalIsOpen}
+//           onRequestClose={closeModal}
+//           contentLabel="Update Quantities"
+//           className={classes.modal}
+//         >
+//           <div className={classes.modalHeader}>
+//             <Typography variant="h6">Update Quantities</Typography>
+//             <IconButton onClick={closeModal}>
+//               <FaTimes />
+//             </IconButton>
+//           </div>
+//           <TableContainer component={Paper}>
+//             <Table className={classes.table} size="small">
+//               <TableHead>
+//                 <TableRow>
+//                   <TableCell>Item Code</TableCell>
+//                   <TableCell>Item Name</TableCell>
+//                   <TableCell>Ordered Quantity</TableCell>
+//                   <TableCell>Received Quantity</TableCell>
+//                   <TableCell>Update Quantity</TableCell>
+//                 </TableRow>
+//               </TableHead>
+//               <TableBody>
+//                 {filteredAchatData
+//                   .filter(data => data.code_Achat === selectedAchat.code_Achat)
+//                   .map((data) => (
+//                     <TableRow key={data.id_Achat}>
+//                       <TableCell>{data.code}</TableCell>
+//                       <TableCell>{data.designation}</TableCell>
+//                       <TableCell>{data.quantite}</TableCell>
+//                       <TableCell>{data.qte_Reçu}</TableCell>
+//                       <TableCell>
+//                         <TextField
+//                           type="number"
+//                           value={qteRecu[data.id_Achat] || ''}
+//                           onChange={(e) => handleInputChange(data.id_Achat, parseInt(e.target.value, 10))}
+//                           className={classes.input}
+//                         />
+//                         <Button
+//                           variant="contained"
+//                           color="primary"
+//                           onClick={() => handleFormSubmit(data.id_Achat)}
+//                           className={classes.updateButton}
+//                         >
+//                           Update
+//                         </Button>
+//                       </TableCell>
+//                     </TableRow>
+//                   ))}
+//               </TableBody>
+//             </Table>
+//           </TableContainer>
+//           <Button
+//             variant="contained"
+//             color="primary"
+//             onClick={handleValidation}
+//             className={classes.validateButton}
+//           >
+//             Validate All
+//           </Button>
+//         </Modal>
+//       )}
+//       <div id="print-area" className={classes.printArea}>
+//         <Box padding={3}>
+//           <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={3}>
+//             <img src={logo} alt="Logo" width="100" />
+//             <Typography variant="h4">Bon de Demande</Typography>
+//             <Typography variant="body1">Date: {new Date().toLocaleDateString()}</Typography>
+//           </Box>
+//           {uniqueCodeAchats.map((codeAchat, index) => (
+//             <Box key={index} marginBottom={2}>
+//               <Typography variant="h6">Code-Achat: {codeAchat}</Typography>
+//               <TableContainer component={Paper}>
+//                 <Table size="small">
+//                   <TableHead>
+//                     <TableRow>
+//                       <TableCell>Item Code</TableCell>
+//                       <TableCell>Item Name</TableCell>
+//                       <TableCell>Ordered Quantity</TableCell>
+//                       <TableCell>Received Quantity</TableCell>
+//                     </TableRow>
+//                   </TableHead>
+//                   <TableBody>
+//                     {filteredAchatData
+//                       .filter(data => data.code_Achat === codeAchat)
+//                       .map((data, idx) => (
+//                         <TableRow key={idx}>
+//                           <TableCell>{data.code}</TableCell>
+//                           <TableCell>{data.designation}</TableCell>
+//                           <TableCell>{data.quantite}</TableCell>
+//                           <TableCell>{qteRecu[data.id_Achat] !== undefined ? qteRecu[data.id_Achat] : data.qte_Reçu}</TableCell>
+//                         </TableRow>
+//                       ))}
+//                   </TableBody>
+//                 </Table>
+//               </TableContainer>
+//             </Box>
+//           ))}
+//         </Box>
+//       </div>
+//       <Button
+//         variant="contained"
+//         color="primary"
+//         onClick={handlePrint}
+//         style={{ marginTop: 20 }}
+//       >
+//         <FaPrint /> Print Bon de Demande
+//       </Button>
+//       <Button
+//         variant="contained"
+//         color="secondary"
+//         onClick={handleDeleteDuplicates}
+//         style={{ marginTop: 20, marginLeft: 10 }}
+//       >
+//         Delete Duplicates
+//       </Button>
+//     </Box>
+//   );
+// }
+
+// export default ListeDemande;
+
