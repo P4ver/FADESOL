@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDemandeData } from '../store/demandeSlice';
@@ -18,7 +15,6 @@ const Entree = () => {
     
     const authState = useSelector(state => state.auth);
     const user = authState.user;
-    //console.log("whoami", user.username)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -75,39 +71,6 @@ const Entree = () => {
             console.error('Error submitting data:', error.message);
         }
     };
-    
-
-    // const handleSubmit = async () => {
-    //     try {
-    //         for (const line of lines) {
-    //             if (line.demandeCode && line.projetCode && line.quantite) {
-    //                 const achatPayload = {
-    //                     code: line.demandeCode,
-    //                     designation: demandeData.find(demande => demande.code === line.demandeCode)?.designation || '',
-    //                     quantite: parseInt(line.quantite, 10),
-    //                     qte_En_Stock: demandeData.find(demande => demande.code === line.demandeCode)?.quantité || '',
-    //                     code_Projet: line.projetCode,
-    //                     nom_Projet: projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || '',
-    //                     check_Delivery: false,
-    //                     code_Achat: code_Achat, // Adding code_Achat here
-    //                     user_Dmd: user.username,
-    //                     date:"add date of now when i click create"
-    //                 };
-    //                 const response = await dispatch(postAchatempoData(achatPayload));
-    //                 console.log("=======>",response)
-    //                 if (response.error) {
-    //                     throw new Error(response.error.message);
-    //                 }
-    //                 console.log("achatPayload", achatPayload);
-    //             }
-    //         }
-    //         setLines([{ demandeCode: '', projetCode: '', quantite: '' }]);
-    //         setCode_Achat(''); // Resetting code_Achat after submission
-    //     } catch (error) {
-    //         console.error('Error submitting data:', error.message);
-    //     }
-    // };
-    
 
     return (
         <div className="container mx-auto p-4 w-full">

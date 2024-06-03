@@ -7,9 +7,9 @@ import userReducer from './userSlice';
 import authReducer from './authSlice';
 import demandeReducer from "./demandeSlice"
 import projetReducer from "./projetSlice"
-import achatReducer from "./achatempoSlice"
+import achatempoReducer from "./achatempoSlice"
+import achatReducer from "./achatSlice"
 import venteReducer from "./venteSlice"
-
 const persistConfig = {
   key: 'root',
   storage,
@@ -21,8 +21,9 @@ const rootReducer = combineReducers({
   auth: authReducer,
   demande: demandeReducer,
   projet: projetReducer,
-  achatempo: achatReducer,
-  vente: venteReducer
+  achatempo: achatempoReducer,
+  vente: venteReducer,
+  achat : achatReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
