@@ -19,6 +19,7 @@ const achat = require("./routes/achatRoutes")
 const vente = require("./routes/venteRoutes")
 const statsRoutes = require('./routes/statsRoutes');
 // app.use(bodyParser.urlencoded({ extended: true }));
+const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors(
@@ -51,6 +52,6 @@ app.use('/', statsRoutes);
 // app.use('/', barcodeRoutes);
 
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-  });
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
