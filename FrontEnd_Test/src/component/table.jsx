@@ -266,7 +266,7 @@ const TableTest = () => {
                 <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Member</th>
                 <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Role</th>
                 <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Email</th>
-                <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Last activity</th>
+                <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Date de création</th>
                 <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Status</th>
                 <th className="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Actions</th>
               </tr>
@@ -281,7 +281,10 @@ const TableTest = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{user.type_User}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{user.email_User}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">Today</td>
+                    {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">Today</td> */}
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+  {user.creationDate ? new Date(user.creationDate).toLocaleDateString() : 'No creation date'}
+</td>
                     {/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium"> */}
                       {/* <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                         Active

@@ -23,6 +23,7 @@ function App() {
   return (
     <>
       <Provider store={store}>
+        
       <SnackbarProvider maxSnack={3}>
         <BrowserRouter>
           <Routes>

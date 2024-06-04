@@ -13,3 +13,32 @@
     box-shadow: inset 0 0 5px rgb(156 163 175 / 0.75);
     border-radius: 10px;
   }
+
+  .dark-mode {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .dark-mode .bg-white {
+    background-color: #444;
+  }
+  
+  .dark-mode .text-gray-400 {
+    color: #ccc;
+  }
+  
+  .dark-mode .bg-gray-900 {
+    background-color: #666;
+  }
+  
+  .dark-mode .text-white {
+    color: #fff;
+  }
+  
+  .dark-mode .hover:text-gray-400 {
+    color: #ccc;
+  }
+  
+  .dark-mode .hover:shadow {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }

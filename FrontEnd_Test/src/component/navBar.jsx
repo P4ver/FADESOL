@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import LogoutComponent from './logoutComponent';
 import logo from '../pictures/logo.png';
@@ -10,12 +11,17 @@ const NavBar = () => {
   const userData = useSelector(state => state.user.userData);
 
   const [userRole, setUserRole] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false); // Add this state
 
   useEffect(() => {
     const username = authState.user.username;
     const findUser = userData.find(user => user.login_User === username);
     setUserRole(findUser.type_User);
   }, [userData]);
+
+  const handleDropdownClick = () => {
+    setShowDropdown(!showDropdown);
+  };
 
   return (
     <div>
@@ -49,8 +55,18 @@ const NavBar = () => {
             </li>
             <li className="flex items-center justify-between">
               {userRole}
-              <div className="flex h-8 w-8 items-center justify-center bg-gray-900 rounded-full text-white hover:text-gray-400 hover:shadow ml-2">
-                <FaUser />
+              <div onClick={handleDropdownClick}  className="flex h-8 w-8 items-center justify-center bg-gray-900 rounded-full text-white hover:text-gray-400 hover:shadow ml-2">
+                <FaUser /> {/* Add onClick event */}
+                {showDropdown && (
+                  <ul className="absolute right-0 mt-32 w-48 bg-white rounded-md shadow-md py-1 z-50">
+                    <li className="px-4 py-2 hover:bg-gray-100 text-black">
+                      <a href="#">Settings</a>
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-100 text-black">
+                      <a href="#">Profile</a>
+                    </li>
+                  </ul>
+                )}
               </div>
               <button className="flex h-8 w-8 items-center justify-center bg-customGreen rounded-full text-gray-600 hover:text-black hover:shadow ml-2">
                 <LogoutComponent />
@@ -64,3 +80,5 @@ const NavBar = () => {
 }
 
 export default NavBar;
+
+
