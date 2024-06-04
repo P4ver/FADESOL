@@ -26,7 +26,7 @@ const Register = ()  =>{
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3000/auth/register', formData)
+    axios.post('https://fadesol.onrender.com/auth/register', formData)
       .then(response => {
         console.log(response.data); // Handle success response
         setRegistrationSuccess(true); // Open popup on successful registration

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const fetchVenteData = createAsyncThunk('vente/fetchVenteData', async (_, thunkAPI) => {
     try {
-        const response = await axios.get('http://localhost:3000/vente');
+        const response = await axios.get('https://fadesol.onrender.com/vente');
         if (response.status !== 200) {
             throw new Error('Failed to fetch achat data');
         }
@@ -15,7 +15,7 @@ export const fetchVenteData = createAsyncThunk('vente/fetchVenteData', async (_,
 
 export const postVenteData = createAsyncThunk('vente/postVenteData', async (postData, thunkAPI) => {
     try {
-        const response = await axios.post('http://localhost:3000/vente', postData, {
+        const response = await axios.post('https://fadesol.onrender.com/vente', postData, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -35,7 +35,7 @@ export const postVenteData = createAsyncThunk('vente/postVenteData', async (post
 
 export const deleteVenteData = createAsyncThunk('vente/deleteVenteData', async (id_Vente, thunkAPI) => {
     try {
-        const response = await axios.delete(`http://localhost:3000/vente/${id_Vente}`);
+        const response = await axios.delete(`https://fadesol.onrender.com/vente/${id_Vente}`);
         if (response.status !== 200) {
             throw new Error('Failed to delete achat data');
         }
@@ -52,7 +52,7 @@ export const updateVenteData = createAsyncThunk(
     'vente/updateVenteData',
     async ({ id_Vente, updatedVenteData }, thunkAPI) => {
       try {
-        const response = await axios.put(`http://localhost:3000/vente/${id_Vente}`, updatedVenteData, {
+        const response = await axios.put(`https://fadesol.onrender.com/vente/${id_Vente}`, updatedVenteData, {
           headers: {
             'Content-Type': 'application/json',
           },
