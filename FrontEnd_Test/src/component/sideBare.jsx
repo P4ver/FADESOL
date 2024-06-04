@@ -21,7 +21,7 @@ const SideBare = () => {
     setIsEntreeDropdownOpen(!isEntreeDropdownOpen);
   };
 
- console.log(userData)
+//  console.log(userData)
   // const userInitials = foundUser.nom_User.slice(0, 1).toUpperCase() + foundUser.prenom_User.slice(0, 1).toUpperCase();
 
   return (
