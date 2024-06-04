@@ -16,12 +16,12 @@ const SideBare = () => {
   const user = authState.user;
   const userId = user.id; // Or any other unique identifier
 
-  const foundUser = userState.userData.find(u => u.id == userId);
+  // const foundUser = userState.userData.find(u => u.id == userId);
   const toggleEntreeDropdown = () => {
     setIsEntreeDropdownOpen(!isEntreeDropdownOpen);
   };
 
- console.log(foundUser)
+ console.log(userData)
   // const userInitials = foundUser.nom_User.slice(0, 1).toUpperCase() + foundUser.prenom_User.slice(0, 1).toUpperCase();
 
   return (
@@ -39,7 +39,7 @@ const SideBare = () => {
             {/* {userInitials} */}
           </div>
           <div className="text-lg text-center">
-            Welcome back, <br /> {foundUser.prenom_User}
+            {/* Welcome back, <br /> {foundUser.prenom_User} */}
           </div>
         </div>
         <ul className="mt-8 space-y-3 md:mt-20">
