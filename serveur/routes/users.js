@@ -25,19 +25,6 @@ router.get('/greeting', verifyToken, (req, res) => {
         default:
             greeting = 'bonjour !';
     }
-    // switch (role) {
-    //     case 'Super Admin':
-    //         greeting = 'Bonjour Super Admin !';
-    //         break;
-    //     case 'Admin':
-    //         greeting = 'Bonjour Admin !';
-    //         break;
-    //     case 'Utilisateur':
-    //         greeting = 'Bonjour Utilisateur !';
-    //         break;
-    //     default:
-    //         greeting = 'Bonjour !';
-    // }
     res.json({ message: greeting });
 });
 

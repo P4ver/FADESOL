@@ -7,14 +7,16 @@ import { RiDeleteBinFill } from "react-icons/ri";
 import { RiEdit2Fill } from "react-icons/ri";
 import { GrView } from "react-icons/gr";
 import swal from "sweetalert";
-import { toast } from "react-toastify";
 // import { Collapse, Card, CardContent } from "@material-ui/core";
 import { Collapse, Card, CardContent, Menu, MenuItem } from "@material-ui/core";
 import Pagination from "@mui/material/Pagination";
 import Switch from "@mui/material/Switch";
 import * as XLSX from "xlsx";
 import AddUser from "./usrDashBoard/addUser";
-
+import { createCanvas } from 'canvas';
+import JsBarcode from 'jsbarcode';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const TableTest = () => {
   const dispatch = useDispatch();
   const { userData, loading, error } = useSelector((state) => state.user);
@@ -90,18 +92,42 @@ const TableTest = () => {
   };
 
   // Save edit
+  // const handleSaveEdit = async () => {
+  //   try {
+  //     await dispatch(updateUserData({ id_User: editUser.id_User, updateUserData: editedUser }));
+  //     setOpenDialog(false);
+  //     dispatch(fetchUserData());
+  //     toast.success('User edited successfully!', {
+  //       position: toast.POSITION_TOP_RIGHT,
+  //       autoClose: 3000,
+  //     });
+  //   } catch (error) {
+  //     console.error("Error updating user:", error);
+  //     toast.error(error.message.toString() || "Failed to update user details. Please try again.");
+  //   }
+  // };
   const handleSaveEdit = async () => {
     try {
+      // Update user data in Redux store
       await dispatch(updateUserData({ id_User: editUser.id_User, updateUserData: editedUser }));
+  
+      // Close edit dialog
       setOpenDialog(false);
+  
+      // Fetch updated user data from Redux store
       dispatch(fetchUserData());
-      toast.success('User updated successfully');
+  
+      // Display success notification
+      toast.success('User edited successfully!', {
+        position: toast.POSITION_TOP_RIGHT,
+        autoClose: 3000,
+      });
     } catch (error) {
+      // Handle error
       console.error("Error updating user:", error);
       toast.error(error.message.toString() || "Failed to update user details. Please try again.");
     }
   };
-
   const handleEditChange = (e) => {
     const { name, value } = e.target;
     setEditedUser((prevUser) => ({
@@ -168,7 +194,11 @@ const TableTest = () => {
       toast.error('Failed to toggle user status. Please try again.');
     }
   };
-
+  // const generateBarcode = (text) => {
+  //   const canvas = createCanvas();
+  //   JsBarcode(canvas, text, { format: 'CODE128' });
+  //   return canvas.toDataURL('image/png');
+  // };
   return (
     <>
      <div className="py-3 px-4 flex justify-between items-center">
@@ -318,6 +348,8 @@ const TableTest = () => {
                               <p><strong>Tel: </strong>{user.tel_User}</p>
                               <p><strong>Note: </strong>{user.note_User}</p>
                               <p><strong>Email: </strong>{user.email_User}</p>
+                              <p><strong>Code: </strong>{user.email_User}</p>
+
                             </div>
                           </CardContent>
                         </Card>
@@ -402,6 +434,7 @@ const TableTest = () => {
             </div>
           </div>
         )}
+         <ToastContainer />
     </>
   );
 }

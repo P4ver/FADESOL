@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUserData, postUserData} from '../../store/userSlice';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddUser = () => {
     const dispatch = useDispatch();
@@ -39,25 +40,30 @@ const AddUser = () => {
     
     const handleSubmit = async () =>{
         try {
-            // Dispatch the postUserData action
-            await dispatch(postUserData(formData));
-            // Clear the form input fields
-            setFormData({
-                id_User:"",		
-                login_User:"",
-                password_User:"",
-                nom_User:"",
-                prenom_User:"",
-                email_User:"",
-                tel_User:"",
-                note_User:"",
-                type_User:""
-            });
+          // Dispatch the postUserData action
+          await dispatch(postUserData(formData));
+          // Clear the form input fields
+          setFormData({
+            id_User:"",
+            login_User:"",
+            password_User:"",
+            nom_User:"",
+            prenom_User:"",
+            email_User:"",
+            tel_User:"",
+            note_User:"",
+            type_User:""
+          });
+          // Display success toast notification
+          toast.success('User added successfully!', {
+            position: toast.POSITION_TOP_RIGHT,
+            autoClose: 3000,
+          });
         } catch (error) {
-            // Handle errors, if any
-            console.error("Failed to add product:", error);
+          // Handle errors, if any
+          console.error("Failed to add product:", error);
         }
-    }
+      }
 
 return (
     <> 
@@ -76,7 +82,7 @@ return (
             <button type="submit" class="mt-5 w-full rounded-md bg-blue-600 p-2 text-center font-semibold text-white outline-none focus:ring">Ajouter</button>
         </div>
     </form>
-
+    <ToastContainer />
 
     </>
     );
