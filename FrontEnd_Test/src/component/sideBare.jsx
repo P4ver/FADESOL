@@ -21,8 +21,8 @@ const SideBare = () => {
     setIsEntreeDropdownOpen(!isEntreeDropdownOpen);
   };
 
- 
-  const userInitials = foundUser.nom_User.slice(0, 1).toUpperCase() + foundUser.prenom_User.slice(0, 1).toUpperCase();
+ console.log(foundUser)
+  // const userInitials = foundUser.nom_User.slice(0, 1).toUpperCase() + foundUser.prenom_User.slice(0, 1).toUpperCase();
 
   return (
     <header className="fixed z-50 md:relative">
@@ -36,7 +36,7 @@ const SideBare = () => {
      
         <div className="flex flex-col items-center px-6 py-3 space-y-2 bg-gray-700 rounded-lg mt-4">
           <div className="flex items-center justify-center w-12 h-12 bg-gray-500 rounded-full text-xl font-bold">
-            {userInitials}
+            {/* {userInitials} */}
           </div>
           <div className="text-lg text-center">
             Welcome back, <br /> {foundUser.prenom_User}
@@ -111,7 +111,6 @@ const SideBare = () => {
 };
 
 export default SideBare;
-
 
 
 // import React, { useState } from 'react';
