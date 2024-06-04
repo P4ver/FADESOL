@@ -115,6 +115,7 @@
 
 
 
+
 import React, { useState, useEffect } from 'react';
 import LogoutComponent from './logoutComponent';
 import logo from '../pictures/logo.png';
@@ -196,4 +197,6 @@ const NavBar = () => {
 }
 
 export default NavBar;
+
+
 

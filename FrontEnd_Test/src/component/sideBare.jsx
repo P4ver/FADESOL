@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { TbTruckDelivery, TbTruckReturn, TbArrowBadgeRight } from "react-icons/tb";
@@ -12,17 +12,24 @@ import { RxDashboard } from "react-icons/rx";
 const SideBare = () => {
   const [isEntreeDropdownOpen, setIsEntreeDropdownOpen] = useState(false);
   const authState = useSelector(state => state.auth);
-  const userState = useSelector(state => state.user)
-  const user = authState.user;
-  const userId = user.id; // Or any other unique identifier
+  const userState = useSelector(state => state.user);
+  const userData = useSelector(state => state.user.userData);
+  
+  const [userRole, setUserRole] = useState(null);
+  const [findUser, setFindUser] = useState(null);
 
-  // const foundUser = userState.userData.find(u => u.id == userId);
+  useEffect(() => {
+    const username = authState.user.username;
+    const foundUser = userData.find(user => user.login_User === username);
+    setFindUser(foundUser);
+    setUserRole(foundUser.type_User);
+  }, [userData]);
+
   const toggleEntreeDropdown = () => {
     setIsEntreeDropdownOpen(!isEntreeDropdownOpen);
   };
 
-//  console.log(userData)
-  // const userInitials = foundUser.nom_User.slice(0, 1).toUpperCase() + foundUser.prenom_User.slice(0, 1).toUpperCase();
+  const userInitials = findUser ? findUser.nom_User.slice(0, 1).toUpperCase() + findUser.prenom_User.slice(0, 1).toUpperCase() : '';
 
   return (
     <header className="fixed z-50 md:relative">
@@ -36,10 +43,10 @@ const SideBare = () => {
      
         <div className="flex flex-col items-center px-6 py-3 space-y-2 bg-gray-700 rounded-lg mt-4">
           <div className="flex items-center justify-center w-12 h-12 bg-gray-500 rounded-full text-xl font-bold">
-            {/* {userInitials} */}
+            {userInitials}
           </div>
           <div className="text-lg text-center">
-            {/* Welcome back, <br /> {foundUser.prenom_User} */}
+            Welcome back, <br /> {findUser ? findUser.prenom_User : ''}
           </div>
         </div>
         <ul className="mt-8 space-y-3 md:mt-20">
@@ -72,7 +79,7 @@ const SideBare = () => {
             {isEntreeDropdownOpen && (
               <ul className="mt-2 space-y-2 pl-12">
                 <li>
-                  <Link to="/liste-demandes" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
+                <Link to="/liste-demandes" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
                     <TbArrowBadgeRight className="text-xl" />
                     <span>Demandes</span>
                   </Link>
@@ -111,7 +118,6 @@ const SideBare = () => {
 };
 
 export default SideBare;
-
 
 // import React, { useState } from 'react';
 // import { useSelector } from 'react-redux';
