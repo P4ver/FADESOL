@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const fetchAchatempoData = createAsyncThunk('achatempo/fetchAchatempoData', async (_, thunkAPI) => {
     try {
-        const response = await axios.get('http://localhost:3000/achatempo');
+        const response = await axios.get('https://fadesol-puoc.vercel.app/achatempo');
         if (response.status !== 200) {
             throw new Error('Failed to fetch achat data');
         }
@@ -15,7 +15,7 @@ export const fetchAchatempoData = createAsyncThunk('achatempo/fetchAchatempoData
 
 export const postAchatempoData = createAsyncThunk('achatempo/postAchatempoData', async (postData, thunkAPI) => {
     try {
-        const response = await axios.post('http://localhost:3000/achatempo', postData, {
+        const response = await axios.post('https://fadesol-puoc.vercel.app/achatempo', postData, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -35,7 +35,7 @@ export const postAchatempoData = createAsyncThunk('achatempo/postAchatempoData',
 
 export const deleteAchatempoData = createAsyncThunk('achatempo/deleteAchatempoData', async (id_Achat, thunkAPI) => {
     try {
-        const response = await axios.delete(`http://localhost:3000/achatempo/${id_Achat}`);
+        const response = await axios.delete(`https://fadesol-puoc.vercel.app/achatempo/${id_Achat}`);
         if (response.status !== 200) {
             throw new Error('Failed to delete achat data');
         }
@@ -52,7 +52,7 @@ export const updateAchatempoData = createAsyncThunk(
     'achatempo/updateAchatempoData',
     async ({ id_Achat, updatedAchatempoData }, thunkAPI) => {
       try {
-        const response = await axios.put(`http://localhost:3000/achatempo/${id_Achat}`, updatedAchatempoData, {
+        const response = await axios.put(`https://fadesol-puoc.vercel.app/achatempo/${id_Achat}`, updatedAchatempoData, {
           headers: {
             'Content-Type': 'application/json',
           },

@@ -7,7 +7,7 @@ export const fetchUserData = createAsyncThunk(
     'user/fetchUserData',
     async (_, thunkAPI) => {
       try {
-        const response = await axios.get('http://localhost:3000/user', {
+        const response = await axios.get('https://fadesol-puoc.vercel.app/user', {
           withCredentials: true,
         });
         
@@ -28,7 +28,7 @@ export const fetchUserData = createAsyncThunk(
     'user/postUserData',
     async (postData, thunkAPI) => {
       try {
-        const response = await axios.post('http://localhost:3000/user', postData, {
+        const response = await axios.post('https://fadesol-puoc.vercel.app/user', postData, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -53,7 +53,7 @@ export const updateUserData = createAsyncThunk(
   'user/updateUserData',
   async ({ id_User, updateUserData }, thunkAPI) => {
     try {
-      const response = await axios.put(`http://localhost:3000/user/${id_User}`, updateUserData, {
+      const response = await axios.put(`https://fadesol-puoc.vercel.app/user/${id_User}`, updateUserData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -77,7 +77,7 @@ export const deleteUserData = createAsyncThunk(
   'user/deleteUserData',
   async (id_User, thunkAPI) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/user/${id_User}`,{
+      const response = await axios.delete(`https://fadesol-puoc.vercel.app/user/${id_User}`,{
           withCredentials: true,
       });
       if (response.status !== 200) {

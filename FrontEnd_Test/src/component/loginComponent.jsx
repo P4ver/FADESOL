@@ -26,7 +26,7 @@ const LoginComponent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', formData, {
+      const response = await axios.post('https://fadesol-puoc.vercel.app/auth/login', formData, {
         withCredentials: true,
       });
       console.log('Login successful:', response.config.data);
@@ -142,7 +142,7 @@ export default LoginComponent;
 //       const handleSubmit = async (e) => {
 //         e.preventDefault();
 //         try {
-//           const response = await axios.post('http://localhost:3000/auth/login', formData, {
+//           const response = await axios.post('https://fadesol-puoc.vercel.app/auth/login', formData, {
 //             withCredentials: true,
 //           });
 //           console.log('Login successful:', response.data);

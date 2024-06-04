@@ -13,7 +13,7 @@ const LogoutComponent = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:3000/auth/logout', {}, {
+      await axios.post('https://fadesol-puoc.vercel.app/auth/logout', {}, {
         withCredentials: true,
       });
       dispatch(logoutSuccess());

@@ -19,7 +19,7 @@ const Dashboard = () => {
   const [stats, setStats] = useState({ users: 0, products: 0, entries: 0 });
 
   useEffect(() => {
-    fetch('http://localhost:3000/stats')
+    fetch('https://fadesol-puoc.vercel.app/stats')
       .then(response => response.json())
       .then(data => {
         setStats({
