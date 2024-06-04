@@ -73,68 +73,6 @@ const ProductTable = () => {
         });
     };
 
-    // const handleSubmit = async () => {
-    //     try {
-    //         const currentDate = new Date().toLocaleDateString();
-    //         await dispatch(postProductData({
-    //             ...formData,
-    //             Date_Actualisation: currentDate
-    //         }));
-    //         setFormData({
-    //             Numéro_Article: "",
-    //             Description_Article: "",
-    //             Groupe_Articles: "",
-    //             code_Barre: "",
-    //         });
-          
-    //         setOpenAddDialog(false); 
-    //     } catch (error) {
-    //         console.error("Failed to add product:", error);
-    //     }
-       
-    
-    // };
-    // const handleSubmit = async () => {
-    //     try {
-    //         const currentDate = new Date().toLocaleDateString();
-    //         await dispatch(postProductData({
-    //             ...formData,
-    //             Date_Actualisation: currentDate
-    //         }));
-    //         setFormData({
-    //             Numéro_Article: "",
-    //             Description_Article: "",
-    //             Groupe_Articles: "",
-    //             code_Barre: "",
-    //         });
-          
-    //         setOpenAddDialog(false); 
-    //     } catch (error) {
-    //         console.error("Failed to add product:", error);
-    //     }
-    // };
-    // const handleSubmit = async () => {
-    //     try {
-    //       const currentDate = new Date().toLocaleDateString();
-    //       await dispatch(postProductData({
-    //         ...formData,
-    //         Date_Actualisation: currentDate
-    //       }));
-    //       setFormData({
-    //         Numéro_Article: "",
-    //         Description_Article: "",
-    //         Groupe_Articles: "",
-    //         code_Barre: "",
-    //       });
-    //       setOpenAddDialog(false);
-    //       toast.success('Product added successfully!', {
-    //         position: toast.POSITION.TOP_RIGHT,
-    //         autoClose: 3000,
-    //       });
-    //     } catch (error) {
-    //       console.error("Failed to add product:", error);
-    //     }
-    //   };
 
     const handleSubmit = async () => {
         try {
