@@ -73,14 +73,14 @@ import { useSelector } from 'react-redux';
 import { FaUser } from "react-icons/fa";
 
 const NavBar = () => {
-  const authState = useSelector(state => state.auth);
-  const user = authState.user;
+  // const authState = useSelector(state => state.auth);
+  // const user = authState.user;
 
-  const userState = useSelector(state => state.user)
-  const userId = user.id; // Or any other unique identifier
+  // const userState = useSelector(state => state.user)
+  // const userId = user.id; // Or any other unique identifier
   
-  const foundUser = userState.userData.find(u => u.id == userId);
-  console.log(foundUser.type_User)
+  // const foundUser = userState.userData.find(u => u.id == userId);
+  // console.log(foundUser.type_User)
   // const userInitials = foundUser.nom_User.slice(0, 1).toUpperCase() + foundUser.prenom_User.slice(0, 1).toUpperCase();
 
 
@@ -93,7 +93,7 @@ const NavBar = () => {
               <img src={logo} alt="Logo" />
             </li>
             <li className="flex items-center justify-between">
-              {foundUser.type_User} 
+              {/* {foundUser.type_User}  */}
               <div className="flex h-8 w-8 items-center justify-center bg-gray-900 rounded-full text-white hover:text-gray-400 hover:shadow ml-2">
             <FaUser />
               </div>
