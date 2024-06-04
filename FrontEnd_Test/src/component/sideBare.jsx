@@ -16,20 +16,15 @@ const SideBare = () => {
   const userData = useSelector(state => state.user.userData);
   
   const [userRole, setUserRole] = useState(null);
-  const [findUser, setFindUser] = useState(null);
 
-  useEffect(() => {
-    const username = authState.user.username;
-    const foundUser = userData.find(user => user.login_User === username);
-    setFindUser(foundUser);
-    setUserRole(foundUser.type_User);
-  }, [userData]);
 
+  
+ 
   const toggleEntreeDropdown = () => {
     setIsEntreeDropdownOpen(!isEntreeDropdownOpen);
   };
 
-  const userInitials = findUser ? findUser.nom_User.slice(0, 1).toUpperCase() + findUser.prenom_User.slice(0, 1).toUpperCase() : '';
+  
 
   return (
     <header className="fixed z-50 md:relative">
@@ -43,10 +38,10 @@ const SideBare = () => {
      
         <div className="flex flex-col items-center px-6 py-3 space-y-2 bg-gray-700 rounded-lg mt-4">
           <div className="flex items-center justify-center w-12 h-12 bg-gray-500 rounded-full text-xl font-bold">
-            {userInitials}
+      
           </div>
           <div className="text-lg text-center">
-            Welcome back, <br /> {findUser ? findUser.prenom_User : ''}
+            Welcome back, <br /> 
           </div>
         </div>
         <ul className="mt-8 space-y-3 md:mt-20">

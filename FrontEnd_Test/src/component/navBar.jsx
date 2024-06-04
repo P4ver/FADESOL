@@ -13,11 +13,6 @@ const NavBar = () => {
   const [userRole, setUserRole] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false); // Add this state
 
-  useEffect(() => {
-    const username = authState.user.username;
-    const findUser = userData.find(user => user.login_User === username);
-    setUserRole(findUser.type_User);
-  }, [userData]);
 
   const handleDropdownClick = () => {
     setShowDropdown(!showDropdown);
