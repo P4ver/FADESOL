@@ -3,7 +3,8 @@ import axios from 'axios';
 
 export const fetchAchatempoData = createAsyncThunk('achatempo/fetchAchatempoData', async (_, thunkAPI) => {
     try {
-        const response = await axios.get('https://fadesol.onrender.com/achatempo');
+        const response = await axios.get('https://fadesol.onrender.com/achatempo', { withCredentials: true });
+        // const response = await axios.get('https://fadesol.onrender.com/achatempo');
         if (response.status !== 200) {
             throw new Error('Failed to fetch achat data');
         }
