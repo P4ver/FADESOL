@@ -1,17 +1,15 @@
+
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import { fetchDemandeData } from '../store/demandeSlice';
 import { fetchProductData } from '../store/productSlice';
 import { fetchProjetData } from '../store/projetSlice';
 import { fetchAchatempoData, postAchatempoData } from '../store/achatempoSlice';
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import { Typography, Box, IconButton } from '@mui/material';
+import { Typography, IconButton } from '@mui/material';
 
 const Entree = () => {
   const [lines, setLines] = useState([{ demandeCode: '', projetCode: '', quantite: '' }]);
-//   const demandeData = useSelector((state) => state.demande.demandeData);
-const productData = useSelector((state) => state.product.productData);
-
+  const productData = useSelector((state) => state.product.productData);
   const projetData = useSelector((state) => state.projet.projetData);
   const [codeAchat, setCodeAchat] = useState('');
   const authState = useSelector(state => state.auth);
@@ -23,13 +21,16 @@ const productData = useSelector((state) => state.product.productData);
     dispatch(fetchProjetData());
     dispatch(fetchAchatempoData());
 
-    // Generate a unique and random codeAchat when the component mounts
-    const generateUniqueCodeAchat = () => {
-      const uniqueCode = `CA-${Math.random().toString(36).substr(2, 9)}`;
-      setCodeAchat(uniqueCode);
+    // Generate the next codeAchat when the component mounts
+    const generateNextCodeAchat = () => {
+      const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-000';
+      const lastNumber = parseInt(lastCode.split('-')[1], 10);
+      const newCode = `CA-${String(lastNumber + 1).padStart(3, '0')}`;
+      setCodeAchat(newCode);
+      localStorage.setItem('lastCodeAchat', newCode);
     };
 
-    generateUniqueCodeAchat();
+    generateNextCodeAchat();
   }, [dispatch]);
 
   const handleAddLine = () => {
@@ -53,7 +54,6 @@ const productData = useSelector((state) => state.product.productData);
             code: line.demandeCode,
             designation: productData.find(demande => demande.Numéro_Article === line.demandeCode)?.Description_Article || '',
             quantite: parseInt(line.quantite, 10),
-            // qte_En_Stock: demandeData.find(demande => demande.code === line.demandeCode)?.quantité || '',
             code_Projet: line.projetCode,
             nom_Projet: projetData.find(projet => projet.code_Projet === line.projetCode)?.nom_Projet || '',
             check_Delivery: false,
@@ -63,11 +63,9 @@ const productData = useSelector((state) => state.product.productData);
             qte_Reçu: 0
           };
           const response = await dispatch(postAchatempoData(achatPayload));
-          console.log("=======>", response);
           if (response.error) {
             throw new Error(response.error.message);
           }
-          console.log("achatPayload", achatPayload);
         }
       }
       setLines([{ demandeCode: '', projetCode: '', quantite: '' }]);
@@ -101,7 +99,6 @@ const productData = useSelector((state) => state.product.productData);
             className="w-1/6 px-2 py-1 border rounded-md"
             disabled
           />
-
           <input
             type="text"
             value={line.projetCode}

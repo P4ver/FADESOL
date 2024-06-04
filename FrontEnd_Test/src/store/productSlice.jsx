@@ -7,7 +7,7 @@ export const fetchProductData = createAsyncThunk(
     'product/fetchProductData',
     async (_, thunkAPI) => {
       try {
-        const response = await axios.get('http://localhost:3000/produits', {
+        const response = await axios.get('https://fadesol.onrender.com/produits', {
           withCredentials: true,
         });
         
@@ -27,7 +27,7 @@ export const fetchProductData = createAsyncThunk(
     'product/postProductData',
     async (postData, thunkAPI) => {
       try {
-        const response = await axios.post('http://localhost:3000/produits', postData, {
+        const response = await axios.post('https://fadesol.onrender.com/produits', postData, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -53,7 +53,7 @@ export const fetchProductData = createAsyncThunk(
     async ({ productId, updatedProductData }, thunkAPI) => {
       try {
         console.log("updatedProductData",updatedProductData)
-        const response = await axios.put(`http://localhost:3000/produits/${productId}`, updatedProductData, {
+        const response = await axios.put(`https://fadesol.onrender.com/produits/${productId}`, updatedProductData, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -74,7 +74,7 @@ export const deleteProductData = createAsyncThunk(
   'product/deleteProductData',
   async (productId, thunkAPI) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/produits/${productId}`,{
+      const response = await axios.delete(`https://fadesol.onrender.com/produits/${productId}`,{
           withCredentials: true,
       });
       if (response.status !== 200) {

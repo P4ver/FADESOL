@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const fetchAchatData = createAsyncThunk('achat/fetchAchatData', async (_, thunkAPI) => {
     try {
-        const response = await axios.get('http://localhost:3000/achat');
+        const response = await axios.get('https://fadesol.onrender.com/achat');
         if (response.status !== 200) {
             throw new Error('Failed to fetch achat data');
         }
@@ -15,7 +15,7 @@ export const fetchAchatData = createAsyncThunk('achat/fetchAchatData', async (_,
 
 export const postAchatData = createAsyncThunk('achat/postAchatData', async (postData, thunkAPI) => {
     try {
-        const response = await axios.post('http://localhost:3000/achat', postData, {
+        const response = await axios.post('https://fadesol.onrender.com/achat', postData, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -35,7 +35,7 @@ export const postAchatData = createAsyncThunk('achat/postAchatData', async (post
 
 export const deleteAchatData = createAsyncThunk('achat/deleteAchatData', async (id_Achat, thunkAPI) => {
     try {
-        const response = await axios.delete(`http://localhost:3000/achat/${id_Achat}`);
+        const response = await axios.delete(`https://fadesol.onrender.com/achat/${id_Achat}`);
         if (response.status !== 200) {
             throw new Error('Failed to delete achat data');
         }
@@ -51,7 +51,7 @@ export const deleteAchatData = createAsyncThunk('achat/deleteAchatData', async (
 //     'achat/updateAchatData',
 //     async ({ id_Achat, updateAchatData }, thunkAPI) => {
 //       try {
-//         const response = await axios.put(`http://localhost:3000/achat/${id_User}`, updateAchatData, {
+//         const response = await axios.put(`https://fadesol.onrender.com/achat/${id_User}`, updateAchatData, {
 //           headers: {
 //             'Content-Type': 'application/json',
 //           },
@@ -72,7 +72,7 @@ export const updateAchatData = createAsyncThunk(
     'achat/updateAchatData',
     async ({ id_Achat, updatedAchatData }, thunkAPI) => {
       try {
-        const response = await axios.put(`http://localhost:3000/achat/${id_Achat}`, updatedAchatData, {
+        const response = await axios.put(`https://fadesol.onrender.com/achat/${id_Achat}`, updatedAchatData, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -179,7 +179,7 @@ export const { clearError , deleteAchatItem } = achatSlice.actions;
 //     'achat/fetchAchatData',
 //     async (_, thunkAPI) => {
 //       try {
-//         const response = await axios.get('http://localhost:3000/achat', {
+//         const response = await axios.get('https://fadesol.onrender.com/achat', {
 //           withCredentials: true,
 //         });
         
@@ -196,7 +196,7 @@ export const { clearError , deleteAchatItem } = achatSlice.actions;
 
 //   export const postAchatData = createAsyncThunk('achat/postAchatData', async (postData, thunkAPI) => {
 //     try {
-//         const response = await axios.post('http://localhost:3000/achat', postData, {
+//         const response = await axios.post('https://fadesol.onrender.com/achat', postData, {
 //             headers: {
 //                 'Content-Type': 'application/json',
 //             },
@@ -217,7 +217,7 @@ export const { clearError , deleteAchatItem } = achatSlice.actions;
 //   //   'achat/postAchatData',
 //   //   async (postData, thunkAPI) => {
 //   //     try {
-//   //       const response = await axios.post('http://localhost:3000/achat', postData, {
+//   //       const response = await axios.post('https://fadesol.onrender.com/achat', postData, {
 //   //         headers: {
 //   //           'Content-Type': 'application/json',
 //   //         },
@@ -243,7 +243,7 @@ export const { clearError , deleteAchatItem } = achatSlice.actions;
 //     async ({ achatId, updatedachatData }, thunkAPI) => {
 //       try {
 //         console.log("updatedachatData",updatedachatData)
-//         const response = await axios.put(`http://localhost:3000/achat/${achatId}`, updatedachatData, {
+//         const response = await axios.put(`https://fadesol.onrender.com/achat/${achatId}`, updatedachatData, {
 //           headers: {
 //             'Content-Type': 'application/json',
 //           },
@@ -264,7 +264,7 @@ export const { clearError , deleteAchatItem } = achatSlice.actions;
 //   'achat/deleteAchatData',
 //   async (achatId, thunkAPI) => {
 //     try {
-//       const response = await axios.delete(`http://localhost:3000/achat/${achatId}`,{
+//       const response = await axios.delete(`https://fadesol.onrender.com/achat/${achatId}`,{
 //           withCredentials: true,
 //       });
 //       if (response.status !== 200) {

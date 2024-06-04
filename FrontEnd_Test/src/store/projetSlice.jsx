@@ -7,7 +7,7 @@ export const fetchProjetData = createAsyncThunk(
     'projet/fetchProjetData',
     async (_, thunkAPI) => {
       try {
-        const response = await axios.get('http://localhost:3000/projet', {
+        const response = await axios.get('https://fadesol.onrender.com/projet', {
           withCredentials: true,
         });
         
@@ -25,7 +25,7 @@ export const fetchProjetData = createAsyncThunk(
 //     'demande/postDemandeData',
 //     async (postData, thunkAPI) => {
 //       try {
-//         const response = await axios.post('http://localhost:3000/demande', postData, {
+//         const response = await axios.post('https://fadesol.onrender.com/demande', postData, {
 //           headers: {
 //             'Content-Type': 'application/json',
 //           },
@@ -51,7 +51,7 @@ export const fetchProjetData = createAsyncThunk(
 //     async ({ id_Demande, updatedDemandeData }, thunkAPI) => {
 //       try {
 //         console.log("updatedDemandeData",updatedDemandeData)
-//         const response = await axios.put(`http://localhost:3000/demande/${id_Demande}`, updatedDemandeData, {
+//         const response = await axios.put(`https://fadesol.onrender.com/demande/${id_Demande}`, updatedDemandeData, {
 //           headers: {
 //             'Content-Type': 'application/json',
 //           },
@@ -72,7 +72,7 @@ export const fetchProjetData = createAsyncThunk(
 //   'demande/deleteDemandeData',
 //   async (id_Demande, thunkAPI) => {
 //     try {
-//       const response = await axios.delete(`http://localhost:3000/demande/${id_Demande}`,{
+//       const response = await axios.delete(`https://fadesol.onrender.com/demande/${id_Demande}`,{
 //           withCredentials: true,
 //       });
 //       if (response.status !== 200) {

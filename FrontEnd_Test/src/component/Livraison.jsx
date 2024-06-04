@@ -11,7 +11,7 @@ const PageArticlesLivrés = () => {
         <thead>
           <tr className="bg-gray-100">
             <th className="border border-gray-300 px-4 py-2">ID Achat</th>
-            <th className="border border-gray-300 px-4 py-2">Date</th>
+            <th className="border border-gray-300 px-4 py-2 ">Date</th>
             <th className="border border-gray-300 px-4 py-2">Utilisateur</th>
             <th className="border border-gray-300 px-4 py-2">Quantité Livrée</th>
             <th className="border border-gray-300 px-4 py-2">Détails</th>
