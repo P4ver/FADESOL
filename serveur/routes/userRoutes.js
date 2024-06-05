@@ -6,7 +6,8 @@ const {obtenirDonnéesUser, supprimerUser, ajouterUser, obtenirUserID, modifierU
 
 router.get('/user', verifyToken, authorizeRole(['Admin', 'Super Admin']), obtenirDonnéesUser)
 router.get('/user/:id', verifyToken, authorizeRole(['Admin', 'Super Admin']),obtenirUserID)
-router.post('/user', verifyToken, authorizeRole(['Super Admin']),ajouterUser)
+router.post('/user', ajouterUser)
+// router.post('/user', verifyToken, authorizeRole(['Super Admin']),ajouterUser)
 router.put('/user/:id', verifyToken, authorizeRole(['Super Admin']),modifierUser)
 router.delete('/user/:id', verifyToken, authorizeRole(['Super Admin']),supprimerUser)
 
