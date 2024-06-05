@@ -1,21 +1,32 @@
 const pool = require('../db');
 
+// const createAchat = (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         if (err) throw err;
+//         const { code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery, code_Achat, user_Dmd, qte_Reçu } = req.body; // Added check_Delivery
+//         connection.query(
+//             'INSERT INTO achatempo (code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery, code_Achat, user_Dmd, qte_Reçu) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+//             [code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery, code_Achat, user_Dmd, qte_Reçu], // Included check_Delivery in values
+//             (err, result) => {
+//                 connection.release();
+//                 if (err) return res.status(500).send(err);
+//                 res.send('Achat added.');
+//             }
+//         );
+//     });
+// };
 const createAchat = (req, res) => {
-    pool.getConnection((err, connection) => {
-        if (err) throw err;
-        const { code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery, code_Achat, user_Dmd, qte_Reçu } = req.body; // Added check_Delivery
-        connection.query(
-            'INSERT INTO achatempo (code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery, code_Achat, user_Dmd, qte_Reçu) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-            [code, code_Projet, designation, qte_En_Stock, quantite, nom_Projet, date, check_Delivery, code_Achat, user_Dmd, qte_Reçu], // Included check_Delivery in values
-            (err, result) => {
-                connection.release();
-                if (err) return res.status(500).send(err);
-                res.send('Achat added.');
-            }
-        );
-    });
+    pool.getConnection((err, connection)=>{
+        if (err) throw err
+        console.log("connection as id", connection.threadId)
+        
+        connection.query("INSERT INTO achatempo SET ?", [req.body], (err, rows)=>{
+            connection.release()
+            if (err) throw err
+            res.send("Les données ont été insérées.")
+        })
+    })
 };
-
 // Get all achatempos
 const getAllAchats = (req, res) => {
     pool.getConnection((err, connection) => {

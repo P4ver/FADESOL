@@ -29,12 +29,13 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginComponent />} />
+            <Route path="/" element={<LoginComponent />} />
             <Route path="/register" element={<Register />} />
             <Route path="/*" element={<ErrorPage />} />
             <Route element={<PrivateRoute />}>
               <Route element={<Layout />}>
                 <Route path="/users" element={<PageUsers />} />
-                <Route path="/" element={<PageDashboard />} exact />
+                {/* <Route path="/" element={<PageDashboard />} exact /> */}
                 <Route path="/products" element={<PageProducts/>} />
                 <Route path="/entree" element={<Entree/>} />
                 <Route path="/sortie" element={<Sortie/>} />

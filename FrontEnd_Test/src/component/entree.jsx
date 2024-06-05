@@ -42,39 +42,125 @@ const productData = useSelector((state) => state.product.productData);
     setLines(newLines);
   };
 
-  const handleSubmit = async () => {
-    try {
+  // const handleSubmit = async () => {
+  //   try {
+  //     const currentDate = new Date();
+  //     const formattedDate = currentDate.toISOString();
+
+  //     for (const line of lines) {
+  //       if (line.demandeCode && line.projetCode && line.quantite) {
+  //         const achatPayload = {
+  //           code: line.demandeCode,
+  //           designation: productData.find(demande => demande.Numéro_Article === line.demandeCode)?.Description_Article || '',
+  //           quantite: parseInt(line.quantite, 10),
+  //           // qte_En_Stock: demandeData.find(demande => demande.code === line.demandeCode)?.quantité || '',
+  //           code_Projet: line.projetCode,
+  //           nom_Projet: projetData.find(projet => projet.code_Projet === line.projetCode)?.nom_Projet || '',
+  //           check_Delivery: false,
+  //           code_Achat: codeAchat,
+  //           user_Dmd: user.username,
+  //           date: formattedDate,
+  //           qte_Reçu: 0
+  //         };
+  //         // console.log("===B===>", achatPayload);
+  //         const response = await dispatch(postAchatempoData(achatPayload));
+  //         console.log("===A===>", response);
+  //         if (response.error) {
+  //           throw new Error(response.error.message);
+  //         }
+  //         console.log("achatPayload", achatPayload);
+  //       }
+  //     }
+  //     setLines([{ demandeCode: '', projetCode: '', quantite: '' }]);
+  //   } catch (error) {
+  //     console.error('Error submitting data:', error.message);
+  //   }
+  // };
+
+//   const handleSubmit = async () => {
+//     try {
+//         const currentDate = new Date();
+//         const formattedDate = currentDate.toISOString();
+
+//         for (const line of lines) {
+//             if (line.demandeCode && line.projetCode && line.quantite) {
+//                 const designation = productData.find(demande => demande.Numéro_Article === line.demandeCode)?.Description_Article || '';
+//                 const nom_Projet = projetData.find(projet => projet.code_Projet === line.projetCode)?.nom_Projet || '';
+
+//                 const achatPayload = {
+//                     code: line.demandeCode,
+//                     designation: designation,
+//                     quantite: parseInt(line.quantite, 10),
+//                     code_Projet: line.projetCode,
+//                     nom_Projet: nom_Projet,
+//                     check_Delivery: false,
+//                     code_Achat: codeAchat,
+//                     user_Dmd: user.username,
+//                     date: formattedDate,
+//                     qte_Reçu: 0
+//                 };
+
+//                 // Dispatch postAchatempoData thunk with achatPayload
+//                 const response = await dispatch(postAchatempoData(achatPayload));
+
+//                 // Handle response/error
+//                 if (response.error) {
+//                     throw new Error(response.error.message);
+//                 }
+//             }
+//         }
+
+//         // Reset lines after successful submission
+//         setLines([{ demandeCode: '', projetCode: '', quantite: '' }]);
+//     } catch (error) {
+//         console.error('Error submitting data:', error.message);
+//     }
+// };
+
+const handleSubmit = async () => {
+  try {
       const currentDate = new Date();
-      const formattedDate = currentDate.toISOString();
+      const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
 
       for (const line of lines) {
-        if (line.demandeCode && line.projetCode && line.quantite) {
-          const achatPayload = {
-            code: line.demandeCode,
-            designation: productData.find(demande => demande.Numéro_Article === line.demandeCode)?.Description_Article || '',
-            quantite: parseInt(line.quantite, 10),
-            // qte_En_Stock: demandeData.find(demande => demande.code === line.demandeCode)?.quantité || '',
-            code_Projet: line.projetCode,
-            nom_Projet: projetData.find(projet => projet.code_Projet === line.projetCode)?.nom_Projet || '',
-            check_Delivery: false,
-            code_Achat: codeAchat,
-            user_Dmd: user.username,
-            date: formattedDate,
-            qte_Reçu: 0
-          };
-          const response = await dispatch(postAchatempoData(achatPayload));
-          console.log("=======>", response);
-          if (response.error) {
-            throw new Error(response.error.message);
+          if (line.demandeCode && line.projetCode && line.quantite) {
+              const designation = productData.find(demande => demande.Numéro_Article === line.demandeCode)?.Description_Article || '';
+              const nom_Projet = projetData.find(projet => projet.code_Projet === line.projetCode)?.nom_Projet || '';
+
+              const achatPayload = {
+                  code: line.demandeCode,
+                  designation: designation,
+                  quantite: parseInt(line.quantite, 10),
+                  code_Projet: line.projetCode,
+                  nom_Projet: nom_Projet,
+                  check_Delivery: false,
+                  code_Achat: codeAchat,
+                  user_Dmd: user.username,
+                  date: "2024-05-13",
+                  // date: formattedDate,
+                  qte_Reçu: 0
+              };
+
+              console.log("===achatpayload===>", achatPayload);
+              // Dispatch postAchatempoData thunk with achatPayload
+              const response = await dispatch(postAchatempoData(achatPayload));
+              console.log("===Res===>", response);
+              // Handle response/error
+              if (response.error) {
+                  throw new Error(response.error.message);
+              }
           }
-          console.log("achatPayload", achatPayload);
-        }
       }
+
+      // Reset lines after successful submission
       setLines([{ demandeCode: '', projetCode: '', quantite: '' }]);
-    } catch (error) {
+  } catch (error) {
       console.error('Error submitting data:', error.message);
-    }
-  };
+  }
+};
+
+
+
 
   const handleKeyPress = (event, index) => {
     if (event.key === 'Enter' && index === lines.length - 1) {
