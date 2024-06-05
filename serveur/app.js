@@ -22,9 +22,15 @@ const statsRoutes = require('./routes/statsRoutes');
 const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(cookieParser());
+// app.use(cors(
+//   {
+//     origin: 'https://fadesol.vercel.app',
+//     credentials: true,
+//   }
+// ));
 app.use(cors(
   {
-    origin: 'https://fadesol.vercel.app',
+    origin: '*',
     credentials: true,
   }
 ));
