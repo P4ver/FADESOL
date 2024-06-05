@@ -293,12 +293,12 @@ useEffect(() => {
                     }}
                 />
             </Toolbar>
-            <Tabs value={tabValue} onChange={handleTabChange}>
+            {/* <Tabs value={tabValue} onChange={handleTabChange}>
                 <Tab label="All" />
                 <Tab label="Publish" />
                 <Tab label="Unpublish" />
-            </Tabs>
-                <TableContainer>
+            </Tabs> */}
+                <TableContainer >
                     <Table size={"small"}>
                         <TableHead>
                             <TableRow>
@@ -309,12 +309,12 @@ useEffect(() => {
                                 <TableCell>Description article</TableCell>
                                 <TableCell>Groupe d'articles</TableCell>
                                 <TableCell>Date d'actualisation</TableCell>
-                                <TableCell>id</TableCell>
-                                <TableCell>Published</TableCell>
+                                {/* <TableCell>id</TableCell>
+                                <TableCell>Published</TableCell> */}
                                 <TableCell align="center">Actions</TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>
+                        <TableBody >
                             {filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
                                 <>
                                 
@@ -326,14 +326,14 @@ useEffect(() => {
                                     <TableCell>{product.Description_Article}</TableCell>
                                     <TableCell>{product.Groupe_Articles}</TableCell>
                                     <TableCell>{product.Date_Actualisation}</TableCell>
-                                    <TableCell>{product.id_Article}</TableCell>
+                                    {/* <TableCell>{product.id_Article}</TableCell>
                                     <TableCell>
                                         <Switch
                                             checked={product.published}
                                             onChange={() => handleTogglePublished(product.id_article)}
                                             color="primary"
                                         />
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell align="center">
                                         <button
                                             type="button"

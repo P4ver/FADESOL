@@ -293,7 +293,7 @@ function ListeDemande() {
 
   return (
     <Box padding={3}>
-      <Typography variant="h4" gutterBottom>Demande Table</Typography>
+      <Typography variant="h4" gutterBottom>Listes Demandes</Typography>
       <TableContainer component={Paper}>
         <Table className={classes.table} size="small">
           <TableHead>

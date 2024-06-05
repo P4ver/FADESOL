@@ -81,13 +81,13 @@ const SideBare = () => {
                 <li>
                 <Link to="/liste-demandes" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
                     <TbArrowBadgeRight className="text-xl" />
-                    <span>Demandes</span>
+                    <span>ListeDA</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/entree" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
                     <TbArrowBadgeRight className="text-xl" />
-                    <span>Saisie</span>
+                    <span>entree</span>
                   </Link>
                 </li>
                 <li>

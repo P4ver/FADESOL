@@ -19,6 +19,7 @@ import Dashboard from "./component/dashboard"
 import ListeDemandes from './component/listeDemande';
 import DeliveredItemsPage from './component/livrePage';
 import { SnackbarProvider } from 'notistack';
+
 function App() {
   return (
     <>
@@ -28,12 +29,13 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginComponent />} />
+            <Route path="/" element={<LoginComponent />} />
             <Route path="/register" element={<Register />} />
             <Route path="/*" element={<ErrorPage />} />
             <Route element={<PrivateRoute />}>
               <Route element={<Layout />}>
                 <Route path="/users" element={<PageUsers />} />
-                <Route path="/" element={<PageDashboard />} exact />
+                {/* <Route path="/" element={<PageDashboard />} exact /> */}
                 <Route path="/products" element={<PageProducts/>} />
                 <Route path="/entree" element={<Entree/>} />
                 <Route path="/sortie" element={<Sortie/>} />
@@ -41,9 +43,12 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard/>} />
                 <Route path="/liste-demandes" element={<ListeDemandes />} />
                 <Route path="/livraison" element={<DeliveredItemsPage />} />
+           
               </Route>
             </Route>
+         
           </Routes>
+     
         </BrowserRouter>
         </SnackbarProvider>
       </Provider>
