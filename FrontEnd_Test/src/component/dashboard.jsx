@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PieChart ,LineChart } from "@mui/x-charts";
-
+import { API_BASE_URL } from '../apiConfig';
 const BasicPie = ({ data }) => {
   return (
     <PieChart
@@ -19,13 +19,13 @@ const Dashboard = () => {
   const [stats, setStats] = useState({ users: 0, products: 0, entries: 0 });
 
   useEffect(() => {
-    fetch('https://fadesol-puoc.vercel.app/stats')
+    fetch(`${API_BASE_URL}/stats`)
       .then(response => response.json())
       .then(data => {
         setStats({
           users: data.users,
           products: data.products,
-          achats: data.achats, 
+          entries: data.entries, // Corrected property name
         });
       })
       .catch(error => {

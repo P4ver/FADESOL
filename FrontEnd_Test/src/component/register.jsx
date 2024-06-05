@@ -26,7 +26,8 @@ const Register = ()  =>{
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://fadesol-puoc.vercel.app/auth/register', formData)
+    // axios.post('https://fadesol-puoc.vercel.app/auth/register', formData)
+    axios.post(`${API_BASE_URL}/auth/register`, formData)
       .then(response => {
         console.log(response.data); // Handle success response
         setRegistrationSuccess(true); // Open popup on successful registration

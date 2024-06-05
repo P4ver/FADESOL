@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { loginSuccess, loginFailure } from '../store/authActions';
 import { Header } from './oldComponent/Header';
-
+import { API_BASE_URL } from '../apiConfig';
   
 const LoginComponent = () => {
   const dispatch = useDispatch();
@@ -23,27 +23,45 @@ const LoginComponent = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('https://fadesol-puoc.vercel.app/auth/login', formData, {
-        withCredentials: true,
-      });
-      console.log('Login successful:', response.config.data);
-      localStorage.setItem('isAuthenticated', 'true');
-const objtext = response.config.data;
-const obj = JSON.parse(objtext)
-      dispatch(loginSuccess(obj)); // Assuming response.data contains user info
-      navigate('/dashboard'); // Assuming navigate is defined somewhere
-    } catch (error) {
-      console.error('Login failed:', error);
-      dispatch(loginFailure(error.message));
-      toast.error('La connexion a échoué. Veuillez vérifier vos informations d\'identification.');
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const response = await axios.post('https://fadesol-puoc.vercel.app/auth/login', formData, {
+//         withCredentials: true,
+//       });
+//       console.log('Login successful:', response.config.data);
+//       localStorage.setItem('isAuthenticated', 'true');
+// const objtext = response.config.data;
+// const obj = JSON.parse(objtext)
+//       dispatch(loginSuccess(obj)); // Assuming response.data contains user info
+//       navigate('/dashboard'); // Assuming navigate is defined somewhere
+//     } catch (error) {
+//       console.error('Login failed:', error);
+//       dispatch(loginFailure(error.message));
+//       toast.error('La connexion a échoué. Veuillez vérifier vos informations d\'identification.');
 
 
-    }
-  };
+//     }
+//   };
 
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await axios.post(`${API_BASE_URL}/auth/login`, formData, {
+      withCredentials: true,
+    });
+    console.log('Login successful:', response.config.data);
+    localStorage.setItem('isAuthenticated', 'true');
+    const objtext = response.config.data;
+    const obj = JSON.parse(objtext)
+    dispatch(loginSuccess(obj)); // Assuming response.data contains user info
+    navigate('/dashboard'); // Assuming navigate is defined somewhere
+  } catch (error) {
+    console.error('Login failed:', error);
+    dispatch(loginFailure(error.message));
+    toast.error('La connexion a échoué. Veuillez vérifier vos informations d\'identification.');
+  }
+};
   const handleSignUpClick = () => {
     navigate('/register');
   };
