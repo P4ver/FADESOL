@@ -12,7 +12,7 @@ const PageUsers = () => {
   const [userRole, setUserRole] = useState(localStorage.getItem("userRole"));
   console.log('===userpage===========>')
   console.log("TSTuser !", userData)
-  console.log("TSTfind !", findUser)
+  console.log("TSTfind !", findUser.type_User)
   useEffect(() => {
     if (findUser) {
       const role = findUser.type_User;
