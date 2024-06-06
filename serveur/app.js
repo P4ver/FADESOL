@@ -37,7 +37,8 @@ app.use(cors(
   }
 ));
 
-app.use(express.static(path.join(__dirname, 'dist')));
+// app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'FrontEnd_Test', 'dist')));
 
 
 
@@ -62,7 +63,8 @@ app.use('/', statsRoutes);
 
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, 'FrontEnd_Test', 'dist', 'index.html'));
+
 });
 
 
