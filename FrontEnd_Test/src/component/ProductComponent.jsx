@@ -63,6 +63,7 @@ const ProductTable = () => {
         Description_Article: "",
         Groupe_Articles: "",
         code_Barre: "",
+        emplacement: "",
     });
     
     const handlePostChange = (event) => {
@@ -74,18 +75,46 @@ const ProductTable = () => {
     };
 
 
+    // const handleSubmit = async () => {
+    //     try {
+    //       const currentDate = new Date().toLocaleDateString();
+    //       await dispatch(postProductData({
+    //         ...formData,
+    //         Date_Actualisation: currentDate
+    //       }));
+    //       setFormData({
+    //         Numéro_Article: "",
+    //         Description_Article: "",
+    //         Groupe_Articles: "",
+    //         code_Barre: "",
+    //       });
+    //       setOpenAddDialog(false);
+    //       console.log('Before toast.success');
+    //       toast.success('Product added successfully!', {
+    //         position: toast.POSITION_TOP_RIGHT,
+    //         autoClose: 3000,
+    //       });
+    //       console.log('After toast.success');
+    //     } catch (error) {
+    //       console.error("Failed to add product:", error);
+    //     }
+    //   };
+
+
     const handleSubmit = async () => {
         try {
           const currentDate = new Date().toLocaleDateString();
           await dispatch(postProductData({
             ...formData,
-            Date_Actualisation: currentDate
+            Date_Actualisation: currentDate,
+            emplacement: formData.emplacement, // Add this new property
           }));
           setFormData({
             Numéro_Article: "",
             Description_Article: "",
             Groupe_Articles: "",
             code_Barre: "",
+            emplacement: "", // Reset the emplacement field
           });
           setOpenAddDialog(false);
           console.log('Before toast.success');
@@ -309,6 +338,7 @@ useEffect(() => {
                                 <TableCell>Description article</TableCell>
                                 <TableCell>Groupe d'articles</TableCell>
                                 <TableCell>Date d'actualisation</TableCell>
+                                <TableCell>Emplacement</TableCell>
                                 {/* <TableCell>id</TableCell>
                                 <TableCell>Published</TableCell> */}
                                 <TableCell align="center">Actions</TableCell>
@@ -326,6 +356,7 @@ useEffect(() => {
                                     <TableCell>{product.Description_Article}</TableCell>
                                     <TableCell>{product.Groupe_Articles}</TableCell>
                                     <TableCell>{product.Date_Actualisation}</TableCell>
+                                    <TableCell>{product.emplacement}</TableCell>
                                     {/* <TableCell>{product.id_Article}</TableCell>
                                     <TableCell>
                                         <Switch
@@ -377,6 +408,7 @@ useEffect(() => {
                            <Typography><strong>Description article: </strong>{product.Description_Article}</Typography>
                            <Typography><strong>Groupe d'articles: </strong>{product.Groupe_Articles}</Typography>
                            <Typography><strong>Date actualisation: </strong>{product.Date_Actualisation}</Typography>
+                           <Typography><strong>Date actualisation: </strong>{product.emplacement}</Typography>
                        </CardContent>
                    </Card>
                </Grid>
@@ -481,6 +513,15 @@ useEffect(() => {
                                                     onChange={handleEditChange}
                                                     variant="outlined"
                                                 />
+                                                    <TextField
+                                                    fullWidth
+                                                    margin="normal"
+                                                    label="Emplacement"
+                                                    name="emplacement"
+                                                    value={editedProduct.emplacement}
+                                                    onChange={handleEditChange}
+                                                    variant="outlined"
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -561,7 +602,7 @@ useEffect(() => {
                         </Button>
                     </DialogActions>
                 </Dialog> */}
-<Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
+{/* <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
     <DialogTitle>Add New Product</DialogTitle>
     <DialogContent>
         <DialogContentText>
@@ -614,8 +655,70 @@ useEffect(() => {
             Add
         </Button>
     </DialogActions>
+</Dialog> */}
+<Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
+  <DialogTitle>Add New Product</DialogTitle>
+  <DialogContent>
+    <DialogContentText>
+      Please fill in the form to add a new product.
+    </DialogContentText>
+    <form>
+      <TextField
+        margin="dense"
+        name="Numéro_Article"
+        label="Numéro d'article"
+        type="text"
+        fullWidth
+        value={formData.Numéro_Article}
+        onChange={handlePostChange}
+      />
+      <TextField
+        margin="dense"
+        name="Description_Article"
+        label="Description article"
+        type="text"
+        fullWidth
+        value={formData.Description_Article}
+        onChange={handlePostChange}
+      />
+      <TextField
+        margin="dense"
+        name="Groupe_Articles"
+        label="Groupe d'articles"
+        type="text"
+        fullWidth
+        value={formData.Groupe_Articles}
+        onChange={handlePostChange}
+      />
+      <TextField
+        margin="dense"
+        name="code_Barre"
+        label="Code Barre"
+        type="text"
+        fullWidth
+        value={formData.code_Barre}
+        onChange={handlePostChange}
+      />
+      <TextField // Add this new field
+        margin="dense"
+        name="emplacement"
+        label="Emplacement"
+        type="text"
+        fullWidth
+        value={formData.emplacement}
+        onChange={handlePostChange}
+      />
+    </form>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={() => setOpenAddDialog(false)} color="primary">
+      Cancel
+    </Button>
+    <Button onClick={handleSubmit} color="primary">
+      Add
+    </Button>
+  </DialogActions>
 </Dialog>
-
                 <Dialog open={openDeleteDialog} onClose={handleDeleteDialogClose}>
                     <DialogTitle>Confirm Delete</DialogTitle>
                     <DialogContent>
