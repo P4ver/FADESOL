@@ -64,7 +64,6 @@ app.use('/', statsRoutes);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'FrontEnd_Test', 'dist', 'index.html'));
-
 });
 
 
