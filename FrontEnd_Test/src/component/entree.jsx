@@ -17,7 +17,7 @@ const productData = useSelector((state) => state.product.productData);
   const authState = useSelector(state => state.auth);
   const user = authState.user;
   const dispatch = useDispatch();
-
+console.log("entree============================>")
   useEffect(() => {
     dispatch(fetchProductData());
     dispatch(fetchProjetData());
