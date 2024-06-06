@@ -36,8 +36,7 @@ const handleSubmit = async () =>{
     // Dispatch the postUserData action
     await dispatch(postUserData(formData));
     // Clear the form input fields
-        setFormData({
-        id_User:"",		
+        setFormData({	
         login_User:"",
         password_User:"",
         nom_User:"",
