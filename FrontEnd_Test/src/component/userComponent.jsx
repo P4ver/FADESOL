@@ -21,7 +21,8 @@ useEffect(() => {
     dispatch(fetchUserData()); // Dispatch the fetchuserData action when the component mounts
 }, [dispatch]);
 
-
+console.log('=============================>')
+console.log("TST User", userData)
 const handlePostChange = (event)=>{
     const {name, value} = event.target
     setFormData({
