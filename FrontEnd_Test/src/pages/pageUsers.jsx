@@ -29,11 +29,12 @@ const PageUsers = () => {
       </div>
     );
   }
-  console.log('=============================>')
+  console.log('==============>')
   console.log("TST !", userData)
   return (
     <div>
-      {userRole === 'Super Admin' || userRole === 'Admin' ? (
+      <TableTest />
+      {/* {userRole === 'Super Admin' || userRole === 'Admin' ? (
         <TableTest />
       ) : (
         <div className="flex items-center justify-center h-screen">
@@ -41,7 +42,7 @@ const PageUsers = () => {
             <h1 className="text-2xl font-bold mb-4">You do not have access to this page.</h1>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
