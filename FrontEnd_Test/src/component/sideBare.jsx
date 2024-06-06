@@ -14,7 +14,7 @@ const SideBare = () => {
   const userState = useSelector(state => state.user)
   const user = authState.user;
   const userId = user.id; // Or any other unique identifier
-
+  
   const foundUser = userState.userData.find(u => u.id == userId);
   // const userInitials = foundUser.nom_User.slice(0, 1).toUpperCase() + foundUser.prenom_User.slice(0, 1).toUpperCase();
 
