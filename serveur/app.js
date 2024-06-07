@@ -59,9 +59,6 @@
 // });
 
 
-
-
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
@@ -87,19 +84,19 @@ const statsRoutes = require('./routes/statsRoutes');
 const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors(
-  {
-    origin: 'http://localhost:5173',
-    credentials: true,
-  }
-));
-
 // app.use(cors(
 //   {
-//     origin: 'https://fadesol-beta.vercel.app',
+//     origin: 'http://localhost:5173',
 //     credentials: true,
 //   }
 // ));
+
+app.use(cors(
+  {
+    origin: 'fadesol-fe.vercel.app',
+    credentials: true,
+  }
+));
 
 // app.use(express.static(path.join(__dirname, 'dist')));
 app.use(express.static(path.join(__dirname, 'FrontEnd_Test', 'dist')));
