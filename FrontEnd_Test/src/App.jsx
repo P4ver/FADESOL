@@ -19,10 +19,10 @@ import Dashboard from "./component/dashboard"
 import ListeDemandes from './component/listeDemande';
 import DeliveredItemsPage from './component/livrePage';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
-// disableReactDevTools()
-if (process.env.NODE_ENV === 'production') {
-  disableReactDevTools();
-}
+disableReactDevTools()
+// if (process.env.NODE_ENV === 'production') {
+//   disableReactDevTools();
+// }
 function App() {
   return (
     <>
