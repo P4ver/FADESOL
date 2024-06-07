@@ -58,7 +58,6 @@
 //   console.log(`Example app listening on port ${port}`);
 // });
 
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
@@ -93,7 +92,7 @@ app.use(cookieParser());
 
 app.use(cors(
   {
-    origin: 'http://fadesol-fe.vercel.app',
+    origin: 'http://fadesol.vercel.app',
     credentials: true,
   }
 ));
