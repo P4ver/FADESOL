@@ -75,7 +75,7 @@ import { FaUser } from "react-icons/fa";
 const NavBar = () => {
   const authState = useSelector(state => state.auth);
   const user = authState.user;
-
+  console.log("=>from navBar User:",user)
   const userState = useSelector(state => state.user)
   const userId = user.id; // Or any other unique identifier
   
