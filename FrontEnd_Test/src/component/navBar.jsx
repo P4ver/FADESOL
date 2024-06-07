@@ -81,7 +81,7 @@ const NavBar = () => {
   // console.log("=>from navBar: the role : ", userState.userData.filter(user=>user.login_User == user.username))
   
   const matchedUser = userState.userData.find(user => user.user == user.login_User);
-  console.log("=>from navBar: the role : ", matchedUser.role);
+  console.log("=>from navBar: the role : ", matchedUser);
 
   const userId = user.id; // Or any other unique identifier
   
