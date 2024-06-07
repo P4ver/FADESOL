@@ -37,7 +37,6 @@ const SideBare = () => {
         className="peer-checked:w-52 left-0 z-10 flex h-screen w-0 flex-col overflow-hidden bg-gray-800 text-white transition-all duration-300 md:h-screen md:w-52 lg:w-52"
       >
       
-     
         <div className="flex flex-col items-center px-6 py-3 space-y-2 bg-gray-700 rounded-lg mt-4">
           <div className="flex items-center justify-center w-12 h-12 bg-gray-500 rounded-full text-xl font-bold">
             {/* {userInitials} */}

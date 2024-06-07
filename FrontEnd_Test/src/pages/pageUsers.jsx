@@ -11,16 +11,16 @@ const PageUsers = () => {
   
   const [userRole, setUserRole] = useState(localStorage.getItem("userRole"));
   console.log('===userpage===========>')
-  console.log("TSTuser !", userData)
-  console.log("TSTfind !", findUser.type_User)
-  useEffect(() => {
-    if (findUser) {
-      const role = findUser.type_User;
-      // console.log("|---findRole--->", role);
-      setUserRole(role);
-      localStorage.setItem("userRole", role);
-    }
-  }, [findUser]);
+  // console.log("TSTuser !", userData)
+  // console.log("TSTfind !", findUser.type_User)
+  // useEffect(() => {
+  //   if (findUser) {
+  //     const role = findUser.type_User;
+  //     // console.log("|---findRole--->", role);
+  //     setUserRole(role);
+  //     localStorage.setItem("userRole", role);
+  //   }
+  // }, [findUser]);
 
   // if (!findUser) {
   //   return (
