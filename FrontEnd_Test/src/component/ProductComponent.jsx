@@ -186,9 +186,14 @@ const ProductTable = () => {
     };
 
     const filteredProducts = productData ? productData.filter((product) => {
-        return (
+        // return (
+        //     (product.Numéro_Article && product.Numéro_Article.toLowerCase().includes(search.toLowerCase())) ||
+        //     (product.Description_Article && product.Description_Article.toLowerCase().includes(search.toLowerCase()))
+        // );
+         return (
             (product.Numéro_Article && product.Numéro_Article.toLowerCase().includes(search.toLowerCase())) ||
-            (product.Description_Article && product.Description_Article.toLowerCase().includes(search.toLowerCase()))
+            (product.Description_Article && product.Description_Article.toLowerCase().includes(search.toLowerCase())) ||
+            (product.code_Barre && product.code_Barre.toLowerCase().includes(search.toLowerCase()))
         );
     }) : [];
 
@@ -328,7 +333,7 @@ useEffect(() => {
                 <Tab label="Unpublish" />
             </Tabs> */}
                 <TableContainer >
-                    <Table size={"small"}>
+                    <Table size='small'>
                         <TableHead>
                             <TableRow>
                                 <TableCell padding="checkbox">
@@ -416,8 +421,8 @@ useEffect(() => {
                    <Card>
                        <CardContent>
                            <Typography><strong>Code barre: </strong></Typography>
-                           <Barcode value={product.Numéro_Article} />
-                           <button onClick={() => downloadBarcode(product.Numéro_Article)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
+                           <Barcode value={product.code_Barre} />
+                           <button onClick={() => downloadBarcode(product.code_Barre)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
                                <p className='px-1'>Télécharge CodeBare</p><FaBarcode />
                            </button>
                        </CardContent>
@@ -427,8 +432,8 @@ useEffect(() => {
                    <Card>
                        <CardContent>
                            <Typography><strong>QRcode </strong></Typography>
-                           <QRCode value={product.Numéro_Article} size={156} />
-                           <button onClick={() => downloadQRCode(product.Numéro_Article)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
+                           <QRCode value={product.code_Barre} size={156} />
+                           <button onClick={() => downloadQRCode(product.code_Barre)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
                                <p className='px-1'>Télécharge QRCode</p><IoQrCode />
                            </button>
                        </CardContent>
