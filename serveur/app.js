@@ -93,7 +93,7 @@ app.use(cookieParser());
 
 app.use(cors(
   {
-    origin: 'fadesol-fe.vercel.app',
+    origin: 'http://fadesol-fe.vercel.app',
     credentials: true,
   }
 ));
