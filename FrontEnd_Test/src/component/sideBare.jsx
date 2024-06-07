@@ -27,7 +27,11 @@ const SideBare = () => {
   return (
     <header className="fixed z-50 md:relative">
       <input type="checkbox" className="peer hidden" id="sidebar-open" />
-  
+    <label class="peer-checked:rounded-full peer-checked:p-2 peer-checked:right-6 peer-checked:bg-gray-600 peer-checked:text-white absolute top-8 z-20 mx-4 cursor-pointer md:hidden" for="sidebar-open">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </label>
       <nav
         aria-label="Sidebar Navigation"
         className="peer-checked:w-52 left-0 z-10 flex h-screen w-0 flex-col overflow-hidden bg-gray-800 text-white transition-all duration-300 md:h-screen md:w-52 lg:w-52"
