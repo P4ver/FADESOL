@@ -203,18 +203,39 @@ const Register = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   axios.post('http://localhost:3000/auth/register', formData)
+  //     .then(response => {
+  //       console.log(response.data);
+  //       setRegistrationSuccess(true);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error:', error);
+  //     });
+  // };
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3000/auth/register', formData)
+    axios.get(`http://localhost:3000/auth/check-user-exists?username=${formData.login_User}&email=${formData.email_User}`)
       .then(response => {
-        console.log(response.data);
-        setRegistrationSuccess(true);
+        if (response.data.exists) {
+          console.error('Error: User already exists');
+          // Display an error message to the user
+        } else {
+          axios.post('http://localhost:3000/auth/register', formData)
+            .then(response => {
+              console.log(response.data);
+              setRegistrationSuccess(true);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        }
       })
       .catch(error => {
         console.error('Error:', error);
       });
   };
-
   const redirectToLogin = () => {
     navigate('/login');
   };
