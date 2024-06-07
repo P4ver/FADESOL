@@ -80,7 +80,7 @@ const NavBar = () => {
   
   // console.log("=>from navBar: the role : ", userState.userData.filter(user=>user.login_User == user.username))
   
-  console.log("=>from navBar User:",userState.userData)
+  console.log("=>from navBar User:",userState.userData.map(usr=>usr.login_User))
   const matchedUser = userState.userData.find(user => user.user == user.login_User);
   console.log("=>from navBar: the role : ", matchedUser);
 
