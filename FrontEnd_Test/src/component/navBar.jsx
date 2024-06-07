@@ -77,6 +77,7 @@ const NavBar = () => {
   const user = authState.user;
   console.log("=>from navBar User:",user)
   const userState = useSelector(state => state.user)
+  console.log("=>from navBar userState : ", userState)
   const userId = user.id; // Or any other unique identifier
   
   // const foundUser = userState.userData.find(u => u.id == userId);
