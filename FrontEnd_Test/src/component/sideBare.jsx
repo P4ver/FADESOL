@@ -30,7 +30,7 @@ const SideBare = () => {
     }
   }, [user, userState]);
 
-  console.log("from sideBare founduser nom: => ", foundUser.nom_User)
+  console.log("from sideBare founduser: => ", foundUser)
   console.log("from sideBare userState => ", userState)
   const toggleEntreeDropdown = () => {
     setIsEntreeDropdownOpen(!isEntreeDropdownOpen);
