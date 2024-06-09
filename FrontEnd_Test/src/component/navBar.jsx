@@ -8,12 +8,12 @@ import { FaUser } from "react-icons/fa";
 const NavBar = () => {
   const authState = useSelector(state => state.auth);
   const user = authState.user;
-  console.log("=>from navBar User:",user.username)
+  console.log("navBar: User.username:",user.username)
   const userState = useSelector(state => state.user)
   
   // console.log("=>from navBar: the role : ", userState.userData.filter(user=>user.login_User == user.username))
   
-  console.log("=>from navBar User:",userState.userData.map(usr=>usr.login_User))
+  console.log("navBar: userData.map(usr.login_User:):",userState.userData.map(usr=>usr.login_User))
   const matchedUser = userState.userData.find(usr => usr.login_User == user.username );
   //==>// console.log("=>from navBar: the role : ", matchedUser.type_User);
 
