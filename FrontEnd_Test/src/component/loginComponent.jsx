@@ -109,10 +109,10 @@ const LoginComponent = () => {
           </div>
 
           <div className="mt-4">
-          <ReCAPTCHA
-  sitekey="6LfFO_MpAAAAAOIgO1O8KmM7yBO6DqROTLdNf8zA"
-  onChange={handleRecaptchaChange}
-/>
+          {/* <ReCAPTCHA
+            sitekey="6LfFO_MpAAAAAOIgO1O8KmM7yBO6DqROTLdNf8zA"
+            onChange={handleRecaptchaChange}
+          /> */}
 
 
           </div>
