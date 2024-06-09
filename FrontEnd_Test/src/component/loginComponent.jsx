@@ -16,7 +16,7 @@ const LoginComponent = () => {
     password: '',
   });
   const [recaptchaToken, setRecaptchaToken] = useState('');
-
+  console.log("============TESTing=============")
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
