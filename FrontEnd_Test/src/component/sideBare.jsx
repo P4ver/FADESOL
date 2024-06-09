@@ -24,12 +24,13 @@ const SideBare = () => {
 
   useEffect(() => {
     if (user && userState.userData.length > 0) {
-      const match = userState.userData.find(u => u.id == user.id);
+      // const match = userState.userData.find(u => u.id == user.id);
+      const match = userState.userData.find(usr => usr.login_User === user.username);
       setFoundUser(match);
     }
   }, [user, userState]);
-  console.log("from sidebar user", user);
-  console.log("from sideBare founduser => ", foundUser)
+
+  console.log("from sideBare founduser nom: => ", foundUser.nom_User)
   console.log("from sideBare userState => ", userState)
   const toggleEntreeDropdown = () => {
     setIsEntreeDropdownOpen(!isEntreeDropdownOpen);
