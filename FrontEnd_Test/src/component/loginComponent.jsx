@@ -16,7 +16,7 @@ const LoginComponent = () => {
     password: '',
   });
   const [recaptchaToken, setRecaptchaToken] = useState('');
-  console.log("============TESTing=============")
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -32,7 +32,8 @@ const LoginComponent = () => {
       return;
     }
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/login`, { ...formData, recaptchaToken }, {
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, formData, {
+      // const response = await axios.post(`${API_BASE_URL}/auth/login`, { ...formData, recaptchaToken }, {
         withCredentials: true,
       });
       console.log('Login successful:', response.config.data);
