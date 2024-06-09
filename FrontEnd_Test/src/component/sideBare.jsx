@@ -61,7 +61,7 @@ const SideBare = () => {
             {foundUser}
           </div>
           <div className="text-lg text-center">
-            {/* Welcome back, <br /> {foundUser.nom_User} {foundUser.prenom_User} */}
+            Welcome Back, <br /> {fullName}
           </div>
         </div>
         <ul className="mt-8 space-y-3 md:mt-20">
