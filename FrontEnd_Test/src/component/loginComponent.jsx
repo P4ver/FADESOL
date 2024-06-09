@@ -27,10 +27,10 @@ const LoginComponent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!recaptchaToken) {
-      toast.error('Veuillez compléter la vérification reCAPTCHA.');
-      return;
-    }
+    // if (!recaptchaToken) {
+    //   toast.error('Veuillez compléter la vérification reCAPTCHA.');
+    //   return;
+    // }
     try {
       const response = await axios.post(`${API_BASE_URL}/auth/login`, formData, {
       // const response = await axios.post(`${API_BASE_URL}/auth/login`, { ...formData, recaptchaToken }, {
