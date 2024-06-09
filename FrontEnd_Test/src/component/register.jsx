@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../pictures/logo.png';
 import { ToastContainer, toast } from 'react-toastify';
-import { API_BASE_URL } from '../apiConfig';
-
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -25,9 +23,42 @@ const Register = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   axios.post('http://localhost:3000/auth/register', formData)
+  //     .then(response => {
+  //       console.log(response.data);
+  //       setRegistrationSuccess(true);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error:', error);
+  //     });
+  // };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   axios.post('http://localhost:3000/auth/register', formData)
+  //     .then(response => {
+  //       console.log(response.data);
+  //       setRegistrationSuccess(true);
+  //     })
+  //     .catch(error => {
+  //       if (error.response.status === 409) {
+  //         // Le serveur a renvoyé une erreur 409 (Conflict) car l'utilisateur existe déjà.
+  //         // Vous pouvez afficher un message d'erreur approprié à l'utilisateur.
+  //         console.error('User already exists:', error.response.data);
+  //         // Affichez un message d'erreur à l'utilisateur, par exemple :
+  //         alert('Un utilisateur existe déjà avec ces informations.');
+  //       } else {
+  //         console.error('Error:', error);
+  //       }
+  //     });
+  // };
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`${API_BASE_URL}/auth/register`, formData)
+        // axios.post(`${API_BASE_URL}/auth/register`, formData)
+
+    axios.post('https://fadesol.onrender.com/auth/register', formData)
       .then(response => {
         console.log(response.data);
         setRegistrationSuccess(true);
