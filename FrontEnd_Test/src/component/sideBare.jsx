@@ -28,6 +28,7 @@ const SideBare = () => {
       setFoundUser(match);
     }
   }, [user, userState]);
+  console.log("from sidebar user.id", user.id);
   console.log("from sideBare founduser => ", foundUser)
   console.log("from sideBare userState => ", userState)
   const toggleEntreeDropdown = () => {
