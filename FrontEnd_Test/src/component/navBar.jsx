@@ -10,7 +10,7 @@ const NavBar = () => {
   const userState = useSelector(state => state.user);
   const [user, setUser] = useState(null);
   const [matchedUser, setMatchedUser] = useState(null);
-
+console.log("navBar =>",userState)
   useEffect(() => {
     if (authState.user) {
       setUser(authState.user);
