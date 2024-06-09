@@ -10,7 +10,9 @@ const NavBar = () => {
   const userState = useSelector(state => state.user);
   const [user, setUser] = useState(null);
   const [matchedUser, setMatchedUser] = useState(null);
-console.log("navBar =>",userState)
+
+  console.log("navBar =>",userState)
+
   useEffect(() => {
     if (authState.user) {
       setUser(authState.user);
@@ -19,7 +21,7 @@ console.log("navBar =>",userState)
 
   useEffect(() => {
     if (user && userState.userData.length > 0) {
-      const match = userState.userData.find(usr => usr.login_User === user.username);
+      const match = userState.userData.find(usr => usr.login_User == user.username);
       setMatchedUser(match);
     }
   }, [user, userState]);
