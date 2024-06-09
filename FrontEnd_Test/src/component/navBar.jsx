@@ -12,7 +12,7 @@ const NavBar = () => {
   const userState = useSelector(state => state.user)
   
   // console.log("=>from navBar: the role : ", userState.userData.filter(user=>user.login_User == user.username))
-  
+  console.log("=>from navBar: userState : ", userState)
   console.log("navBar: userData.map(usr.login_User:):",userState.userData.map(usr=>usr.login_User))
   const matchedUser = userState.userData.find(usr => usr.login_User == user.username );
   console.log("navBar: the role : ", matchedUser.type_User);
