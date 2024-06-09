@@ -26,8 +26,7 @@ const SideBare = () => {
     if (user && userState.userData.length > 0) {
       // const match = userState.userData.find(u => u.id == user.id);
       const match = userState.userData.find(usr => usr.login_User == user.username);
-      console.log(match.nom_User.slice(0, 1).toUpperCase())
-      setFoundUser(match.nom_User.slice(0, 1).toUpperCase());
+      setFoundUser(match.nom_User.slice(0, 1).toUpperCase()+match.prenom_User.slice(0, 1).toUpperCase());
     }
   }, [user, userState]);
 
