@@ -12,7 +12,7 @@ const SideBare = () => {
   const [isEntreeDropdownOpen, setIsEntreeDropdownOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [foundUser, setFoundUser] = useState(null);
-
+  const [fullName, setFullName] = useState(null);
   const authState = useSelector(state => state.auth);
   const userState = useSelector(state => state.user);
 
@@ -26,7 +26,9 @@ const SideBare = () => {
     if (user && userState.userData.length > 0) {
       // const match = userState.userData.find(u => u.id == user.id);
       const match = userState.userData.find(usr => usr.login_User == user.username);
+
       setFoundUser(match.nom_User.slice(0, 1).toUpperCase()+match.prenom_User.slice(0, 1).toUpperCase());
+      setFullName(match.nom_User+" "+match.prenom_User);
     }
   }, [user, userState]);
 
