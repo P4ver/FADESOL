@@ -34,7 +34,7 @@ const SideBare = () => {
   };
 
   if (!user || !foundUser) {
-    return <div>Loading...</div>; // Or a spinner, or any loading indicator
+    <div>Loading...</div>; // Or a spinner, or any loading indicator
   }
 
   const userInitials = foundUser.nom_User.slice(0, 1).toUpperCase() + foundUser.prenom_User.slice(0, 1).toUpperCase();
