@@ -15,7 +15,7 @@ const NavBar = () => {
   
   console.log("navBar: userData.map(usr.login_User:):",userState.userData.map(usr=>usr.login_User))
   const matchedUser = userState.userData.find(usr => usr.login_User == user.username );
-  //==>// console.log("=>from navBar: the role : ", matchedUser.type_User);
+  console.log("=>from navBar: the role : ", matchedUser);
 
   const userId = user.id; // Or any other unique identifier
   
