@@ -15,7 +15,7 @@ const NavBar = () => {
   
   console.log("=>from navBar User:",userState.userData.map(usr=>usr.login_User))
   const matchedUser = userState.userData.find(usr => usr.login_User == user.username );
-  // console.log("=>from navBar: the role : ", matchedUser.type_User);
+  //==>// console.log("=>from navBar: the role : ", matchedUser.type_User);
 
   const userId = user.id; // Or any other unique identifier
   
@@ -33,7 +33,7 @@ const NavBar = () => {
               <img src={logo} alt="Logo" />
             </li>
             <li className="flex items-center justify-between">
-            {matchedUser.type_User}
+            {/* {matchedUser.type_User} */}
               <div className="flex h-8 w-8 items-center justify-center bg-gray-900 rounded-full text-white hover:text-gray-400 hover:shadow ml-2">
             <FaUser />
               </div>
