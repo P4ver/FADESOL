@@ -27,7 +27,7 @@ console.log("navBar =>",userState)
   if (!user || !matchedUser) {
      <div>Loading...</div>; // Or a spinner, or any loading indicator
   }
-
+  console.log("test matchuser:",matchedUser);
   // const userId = user.id; // Or any other unique identifier
   // const userInitials = matchedUser.nom_User.slice(0, 1).toUpperCase() + matchedUser.prenom_User.slice(0, 1).toUpperCase();
 
