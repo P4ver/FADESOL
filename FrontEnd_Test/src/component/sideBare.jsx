@@ -28,7 +28,7 @@ const SideBare = () => {
       const match = userState.userData.find(usr => usr.login_User == user.username);
 
       setFoundUser(match.nom_User.slice(0, 1).toUpperCase()+match.prenom_User.slice(0, 1).toUpperCase());
-      setFullName(match.nom_User+match.prenom_User);
+      setFullName(match.nom_User+' '+match.prenom_User);
     }
   }, [user, userState]);
 
