@@ -23,14 +23,14 @@ const NavBar = () => {
     if (user && userState.userData.length > 0) {
       const match = userState.userData.find(usr => usr.login_User == user.username);
       console.log("inside useEffect nav role: ",match.type_User);
-      setMatchedUser(match);
+      setMatchedUser(match.type_User);
     }
   }, [user, userState]);
 
   if (!user || !matchedUser) {
      <div>Loading...</div>; // Or a spinner, or any loading indicator
   }
-  console.log("test matchuser:",matchedUser);
+  // console.log("test matchuser:",matchedUser);
   // const userId = user.id; // Or any other unique identifier
   // const userInitials = matchedUser.nom_User.slice(0, 1).toUpperCase() + matchedUser.prenom_User.slice(0, 1).toUpperCase();
 
@@ -43,8 +43,8 @@ const NavBar = () => {
               <img src={logo} alt="Logo" />
             </li>
             <li className="flex items-center justify-between">
-              {/* {matchedUser.type_User} */}
-              TEST
+              {matchedUser}
+
               <div className="flex h-8 w-8 items-center justify-center bg-gray-900 rounded-full text-white hover:text-gray-400 hover:shadow ml-2">
                 <FaUser />
               </div>
