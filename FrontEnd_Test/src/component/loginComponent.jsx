@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { loginSuccess, loginFailure } from '../store/authActions';
 import logo from '../pictures/logo.png';
+import { API_BASE_URL } from '../apiConfig';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 const LoginComponent = () => {
@@ -32,7 +33,7 @@ const LoginComponent = () => {
     //   return;
     // }
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/login`, formData, {
+    const response = await axios.post(`${API_BASE_URL}/auth/login`, formData, {
       // const response = await axios.post(`${API_BASE_URL}/auth/login`, { ...formData, recaptchaToken }, {
         withCredentials: true,
       });
