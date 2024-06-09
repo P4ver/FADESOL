@@ -22,6 +22,7 @@ const NavBar = () => {
   useEffect(() => {
     if (user && userState.userData.length > 0) {
       const match = userState.userData.find(usr => usr.login_User == user.username);
+      console.log("inside useEffect nav role: ",match.type_User);
       setMatchedUser(match);
     }
   }, [user, userState]);

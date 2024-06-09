@@ -26,6 +26,7 @@ const SideBare = () => {
     if (user && userState.userData.length > 0) {
       // const match = userState.userData.find(u => u.id == user.id);
       const match = userState.userData.find(usr => usr.login_User == user.username);
+      
       setFoundUser(match);
     }
   }, [user, userState]);
