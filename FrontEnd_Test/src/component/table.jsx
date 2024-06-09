@@ -16,10 +16,11 @@ import * as XLSX from "xlsx";
 import AddUser from "./usrDashBoard/addUser";
 import { createCanvas } from 'canvas';
 import JsBarcode from 'jsbarcode';
-
 const TableTest = () => {
   const dispatch = useDispatch();
   const { userData, loading, error } = useSelector((state) => state.user);
+  console.log('==============>')
+  console.log("TST !", userData)
   
   const [openDialog, setOpenDialog] = useState(false);
   const [editUser, setEditUser] = useState(null);
