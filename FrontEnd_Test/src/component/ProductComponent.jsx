@@ -958,7 +958,7 @@ useEffect(() => {
                                     <TableCell>{product.Description_Article}</TableCell>
                                     <TableCell>{product.Groupe_Articles}</TableCell>
                                     <TableCell>{product.Date_Actualisation}</TableCell>
-                                    <TableCell>{product.emplacement}</TableCell>
+                                    <TableCell>{product.Emplacement}</TableCell>
                                     {/* <TableCell>{product.id_Article}</TableCell>
                                     <TableCell>
                                         <Switch
@@ -1000,45 +1000,45 @@ useEffect(() => {
                                 <TableRow>
              
                                     <TableCell colSpan={9} style={{ paddingBottom: 0, paddingTop: 0 }}>
-       <Collapse in={expandedUser === product.id_Article} timeout="auto" unmountOnExit>
-           <Grid container spacing={2}>
-               <Grid item xs={4}>
-                   <Card>
-                       <CardContent>
-                           <Typography variant="h6">Product Details</Typography>
-                           <Typography><strong>Numéro article: </strong>{product.Numéro_Article}</Typography>
-                           <Typography><strong>Description article: </strong>{product.Description_Article}</Typography>
-                           <Typography><strong>Groupe d'articles: </strong>{product.Groupe_Articles}</Typography>
-                           <Typography><strong>Date actualisation: </strong>{product.Date_Actualisation}</Typography>
-                           <Typography><strong>Date actualisation: </strong>{product.emplacement}</Typography>
-                       </CardContent>
-                   </Card>
-               </Grid>
-               <Grid item xs={4}>
-                   <Card>
-                       <CardContent>
-                           <Typography><strong>Code barre: </strong></Typography>
-                           <Barcode value={product.code_Barre} />
-                           <button onClick={() => downloadBarcode(product.code_Barre)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
-                               <p className='px-1'>Télécharge CodeBare</p><FaBarcode />
-                           </button>
-                       </CardContent>
-                   </Card>
-               </Grid>
-               <Grid item xs={4}>
-                   <Card>
-                       <CardContent>
-                           <Typography><strong>QRcode </strong></Typography>
-                           <QRCode value={product.code_Barre} size={156} />
-                           <button onClick={() => downloadQRCode(product.code_Barre)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
-                               <p className='px-1'>Télécharge QRCode</p><IoQrCode />
-                           </button>
-                       </CardContent>
-                   </Card>
-               </Grid>
-           </Grid>
-       </Collapse>
-   </TableCell>
+                                        <Collapse in={expandedUser === product.id_Article} timeout="auto" unmountOnExit>
+                                            <Grid container spacing={2}>
+                                                <Grid item xs={4}>
+                                                    <Card>
+                                                        <CardContent>
+                                                            <Typography variant="h6">Product Details</Typography>
+                                                            <Typography><strong>Numéro article: </strong>{product.Numéro_Article}</Typography>
+                                                            <Typography><strong>Description article: </strong>{product.Description_Article}</Typography>
+                                                            <Typography><strong>Groupe d'articles: </strong>{product.Groupe_Articles}</Typography>
+                                                            <Typography><strong>Date actualisation: </strong>{product.Date_Actualisation}</Typography>
+                                                            <Typography><strong>Date actualisation: </strong>{product.emplacement}</Typography>
+                                                        </CardContent>
+                                                    </Card>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Card>
+                                                        <CardContent>
+                                                            <Typography><strong>Code barre: </strong></Typography>
+                                                            <Barcode value={product.code_Barre} />
+                                                            <button onClick={() => downloadBarcode(product.code_Barre)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
+                                                                <p className='px-1'>Télécharge CodeBare</p><FaBarcode />
+                                                            </button>
+                                                        </CardContent>
+                                                    </Card>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Card>
+                                                        <CardContent>
+                                                            <Typography><strong>QRcode </strong></Typography>
+                                                            <QRCode value={product.code_Barre} size={156} />
+                                                            <button onClick={() => downloadQRCode(product.code_Barre)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
+                                                                <p className='px-1'>Télécharge QRCode</p><IoQrCode />
+                                                            </button>
+                                                        </CardContent>
+                                                    </Card>
+                                                </Grid>
+                                            </Grid>
+                                        </Collapse>
+                                    </TableCell>
                                 </TableRow>
                                 </>
                             ))}
