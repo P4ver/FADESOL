@@ -308,7 +308,7 @@ const handleSubmit = async () => {
                   code_Achat: codeAchat,
                   user_Dmd: user.username,
                   // date: "2024-05-13",
-                  // date: formattedDate,
+                  date: formattedDate,
                   qte_Reçu: 0
               };
 
