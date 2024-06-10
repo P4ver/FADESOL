@@ -307,7 +307,7 @@ const Entree = () => {
             check_Delivery: false,
             code_Achat: codeAchat,
             user_Dmd: user.username,
-            date: formattedDate,
+            date: "2024-25-16",
             qte_Reçu: 0
           };
           const response = await dispatch(postAchatempoData(achatPayload));
