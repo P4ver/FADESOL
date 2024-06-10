@@ -51,8 +51,8 @@ const handleSubmit = async () => {
       for (const line of lines) {
           if (line.demandeCode && line.projetCode && line.quantite) {
               const designation = productData.find(demande => demande.Numéro_Article === line.demandeCode)?.Description_Article || '';
-              const nom_Projet = projetData.find(projet => projet.code_Projet === line.projetCode)?.nom_Projet || '';
-
+              const nom_Projet = projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || '';
+              const qte_Magasin = productData.find(demande => demande.Numéro_Article === line.demandeCode)?.qte_Magasin || '';
               const achatPayload = {
                   code: line.demandeCode,
                   designation: designation,
@@ -62,9 +62,9 @@ const handleSubmit = async () => {
                   check_Delivery: false,
                   code_Achat: codeAchat,
                   user_Dmd: user.username,
-                  // date: "2024-05-13",
                   date: formattedDate,
-                  qte_Reçu: 0
+                  qte_Reçu: 0,
+                  qte_Magasin:qte_Magasin
               };
 
               console.log("===achatpayload===>", achatPayload);
@@ -101,6 +101,7 @@ const handleSubmit = async () => {
             <th className="border px-4 py-2">Description Article</th>
             <th className="border px-4 py-2">Projet Code</th>
             <th className="border px-4 py-2">Projet Nom</th>
+            <th className="border px-4 py-2">Quantité Magasin</th>
             <th className="border px-4 py-2">Quantité</th>
             <th className="border px-4 py-2">Action</th>
           </tr>
@@ -129,7 +130,7 @@ const handleSubmit = async () => {
                 />
               </td>
            
-                             <td className="border px-4 py-2">
+                <td className="border px-4 py-2">
                  <input
                    type="text"
                    value={line.projetCode}
@@ -147,6 +148,17 @@ const handleSubmit = async () => {
                    disabled
                  /></td>
             
+              <td className="border px-4 py-2">
+              <input
+                  type="text"
+                  value={line.demandeCode ? productData.find(demande =>
+                    demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode
+                  )?.qte_Magasin : ''}
+                  className="w-full px-2 py-1 border-none"
+                  disabled
+                />
+     
+              </td>
               <td className="border px-4 py-2">
                 <input
                   type="number"
