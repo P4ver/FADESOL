@@ -184,7 +184,7 @@ import { FaRegCircleCheck } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../pictures/logo.png';
-
+import { ToastContainer, toast } from 'react-toastify';
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -203,6 +203,37 @@ const Register = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   axios.post('http://localhost:3000/auth/register', formData)
+  //     .then(response => {
+  //       console.log(response.data);
+  //       setRegistrationSuccess(true);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error:', error);
+  //     });
+  // };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   axios.post('http://localhost:3000/auth/register', formData)
+  //     .then(response => {
+  //       console.log(response.data);
+  //       setRegistrationSuccess(true);
+  //     })
+  //     .catch(error => {
+  //       if (error.response.status === 409) {
+  //         // Le serveur a renvoyé une erreur 409 (Conflict) car l'utilisateur existe déjà.
+  //         // Vous pouvez afficher un message d'erreur approprié à l'utilisateur.
+  //         console.error('User already exists:', error.response.data);
+  //         // Affichez un message d'erreur à l'utilisateur, par exemple :
+  //         alert('Un utilisateur existe déjà avec ces informations.');
+  //       } else {
+  //         console.error('Error:', error);
+  //       }
+  //     });
+  // };
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post('http://localhost:3000/auth/register', formData)
@@ -211,10 +242,18 @@ const Register = () => {
         setRegistrationSuccess(true);
       })
       .catch(error => {
-        console.error('Error:', error);
+        if (error.response.status === 409) {
+          console.error('User already exists:', error.response.data);
+          // Afficher un message d'erreur dans une notification
+          toast.error('Un utilisateur existe déjà avec ces informations.', {
+            position: toast.POSITION_TOP_RIGHT,
+            autoClose: 3000,
+          });
+        } else {
+          console.error('Error:', error);
+        }
       });
   };
-
   const redirectToLogin = () => {
     navigate('/login');
   };
@@ -222,7 +261,7 @@ const Register = () => {
   const handleLoginClick = () => {
     navigate('/login');
   };
-
+console.log("form data",formData)
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -392,7 +431,10 @@ const Register = () => {
           </div>
         )}
       </div>
+      <ToastContainer />
+
     </div>
+    
   );
 }
 

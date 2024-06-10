@@ -20,6 +20,7 @@ import ListeDemandes from './component/listeDemande';
 import DeliveredItemsPage from './component/livrePage';
 import { SnackbarProvider } from 'notistack';
 
+
 function App() {
   return (
     <>
@@ -43,7 +44,8 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard/>} />
                 <Route path="/liste-demandes" element={<ListeDemandes />} />
                 <Route path="/livraison" element={<DeliveredItemsPage />} />
-           
+               
+
               </Route>
             </Route>
          

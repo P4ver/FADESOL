@@ -68,12 +68,12 @@ const modifierProduit = (req, res) => {
       if (err) throw err;
       console.log("connection as id", connection.threadId);
   
-      const { Numéro_Article, Description_Article, Groupe_Articles, Date_Actualisation, emplacement } = req.body; // Add emplacement to the destructured object
+      const { Numéro_Article, Description_Article, Groupe_Articles, Date_Actualisation, emplacement ,qte_Magasin} = req.body; // Add emplacement to the destructured object
       const { id } = req.params;
   
       connection.query(
-        "UPDATE articles SET Numéro_Article = ?, Description_Article = ?, Groupe_Articles = ?, Date_Actualisation = ?, emplacement = ? WHERE id_Article = ?", // Add emplacement to the update query
-        [Numéro_Article, Description_Article, Groupe_Articles, Date_Actualisation, emplacement, id],
+        "UPDATE articles SET Numéro_Article = ?, Description_Article = ?, Groupe_Articles = ?, Date_Actualisation = ?, qte_Magasin = ? , emplacement = ? WHERE id_Article = ?", // Add emplacement to the update query
+        [Numéro_Article, Description_Article, Groupe_Articles, Date_Actualisation, emplacement,qte_Magasin, id],
         (err, rows) => {
           connection.release();
           if (err) throw err;
