@@ -660,7 +660,7 @@ const ProductTable = () => {
         Description_Article: "",
         Groupe_Articles: "",
         code_Barre: "",
-        emplacement: "",
+        Emplacement: "",
     });
     
     const handlePostChange = (event) => {
@@ -704,14 +704,14 @@ const ProductTable = () => {
           await dispatch(postProductData({
             ...formData,
             Date_Actualisation: currentDate,
-            emplacement: formData.emplacement, // Add this new property
+            Emplacement: formData.Emplacement, // Add this new property
           }));
           setFormData({
             Numéro_Article: "",
             Description_Article: "",
             Groupe_Articles: "",
             code_Barre: "",
-            emplacement: "", // Reset the emplacement field
+            Emplacement: "", // Reset the emplacement field
           });
           setOpenAddDialog(false);
           console.log('Before toast.success');
@@ -1010,7 +1010,7 @@ useEffect(() => {
                                                             <Typography><strong>Description article: </strong>{product.Description_Article}</Typography>
                                                             <Typography><strong>Groupe d'articles: </strong>{product.Groupe_Articles}</Typography>
                                                             <Typography><strong>Date actualisation: </strong>{product.Date_Actualisation}</Typography>
-                                                            <Typography><strong>Date actualisation: </strong>{product.emplacement}</Typography>
+                                                            <Typography><strong>Date actualisation: </strong>{product.Emplacement}</Typography>
                                                         </CardContent>
                                                     </Card>
                                                 </Grid>
@@ -1120,7 +1120,7 @@ useEffect(() => {
                                                     margin="normal"
                                                     label="Emplacement"
                                                     name="emplacement"
-                                                    value={editedProduct.emplacement}
+                                                    value={editedProduct.Emplacement}
                                                     onChange={handleEditChange}
                                                     variant="outlined"
                                                 />
@@ -1303,11 +1303,11 @@ useEffect(() => {
       />
       <TextField // Add this new field
         margin="dense"
-        name="emplacement"
+        name="Emplacement"
         label="Emplacement"
         type="text"
         fullWidth
-        value={formData.emplacement}
+        value={formData.Emplacement}
         onChange={handlePostChange}
       />
     </form>
