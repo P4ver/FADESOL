@@ -292,7 +292,7 @@ const handleSubmit = async () => {
   try {
       const currentDate = new Date();
       const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
-
+    console.log(formattedDate)
       for (const line of lines) {
           if (line.demandeCode && line.projetCode && line.quantite) {
               const designation = productData.find(demande => demande.Numéro_Article === line.demandeCode)?.Description_Article || '';
@@ -307,7 +307,7 @@ const handleSubmit = async () => {
                   check_Delivery: false,
                   code_Achat: codeAchat,
                   user_Dmd: user.username,
-                  date: "2024-05-13",
+                  // date: "2024-05-13",
                   // date: formattedDate,
                   qte_Reçu: 0
               };
