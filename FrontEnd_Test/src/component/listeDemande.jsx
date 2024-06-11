@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAchatempoData, updateAchatempoData, deleteAchatempoData } from '../store/achatempoSlice';
-import {fetchProductData,updateProductData} from "../store/productSlice"
+import {fetchProductData,updateProductData, updateQteMagasin} from "../store/productSlice"
 import Modal from 'react-modal';
 import { FaEye, FaPencilAlt, FaCheck, FaTimes, FaTruck, FaPrint } from 'react-icons/fa';
 import {
@@ -122,23 +122,23 @@ function ListeDemande() {
   //   }
   // };
 
+
   const handleFormSubmit = async (id) => {
     const quantityReceived = qteRecu[id];
     if (quantityReceived !== undefined) {
       console.log('Updating quantity received for ID:', id);
       console.log('New quantity received:', quantityReceived);
       try {
-        // Dispatching updateAchatempoData action
+        // Dispatching updateAchatempoData action to update qte_Reçu
         await dispatch(updateAchatempoData({
           id_Achat: id,
           updatedAchatempoData: { qte_Reçu: quantityReceived }
         }));
   
-        // Dispatching updateProductData action
-        console.log('Dispatching updateProductData action...');
-        await dispatch(updateProductData({ productId: id, updatedProductData: { qte_magasin: quantityReceived } }));
-        console.log('updateProductData action dispatched successfully.');
-        
+        // Dispatching updateQteMagasin action to update qte_Magasin
+        const updatedQteMagasin = quantityReceived + 1008; // Update qte_Magasin based on your logic
+        await dispatch(updateQteMagasin({ productId: 17, qte_Magasin: updatedQteMagasin }));
+  
         setUpdateSuccess(true);
       } catch (error) {
         console.error('Error updating quantity received:', error);
@@ -149,6 +149,7 @@ function ListeDemande() {
     }
   };
   
+
 
 
   const handleDelete = (id) => {

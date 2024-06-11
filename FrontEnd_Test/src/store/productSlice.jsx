@@ -67,6 +67,28 @@ export const updateProductData = createAsyncThunk(
   }
 );
 
+export const updateQteMagasin = createAsyncThunk(
+  'product/updateQteMagasin',
+  async ({ productId, qte_Magasin }, thunkAPI) => {
+    try {
+      const response = await axios.put(`${API_BASE_URL}/produits/${productId}/qte`, { qte_Magasin }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      });
+      if (response.status !== 200) {
+        throw new Error('Failed to update product quantity');
+      }
+      await thunkAPI.dispatch(fetchProductData());
+      return { productId, qte_Magasin };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+
 export const deleteProductData = createAsyncThunk(
   'product/deleteProductData',
   async (productId, thunkAPI) => {
@@ -152,6 +174,21 @@ const productSlice = createSlice({
       .addCase(updateProductData.rejected, (state, action) => {
         state.loading = false;
         console.log(action);
+        state.error = action.error.message;
+      })
+      .addCase(updateQteMagasin.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateQteMagasin.fulfilled, (state, action) => {
+        state.loading = false;
+        const { productId, qte_Magasin } = action.payload;
+        state.productData = state.productData.map(product =>
+          product.idProduct === productId ? { ...product, qte_Magasin } : product
+        );
+      })
+      .addCase(updateQteMagasin.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.error.message;
       });
   },
