@@ -1,16 +1,16 @@
-// const mysql = require('mysql');
-// require('dotenv').config();
+const mysql = require('mysql');
+require('dotenv').config();
 
-// const pool = mysql.createPool({
-//     connectionLimit: 10,
-//     host: process.env.DB_HOST,
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PASSWORD,
-//     database: process.env.DB_DATABASE,
-//     port: process.env.DB_PORT
-// });
+const pool = mysql.createPool({
+    connectionLimit: 10,
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    port: process.env.DB_PORT
+});
 
-// module.exports = pool;
+module.exports = pool;
 
 
 // const mysql = require('mysql');
@@ -27,14 +27,14 @@
 // module.exports = pool;
 
 
-const mysql = require('mysql');
+// const mysql = require('mysql');
 
-const pool = mysql.createPool({
-    connectionLimit: 10,
-    host: 'localhost',
-    user: 'root', // Your MySQL username
-    password: null, // Your MySQL password
-    database: 'fadesoldb', // Name of the database you created
-});
+// const pool = mysql.createPool({
+//     connectionLimit: 10,
+//     host: 'localhost',
+//     user: 'root', // Your MySQL username
+//     password: null, // Your MySQL password
+//     database: 'fadesoldb', // Name of the database you created
+// });
 
 module.exports = pool;

@@ -90,19 +90,19 @@ app.use(cookieParser());
 //   credentials: true,
 // }));
 
-app.use(cors(
-  {
-    origin: 'http://localhost:5173',
-    credentials: true,
-  }
-));
-
 // app.use(cors(
 //   {
-//     origin: 'https://fadesol-beta.vercel.app',
+//     origin: 'http://localhost:5173',
 //     credentials: true,
 //   }
 // ));
+
+app.use(cors(
+  {
+    origin: 'https://fadesol-beta.vercel.app',
+    credentials: true,
+  }
+));
 
 // app.use(express.static(path.join(__dirname, 'dist')));
 app.use(express.static(path.join(__dirname, 'FrontEnd_Test', 'dist')));
