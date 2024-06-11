@@ -721,7 +721,6 @@ function ListeDemande() {
     dispatch(fetchProductData());
     dispatch(fetchAchatempoData());
   }, [dispatch]);
-// console.log("pppppppppppp", productData)
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [qteRecu, setQteRecu] = useState({});
@@ -738,7 +737,8 @@ function ListeDemande() {
 
   useEffect(() => {
     if (updateSuccess) {
-      window.location.reload();
+      // window.location.reload();
+      console.log("avoid reload")
     }
   }, [updateSuccess]);
 
@@ -769,6 +769,7 @@ function ListeDemande() {
 
   const handleFormSubmit = async (id) => {
     const quantityReceived = qteRecu[id];
+    console.log("handleSubmit quantityReceived",quantityReceived)
     if (quantityReceived !== undefined) {
       console.log('Updating quantity received for ID:', id);
       console.log('New quantity received:', quantityReceived);
@@ -974,6 +975,7 @@ function ListeDemande() {
   const handleValidation = async () => {
     try {
       const updatePromises = Object.keys(qteRecu).map(async id => {
+        
         await dispatch(updateAchatempoData({
           id_Achat: id,
           updatedAchatempoData: { qte_Reçu: qteRecu[id] }
@@ -983,14 +985,13 @@ function ListeDemande() {
         if (!updatedItem) {
           throw new Error(`Item with id ${id} not found in achatempoData`);
         }
-        console.log("updatedItem", updatedItem)
         const product = productData.find(p => p.Description_Article == updatedItem.designation);
         console.log("product", product)
         if (!product) {
           throw new Error(`Product with designation ${updatedItem.designation} not found`);
         }
-  
-        const newQteMagasin = product.qte_Magasin + parseInt(qteRecu[id]);
+        // console.log("============>updatedItem: qte Reçu",updatedItem.qte_Reçu)
+        const newQteMagasin = (parseInt(qteRecu[id]) - updatedItem.qte_Reçu) + product.qte_Magasin;
         console.log("newQteMagasin : ", newQteMagasin)
         await dispatch(updateQteMagasin({
           productId: product.id_Article,
