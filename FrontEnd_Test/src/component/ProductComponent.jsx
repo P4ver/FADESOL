@@ -347,6 +347,7 @@ useEffect(() => {
                                 <TableCell>Description article</TableCell>
                                 <TableCell>Groupe d'articles</TableCell>
                                 <TableCell>Date d'actualisation</TableCell>
+                                <TableCell>Disponibilité en Stock</TableCell>
                                 <TableCell>Emplacement</TableCell>
                                 {/* <TableCell>id</TableCell>
                                 <TableCell>Published</TableCell> */}
@@ -365,6 +366,7 @@ useEffect(() => {
                                     <TableCell>{product.Description_Article}</TableCell>
                                     <TableCell>{product.Groupe_Articles}</TableCell>
                                     <TableCell>{product.Date_Actualisation}</TableCell>
+                                    <TableCell>{product.qte_Magasin}</TableCell>
                                     <TableCell>{product.Emplacement}</TableCell>
                                     {/* <TableCell>{product.id_Article}</TableCell>
                                     <TableCell>

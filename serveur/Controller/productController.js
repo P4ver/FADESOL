@@ -76,5 +76,30 @@ const supprimerProduit = (req, res) =>{
     })
 }
 
+const updateQteMagasin = (req, res) => {
+    const id_Article = req.params.id; // Corrected to use req.params.id
+    const { qte_Magasin } = req.body;
 
-module.exports = {obtenirProduits, obtenirProduitsID, ajouterProduit, modifierProduit, supprimerProduit};
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error("Error getting database connection:", err);
+            return res.status(500).send("Error getting database connection.");
+        }
+
+        connection.query(
+            'UPDATE articles SET qte_Magasin = ? WHERE id_Article = ?',
+            [qte_Magasin, id_Article],
+            (err, result) => {
+                connection.release();
+                if (err) {
+                    console.error("Error updating quantity in the store:", err);
+                    return res.status(500).send(err);
+                }
+                res.send('Magasin quantity updated successfully.');
+            }
+        );
+    });
+};
+
+
+module.exports = {obtenirProduits, obtenirProduitsID, ajouterProduit, modifierProduit, supprimerProduit, updateQteMagasin};

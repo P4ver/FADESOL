@@ -67,11 +67,31 @@ export const updateProductData = createAsyncThunk(
   }
 );
 
+// export const updateQteMagasin = createAsyncThunk(
+//   'product/updateQteMagasin',
+//   async ({ productId, qte_Magasin }, thunkAPI) => {
+//     try {
+//       const response = await axios.put(`${API_BASE_URL}/produits/${productId}/qte`, { qte_Magasin }, {
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         withCredentials: true,
+//       });
+//       if (response.status !== 200) {
+//         throw new Error('Failed to update product quantity');
+//       }
+//       await thunkAPI.dispatch(fetchProductData());
+//       return { productId, qte_Magasin };
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   }
+// );
 export const updateQteMagasin = createAsyncThunk(
   'product/updateQteMagasin',
   async ({ productId, qte_Magasin }, thunkAPI) => {
     try {
-      const response = await axios.put(`${API_BASE_URL}/produits/${productId}/qte`, { qte_Magasin }, {
+      const response = await axios.put(`${API_BASE_URL}/produits/qte/${productId}`, { qte_Magasin }, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -80,14 +100,13 @@ export const updateQteMagasin = createAsyncThunk(
       if (response.status !== 200) {
         throw new Error('Failed to update product quantity');
       }
-      await thunkAPI.dispatch(fetchProductData());
+      await thunkAPI.dispatch(fetchProductData()); // Assuming you want to refetch product data after updating quantity
       return { productId, qte_Magasin };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
-
 
 export const deleteProductData = createAsyncThunk(
   'product/deleteProductData',
