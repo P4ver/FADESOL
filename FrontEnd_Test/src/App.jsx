@@ -9,20 +9,26 @@ import LoginComponent from './component/loginComponent';
 import PrivateRoute from './component/PrivateRoute';
 import ErrorPage from './component/ErrorPage';
 import PageUsers from '../src/pages/pageUsers';
-import PageDashboard from '../src/pages/pageDashboard';
 import Layout from './component/layout';
 import PageProducts from './pages/pageProducts';
 import Entree from './component/entree';
-import Livraisons from './component/Livraison';
 import Sortie from './component/sortie';
 import Dashboard from "./component/dashboard"
-import ListeDemandes from './component/listeDemande';
+import PageDashboard from '../src/pages/pageDashboard';
+import Livraisons from './component/Livraison';
+// import ListeDemandes from './component/listeDemande';
 import DeliveredItemsPage from './component/livrePage';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
+import Profile from './component/profile';
+import PageListeDemande from './pages/pageListeDemande';
+import PageLivraison from './pages/pageLivraison';
+import PageEntree from './pages/pageEntree';
+import PageSortie from './pages/pageSortie';
 disableReactDevTools()
 // if (process.env.NODE_ENV === 'production') {
 //   disableReactDevTools();
 // }
+
 function App() {
   return (
     <>
@@ -36,14 +42,17 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route element={<Layout />}>
                 <Route path="/users" element={<PageUsers />} />
-                {/* <Route path="/" element={<PageDashboard />} exact /> */}
                 <Route path="/products" element={<PageProducts/>} />
-                <Route path="/entree" element={<Entree/>} />
-                <Route path="/sortie" element={<Sortie/>} />
-                {/* <Route path="/Livraison" element={<Livraisons/>} /> */}
+                {/* <Route path="/entree" element={<Entree/>} /> */}
+                <Route path="/entree" element={<PageEntree/>} />
+                {/* <Route path="/sortie" element={<Sortie/>} /> */}
+                <Route path="/sortie" element={<PageSortie/>} />
+                <Route path="/profile" element={<Profile/>} />
                 <Route path="/dashboard" element={<Dashboard/>} />
-                <Route path="/liste-demandes" element={<ListeDemandes />} />
-                <Route path="/livraison" element={<DeliveredItemsPage />} />
+                {/* <Route path="/liste-demandes" element={<ListeDemandes />} /> */}
+                <Route path="/liste-demandes" element={<PageListeDemande />} />
+                {/* <Route path="/livraison" element={<DeliveredItemsPage />} /> */}
+                <Route path="/livraison" element={<PageLivraison />} />
               </Route>
             </Route>
           </Routes>

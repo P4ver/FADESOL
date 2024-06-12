@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import TableTest from '../component/table';
 import { useSelector } from "react-redux";
+import Sortie from "../component/sortie";
 
-const PageUsers = () => {
+const PageSortie = () => {
   const [user, setUser] = useState(null);
   const [typeUser, setTypeUser] = useState(null);
   // const [statusValue, setStatusValue] = useState(null)
@@ -32,10 +32,10 @@ const PageUsers = () => {
   return (
     <div>
       {checkAccess() &&
-        <TableTest />
+        <Sortie />
       }
     </div>
   );
 };
 
-export default PageUsers;
+export default PageSortie;
