@@ -58,13 +58,16 @@
 //   console.log(`Example app listening on port ${port}`);
 // });
 
+
+
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-require('dotenv').config();
 const path = require('path');
+
 
 // Routes d'authentification
 const auth = require('./routes/auth')
@@ -85,11 +88,17 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(cors({
-  origin: process.env.CLIENT_URL,
-  credentials: true,
-}));
+// app.use(cors({
+//   origin: process.env.CLIENT_URL,
+//   credentials: true,
+// }));
 
+app.use(cors(
+  {
+    origin: 'http://localhost:5173',
+    credentials: true,
+  }
+));
 // app.use(cors(
 //   {
 //     origin: 'https://fadesol-beta.vercel.app',
