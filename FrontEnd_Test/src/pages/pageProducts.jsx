@@ -43,7 +43,7 @@ const PageProducts = () => {
 
   return (
     <div>
-      {checkStatus() && 
+      {checkAccess() && checkStatus() && 
           <ProductTable/>
       } 
     </div>

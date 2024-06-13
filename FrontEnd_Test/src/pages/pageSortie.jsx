@@ -5,7 +5,7 @@ import Sortie from "../component/sortie";
 const PageSortie = () => {
   const [user, setUser] = useState(null);
   const [typeUser, setTypeUser] = useState(null);
-  // const [statusValue, setStatusValue] = useState(null)
+  const [statusValue, setStatusValue] = useState(null)
   const authState = useSelector(state => state.auth);
   const userState = useSelector(state => state.user);
   useEffect(() => {
@@ -19,7 +19,7 @@ const PageSortie = () => {
       // const match = userState.userData.find(u => u.id == user.id);
       const match = userState.userData.find(usr => usr.login_User == user.username);
       setTypeUser(match.type_User)
-      // setStatusValue(match.status)
+      setStatusValue(match.status)
     }
   }, [user, userState]);
 
@@ -29,9 +29,13 @@ const PageSortie = () => {
     else return false
   }
 
+  const checkStatus = () =>{
+    if (statusValue === "Active") return true
+    else return false
+  }
   return (
     <div>
-      {checkAccess() &&
+      {checkAccess() && checkStatus() &&
         <Sortie />
       }
     </div>
