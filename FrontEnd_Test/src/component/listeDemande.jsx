@@ -749,23 +749,6 @@ function ListeDemande() {
     }));
   };
 
-  // const handleFormSubmit = async (id) => {
-  //   const quantityReceived = qteRecu[id];
-  //   if (quantityReceived !== undefined) {
-  //     try {
-  //       await dispatch(updateAchatempoData({
-  //         id_Achat: id,
-  //         updatedAchatempoData: { qte_Reçu: quantityReceived }
-  //       }));
-  //       setUpdateSuccess(true);
-  //     } catch (error) {
-  //       console.error('Error updating quantity received:', error);
-  //       alert('Failed to update quantity received.');
-  //     }
-  //   } else {
-  //     alert('Please enter a quantity received.');
-  //   }
-  // };
 
   const handleFormSubmit = async (id) => {
     const quantityReceived = qteRecu[id];
@@ -814,52 +797,6 @@ function ListeDemande() {
     });
   };
 
-  // const getStatus = (quantite, qteRecu) => {
-  //   if (qteRecu == 0) {
-  //     return (
-  //       <span>
-  //         <FaTruck className={classes.statusIcon} /> Pending
-  //       </span>
-  //     );
-  //   } else if (quantite > qteRecu) {
-  //     return (
-  //       <span>
-  //         <FaTruck className={classes.statusIcon} /> Partiellement livré
-  //       </span>
-  //     );
-  //   } else if (quantite == qteRecu) {
-  //     return (
-  //       <span>
-  //         <FaCheck className={classes.statusIcon} /> Livré
-  //       </span>
-  //     );
-  //   } else {
-  //     return 'Unknown';
-  //   }
-  // };
-  // const getStatus = (quantite, qteRecu) => {
-  //   if (qteRecu == 0) {
-  //     return (
-  //       <span>
-  //         <FaTruck className={classes.statusIcon} /> Pending
-  //       </span>
-  //     );
-  //   } else if (quantite > qteRecu) {
-  //     return (
-  //       <span>
-  //         <FaTruck className={classes.statusIcon} /> Partiellement livré
-  //       </span>
-  //     );
-  //   } else if (quantite == qteRecu) {
-  //     return (
-  //       <span>
-  //         <FaCheck className={classes.statusIcon} /> Livré
-  //       </span>
-  //     );
-  //   } else {
-  //     return 'Unknown';
-  //   }
-  // };
   const getStatus = (quantite, qteRecu) => {
     if (qteRecu === 0) {
       return (
@@ -921,57 +858,6 @@ function ListeDemande() {
     handleDeleteDuplicates();
   }, [achatData, qteRecu]);
 
-  // const [simo, setSimo] = useState(null)
-  // const handleValidation = async () => {
-  //   try {
-  //     const updatePromises = Object.keys(qteRecu).map(id =>
-  //       dispatch(updateAchatempoData({
-  //         id_Achat: id,
-  //         updatedAchatempoData: { qte_Reçu: qteRecu[id] }
-  //       }))
-  //     );
-  //     await Promise.all(updatePromises);
-  //     setUpdateSuccess(true);
-  //     setModalIsOpen(false);
-
-  //     const itemExistsInAchat = (item) => {
-  //       return achatData.some(achat =>
-  //         achat.code === item.code &&
-  //         achat.code_Projet === item.code_Projet &&
-  //         achat.designation === item.designation &&
-  //         achat.quantite === item.quantite &&
-  //         achat.nom_Projet == item.nom_Projet &&
-  //         achat.date === item.date &&
-  //         achat.code_Achat === item.code_Achat &&
-  //         achat.user_Dmd === item.user_Dmd
-  //       );
-  //     };
-
-
-  //     const addAchatPromises = filteredAchatData.map(async item => {
-  //       const quantityReceived = qteRecu[item.id_Achat] !== undefined ? qteRecu[item.id_Achat] : item.qte_Reçu;
-
-  //       if (item.quantite === quantityReceived && !itemExistsInAchat(item)) {
-  //         await dispatch(postAchatData({
-  //           code: item.code,
-  //           code_Projet: item.code_Projet,
-  //           designation: item.designation,
-  //           quantite: item.quantite,
-  //           nom_Projet: item.nom_Projet,
-  //           date: item.date,
-  //           code_Achat: item.code_Achat,
-  //           user_Dmd: item.user_Dmd
-  //         }));
-  //       }
-  //     });
-
-  //     await Promise.all(addAchatPromises);
-
-  //   } catch (error) {
-  //     console.error('Error updating quantities:', error);
-  //     alert('Failed to update quantities.');
-  //   }
-  // };
   const handleValidation = async () => {
     try {
       const updatePromises = Object.keys(qteRecu).map(async id => {
@@ -1037,25 +923,6 @@ function ListeDemande() {
 
     return 'Unknown';
   };
-  //   const getGeneralStatus = (codeAchat) => {
-  //   const relatedDemands = filteredAchatData.filter(data => data.code_Achat === codeAchat);
-
-  //   if (relatedDemands.every(demand => demand.qte_Reçu === 0)) {
-  //     return <p className='text-red-600'>Pending</p>;
-  //   }
-
-  //   if (relatedDemands.every(demand => demand.qte_Reçu === demand.quantite)) {
-
-  //     return <p className='text-blue-600'>Livré</p> ;
-  //   }
-
-  //   if (relatedDemands.some(demand => demand.qte_Reçu > 0 && demand.qte_Reçu < demand.quantite)) {
-     
-  //     return <p className='text-green-600'>Partiellement livré</p> ;
-  //   }
-
-  //   return 'Unknown';
-  // };
   const renderStatus = (status) => {
     switch (status) {
       case 'Pending':
@@ -1296,7 +1163,7 @@ function ListeDemande() {
   </table>
 </div>
   <br />
-  <div className='my-2 float-right'><p>Signature<span className='text-gray-200'>_</span></p></div>
+  <div className='my-2 float-right'><p>Signature<span className='text-gray-200'>___________________</span></p></div>
 </div>
           </>
         )}

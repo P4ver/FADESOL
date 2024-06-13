@@ -72,7 +72,18 @@ return (
             <input type="text" placeholder="Email" class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3 outline-none focus:ring" name="email_User" value={formData.email_User} onChange={(event)=>handlePostChange(event)}/>
             <input type="text" placeholder="Tel" class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3 outline-none focus:ring" name="tel_User" value={formData.tel_User} onChange={(event)=>handlePostChange(event)}/>
             <input type="text" placeholder="Note" class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3 outline-none focus:ring" name="note_User" value={formData.note_User} onChange={(event)=>handlePostChange(event)}/>
-            <input type="text" placeholder="Type" class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3 outline-none focus:ring" name="type_User" value={formData.type_User} onChange={(event)=>handlePostChange(event)}/>
+            {/* <input type="text" placeholder="Type" class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3 outline-none focus:ring" name="type_User" value={formData.type_User} onChange={(event)=>handlePostChange(event)}/> */}
+            <select
+                className="mt-2 h-12 w-full rounded-md bg-gray-100 px-3 outline-none focus:ring"
+                name="type_User"
+                value={formData.type_User}
+                onChange={handlePostChange}
+                >
+                <option value="">Sélectionner un type</option>
+                <option value="Super Admin">Super Admin</option>
+                <option value="Admin">Admin</option>
+                <option value="Utilisateur">Utilisateur</option>
+                </select>
             <button type="submit" class="mt-5 w-full rounded-md bg-blue-600 p-2 text-center font-semibold text-white outline-none focus:ring">Ajouter</button>
         </div>
     </form>

@@ -18,7 +18,6 @@ import { deleteProductData, updateProductData, postProductData } from '../store/
 import JsBarcode from 'jsbarcode';
 import { Collapse, Card, CardContent, Menu, MenuItem } from "@material-ui/core";
 import Barcode from 'react-barcode';
-// import QRCode from 'react-qr-code';
 import { QRCode } from 'react-qrcode-logo';
 import * as XLSX from 'xlsx'
 import { Grid } from '@mui/material';
@@ -53,14 +52,32 @@ const ProductTable = () => {
         Date_Actualisation: "",
         code_Barre: "",
     });
+    
+    //   ==============================================================
+    const [ userValue, setUserValue] = useState(null);
+    const [typeUser, setTypeUser] = useState(null);
+    const authState = useSelector(state => state.auth);
+    const userState = useSelector(state => state.user);
+    useEffect(() => {
+        if (authState.user) {
+          setUserValue(authState.user);
+        //   dispatch(fetchUserData());
+        }
+      }, [authState]);
 
-    // const [formData, setFormData] = useState({
-    //     Numéro_Article: "",
-    //     Description_Article: "",
-    //     Groupe_Articles: "",
-    //     Date_Actualisation: "",
-    //     code_Barre: "",
-    // });
+    useEffect(() => {
+        if (userValue && userState.userData.length > 0) {
+          const match = userState.userData.find(usr => usr.login_User == userValue.username);
+          setTypeUser(match.type_User)
+        }
+      }, [userValue, userState])
+      
+    const checkAccess = ()=>{
+        if (typeUser === "Super Admin") return true
+        else if (typeUser === "Admin") return true
+        else return false
+      }
+    //   ==============================================================
     const [formData, setFormData] = useState({
         Numéro_Article: "",
         Description_Article: "",
@@ -76,32 +93,6 @@ const ProductTable = () => {
             [name]: value
         });
     };
-
-
-    // const handleSubmit = async () => {
-    //     try {
-    //       const currentDate = new Date().toLocaleDateString();
-    //       await dispatch(postProductData({
-    //         ...formData,
-    //         Date_Actualisation: currentDate
-    //       }));
-    //       setFormData({
-    //         Numéro_Article: "",
-    //         Description_Article: "",
-    //         Groupe_Articles: "",
-    //         code_Barre: "",
-    //       });
-    //       setOpenAddDialog(false);
-    //       console.log('Before toast.success');
-    //       toast.success('Product added successfully!', {
-    //         position: toast.POSITION_TOP_RIGHT,
-    //         autoClose: 3000,
-    //       });
-    //       console.log('After toast.success');
-    //     } catch (error) {
-    //       console.error("Failed to add product:", error);
-    //     }
-    //   };
 
 
     const handleSubmit = async () => {
@@ -317,9 +308,11 @@ useEffect(() => {
                     <MenuItem onClick={exportToExcel}>Excel</MenuItem>
                     <MenuItem onClick={printData}>Print</MenuItem>
                 </Menu>
-                <button onClick={handleAddClick} className='bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded-md mx-1'>
-                        Ajouter <Add />
-                </button>
+                {checkAccess() && 
+                    <button onClick={handleAddClick} className='bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded-md mx-1'>
+                            Ajouter <Add />
+                    </button>
+                }
                 <TextField
                     variant="outlined"
                     placeholder="Search..."
@@ -349,9 +342,9 @@ useEffect(() => {
                                 <TableCell>Date d'actualisation</TableCell>
                                 <TableCell>Disponibilité en Stock</TableCell>
                                 <TableCell>Emplacement</TableCell>
-                                {/* <TableCell>id</TableCell>
-                                <TableCell>Published</TableCell> */}
-                                <TableCell align="center">Actions</TableCell>
+                                {checkAccess() && 
+                                    <TableCell align="center">Actions</TableCell>
+                                }
                             </TableRow>
                         </TableHead>
                         <TableBody >
@@ -368,43 +361,36 @@ useEffect(() => {
                                     <TableCell>{product.Date_Actualisation}</TableCell>
                                     <TableCell>{product.qte_Magasin}</TableCell>
                                     <TableCell>{product.Emplacement}</TableCell>
-                                    {/* <TableCell>{product.id_Article}</TableCell>
-                                    <TableCell>
-                                        <Switch
-                                            checked={product.published}
-                                            onChange={() => handleTogglePublished(product.id_article)}
-                                            color="primary"
-                                        />
-                                    </TableCell> */}
-                                    <TableCell align="center">
-                                        <button
-                                            type="button"
-                                            className="text-green-600 hover:text-green-900 focus:outline-none"
-                                            onClick={() => handleOpenEditDialog(product)}>
-                                            <Edit/>
-                                        </button>
-                                        <IconButton color="secondary" onClick={() => handleDeleteClick(product)}><Delete /></IconButton>
-                                        <button
-                                            type="button"
-                                            className="text-gray-600 hover:text-gray-900 focus:outline-none"
-                                            onClick={() => handleExpandUser(product)}
-                                            >
-                                            <GrView />
-                                            <path d="M10 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-3m-4 8v4m0-8V6m4 8h3m2-3h-8"></path>
-                                        </button>
-                                        <div style={{ display: 'none' }}>
-                                            <QRCode
-                                                id={`qrCodeCanvas-${product.Numéro_Article}`}
-                                                value={product.Numéro_Article}
-                                                size={150}
-                                                level={"H"}
-                                                includeMargin={true}
-                                                renderAs="canvas"
-                                            />
-                                        </div>
-                                        <canvas id={`barcodeCanvas-${product.Numéro_Article}`} style={{ display: 'none' }}></canvas>
-
-                                    </TableCell>
+                                    {checkAccess() && 
+                                        <TableCell align="center">
+                                            <button
+                                                type="button"
+                                                className="text-green-600 hover:text-green-900 focus:outline-none"
+                                                onClick={() => handleOpenEditDialog(product)}>
+                                                <Edit/>
+                                            </button>
+                                            <IconButton color="secondary" onClick={() => handleDeleteClick(product)}><Delete /></IconButton>
+                                            <button
+                                                type="button"
+                                                className="text-gray-600 hover:text-gray-900 focus:outline-none"
+                                                onClick={() => handleExpandUser(product)}
+                                                >
+                                                <GrView />
+                                                <path d="M10 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-3m-4 8v4m0-8V6m4 8h3m2-3h-8"></path>
+                                            </button>
+                                            <div style={{ display: 'none' }}>
+                                                <QRCode
+                                                    id={`qrCodeCanvas-${product.Numéro_Article}`}
+                                                    value={product.Numéro_Article}
+                                                    size={150}
+                                                    level={"H"}
+                                                    includeMargin={true}
+                                                    renderAs="canvas"
+                                                />
+                                            </div>
+                                            <canvas id={`barcodeCanvas-${product.Numéro_Article}`} style={{ display: 'none' }}></canvas>
+                                        </TableCell>
+                                    }
                                 </TableRow>
                                 <TableRow>
              

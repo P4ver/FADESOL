@@ -146,7 +146,7 @@ const handleSubmit = async () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg shadow-md">
+    <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
       <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography>
       <table className="min-w-full border-collapse">
         <thead>
