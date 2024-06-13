@@ -90,90 +90,95 @@ const SideBare = () => {
                   <span className="text-lg">Dashboard</span>
                 </Link>
               </li>
-              {checkAccess() &&
-                <li className="relative">
-                  <Link to="/users" className="flex items-center space-x-3 px-6 py-3 text-white hover:bg-gray-700 rounded-lg transition duration-200">
-                    <FaRegUser className="text-2xl" />
-                    <span className="text-lg">Users</span>
-                  </Link>
-                </li>
-              }
-              {checkStatus() &&
-                <li className="relative">
-                  <Link to="/products" className="flex items-center space-x-3 px-6 py-3 text-white hover:bg-gray-700 rounded-lg transition duration-200">
-                    <AiOutlineProduct className="text-2xl" />
-                    <span className="text-lg">Products</span>
-                  </Link>
-                </li>
-              }
-              {checkAccess() &&
-                <>
-                  <li className="relative">
-                    <button onClick={toggleEntreeDropdown} className="flex items-center justify-between w-full px-6 py-3 text-white hover:bg-gray-700 rounded-lg transition duration-200">
-                      <div className="flex items-center space-x-3">
-                        <SlBasket className="text-2xl" />
-                        <span className="text-lg">Entree</span>
-                      </div>
-                      {isEntreeDropdownOpen ? <SlArrowUp className="text-xl" /> : <SlArrowDown className="text-xl" />}
-                    </button>
-                    {isEntreeDropdownOpen && (
-                      <ul className="mt-2 space-y-2 pl-12">
-                        <li>
-                          <Link to="/liste-demandes" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
-                            <TbArrowBadgeRight className="text-xl" />
-                            <span>ListeDA</span>
-                          </Link>
+              {checkStatus() && 
+                <>              
+                    {checkAccess() &&
+                      <li className="relative">
+                        <Link to="/users" className="flex items-center space-x-3 px-6 py-3 text-white hover:bg-gray-700 rounded-lg transition duration-200">
+                          <FaRegUser className="text-2xl" />
+                          <span className="text-lg">Users</span>
+                        </Link>
+                      </li>
+                    }
+                    {checkStatus() &&
+                      <li className="relative">
+                        <Link to="/products" className="flex items-center space-x-3 px-6 py-3 text-white hover:bg-gray-700 rounded-lg transition duration-200">
+                          <AiOutlineProduct className="text-2xl" />
+                          <span className="text-lg">Products</span>
+                        </Link>
+                      </li>
+                    }
+                    {checkAccess() &&
+                      <>
+                        <li className="relative">
+                          <button onClick={toggleEntreeDropdown} className="flex items-center justify-between w-full px-6 py-3 text-white hover:bg-gray-700 rounded-lg transition duration-200">
+                            <div className="flex items-center space-x-3">
+                              <SlBasket className="text-2xl" />
+                              <span className="text-lg">Entree</span>
+                            </div>
+                            {isEntreeDropdownOpen ? <SlArrowUp className="text-xl" /> : <SlArrowDown className="text-xl" />}
+                          </button>
+                          {isEntreeDropdownOpen && (
+                            <ul className="mt-2 space-y-2 pl-12">
+                              <li>
+                                <Link to="/liste-demandes" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
+                                  <TbArrowBadgeRight className="text-xl" />
+                                  <span>ListeDA</span>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link to="/entree" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
+                                  <TbArrowBadgeRight className="text-xl" />
+                                  <span>Entree</span>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link to="/livraison" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
+                                  <TbArrowBadgeRight className="text-xl" />
+                                  <span>Livraison</span>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link to="/sortie" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
+                                  <TbArrowBadgeRight className="text-xl" />
+                                  <span>Return</span>
+                                </Link>
+                              </li>
+                            </ul>
+                          )}
                         </li>
-                        <li>
-                          <Link to="/entree" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
-                            <TbArrowBadgeRight className="text-xl" />
-                            <span>Entree</span>
-                          </Link>
+                        <li className="relative">
+                          <button onClick={toggleSortieDropdown} className="flex items-center justify-between w-full px-6 py-3 text-white hover:bg-gray-700 rounded-lg transition duration-200">
+                            <div className="flex items-center space-x-3">
+                              <BiPurchaseTagAlt className="text-2xl" />
+                              <span className="text-lg">Sortie</span>
+                            </div>
+                            {isSortieDropdownOpen ? <SlArrowUp className="text-xl" /> : <SlArrowDown className="text-xl" />}
+                          </button>
+                          {isSortieDropdownOpen && (
+                            <ul className="mt-2 space-y-2 pl-12">
+                              <li>
+                                <Link to="/liste-ventes" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
+                                  <TbArrowBadgeRight className="text-xl" />
+                                  <span>ListeVente</span>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link to="/sortie" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
+                                  <TbArrowBadgeRight className="text-xl" />
+                                  <span>Sortie</span>
+                                </Link>
+                              </li>
+                            
+                            </ul>
+                          )}
                         </li>
-                        <li>
-                          <Link to="/livraison" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
-                            <TbArrowBadgeRight className="text-xl" />
-                            <span>Livraison</span>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/sortie" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
-                            <TbArrowBadgeRight className="text-xl" />
-                            <span>Return</span>
-                          </Link>
-                        </li>
-                      </ul>
-                    )}
-                  </li>
-                  <li className="relative">
-                    <button onClick={toggleSortieDropdown} className="flex items-center justify-between w-full px-6 py-3 text-white hover:bg-gray-700 rounded-lg transition duration-200">
-                      <div className="flex items-center space-x-3">
-                        <BiPurchaseTagAlt className="text-2xl" />
-                        <span className="text-lg">Sortie</span>
-                      </div>
-                      {isSortieDropdownOpen ? <SlArrowUp className="text-xl" /> : <SlArrowDown className="text-xl" />}
-                    </button>
-                    {isSortieDropdownOpen && (
-                      <ul className="mt-2 space-y-2 pl-12">
-                        <li>
-                          <Link to="/liste-ventes" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
-                            <TbArrowBadgeRight className="text-xl" />
-                            <span>ListeVente</span>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/sortie" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
-                            <TbArrowBadgeRight className="text-xl" />
-                            <span>Sortie</span>
-                          </Link>
-                        </li>
-                      
-                      </ul>
-                    )}
-                  </li>
 
+                      </>
+                    }
                 </>
               }
+
           <li className="relative">
             <Link to="/profile" className="flex items-center space-x-3 px-6 py-3 text-white hover:bg-gray-700 rounded-lg transition duration-200">
               <CgProfile  className="text-2xl" />
