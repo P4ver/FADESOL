@@ -36,39 +36,39 @@ const TableTest = () => {
     dispatch(fetchUserData()); 
   }, [dispatch]);
 //===============================================================================
-// const [user, setUser] = useState(null);
-// const [foundUser, setFoundUser] = useState(null);
-// const [fullName, setFullName] = useState(null);
-// const [typeUser, setTypeUser] = useState(null);
-// const [statusValue, setStatusValue] = useState(null)
-// const authState = useSelector(state => state.auth);
-// const userState = useSelector(state => state.user);
-// useEffect(() => {
-//   if (authState.user) {
-//     setUser(authState.user);
-//   }
-// }, [authState]);
+const [userVal, setUser] = useState(null);
+const [foundUser, setFoundUser] = useState(null);
+const [fullName, setFullName] = useState(null);
+const [typeUser, setTypeUser] = useState(null);
+const [statusValue, setStatusValue] = useState(null)
+const authState = useSelector(state => state.auth);
+const userState = useSelector(state => state.user);
+useEffect(() => {
+  if (authState.user) {
+    setUser(authState.user);
+  }
+}, [authState]);
 
-// useEffect(() => {
-//   if (user && userState.userData.length > 0) {
-//     // const match = userState.userData.find(u => u.id == user.id);
-//     const match = userState.userData.find(usr => usr.login_User == user.username);
-//     console.log("match result", match.type_User)
-//     setFoundUser(match.nom_User.slice(0, 1).toUpperCase()+match.prenom_User.slice(0, 1).toUpperCase());
-//     setFullName(match.nom_User+' '+match.prenom_User);
-//     setTypeUser(match.type_User)
-//     setStatusValue(match.status)
-//   }
-// }, [user, userState]);
+useEffect(() => {
+  if (userVal && userState.userData.length > 0) {
+    // const match = userState.userData.find(u => u.id == user.id);
+    const match = userState.userData.find(usr => usr.login_User == userVal.username);
+    console.log("match result", match.type_User)
+    setFoundUser(match.nom_User.slice(0, 1).toUpperCase()+match.prenom_User.slice(0, 1).toUpperCase());
+    setFullName(match.nom_User+' '+match.prenom_User);
+    setTypeUser(match.type_User)
+    setStatusValue(match.status)
+  }
+}, [userVal, userState]);
 
-// console.log("User Status: => ", statusValue)
-// console.log("from table founduser: => ", foundUser)
-// const checkAccess = ()=>{
-//   if (typeUser === "Super Admin") return true
-//   else if (typeUser === "Admin") return true
-//   // else if (typeUser === "Utilisateur") return true
-//   else return false
-// }
+console.log("User Status: => ", statusValue)
+console.log("from table founduser: => ", foundUser)
+const checkAccess = ()=>{
+  if (typeUser === "Super Admin") return true
+  // else if (typeUser === "Admin") return true
+  // else if (typeUser === "Utilisateur") return true
+  else return false
+}
 //===============================================================================
   const deletePostHandler = (user) => {
     swal({
@@ -243,13 +243,15 @@ const TableTest = () => {
               placeholder="Search for users"
             />
           </div>
-
       </div>
       <div className="flex justify-center items-center">
         <div className="flex justify-center items-center z-10">
+        {checkAccess() && 
           <button onClick={toggleModal} className="bg-customBlue hover:bg-blue-500 text-white font-bold py-2 px-3 rounded-lg">
             Add User
           </button>
+        }
+
           {showModal && (
             <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
               <div className="relative bg-white rounded-lg p-8 max-w-md">
@@ -297,7 +299,9 @@ const TableTest = () => {
                 <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Role</th>
                 <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Email</th>
                 <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Date de création</th>
-                <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Status</th>
+                {checkAccess()&& 
+                  <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Status</th>
+                }
                 <th className="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Actions</th>
               </tr>
             </thead>
@@ -313,9 +317,9 @@ const TableTest = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{user.email_User}</td>
                     {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">Today</td> */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-  {user.creationDate ? new Date(user.creationDate).toLocaleDateString() : 'No creation date'}
-</td>
-       
+                      {user.creationDate ? new Date(user.creationDate).toLocaleDateString() : 'No creation date'}
+                    </td>
+                      {checkAccess() && 
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <Switch
                           checked={user.status === 'Active'}
@@ -324,6 +328,8 @@ const TableTest = () => {
                         />
                         {user.status}
                       </td>
+                      }
+
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex justify-end items-center space-x-3">
                         <button
@@ -334,23 +340,26 @@ const TableTest = () => {
                           <GrView />
                           <path d="M10 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-3m-4 8v4m0-8V6m4 8h3m2-3h-8"></path>
                         </button>
-                        <button
-                          type="button"
-                          className="text-green-600 hover:text-green-900 focus:outline-none"
-                          onClick={() => handleOpenEditDialog(user)}
-                        >
-                          <RiEdit2Fill />
-                          <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                          <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2z"></path>
-                        </button>
-                        <button
-                          type="button"
-                          className="text-red-600 hover:text-red-900 focus:outline-none"
-                          onClick={() => deletePostHandler(user)}
-                        >
-                          <RiDeleteBinFill />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </button>
+                        {checkAccess() && 
+                          <>        
+                            <button
+                              type="button"
+                              className="text-green-600 hover:text-green-900 focus:outline-none"
+                              onClick={() => handleOpenEditDialog(user)}
+                            >
+                              <RiEdit2Fill />
+                              <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                              <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2z"></path>
+                            </button>
+                            <button
+                              type="button"
+                              className="text-red-600 hover:text-red-900 focus:outline-none"
+                              onClick={() => deletePostHandler(user)}
+                            >
+                              <RiDeleteBinFill />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </button>
+                          </>}
                       </div>
                     </td>
                   </tr>
