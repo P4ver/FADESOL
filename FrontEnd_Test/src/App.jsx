@@ -24,7 +24,7 @@ import PageListeDemande from './pages/pageListeDemande';
 import PageLivraison from './pages/pageLivraison';
 import PageEntree from './pages/pageEntree';
 import PageSortie from './pages/pageSortie';
-import PageProfile from './pages/pageProfile';
+import PageListeVente from './pages/pageListeVente';
 disableReactDevTools()
 // if (process.env.NODE_ENV === 'production') {
 //   disableReactDevTools();
@@ -48,11 +48,11 @@ function App() {
                 <Route path="/entree" element={<PageEntree/>} />
                 {/* <Route path="/sortie" element={<Sortie/>} /> */}
                 <Route path="/sortie" element={<PageSortie/>} />
-                {/* <Route path="/profile" element={<Profile/>} /> */}
-                <Route path="/profile" element={<PageProfile/>} />
-                <Route path="/dashboard" element={<PageDashboard/>} />
+                <Route path="/profile" element={<Profile/>} />
+                <Route path="/dashboard" element={<Dashboard/>} />
                 {/* <Route path="/liste-demandes" element={<ListeDemandes />} /> */}
                 <Route path="/liste-demandes" element={<PageListeDemande />} />
+                <Route path="/liste-ventes" element={<PageListeVente />} />
                 {/* <Route path="/livraison" element={<DeliveredItemsPage />} /> */}
                 <Route path="/livraison" element={<PageLivraison />} />
               </Route>
@@ -65,6 +65,7 @@ function App() {
 }
 
 export default App;
+
 
 
 // import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
