@@ -49,7 +49,7 @@ function App() {
                 {/* <Route path="/sortie" element={<Sortie/>} /> */}
                 <Route path="/sortie" element={<PageSortie/>} />
                 <Route path="/profile" element={<Profile/>} />
-                <Route path="/dashboard" element={<Dashboard/>} />
+                <Route path="/dashboard" element={<PageDashboard/>} />
                 {/* <Route path="/liste-demandes" element={<ListeDemandes />} /> */}
                 <Route path="/liste-demandes" element={<PageListeDemande />} />
                 <Route path="/liste-ventes" element={<PageListeVente />} />
