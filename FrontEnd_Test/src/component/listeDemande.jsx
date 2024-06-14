@@ -861,7 +861,7 @@ function ListeDemande() {
   const handleValidation = async () => {
     try {
       const updatePromises = Object.keys(qteRecu).map(async id => {
-        
+
         await dispatch(updateAchatempoData({
           id_Achat: id,
           updatedAchatempoData: { qte_Reçu: qteRecu[id] }
@@ -952,9 +952,6 @@ function ListeDemande() {
     return matchesSearchQuery && matchesFilterType;
   });
 
-
-
-
   const handleEditChange = (e) => {
     const { name, value } = e.target;
     setEditedProduct(prevProduct => ({
@@ -962,8 +959,6 @@ function ListeDemande() {
       [name]: value
     }));
   };
-
- 
 
 // console.log("from listdemand:",achatempoData)
   return (

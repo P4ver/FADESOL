@@ -21,7 +21,7 @@ const Sortie = () => {
     const { productData, prjloading, prjerror } = useSelector((state) => state.product);
     const { projetData, projetLoading, projetError } = useSelector((state) => state.projet);
     const { venteData, venteLoading, venteError } = useSelector((state) => state.vente);
-
+    console.log("venteData==>",venteData)
     useEffect(() => {
         dispatch(fetchDemandeData());
         dispatch(fetchProjetData());
@@ -79,6 +79,8 @@ const Sortie = () => {
                 .catch(error => {
                     console.error("Post Vente Data Error:", error);
                 });
+
+                
         } else {
             console.error('Demande or Projet details or quantite or n_Serie are not available');
         }
