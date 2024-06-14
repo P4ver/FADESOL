@@ -160,7 +160,7 @@ const SideBare = () => {
                               <li>
                                 <Link to="/liste-ventes" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
                                   <TbArrowBadgeRight className="text-xl" />
-                                  <span>ListeVente</span>
+                                  <span>ListeSortie</span>
                                 </Link>
                               </li>
                               <li>

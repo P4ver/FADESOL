@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchDemandeData } from '../store/demandeSlice';
 import { fetchProjetData } from '../store/projetSlice';
 import { fetchVenteData, postVenteData } from '../store/venteSlice';
-import { fetchProductData } from '../store/productSlice';
+import { fetchProductData, updateQteMagasin } from '../store/productSlice';
 import { fetchAchatempoData } from '../store/achatempoSlice';
 
 
