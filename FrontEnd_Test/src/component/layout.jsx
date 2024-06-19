@@ -1,14 +1,14 @@
 import NavBar from "./navBar";
 import SideBare from "./sideBare";
-import { Outlet } from "react-router-dom"; // Import Outlet
+import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
-    <main className="flex items-start bg-gray-100">
+    <main className="flex bg-gray-100 h-screen overflow-hidden">
       <SideBare />
-      <div className="px-8 py-4 w-full overflow-x-hidden">
+      <div className="flex-1 flex flex-col overflow-y-auto">
         <NavBar />
-        <section className="text-slate-900 py-6">
+        <section className="flex-1 text-slate-900 py-6 px-8">
           <Outlet /> {/* Render nested routes here */}
         </section>
       </div>

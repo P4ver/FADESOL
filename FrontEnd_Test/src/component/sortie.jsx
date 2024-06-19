@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchDemandeData } from '../store/demandeSlice';
 import { fetchProjetData } from '../store/projetSlice';
 import { fetchVenteData, postVenteData } from '../store/venteSlice';
-import { fetchProductData } from '../store/productSlice';
+import { fetchProductData, updateQteMagasin } from '../store/productSlice';
 import { fetchAchatempoData } from '../store/achatempoSlice';
 
 
@@ -21,7 +21,7 @@ const Sortie = () => {
     const { productData, prjloading, prjerror } = useSelector((state) => state.product);
     const { projetData, projetLoading, projetError } = useSelector((state) => state.projet);
     const { venteData, venteLoading, venteError } = useSelector((state) => state.vente);
-
+    console.log("venteData==>",venteData)
     useEffect(() => {
         dispatch(fetchDemandeData());
         dispatch(fetchProjetData());
@@ -60,7 +60,7 @@ const Sortie = () => {
             setProjetDetails(selectedProjet);
         }
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         if (demandeDetails && projetDetails && quantite && n_Serie) {
             const achatPayload = {
@@ -69,9 +69,17 @@ const Sortie = () => {
                 qte_Produit: parseInt(quantite, 10),
                 n_Serie: parseInt(n_Serie, 10),
                 code_Projet: projetDetails.code_Projet,
-                nom_Projet: projetDetails.nom_Projet
+                nom_Projet: projetDetails.nom_Projet,
+                id_Article: demandeDetails.id_Article,
             };
-            console.log("Achat Payload:", achatPayload);
+            // console.log("demandeDetails:", demandeDetails);
+            // console.log("old qte_Magasin:", demandeDetails.qte_Magasin);
+            // console.log("=========> qte_Produit:", parseInt(quantite, 10));
+            const newQteMagasin = demandeDetails.qte_Magasin - parseInt(quantite, 10)
+            await dispatch(updateQteMagasin({
+                productId: demandeDetails.id_Article,
+                qte_Magasin: newQteMagasin
+              }));
             dispatch(postVenteData(achatPayload))
                 .then(response => {
                     console.log("Post Vente Data Response:", response);

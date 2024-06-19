@@ -1,6 +1,4 @@
 
-
-
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { IoQrCode } from "react-icons/io5";
@@ -23,6 +21,8 @@ import * as XLSX from 'xlsx'
 import { Grid } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 const ProductTable = () => {
     const dispatch = useDispatch();
     const { productData, loading, error } = useSelector((state) => state.product);
@@ -248,31 +248,58 @@ const handleDeleteProduct = () => {
     });
 };
 
-const downloadQRCode = (numArticle) => {
+// const downloadQRCode = (numArticle) => {
+//     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
+//     const pngUrl = canvas
+//         .toDataURL("image/png")
+//         .replace("image/png", "image/octet-stream");
+//     let downloadLink = document.createElement("a");
+//     downloadLink.href = pngUrl;
+//     downloadLink.download = `${numArticle}.png`;
+//     document.body.appendChild(downloadLink);
+//     downloadLink.click();
+//     document.body.removeChild(downloadLink);
+// };
+
+const downloadQRCodeAsPDF = async (numArticle) => {
     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
-    const pngUrl = canvas
-        .toDataURL("image/png")
-        .replace("image/png", "image/octet-stream");
-    let downloadLink = document.createElement("a");
-    downloadLink.href = pngUrl;
-    downloadLink.download = `${numArticle}.png`;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
+    const pdf = new jsPDF();
+    const imgData = canvas.toDataURL('image/png');
+    
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save(`${numArticle}.pdf`);
 };
 
-const downloadBarcode = (numArticle) => {
+// const downloadBarcode = (numArticle) => {
+//     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+//     const pngUrl = canvas
+//         .toDataURL("image/png")
+//         .replace("image/png", "image/octet-stream");
+//     let downloadLink = document.createElement("a");
+//     downloadLink.href = pngUrl;
+//     downloadLink.download = `${numArticle}-barcode.png`;
+//     document.body.appendChild(downloadLink);
+//     downloadLink.click();
+//     document.body.removeChild(downloadLink);
+// };
+
+const downloadBarcodeAsPDF = async (numArticle) => {
     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
-    const pngUrl = canvas
-        .toDataURL("image/png")
-        .replace("image/png", "image/octet-stream");
-    let downloadLink = document.createElement("a");
-    downloadLink.href = pngUrl;
-    downloadLink.download = `${numArticle}-barcode.png`;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
+    const pdf = new jsPDF();
+    const imgData = canvas.toDataURL('image/png');
+    
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save(`${numArticle}.pdf`);
 };
+
 useEffect(() => {
     productData.forEach((product) => {
         const canvas = document.getElementById(`barcodeCanvas-${product.Numéro_Article}`);
@@ -411,23 +438,33 @@ useEffect(() => {
                                                 </Grid>
                                                 <Grid item xs={4}>
                                                     <Card>
-                                                        <CardContent>
+                                                        {/* <CardContent>
                                                             <Typography><strong>Code barre: </strong></Typography>
-                                                            <Barcode value={product.code_Barre} />
-                                                            <button onClick={() => downloadBarcode(product.code_Barre)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
-                                                                <p className='px-1'>Télécharge CodeBare</p><FaBarcode />
+                                                            <Barcode id={`barcodeCanvas-${product.Numéro_Article}`} value={product.Numéro_Article} />
+                                                            <button onClick={() => downloadBarcode(product.Numéro_Article)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
+                                                                <p className='px-1'>Télécharger CodeBarre</p><FaBarcode />
                                                             </button>
-                                                        </CardContent>
+                                                        </CardContent> */}
+                                                        <Grid item xs={6}>
+                                                            <Typography variant="subtitle1">Barcode</Typography>
+                                                            <Barcode value={product.Numéro_Article} id={`barcodeCanvas-${product.Numéro_Article}`} />
+                                                            <Button variant="contained" color="primary" onClick={() => downloadBarcodeAsPDF(product.Numéro_Article)}>
+                                                                Download as PDF
+                                                            </Button>
+                                                        </Grid>
                                                     </Card>
                                                 </Grid>
                                                 <Grid item xs={4}>
                                                     <Card>
                                                         <CardContent>
-                                                            <Typography><strong>QRcode </strong></Typography>
-                                                            <QRCode value={product.code_Barre} size={156} />
-                                                            <button onClick={() => downloadQRCode(product.code_Barre)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
+                                                        <Typography variant="subtitle1">QR Code</Typography>
+                                                            <QRCode value={product.code_Barre} id={`qrCodeCanvas-${product.Numéro_Article}`} />
+                                                            <Button variant="contained" color="primary" onClick={() => downloadQRCodeAsPDF(product.Numéro_Article)}>
+                                                                Download as PDF
+                                                            </Button>
+                                                            {/* <button onClick={() => downloadQRCode(product.Numéro_Article)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
                                                                 <p className='px-1'>Télécharge QRCode</p><IoQrCode />
-                                                            </button>
+                                                            </button> */}
                                                         </CardContent>
                                                     </Card>
                                                 </Grid>
@@ -536,123 +573,7 @@ useEffect(() => {
                     </div>
                 )}
 
-                {/* <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
-                    <DialogTitle>Add New Product</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            Please fill in the form to add a new product.
-                        </DialogContentText>
-                        <form>
-                            <TextField
-                                margin="dense"
-                                name="Numéro_Article"
-                                label="Numéro d'article"
-                                type="text"
-                                fullWidth
-                                value={formData.Numéro_Article}
-                                onChange={handlePostChange}
-                            />
-                            <TextField
-                                margin="dense"
-                                name="Description_Article"
-                                label="Description article"
-                                type="text"
-                                fullWidth
-                                value={formData.Description_Article}
-                                onChange={handlePostChange}
-                            />
-                            <TextField
-                                margin="dense"
-                                name="Groupe_Articles"
-                                label="Groupe d'articles"
-                                type="text"
-                                fullWidth
-                                value={formData.Groupe_Articles}
-                                onChange={handlePostChange}
-                            />
-                            <TextField
-                                margin="dense"
-                                name="Date_Actualisation"
-                                label="Date d'actualisation"
-                                type="text"
-                                fullWidth
-                                value={formData.Date_Actualisation}
-                                onChange={handlePostChange}
-                            />
-                            <TextField
-                                margin="dense"
-                                name="code_Barre"
-                                label="Code Barre"
-                                type="text"
-                                fullWidth
-                                value={formData.code_Barre}
-                                onChange={handlePostChange}
-                            />
-                        </form>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => setOpenAddDialog(false)} color="primary">
-                            Cancel
-                        </Button>
-                        <Button onClick={handleSubmit} color="primary">
-                            Add
-                        </Button>
-                    </DialogActions>
-                </Dialog> */}
-{/* <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
-    <DialogTitle>Add New Product</DialogTitle>
-    <DialogContent>
-        <DialogContentText>
-            Please fill in the form to add a new product.
-        </DialogContentText>
-        <form>
-            <TextField
-                margin="dense"
-                name="Numéro_Article"
-                label="Numéro d'article"
-                type="text"
-                fullWidth
-                value={formData.Numéro_Article}
-                onChange={handlePostChange}
-            />
-            <TextField
-                margin="dense"
-                name="Description_Article"
-                label="Description article"
-                type="text"
-                fullWidth
-                value={formData.Description_Article}
-                onChange={handlePostChange}
-            />
-            <TextField
-                margin="dense"
-                name="Groupe_Articles"
-                label="Groupe d'articles"
-                type="text"
-                fullWidth
-                value={formData.Groupe_Articles}
-                onChange={handlePostChange}
-            />
-            <TextField
-                margin="dense"
-                name="code_Barre"
-                label="Code Barre"
-                type="text"
-                fullWidth
-                value={formData.code_Barre}
-                onChange={handlePostChange}
-            />
-        </form>
-    </DialogContent>
-    <DialogActions>
-        <Button onClick={() => setOpenAddDialog(false)} color="primary">
-            Cancel
-        </Button>
-        <Button onClick={handleSubmit} color="primary">
-            Add
-        </Button>
-    </DialogActions>
-</Dialog> */}
+              
 <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
   <DialogTitle>Add New Product</DialogTitle>
   <DialogContent>
@@ -739,5 +660,3 @@ useEffect(() => {
 };
 
 export default ProductTable;
-
-
