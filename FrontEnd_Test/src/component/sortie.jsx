@@ -60,7 +60,7 @@ const Sortie = () => {
             setProjetDetails(selectedProjet);
         }
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         if (demandeDetails && projetDetails && quantite && n_Serie) {
             const achatPayload = {
@@ -69,9 +69,17 @@ const Sortie = () => {
                 qte_Produit: parseInt(quantite, 10),
                 n_Serie: parseInt(n_Serie, 10),
                 code_Projet: projetDetails.code_Projet,
-                nom_Projet: projetDetails.nom_Projet
+                nom_Projet: projetDetails.nom_Projet,
+                id_Article: demandeDetails.id_Article,
             };
-            console.log("Achat Payload:", achatPayload);
+            // console.log("demandeDetails:", demandeDetails);
+            // console.log("old qte_Magasin:", demandeDetails.qte_Magasin);
+            // console.log("=========> qte_Produit:", parseInt(quantite, 10));
+            const newQteMagasin = demandeDetails.qte_Magasin - parseInt(quantite, 10)
+            await dispatch(updateQteMagasin({
+                productId: demandeDetails.id_Article,
+                qte_Magasin: newQteMagasin
+              }));
             dispatch(postVenteData(achatPayload))
                 .then(response => {
                     console.log("Post Vente Data Response:", response);
@@ -79,8 +87,6 @@ const Sortie = () => {
                 .catch(error => {
                     console.error("Post Vente Data Error:", error);
                 });
-
-                
         } else {
             console.error('Demande or Projet details or quantite or n_Serie are not available');
         }
