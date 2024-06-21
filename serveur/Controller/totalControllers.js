@@ -36,8 +36,21 @@ const countAchats = (callback) => {
     });
 };
 
+const counVente = (callback) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query('SELECT COUNT(*) AS venteCount FROM vente', (err, results) => {
+            connection.release();
+            if (err) return callback(err, null);
+            callback(null, results[0].venteCount);
+        });
+    });
+};
+
+
 module.exports = {
     countUsers,
     countProducts,
-    countAchats
+    countAchats,
+    counVente
 };

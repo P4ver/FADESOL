@@ -19,10 +19,16 @@ router.get('/stats', (req, res) => {
                 if (errAchats) {
                     return res.status(500).json({ error: 'Erreur lors du comptage des achats.' });
                 }
+                totalControllers.counVente((errVente, counVente) => {
+                    if (errVente) {
+                        return res.status(500).json({ error: 'Erreur lors du comptage des achats.' });
+                    }
                 res.json({
                     users: userCount,
                     products: productCount,
-                    achats: achatCount
+                    achats: achatCount,
+                    vente: counVente
+                });
                 });
             });
         });

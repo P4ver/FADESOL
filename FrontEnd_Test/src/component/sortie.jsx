@@ -32,7 +32,7 @@ const Sortie = () => {
 
     useEffect(() => {
         if (demandeCode) {
-            const selectedDemande = productData.find(demande => demande.Numéro_Article === demandeCode);
+            const selectedDemande = productData.find(demande => demande.Numéro_Article === demandeCode || demande.code_Barre === demandeCode);
             console.log("test", selectedDemande);
             if (selectedDemande) {
                 setDemandeDetails(selectedDemande);
@@ -60,6 +60,34 @@ const Sortie = () => {
             setProjetDetails(selectedProjet);
         }
     };
+    // const handleSubmit = async(e) => {
+    //     e.preventDefault();
+    //     if (demandeDetails && projetDetails && quantite && n_Serie) {
+    //         const achatPayload = {
+    //             code_Produit: demandeDetails.Numéro_Article,
+    //             designation_Produit: demandeDetails.Description_Article,
+    //             qte_Produit: parseInt(quantite, 10),
+    //             n_Serie: parseInt(n_Serie, 10),
+    //             code_Projet: projetDetails.code_Projet,
+    //             nom_Projet: projetDetails.nom_Projet,
+    //             id_Article: demandeDetails.id_Article,
+    //         };
+    //         const newQteMagasin = demandeDetails.qte_Magasin - parseInt(quantite, 10)
+    //         await dispatch(updateQteMagasin({
+    //             productId: demandeDetails.id_Article,
+    //             qte_Magasin: newQteMagasin
+    //           }));
+    //         dispatch(postVenteData(achatPayload))
+    //             .then(response => {
+    //                 console.log("Post Vente Data Response:", response);
+    //             })
+    //             .catch(error => {
+    //                 console.error("Post Vente Data Error:", error);
+    //             });
+    //     } else {
+    //         console.error('Demande or Projet details or quantite or n_Serie are not available');
+    //     }
+    // };
     const handleSubmit = async(e) => {
         e.preventDefault();
         if (demandeDetails && projetDetails && quantite && n_Serie) {
@@ -72,17 +100,21 @@ const Sortie = () => {
                 nom_Projet: projetDetails.nom_Projet,
                 id_Article: demandeDetails.id_Article,
             };
-            // console.log("demandeDetails:", demandeDetails);
-            // console.log("old qte_Magasin:", demandeDetails.qte_Magasin);
-            // console.log("=========> qte_Produit:", parseInt(quantite, 10));
             const newQteMagasin = demandeDetails.qte_Magasin - parseInt(quantite, 10)
             await dispatch(updateQteMagasin({
                 productId: demandeDetails.id_Article,
                 qte_Magasin: newQteMagasin
-              }));
+            }));
             dispatch(postVenteData(achatPayload))
                 .then(response => {
                     console.log("Post Vente Data Response:", response);
+                    // Reset the input fields and state variables here
+                    setDemandeCode('');
+                    setProjetCode('');
+                    setQuantite('');
+                    setN_Serie('');
+                    setDemandeDetails(null);
+                    setProjetDetails(null);
                 })
                 .catch(error => {
                     console.error("Post Vente Data Error:", error);
@@ -91,7 +123,7 @@ const Sortie = () => {
             console.error('Demande or Projet details or quantite or n_Serie are not available');
         }
     };
-
+    
     return (
         <div className="max-w-md mx-auto flex justify-center items-center">
             <div className="mb-4 flex">

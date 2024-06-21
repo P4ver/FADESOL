@@ -16,8 +16,7 @@ const BasicPie = ({ data }) => {
 };
 
 const Dashboard = () => {
-  const [stats, setStats] = useState({ users: 0, products: 0, entries: 0 });
-
+  const [stats, setStats] = useState({ users: 0, products: 0, entries: 0, sorties: 0});
   useEffect(() => {
     fetch(`${API_BASE_URL}/stats`)
       .then(response => response.json())
@@ -25,7 +24,8 @@ const Dashboard = () => {
         setStats({
           users: data.users,
           products: data.products,
-          entries: data.entries, // Corrected property name
+          entries: data.achats, 
+          sorties: data.vente, 
         });
       })
       .catch(error => {
@@ -106,7 +106,7 @@ const Dashboard = () => {
             </svg>
           </div>
           <div>
-            <span className="block text-2xl font-bold">{stats.achats}</span>
+            <span className="block text-2xl font-bold">{stats.entries}</span>
             <span className="block text-gray-500">Entree</span>
           </div>
         </div>
@@ -128,7 +128,7 @@ const Dashboard = () => {
             </svg>
           </div>
           <div>
-            <span className="block text-2xl font-bold">5</span>
+            <span className="block text-2xl font-bold">{stats.sorties}</span>
             <span className="block text-gray-500">Sortie</span>
           </div>
         </div>
