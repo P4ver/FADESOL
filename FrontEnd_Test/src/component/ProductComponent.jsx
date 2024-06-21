@@ -192,6 +192,7 @@ const ProductTable = () => {
         );
     }) : [];
 
+    // console.log("=>+>+>+>+>+>+>",filteredProducts.reverse())
     const [anchorEl, setAnchorEl] = useState(null);
 
     const exportToExcel = () => {
@@ -263,6 +264,7 @@ const handleDeleteProduct = () => {
 
 const downloadQRCodeAsPDF = async (numArticle) => {
     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
+    console.log("canvas QR",canvas)
     const pdf = new jsPDF();
     const imgData = canvas.toDataURL('image/png');
     
@@ -289,6 +291,7 @@ const downloadQRCodeAsPDF = async (numArticle) => {
 
 const downloadBarcodeAsPDF = async (numArticle) => {
     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+    console.log("canvas code barre",canvas)
     const pdf = new jsPDF();
     const imgData = canvas.toDataURL('image/png');
     
@@ -375,7 +378,7 @@ useEffect(() => {
                             </TableRow>
                         </TableHead>
                         <TableBody >
-                            {filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
+                            {filteredProducts.reverse().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
                                 <>
                                 
                                 <TableRow key={product.id_Article}>
@@ -405,7 +408,7 @@ useEffect(() => {
                                                 <GrView />
                                                 <path d="M10 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-3m-4 8v4m0-8V6m4 8h3m2-3h-8"></path>
                                             </button>
-                                            <div style={{ display: 'none' }}>
+                                            {/* <div style={{ display: 'none' }}>
                                                 <QRCode
                                                     id={`qrCodeCanvas-${product.Numéro_Article}`}
                                                     value={product.Numéro_Article}
@@ -414,8 +417,8 @@ useEffect(() => {
                                                     includeMargin={true}
                                                     renderAs="canvas"
                                                 />
-                                            </div>
-                                            <canvas id={`barcodeCanvas-${product.Numéro_Article}`} style={{ display: 'none' }}></canvas>
+                                            </div> */}
+                                            {/* <canvas id={`barcodeCanvas-${product.Numéro_Article}`}></canvas> */}
                                         </TableCell>
                                     }
                                 </TableRow>
@@ -445,19 +448,23 @@ useEffect(() => {
                                                                 <p className='px-1'>Télécharger CodeBarre</p><FaBarcode />
                                                             </button>
                                                         </CardContent> */}
-                                                        <Grid item xs={6}>
+                                                        {/* <Grid item xs={6}> */}
+                                                        <CardContent>
+
                                                             <Typography variant="subtitle1">Barcode</Typography>
-                                                            <Barcode value={product.Numéro_Article} id={`barcodeCanvas-${product.Numéro_Article}`} />
+                                                            {/* <Barcode value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`} /> */}
+                                                            <Barcode  value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`}/>
                                                             <Button variant="contained" color="primary" onClick={() => downloadBarcodeAsPDF(product.Numéro_Article)}>
                                                                 Download as PDF
                                                             </Button>
-                                                        </Grid>
+                                                        </CardContent>
+                                                        {/* </Grid> */}
                                                     </Card>
                                                 </Grid>
                                                 <Grid item xs={4}>
                                                     <Card>
                                                         <CardContent>
-                                                        <Typography variant="subtitle1">QR Code</Typography>
+                                                        <Typography variant="subtitle1">QR+ Code</Typography>
                                                             <QRCode value={product.code_Barre} id={`qrCodeCanvas-${product.Numéro_Article}`} />
                                                             <Button variant="contained" color="primary" onClick={() => downloadQRCodeAsPDF(product.Numéro_Article)}>
                                                                 Download as PDF
@@ -624,6 +631,15 @@ useEffect(() => {
         type="text"
         fullWidth
         value={formData.Emplacement}
+        onChange={handlePostChange}
+      />
+      <TextField 
+        margin="dense"
+        name="qte_Magasin"
+        label="Qte MAgasin"
+        type="text"
+        fullWidth
+        value={formData.qte_Magasin}
         onChange={handlePostChange}
       />
     </form>

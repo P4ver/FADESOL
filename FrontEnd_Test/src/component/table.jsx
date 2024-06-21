@@ -165,8 +165,8 @@ const checkAccess = ()=>{
   const startIndex = (page - 1) * usersPerPage;
   const endIndex = startIndex + usersPerPage;
   const displayedUsers = userData.slice(startIndex, endIndex);
-  const displayedUsersforQuery = filteredData().slice(startIndex, endIndex);
-
+  const displayedUsersforQuery = filteredData().reverse().slice(startIndex, endIndex);
+// console.log("=====>==> displayedUsersforQuery: ",displayedUsersforQuery.reverse())
   const exportToExcel = () => {
     const filteredProducts = userData
     const worksheet = XLSX.utils.json_to_sheet(filteredProducts);

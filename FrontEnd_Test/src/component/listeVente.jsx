@@ -13,7 +13,7 @@ const ListeVente = () => {
     const handleDelete = (id_Vente) => {
         dispatch(deleteVenteData(id_Vente));
     };
-
+    // console.log("testing user",authState.user.username)
     const handlePrint = () => {
         const printContents = document.getElementById('print-area').innerHTML;
         const originalContents = document.body.innerHTML;
@@ -64,8 +64,13 @@ const ListeVente = () => {
                     <img src={logo} alt="Logo" />
                 </div>
                 <h5 className='mt-4'>Demande Vente</h5>
-                <table className='w-full shadow-lg'>
+                <table className='w-full'>
                     <tbody>
+                            <tr >
+                                <td className="text-xl">USER : {authState.user.username}</td>
+                            </tr>
+                    </tbody>
+                    {/*<tbody>
                         {[
                             { label: 'User', value: venteData[0]?.user_Dmd }
                         ].map((item, idx) => (
@@ -74,7 +79,7 @@ const ListeVente = () => {
                                 <td className="text-xl">: {item.value}</td>
                             </tr>
                         ))}
-                    </tbody>
+                    </tbody>*/}
                 </table>
                 <br />
                 <br />
