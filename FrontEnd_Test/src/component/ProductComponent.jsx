@@ -380,6 +380,45 @@ const downloadBarcodeAsPDF = async (numArticle, size) => {
         console.error('Canvas for Barcode not found');
     }
 };
+const downloadCombinedPDF = async (numArticle, product) => {
+    const barcodeCanvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+    const qrCodeCanvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
+    
+    if (barcodeCanvas && qrCodeCanvas) {
+        console.log("Barcode canvas:", barcodeCanvas);
+        console.log("QR Code canvas:", qrCodeCanvas);
+        
+        const pdf = new jsPDF();
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        
+        // Calculate dimensions for placing images side by side
+        const imageWidth = pdfWidth / 2 - 10;
+        const imageHeight = imageWidth * 0.75; // Assuming aspect ratio
+        
+        // Convert barcode to image data
+        const barcodeImgData = barcodeCanvas.toDataURL('image/png');
+        const barcodeImgProps = pdf.getImageProperties(barcodeImgData);
+        
+        // Convert QR code to image data
+        const qrCodeImgData = qrCodeCanvas.toDataURL('image/png');
+        const qrCodeImgProps = pdf.getImageProperties(qrCodeImgData);
+        
+        // Add barcode image
+        pdf.addImage(barcodeImgData, 'PNG', 10, 10, imageWidth, imageHeight);
+        
+        // Add QR code image
+        pdf.addImage(qrCodeImgData, 'PNG', pdfWidth / 2 + 10, 10, imageWidth, imageHeight);
+        
+        // Add company name and product size
+        pdf.setFontSize(12);
+        pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, imageHeight + 20, { align: 'center' });
+        // pdf.text(`Size`, pdfWidth / 2, imageHeight + 30, { align: 'center' });
+        
+        pdf.save(`${numArticle}_combined.pdf`);
+    } else {
+        console.error('Canvas for Barcode or QR Code not found');
+    }
+};
 
 
 // useEffect(() => {
@@ -487,17 +526,6 @@ const downloadBarcodeAsPDF = async (numArticle, size) => {
                                                 <GrView />
                                                 <path d="M10 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-3m-4 8v4m0-8V6m4 8h3m2-3h-8"></path>
                                             </button>
-                                            {/* <div style={{ display: 'none' }}>
-                                                <QRCode
-                                                    id={`qrCodeCanvas-${product.Numéro_Article}`}
-                                                    value={product.Numéro_Article}
-                                                    size={150}
-                                                    level={"H"}
-                                                    includeMargin={true}
-                                                    renderAs="canvas"
-                                                />
-                                            </div> */}
-                                            {/* <canvas id={`barcodeCanvas-${product.Numéro_Article}`}></canvas> */}
                                         </TableCell>
                                     }
                                 </TableRow>
@@ -520,24 +548,6 @@ const downloadBarcodeAsPDF = async (numArticle, size) => {
                                                 </Grid>
                                                 <Grid item xs={4}>
                                                     <Card>
-                                                        {/* <CardContent>
-                                                            <Typography><strong>Code barre: </strong></Typography>
-                                                            <Barcode id={`barcodeCanvas-${product.Numéro_Article}`} value={product.Numéro_Article} />
-                                                            <button onClick={() => downloadBarcode(product.Numéro_Article)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
-                                                                <p className='px-1'>Télécharger CodeBarre</p><FaBarcode />
-                                                            </button>
-                                                        </CardContent> */}
-                                                        {/* <Grid item xs={6}> */}
-                                                            {/* <Barcode value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`} /> */}
-                                                        {/* <CardContent>
-
-                                                            <Typography variant="subtitle1">Barcode</Typography>
-                                                            <Barcode  value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`}/>
-                                                            <Button variant="contained" color="primary" onClick={() => downloadBarcodeAsPDF(product.Numéro_Article)}>
-                                                                Download as PDF
-                                                            </Button>
-                                                        </CardContent> */}
-                                                        {/* </Grid> */}
                                                         <CardContent>
                                                             <Typography variant="subtitle1">Barcode</Typography>
                                                             <BarcodeCanvas value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`} />
@@ -549,15 +559,6 @@ const downloadBarcodeAsPDF = async (numArticle, size) => {
                                                     </Card>
                                                 </Grid>
                                                 <Grid item xs={4}>
-                                                {/* <Card>
-                                                    <CardContent>
-                                                            <Typography variant="subtitle1">Barcode</Typography>
-                                                            <BarcodeCanvas value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`} />
-                                                            <Button variant="contained" color="primary" onClick={() => downloadBarcodeAsPDF(product.Numéro_Article)}>
-                                                                Download as PDF
-                                                            </Button>
-                                                        </CardContent>
-                                                    </Card> */}
                                                     <Card>
                                                         <CardContent>
                                                         <Typography variant="subtitle1">QR+ Code</Typography>
@@ -571,6 +572,17 @@ const downloadBarcodeAsPDF = async (numArticle, size) => {
                                                         </CardContent>
                                                     </Card>
                                                 </Grid>
+
+                                                <Card>
+                                                    <CardContent>
+                                                        <Typography variant="subtitle1">format complet</Typography>
+                                                        {/* <QRCode value={product.code_Barre} id={`qrCodeCanvas-${product.Numéro_Article}`} /> */}
+                                                        <Button variant="contained" color="primary" onClick={() => downloadCombinedPDF(product.Numéro_Article, product)}>
+                                                            Download Combined PDF
+                                                        </Button>
+                                                    </CardContent>
+                                                </Card>
+
                                             </Grid>
                                         </Collapse>
                                     </TableCell>
