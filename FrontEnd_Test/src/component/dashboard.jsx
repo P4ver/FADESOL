@@ -488,8 +488,7 @@ const BasicPie = ({ data }) => {
 };
 
 const Dashboard = () => {
-  const [stats, setStats] = useState({ users: 0, products: 0, entries: 0, sorties: 0 });
-
+  const [stats, setStats] = useState({ users: 0, products: 0, entries: 0, sorties: 0, return: 0});
   useEffect(() => {
     fetch(`${API_BASE_URL}/stats`)
       .then(response => response.json())
@@ -497,8 +496,11 @@ const Dashboard = () => {
         setStats({
           users: data.users,
           products: data.products,
+
           entries: data.achats,
           sorties: data.sorties, 
+          return: data.return,
+
         });
         console.log("data", data);
       })
@@ -606,15 +608,27 @@ const Dashboard = () => {
         </div>
         <div className="flex items-center p-8 bg-white shadow rounded-lg">
           <div className="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-red-600 bg-red-100 rounded-full mr-6">
-            
+
+            {/* <svg
+              aria-hidden="true"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M17 10v4m0 0V10m0 4H7m10 0h3a2 2 0 002-2V6a2 2 0 00-2-2h-1a3 3 0 00-3 3v2"
+              ></path>
+            </svg> */}
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6 text-blue-600">
   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a2 2 0 002 2H6a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2"></path>
 </svg>
-
-
           </div>
           <div>
-            <span className="block text-2xl font-bold">0</span>
+            <span className="block text-2xl font-bold">{stats.return}</span>
             <span className="block text-gray-500">Return</span>
           </div>
         </div>

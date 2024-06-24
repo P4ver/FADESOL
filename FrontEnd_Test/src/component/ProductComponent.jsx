@@ -380,6 +380,7 @@ const downloadBarcodeAsPDF = async (numArticle, size) => {
         console.error('Canvas for Barcode not found');
     }
 };
+
 const downloadCombinedPDF = async (numArticle, product) => {
     const barcodeCanvas = document.getElementById(`barcodeCanvas-${numArticle}`);
     const qrCodeCanvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
@@ -390,6 +391,7 @@ const downloadCombinedPDF = async (numArticle, product) => {
         
         const pdf = new jsPDF();
         const pdfWidth = pdf.internal.pageSize.getWidth();
+
         
         // Calculate dimensions for placing images side by side
         const imageWidth = pdfWidth / 2 - 10;
@@ -414,11 +416,14 @@ const downloadCombinedPDF = async (numArticle, product) => {
         pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, imageHeight + 20, { align: 'center' });
         // pdf.text(`Size`, pdfWidth / 2, imageHeight + 30, { align: 'center' });
         
+
         pdf.save(`${numArticle}_combined.pdf`);
     } else {
         console.error('Canvas for Barcode or QR Code not found');
     }
 };
+
+
 
 
 // useEffect(() => {
@@ -530,6 +535,7 @@ const downloadCombinedPDF = async (numArticle, product) => {
                                     }
                                 </TableRow>
                                 <TableRow>
+
              
                                     <TableCell colSpan={9} style={{ paddingBottom: 0, paddingTop: 0 }}>
                                         <Collapse in={expandedUser === product.id_Article} timeout="auto" unmountOnExit>
@@ -587,6 +593,7 @@ const downloadCombinedPDF = async (numArticle, product) => {
                                         </Collapse>
                                     </TableCell>
                                 </TableRow>
+
                                 </>
                             ))}
                         </TableBody>

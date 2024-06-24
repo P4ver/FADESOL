@@ -17,16 +17,24 @@ router.get('/stats', (req, res) => {
                 if (errAchats) {
                     return res.status(500).json({ error: 'Erreur lors du comptage des achats.' });
                 }
+
                 totalControllers.countSorties((errSorties, sortieCount) => {
                     if (errSorties) {
                         return res.status(500).json({ error: 'Erreur lors du comptage des ventes.' });
                     }
+                    totalControllers.countReturn((errReturn, returnCount) => {
+                        if (errReturn) {
+                            return res.status(500).json({ error: 'Erreur lors du comptage des ventes.' });
+                        }
+                    
                     res.json({
                         users: userCount,
                         products: productCount,
                         achats: achatCount,
                         sorties: sortieCount,
+                        return : returnCount,
                     });
+                });
                 });
             });
         });
