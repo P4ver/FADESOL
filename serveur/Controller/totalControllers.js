@@ -36,8 +36,20 @@ const countAchats = (callback) => {
     });
 };
 
+// Fonction pour obtenir le nombre de sorties
+const countSorties = (callback) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query('SELECT COUNT(*) AS sortieCount FROM vente', (err, results) => {
+            connection.release();
+            if (err) return callback(err, null);
+            callback(null, results[0].sortieCount);
+        });
+    });
+};
 module.exports = {
     countUsers,
     countProducts,
-    countAchats
+    countAchats,
+    countSorties
 };

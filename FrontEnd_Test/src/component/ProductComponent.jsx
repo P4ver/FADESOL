@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { IoQrCode } from "react-icons/io5";
 import { FaBarcode } from "react-icons/fa";
@@ -23,6 +23,39 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+
+const BarcodeCanvas = ({ value, id }) => {
+    const ref = useRef(null);
+
+    useEffect(() => {
+        const convertSvgToCanvas = () => {
+            const svg = ref.current.querySelector('svg');
+            if (svg) {
+                const canvas = document.createElement('canvas');
+                canvas.width = svg.clientWidth;
+                canvas.height = svg.clientHeight;
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0);
+                    canvas.id = id; // Set the ID for the canvas
+                    ref.current.replaceChild(canvas, svg);
+                };
+                img.src = `data:image/svg+xml;base64,${btoa(new XMLSerializer().serializeToString(svg))}`;
+            }
+        };
+
+        convertSvgToCanvas();
+    }, [value, id]);
+
+    return (
+        <div ref={ref}>
+            <Barcode value={value} />
+        </div>
+    );
+};
+
+
 const ProductTable = () => {
     const dispatch = useDispatch();
     const { productData, loading, error } = useSelector((state) => state.product);
@@ -262,19 +295,19 @@ const handleDeleteProduct = () => {
 //     document.body.removeChild(downloadLink);
 // };
 
-const downloadQRCodeAsPDF = async (numArticle) => {
-    const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
-    console.log("canvas QR",canvas)
-    const pdf = new jsPDF();
-    const imgData = canvas.toDataURL('image/png');
+// const downloadQRCodeAsPDF = async (numArticle) => {
+//     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
+//     console.log("canvas QR",canvas)
+//     const pdf = new jsPDF();
+//     const imgData = canvas.toDataURL('image/png');
     
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+//     const imgProps = pdf.getImageProperties(imgData);
+//     const pdfWidth = pdf.internal.pageSize.getWidth();
+//     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-    pdf.save(`${numArticle}.pdf`);
-};
+//     pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+//     pdf.save(`${numArticle}.pdf`);
+// };
 
 // const downloadBarcode = (numArticle) => {
 //     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
@@ -289,32 +322,117 @@ const downloadQRCodeAsPDF = async (numArticle) => {
 //     document.body.removeChild(downloadLink);
 // };
 
-const downloadBarcodeAsPDF = async (numArticle) => {
-    const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
-    console.log("canvas code barre",canvas)
-    const pdf = new jsPDF();
-    const imgData = canvas.toDataURL('image/png');
+// const downloadBarcodeAsPDF = async (numArticle) => {
+//     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+//     console.log("canvas code barre",canvas)
+//     const pdf = new jsPDF();
+//     const imgData = canvas.toDataURL('image/png');
     
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+//     const imgProps = pdf.getImageProperties(imgData);
+//     const pdfWidth = pdf.internal.pageSize.getWidth();
+//     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-    pdf.save(`${numArticle}.pdf`);
+//     pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+//     pdf.save(`${numArticle}.pdf`);
+// };
+
+const downloadQRCodeAsPDF = async (numArticle, size) => {
+    const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
+    if (canvas) {
+        console.log("canvas QR", canvas);
+        const pdf = new jsPDF();
+        const imgData = canvas.toDataURL('image/png');
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        const contentWidth = pdfWidth * 0.5; // Adjust the size to make it smaller
+        const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
+
+        pdf.addImage(imgData, 'PNG', (pdfWidth - contentWidth) / 2, 20, contentWidth, contentHeight);
+        pdf.setFontSize(12);
+        pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, contentHeight + 40, { align: 'center' });
+        pdf.save(`${numArticle}.pdf`);
+    } else {
+        console.error('Canvas for QR Code not found');
+    }
+};
+const downloadBarcodeAsPDF = async (numArticle, size) => {
+    const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+    if (canvas) {
+        console.log("canvas code barre", canvas);
+        const pdf = new jsPDF();
+        const imgData = canvas.toDataURL('image/png');
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        
+        const contentWidth = pdfWidth * 0.5; // Adjust the size to make it smaller
+        const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
+        
+        // pdf.text('test', pdfWidth, contentHeight + 40, { align: 'center' });
+        pdf.addImage(imgData, 'PNG', (pdfWidth - contentWidth) / 2, 20, contentWidth, contentHeight);
+        pdf.setFontSize(12);
+        pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, contentHeight + 40, { align: 'center' });
+        // pdf.text(`Size: ${size}`, pdfWidth / 2, contentHeight + 50, { align: 'center' });
+        pdf.save(`${numArticle}.pdf`);
+    } else {
+        console.error('Canvas for Barcode not found');
+    }
+};
+const downloadCombinedPDF = async (numArticle, product) => {
+    const barcodeCanvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+    const qrCodeCanvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
+    
+    if (barcodeCanvas && qrCodeCanvas) {
+        console.log("Barcode canvas:", barcodeCanvas);
+        console.log("QR Code canvas:", qrCodeCanvas);
+        
+        const pdf = new jsPDF();
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        
+        // Calculate dimensions for placing images side by side
+        const imageWidth = pdfWidth / 2 - 10;
+        const imageHeight = imageWidth * 0.75; // Assuming aspect ratio
+        
+        // Convert barcode to image data
+        const barcodeImgData = barcodeCanvas.toDataURL('image/png');
+        const barcodeImgProps = pdf.getImageProperties(barcodeImgData);
+        
+        // Convert QR code to image data
+        const qrCodeImgData = qrCodeCanvas.toDataURL('image/png');
+        const qrCodeImgProps = pdf.getImageProperties(qrCodeImgData);
+        
+        // Add barcode image
+        pdf.addImage(barcodeImgData, 'PNG', 10, 10, imageWidth, imageHeight);
+        
+        // Add QR code image
+        pdf.addImage(qrCodeImgData, 'PNG', pdfWidth / 2 + 10, 10, imageWidth, imageHeight);
+        
+        // Add company name and product size
+        pdf.setFontSize(12);
+        pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, imageHeight + 20, { align: 'center' });
+        // pdf.text(`Size`, pdfWidth / 2, imageHeight + 30, { align: 'center' });
+        
+        pdf.save(`${numArticle}_combined.pdf`);
+    } else {
+        console.error('Canvas for Barcode or QR Code not found');
+    }
 };
 
-useEffect(() => {
-    productData.forEach((product) => {
-        const canvas = document.getElementById(`barcodeCanvas-${product.Numéro_Article}`);
-        if (canvas) {
-            JsBarcode(canvas, product.Numéro_Article, {
-                format: "CODE128",
-                displayValue: true,
-                fontSize: 18
-            });
-        }
-    });
-}, [productData]);
+
+// useEffect(() => {
+//     productData.forEach((product) => {
+//         const canvas = document.getElementById(`barcodeCanvas-${product.Numéro_Article}`);
+//         if (canvas) {
+//             JsBarcode(canvas, product.Numéro_Article, {
+//                 format: "CODE128",
+//                 displayValue: true,
+//                 fontSize: 18
+//             });
+//         }
+//     });
+// }, [productData]);
     return (
         <>
             <Paper>
@@ -408,17 +526,6 @@ useEffect(() => {
                                                 <GrView />
                                                 <path d="M10 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-3m-4 8v4m0-8V6m4 8h3m2-3h-8"></path>
                                             </button>
-                                            {/* <div style={{ display: 'none' }}>
-                                                <QRCode
-                                                    id={`qrCodeCanvas-${product.Numéro_Article}`}
-                                                    value={product.Numéro_Article}
-                                                    size={150}
-                                                    level={"H"}
-                                                    includeMargin={true}
-                                                    renderAs="canvas"
-                                                />
-                                            </div> */}
-                                            {/* <canvas id={`barcodeCanvas-${product.Numéro_Article}`}></canvas> */}
                                         </TableCell>
                                     }
                                 </TableRow>
@@ -441,24 +548,14 @@ useEffect(() => {
                                                 </Grid>
                                                 <Grid item xs={4}>
                                                     <Card>
-                                                        {/* <CardContent>
-                                                            <Typography><strong>Code barre: </strong></Typography>
-                                                            <Barcode id={`barcodeCanvas-${product.Numéro_Article}`} value={product.Numéro_Article} />
-                                                            <button onClick={() => downloadBarcode(product.Numéro_Article)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
-                                                                <p className='px-1'>Télécharger CodeBarre</p><FaBarcode />
-                                                            </button>
-                                                        </CardContent> */}
-                                                        {/* <Grid item xs={6}> */}
                                                         <CardContent>
-
                                                             <Typography variant="subtitle1">Barcode</Typography>
-                                                            {/* <Barcode value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`} /> */}
-                                                            <Barcode  value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`}/>
+                                                            <BarcodeCanvas value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`} />
                                                             <Button variant="contained" color="primary" onClick={() => downloadBarcodeAsPDF(product.Numéro_Article)}>
                                                                 Download as PDF
                                                             </Button>
                                                         </CardContent>
-                                                        {/* </Grid> */}
+
                                                     </Card>
                                                 </Grid>
                                                 <Grid item xs={4}>
@@ -475,6 +572,17 @@ useEffect(() => {
                                                         </CardContent>
                                                     </Card>
                                                 </Grid>
+
+                                                <Card>
+                                                    <CardContent>
+                                                        <Typography variant="subtitle1">format complet</Typography>
+                                                        {/* <QRCode value={product.code_Barre} id={`qrCodeCanvas-${product.Numéro_Article}`} /> */}
+                                                        <Button variant="contained" color="primary" onClick={() => downloadCombinedPDF(product.Numéro_Article, product)}>
+                                                            Download Combined PDF
+                                                        </Button>
+                                                    </CardContent>
+                                                </Card>
+
                                             </Grid>
                                         </Collapse>
                                     </TableCell>

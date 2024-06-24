@@ -83,6 +83,7 @@ const achatRoutes = require("./routes/achatempoRoutes")
 const achat = require("./routes/achatRoutes")
 const vente = require("./routes/venteRoutes")
 const statsRoutes = require('./routes/statsRoutes');
+const returnlist = require('./routes/returnRoutes');
 
 const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
@@ -123,6 +124,7 @@ app.use('/', user);
 app.use('/', demande);
 app.use('/', projet);
 app.use('/', statsRoutes);
+app.use('/', returnlist);
 
 // app.use('/', barcodeRoutes);
 

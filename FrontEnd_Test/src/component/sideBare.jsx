@@ -130,9 +130,15 @@ const SideBare = () => {
                           </Link>
                         </li>
                         <li>
-                          <Link to="/sortie" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
+                          <Link to="/return" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
                             <TbArrowBadgeRight className="text-xl" />
                             <span>Return</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/liste-return" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
+                            <TbArrowBadgeRight className="text-xl" />
+                            <span>ListeReturn</span>
                           </Link>
                         </li>
                       </ul>
