@@ -111,18 +111,19 @@ const SideBare = () => {
                     </button>
                     {isEntreeDropdownOpen && (
                       <ul className="mt-2 space-y-2 pl-12">
+                          <li>
+                          <Link to="/entree" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
+                            <TbArrowBadgeRight className="text-xl" />
+                            <span>Entree</span>
+                          </Link>
+                        </li>
                         <li>
                           <Link to="/liste-demandes" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
                             <TbArrowBadgeRight className="text-xl" />
                             <span>ListeDA</span>
                           </Link>
                         </li>
-                        <li>
-                          <Link to="/entree" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
-                            <TbArrowBadgeRight className="text-xl" />
-                            <span>Entree</span>
-                          </Link>
-                        </li>
+                      
                         <li>
                           <Link to="/livraison" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
                             <TbArrowBadgeRight className="text-xl" />
@@ -154,18 +155,19 @@ const SideBare = () => {
                     </button>
                     {isSortieDropdownOpen && (
                       <ul className="mt-2 space-y-2 pl-12">
+                         <li>
+                          <Link to="/sortie" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
+                            <TbArrowBadgeRight className="text-xl" />
+                            <span>Sortie</span>
+                          </Link>
+                        </li>
                         <li>
                           <Link to="/liste-ventes" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
                             <TbArrowBadgeRight className="text-xl" />
                             <span>ListeSortie</span>
                           </Link>
                         </li>
-                        <li>
-                          <Link to="/sortie" className="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-200">
-                            <TbArrowBadgeRight className="text-xl" />
-                            <span>Sortie</span>
-                          </Link>
-                        </li>
+                       
                       
                       </ul>
                     )}

@@ -68,7 +68,7 @@ const NavBar = () => {
                       <a href="#">Settings</a>
                     </li>
                     <li className="px-4 py-2 hover:bg-gray-100 text-black">
-                      <a href="#">Profile</a>
+                      <a href="/profile">Profile</a>
                     </li>
 
                   </ul>
