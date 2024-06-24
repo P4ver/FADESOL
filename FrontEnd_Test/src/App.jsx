@@ -25,6 +25,8 @@ import PageLivraison from './pages/pageLivraison';
 import PageEntree from './pages/pageEntree';
 import PageSortie from './pages/pageSortie';
 import PageListeVente from './pages/pageListeVente';
+import PageReturn from './pages/pageReturn';
+import PageListeReturn from './pages/pageListeReturn';
 disableReactDevTools()
 // if (process.env.NODE_ENV === 'production') {
 //   disableReactDevTools();
@@ -53,6 +55,8 @@ function App() {
                 {/* <Route path="/liste-demandes" element={<ListeDemandes />} /> */}
                 <Route path="/liste-demandes" element={<PageListeDemande />} />
                 <Route path="/liste-ventes" element={<PageListeVente />} />
+                <Route path="/liste-return" element={<PageListeReturn />} />
+                <Route path="/return" element={<PageReturn />} />
                 {/* <Route path="/livraison" element={<DeliveredItemsPage />} /> */}
                 <Route path="/livraison" element={<PageLivraison />} />
               </Route>
