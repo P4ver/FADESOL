@@ -169,7 +169,7 @@ const ListeVente = () => {
         (item.code_Projet && item.code_Projet.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (item.nom_Projet && item.nom_Projet.toLowerCase().includes(searchTerm.toLowerCase()))
     );
-
+    
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
