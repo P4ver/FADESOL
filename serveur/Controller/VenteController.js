@@ -28,22 +28,7 @@ const getAllVentes = (req, res) => {
     });
 };
 
-// Get vente details with related demande and projet
-// const getVenteDetails = (req, res) => {
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-//         connection.query(`
-//             SELECT v.id_Vente, v.code, d.designation, d.quantité, v.code_Projet, p.nom_Projet, p.date
-//             FROM vente v
-//             JOIN demande d ON v.code = d.code
-//             JOIN projet p ON v.code_Projet = p.code_Projet
-//         `, (err, results) => {
-//             connection.release();
-//             if (err) return res.status(500).send(err);
-//             res.json(results);
-//         });
-//     });
-// };
+
 
 // Update vente
 const updateVente = (req, res) => {
@@ -75,10 +60,29 @@ const deleteVente = (req, res) => {
         });
     });
 };
+//sup
+const getDailySales = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query(
+            `SELECT DATE_FORMAT(date_Vente, '%Y-%m-%d') AS date,
+                    SUM(qte_Produit) AS totalSales
+             FROM vente
+             GROUP BY DATE_FORMAT(date_Vente, '%Y-%m-%d')
+             ORDER BY date`,
+            (err, results) => {
+                connection.release();
+                if (err) return res.status(500).send(err);
+                res.json(results);
+            }
+        );
+    });
+};
 
 module.exports = {
     createVente,
     getAllVentes,
     updateVente,
-    deleteVente
+    deleteVente,
+    getDailySales
 };
