@@ -186,7 +186,7 @@ const NavBar = () => {
               {/* <button className="flex h-8 w-8 items-center justify-center bg-customBlue rounded-full text-white hover:text-black hover:shadow ml-2">
                 <IoChatboxEllipsesOutline />
               </button> */}
-              <button onClick={handleNotificationClick} className="flex h-8 w-8 items-center justify-center bg-gray-900 rounded-full text-white hover:text-gray-400 hover:shadow ml-2">
+              <button onClick={handleNotificationClick} className="flex h-8 w-8 items-center justify-center bg-customBlue rounded-full text-white hover:text-gray-400 hover:shadow ml-2">
                 <IoNotificationsOutline />
               </button>
             </li>

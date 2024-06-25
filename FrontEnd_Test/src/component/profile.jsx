@@ -214,15 +214,23 @@ const Profile = () => {
         </div>
         
         {isEditing && (
-          <motion.button 
+          <div className='flex justify-center'>
+
+            <motion.button 
             onClick={showConfirmDialog} 
-            className="mt-6 w-full p-3 bg-green-500 text-white rounded hover:bg-green-600 transition-all duration-300 ease-in-out"
+            className="mt-6 w-[300px] p-3 bg-green-500 text-white rounded hover:bg-green-600 transition-all duration-300 ease-in-out"
             initial="initial"
             whileHover="hover"
             variants={buttonVariants}
-          >
-            <FaCheck /> Update
-          </motion.button>
+            >
+            <div className='flex items-center justify-center'>
+              <FaCheck />  
+              <div className='ml-5'>
+                Update
+              </div>
+            </div>
+            </motion.button>
+          </div>
         )}
       </div>
     </div>
