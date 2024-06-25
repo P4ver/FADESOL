@@ -301,67 +301,531 @@
 
 
 
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
+
+// const Profile = () => {
+//   const [name, setName] = useState('Alexa');
+//   const [designation, setDesignation] = useState('Data Analyst');
+
+//   const handleSave = () => {
+//     alert('Profile saved!');
+//   };
+
+//   return (
+//     <div className="flex p-5 font-sans">
+//       <div className="w-64 p-5 border rounded-lg mr-5">
+//         <div className="w-20 h-20 bg-blue-500 text-white text-4xl flex justify-center items-center rounded-full mx-auto mb-5">
+//           LS
+//         </div>
+//         <div className="mb-4">
+//           <label className="block mb-2">Name:</label>
+//           <input 
+//             type="text" 
+//             value={name} 
+//             onChange={(e) => setName(e.target.value)} 
+//             className="w-full p-2 border rounded"
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label className="block mb-2">Designation:</label>
+//           <input 
+//             type="text" 
+//             value={designation} 
+//             onChange={(e) => setDesignation(e.target.value)} 
+//             className="w-full p-2 border rounded"
+//           />
+//         </div>
+//         <button 
+//           onClick={handleSave} 
+//           className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+//         >
+//           Save
+//         </button>
+//       </div>
+//       <div className="flex-1 p-5 border rounded-lg">
+//         <h2 className="text-2xl mb-1">Lakshmi Subramanian</h2>
+//         <p className="text-gray-500 mb-2">Technical Lead</p>
+//         <p className="mb-5">RATINGS: ★★★★☆</p>
+//         <div className="flex gap-5 mb-5">
+//           <span className="cursor-pointer text-blue-500">ABOUT</span>
+//           <span className="cursor-pointer text-blue-500">TIMELINE</span>
+//         </div>
+//         <div className="flex gap-5">
+//           <div>
+//             <h3 className="text-xl mb-2">Contact Information</h3>
+//             <p className="mb-1"><strong>Address:</strong> D23, B Block, West Mambalam, Chennai</p>
+//             <p className="mb-1"><strong>Phone:</strong> +91-9876543210</p>
+//             <p className="mb-1"><strong>Email:</strong> example@example.com</p>
+//             <p><strong>Site:</strong> NA</p>
+//           </div>
+//           <div>
+//             <h3 className="text-xl mb-2">Basic Information</h3>
+//             <p className="mb-1"><strong>BirthDay:</strong> 04 March 2022</p>
+//             <p><strong>Gender:</strong> Female</p>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Profile;
+
+
+
+
+
+
+
+
+
+//works perfecto
+
+// import React, { useEffect, useState } from 'react';
+// import { useSelector } from 'react-redux';
+
+// const Profile = () => {
+//   const authState = useSelector(state => state.auth);
+//   const userData = useSelector(state => state.user.userData);
+
+//   const [user, setUser] = useState(null);
+//   const [showDropdown, setShowDropdown] = useState(false);
+
+//   useEffect(() => {
+//     const username = authState.user?.username;
+//     if (username && userData) {
+//       const findUser = userData.find(user => user.login_User === username);
+//       setUser(findUser || null);
+//     }
+//   }, [authState.user, userData]);
+
+//   const handleDropdownClick = () => {
+//     setShowDropdown(!showDropdown);
+//   };
+
+//   if (!user) return <div>Loading...</div>;
+
+//   return (
+//     <div className="flex p-5 font-sans">
+//       <div className="w-64 p-5 border rounded-lg mr-5">
+//         <div className="w-20 h-20 bg-blue-500 text-white text-4xl flex justify-center items-center rounded-full mx-auto mb-5">
+//           {user.nom_User[0]}{user.prenom_User[0]}
+//         </div>
+//         <div className="mb-4">
+//           <label className="block mb-2">Name:</label>
+//           <input 
+//             type="text" 
+//             value={`${user.nom_User} ${user.prenom_User}`} 
+//             readOnly
+//             className="w-full p-2 border rounded"
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label className="block mb-2">Role:</label>
+//           <input 
+//             type="text" 
+//             value={user.type_User} 
+//             readOnly
+//             className="w-full p-2 border rounded"
+//           />
+//         </div>
+//         <button 
+//           onClick={handleDropdownClick} 
+//           className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+//         >
+//           {showDropdown ? 'Hide Details' : 'Show Details'}
+//         </button>
+//       </div>
+//       {showDropdown && (
+//         <div className="flex-1 p-5 border rounded-lg">
+//           <h2 className="text-2xl mb-1">{`${user.nom_User} ${user.prenom_User}`}</h2>
+//           <p className="text-gray-500 mb-2">{user.type_User}</p>
+//           <div className="flex gap-5">
+//             <div>
+//               <h3 className="text-xl mb-2">Contact Information</h3>
+//               <p className="mb-1"><strong>Phone:</strong> {user.tel_User}</p>
+//               <p className="mb-1"><strong>Email:</strong> {user.email_User}</p>
+//               <p><strong>Password:</strong> {user.password_User}</p>
+//             </div>
+//             <div>
+//               <h3 className="text-xl mb-2">Basic Information</h3>
+//               <p className="mb-1"><strong>Login user:</strong> {user.login_User}</p>
+//               <p><strong>Status:</strong> {user.status}</p>
+//               <p><strong>creation Date:</strong> {user.creationDate}</p>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Profile;
+
+
+
+//emm works perfect with edit 
+
+// import React, { useEffect, useState } from 'react';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { updateUserData } from '../store/userSlice'; // Import your updateUserData thunk
+
+// const Profile = () => {
+//   const dispatch = useDispatch();
+//   const authState = useSelector(state => state.auth);
+//   const userData = useSelector(state => state.user.userData);
+
+//   const [user, setUser] = useState(null);
+//   const [isEditing, setIsEditing] = useState(false);
+//   const [formData, setFormData] = useState({
+//     nom_User: '',
+//     prenom_User: '',
+//     type_User: '',
+//     tel_User: '',
+//     email_User: '',
+//     password_User: '',
+//     login_User: '',
+//     status: '',
+//     creationDate: ''
+//   });
+
+//   useEffect(() => {
+//     const username = authState.user?.username;
+//     if (username && userData) {
+//       const findUser = userData.find(user => user.login_User === username);
+//       setUser(findUser || null);
+//       if (findUser) {
+//         setFormData(findUser);
+//       }
+//     }
+//   }, [authState.user, userData]);
+
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormData({ ...formData, [name]: value });
+//   };
+
+//   const handleEditClick = () => {
+//     setIsEditing(!isEditing);
+//   };
+
+//   const handleUpdateClick = () => {
+//     dispatch(updateUserData({ id_User: user.id_User, updateUserData: formData })); // Dispatch the updateUserData action
+//     setIsEditing(false);
+//   };
+
+//   if (!user) return <div>Loading...</div>;
+
+//   return (
+//     <div className="flex p-5 font-sans">
+//       <div className="w-64 p-5 border rounded-lg mr-5">
+//         <div className="w-20 h-20 bg-blue-500 text-white text-4xl flex justify-center items-center rounded-full mx-auto mb-5">
+//           {user.nom_User[0]}{user.prenom_User[0]}
+//         </div>
+//         <div className="mb-4">
+//           <label className="block mb-2">Name:</label>
+//           <input 
+//             type="text" 
+//             name="nom_User"
+//             value={formData.nom_User} 
+//             onChange={handleInputChange} 
+//             readOnly={!isEditing}
+//             className="w-full p-2 border rounded"
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label className="block mb-2">Role:</label>
+//           <input 
+//             type="text" 
+//             name="type_User"
+//             value={formData.type_User} 
+//             onChange={handleInputChange} 
+//             readOnly={!isEditing}
+//             className="w-full p-2 border rounded"
+//           />
+//         </div>
+//         <button 
+//           onClick={handleEditClick} 
+//           className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+//         >
+//           {isEditing ? 'Cancel' : 'Edit'}
+//         </button>
+//         {isEditing && (
+//           <button 
+//             onClick={handleUpdateClick} 
+//             className="w-full p-2 bg-green-500 text-white rounded hover:bg-green-600 mt-2"
+//           >
+//             Update
+//           </button>
+//         )}
+//       </div>
+//       <div className="flex-1 p-5 border rounded-lg">
+//         <h2 className="text-2xl mb-1">{`${user.nom_User} ${user.prenom_User}`}</h2>
+//         <p className="text-gray-500 mb-2">{user.type_User}</p>
+//         <div className="flex gap-5">
+//           <div>
+//             <h3 className="text-xl mb-2">Contact Information</h3>
+//             <p className="mb-1"><strong>Phone:</strong>
+//               <input 
+//                 type="text" 
+//                 name="tel_User"
+//                 value={formData.tel_User}
+//                 onChange={handleInputChange}
+//                 readOnly={!isEditing}
+//                 className="w-full p-2 border rounded"
+//               />
+//             </p>
+//             <p className="mb-1"><strong>Email:</strong>
+//               <input 
+//                 type="email" 
+//                 name="email_User"
+//                 value={formData.email_User}
+//                 onChange={handleInputChange}
+//                 readOnly={!isEditing}
+//                 className="w-full p-2 border rounded"
+//               />
+//             </p>
+//             <p className="mb-1"><strong>Password:</strong>
+//               <input 
+//                 type="password" 
+//                 name="password_User"
+//                 value={formData.password_User}
+//                 onChange={handleInputChange}
+//                 readOnly={!isEditing}
+//                 className="w-full p-2 border rounded"
+//               />
+//             </p>
+//           </div>
+//           <div>
+//             <h3 className="text-xl mb-2">Basic Information</h3>
+//             <p className="mb-1"><strong>Login user:</strong>
+//               <input 
+//                 type="text" 
+//                 name="login_User"
+//                 value={formData.login_User}
+//                 onChange={handleInputChange}
+//                 readOnly={!isEditing}
+//                 className="w-full p-2 border rounded"
+//               />
+//             </p>
+//             <p className="mb-1"><strong>Status:</strong>
+//               <input 
+//                 type="text" 
+//                 name="status"
+//                 value={formData.status}
+//                 onChange={handleInputChange}
+//                 readOnly={!isEditing}
+//                 className="w-full p-2 border rounded"
+//               />
+//             </p>
+//             <p className="mb-1"><strong>Creation Date:</strong>
+//               <input 
+//                 type="text" 
+//                 name="creationDate"
+//                 value={formData.creationDate}
+//                 onChange={handleInputChange}
+//                 readOnly={!isEditing}
+//                 className="w-full p-2 border rounded"
+//               />
+//             </p>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Profile;
+
+
+
+
+
+
+
+
+
+
+
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateUserData } from '../store/userSlice';
+import { toast } from 'react-toastify';
 
 const Profile = () => {
-  const [name, setName] = useState('Alexa');
-  const [designation, setDesignation] = useState('Data Analyst');
+  const dispatch = useDispatch();
+  const authState = useSelector(state => state.auth);
+  const userData = useSelector(state => state.user.userData);
 
-  const handleSave = () => {
-    alert('Profile saved!');
+  const [user, setUser] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    nom_User: '',
+    prenom_User: '',
+    type_User: '',
+    tel_User: '',
+    email_User: '',
+    password_User: '',
+    login_User: '',
+    status: '',
+    creationDate: ''
+  });
+
+  useEffect(() => {
+    const username = authState.user?.username;
+    if (username && userData) {
+      const findUser = userData.find(user => user.login_User === username);
+      setUser(findUser || null);
+      if (findUser) {
+        setFormData(findUser);
+      }
+    }
+  }, [authState.user, userData]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
+
+  const handleEditClick = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleUpdateClick = async () => {
+    try {
+      await dispatch(updateUserData({ id_User: user.id_User, updateUserData: formData }));
+      toast.success('User information updated successfully!');
+      setIsEditing(false);
+    } catch (error) {
+      toast.error('Failed to update user information.');
+    }
+  };
+
+  if (!user) return <div>Loading...</div>;
 
   return (
     <div className="flex p-5 font-sans">
       <div className="w-64 p-5 border rounded-lg mr-5">
         <div className="w-20 h-20 bg-blue-500 text-white text-4xl flex justify-center items-center rounded-full mx-auto mb-5">
-          LS
+          {user.nom_User[0]}{user.prenom_User[0]}
         </div>
         <div className="mb-4">
           <label className="block mb-2">Name:</label>
           <input 
             type="text" 
-            value={name} 
-            onChange={(e) => setName(e.target.value)} 
+            name="nom_User"
+            value={formData.nom_User} 
+            onChange={handleInputChange} 
+            readOnly={!isEditing}
             className="w-full p-2 border rounded"
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-2">Designation:</label>
+          <label className="block mb-2">Prenom:</label>
           <input 
             type="text" 
-            value={designation} 
-            onChange={(e) => setDesignation(e.target.value)} 
+            name="prenom_User"
+            value={formData.prenom_User} 
+            onChange={handleInputChange} 
+            readOnly={!isEditing}
+            className="w-full p-2 border rounded"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-2">Role:</label>
+          <input 
+            type="text" 
+            name="type_User"
+            value={formData.type_User} 
+            onChange={handleInputChange} 
+            readOnly={!isEditing}
             className="w-full p-2 border rounded"
           />
         </div>
         <button 
-          onClick={handleSave} 
+          onClick={handleEditClick} 
           className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
-          Save
+          {isEditing ? 'Cancel' : 'Edit'}
         </button>
+        {isEditing && (
+          <button 
+            onClick={handleUpdateClick} 
+            className="w-full p-2 bg-green-500 text-white rounded hover:bg-green-600 mt-2"
+          >
+            Update
+          </button>
+        )}
       </div>
       <div className="flex-1 p-5 border rounded-lg">
-        <h2 className="text-2xl mb-1">Lakshmi Subramanian</h2>
-        <p className="text-gray-500 mb-2">Technical Lead</p>
-        <p className="mb-5">RATINGS: ★★★★☆</p>
-        <div className="flex gap-5 mb-5">
-          <span className="cursor-pointer text-blue-500">ABOUT</span>
-          <span className="cursor-pointer text-blue-500">TIMELINE</span>
-        </div>
+        <h2 className="text-2xl mb-1">{`${user.nom_User} ${user.prenom_User}`}</h2>
+        <p className="text-gray-500 mb-2">{user.type_User}</p>
         <div className="flex gap-5">
           <div>
             <h3 className="text-xl mb-2">Contact Information</h3>
-            <p className="mb-1"><strong>Address:</strong> D23, B Block, West Mambalam, Chennai</p>
-            <p className="mb-1"><strong>Phone:</strong> +91-9876543210</p>
-            <p className="mb-1"><strong>Email:</strong> example@example.com</p>
-            <p><strong>Site:</strong> NA</p>
+            <p className="mb-1"><strong>Phone:</strong>
+              <input 
+                type="text" 
+                name="tel_User"
+                value={formData.tel_User}
+                onChange={handleInputChange}
+                readOnly={!isEditing}
+                className="w-full p-2 border rounded"
+              />
+            </p>
+            <p className="mb-1"><strong>Email:</strong>
+              <input 
+                type="email" 
+                name="email_User"
+                value={formData.email_User}
+                onChange={handleInputChange}
+                readOnly={!isEditing}
+                className="w-full p-2 border rounded"
+              />
+            </p>
+            <p className="mb-1"><strong>Password:</strong>
+              <input 
+                type="password" 
+                name="password_User"
+                value={formData.password_User}
+                onChange={handleInputChange}
+                readOnly={!isEditing}
+                className="w-full p-2 border rounded"
+              />
+            </p>
           </div>
           <div>
             <h3 className="text-xl mb-2">Basic Information</h3>
-            <p className="mb-1"><strong>BirthDay:</strong> 04 March 2022</p>
-            <p><strong>Gender:</strong> Female</p>
+            <p className="mb-1"><strong>Login user:</strong>
+              <input 
+                type="text" 
+                name="login_User"
+                value={formData.login_User}
+                onChange={handleInputChange}
+                readOnly={!isEditing}
+                className="w-full p-2 border rounded"
+              />
+            </p>
+            <p className="mb-1"><strong>Status:</strong>
+              <input 
+                type="text" 
+                name="status"
+                value={formData.status}
+                onChange={handleInputChange}
+                readOnly={!isEditing}
+                className="w-full p-2 border rounded"
+              />
+            </p>
+            <p className="mb-1"><strong>Creation Date:</strong>
+              <input 
+                type="text" 
+                name="creationDate"
+                value={formData.creationDate}
+                onChange={handleInputChange}
+                readOnly={!isEditing}
+                className="w-full p-2 border rounded"
+              />
+            </p>
           </div>
         </div>
       </div>
