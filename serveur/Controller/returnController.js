@@ -4,10 +4,10 @@ const pool = require("../db");
 const createReturn = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        const { code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet } = req.body;
+        const { code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd } = req.body;
         connection.query(
-            'INSERT INTO listreturn (code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet) VALUES (?, ?, ?, ?, ?, ?)',
-            [code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet],
+            'INSERT INTO listreturn (code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            [code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd],
             (err, result) => {
                 connection.release();
                 if (err) return res.status(500).send(err);

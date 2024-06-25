@@ -183,6 +183,10 @@ const Sortie = () => {
   const [n_Serie, setN_Serie] = useState('');
   const [demandeDetails, setDemandeDetails] = useState(null);
   const [projetDetails, setProjetDetails] = useState(null);
+  const authState = useSelector(state => state.auth);
+  const user = authState.user;
+
+  console.log("from sortie user: ", user)
   const dispatch = useDispatch();
 
   const { demandeData, demandeLoading, demandeError } = useSelector((state) => state.demande);
@@ -239,6 +243,7 @@ const Sortie = () => {
         code_Projet: projetDetails.code_Projet,
         nom_Projet: projetDetails.nom_Projet,
         id_Article: demandeDetails.id_Article,
+        user_Dmd: user.username
       };
       const newQteMagasin = demandeDetails.qte_Magasin - parseInt(quantite, 10);
       await dispatch(updateQteMagasin({

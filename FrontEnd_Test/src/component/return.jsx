@@ -350,6 +350,8 @@ const Return = () => {
   const [demandeCode, setDemandeCode] = useState('');
   const [quantite, setQuantite] = useState('');
   const [venteDetails, setVenteDetails] = useState(null);
+  const authState = useSelector(state => state.auth);
+  const user = authState.user;
   const dispatch = useDispatch();
 
   const { venteData } = useSelector((state) => state.vente);
@@ -396,7 +398,8 @@ const Return = () => {
         qte_Produit: parseInt(quantite, 10),
         n_Serie: venteDetails.n_Serie,
         code_Projet: venteDetails.code_Projet,
-        nom_Projet: venteDetails.nom_Projet
+        nom_Projet: venteDetails.nom_Projet,
+        user_Dmd: user.username
       };
 
       const product = productData.find(product => product.Numéro_Article === venteDetails.code_Produit);
