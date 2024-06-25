@@ -152,13 +152,22 @@ const ListeVente = () => {
         setSearchTerm(e.target.value);
     };
 
+    // const filteredData = venteData.filter(item =>
+    //     item.code_Produit.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     item.designation_Produit.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     item.qte_Produit.toString().includes(searchTerm.toLowerCase()) ||
+    //     item.n_Serie.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     item.code_Projet.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     item.nom_Projet.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
+
     const filteredData = venteData.filter(item =>
-        item.code_Produit.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.designation_Produit.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.qte_Produit.toString().includes(searchTerm.toLowerCase()) ||
-        item.n_Serie.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.code_Projet.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.nom_Projet.toLowerCase().includes(searchTerm.toLowerCase())
+        (item.code_Produit && item.code_Produit.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (item.designation_Produit && item.designation_Produit.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (item.qte_Produit && item.qte_Produit.toString().includes(searchTerm.toLowerCase())) ||
+        (item.n_Serie && item.n_Serie.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (item.code_Projet && item.code_Projet.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (item.nom_Projet && item.nom_Projet.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
     const indexOfLastItem = currentPage * itemsPerPage;

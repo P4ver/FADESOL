@@ -34,7 +34,7 @@ const pool = mysql.createPool({
     host: 'localhost',
     user: 'root', // Your MySQL username
     password: null, // Your MySQL password
-    database: 'fade', // Name of the database you created
+    database: 'fadesoldb', // Name of the database you created
 });
 
 module.exports = pool;
