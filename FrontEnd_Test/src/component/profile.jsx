@@ -1386,7 +1386,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUserData } from '../store/userSlice';
 import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
 import SweetAlert from 'react-bootstrap-sweetalert';
 
@@ -1601,7 +1601,9 @@ const Profile = () => {
           </motion.button>
         )}
       </div>
+      <ToastContainer />
     </div>
+   
   );
 };
 

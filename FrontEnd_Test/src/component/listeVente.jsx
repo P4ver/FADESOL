@@ -160,6 +160,7 @@ const ListeVente = () => {
     //     item.code_Projet.toLowerCase().includes(searchTerm.toLowerCase()) ||
     //     item.nom_Projet.toLowerCase().includes(searchTerm.toLowerCase())
     // );
+
     const filteredData = venteData.filter(item =>
         (item.code_Produit && item.code_Produit.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (item.designation_Produit && item.designation_Produit.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -168,10 +169,10 @@ const ListeVente = () => {
         (item.code_Projet && item.code_Projet.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (item.nom_Projet && item.nom_Projet.toLowerCase().includes(searchTerm.toLowerCase()))
     );
-    
+    console.log("vente: filtered data ", filteredData.filter(data => data.user_Dmd === user.username))
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredData.filter(data => data.user_Dmd === user.username).slice(indexOfFirstItem, indexOfLastItem);
 
     const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
@@ -207,6 +208,7 @@ const ListeVente = () => {
                         <th className="px-4 py-2">N° Serie</th>
                         <th className="px-4 py-2">Code Projet</th>
                         <th className="px-4 py-2">Nom Projet</th>
+                        <th className="px-4 py-2">User</th>
                         <th className="px-4 py-2">Action</th>
                     </tr>
                 </thead>
@@ -219,6 +221,7 @@ const ListeVente = () => {
                             <td className="border px-4 py-2">{vente.n_Serie}</td>
                             <td className="border px-4 py-2">{vente.code_Projet}</td>
                             <td className="border px-4 py-2">{vente.nom_Projet}</td>
+                            <td className="border px-4 py-2">{vente.user_Dmd}</td>
                             <td className="border px-4 py-2 text-center">
                                 <button onClick={() => handleDelete(vente.id_Vente)} className="text-red-600 hover:text-red-800">
                                     <RiDeleteBinFill />

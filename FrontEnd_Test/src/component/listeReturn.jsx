@@ -932,7 +932,7 @@ const ListeReturn = () => {
     const { returnData } = useSelector((state) => state.return);
     const authState = useSelector(state => state.auth);
     const user = authState.user;
-
+    console.log("from list  user ==+>",user)
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5); // Display 5 items per page
     const [searchTerm, setSearchTerm] = useState('');
@@ -953,7 +953,7 @@ const ListeReturn = () => {
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
-
+    console.log("return data", returnData)
     const filteredData = returnData.filter(item =>
         (item.code_Produit && item.code_Produit.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (item.designation_Produit && item.designation_Produit.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -965,8 +965,10 @@ const ListeReturn = () => {
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
+    const currentItems = filteredData.filter(data => data.user_Dmd === user.username).slice(indexOfFirstItem, indexOfLastItem);
+    // const currentItems2 = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+    // console.log("======>>>>old",currentItems)
+    // console.log("======>>>>new",currentItems2)
     const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
     const handlePrevious = () => {
@@ -1009,6 +1011,7 @@ const ListeReturn = () => {
                         <th className="px-4 py-2">N° Serie</th>
                         <th className="px-4 py-2">Code Projet</th>
                         <th className="px-4 py-2">Nom Projet</th>
+                        <th className="px-4 py-2">User</th>
                         <th className="px-4 py-2">Action</th>
                     </tr>
                 </thead>
@@ -1021,6 +1024,7 @@ const ListeReturn = () => {
                             <td className="border px-4 py-2">{returnItem.n_Serie}</td>
                             <td className="border px-4 py-2">{returnItem.code_Projet}</td>
                             <td className="border px-4 py-2">{returnItem.nom_Projet}</td>
+                            <td className="border px-4 py-2">{returnItem.user_Dmd}</td>
                             <td className="border px-4 py-2 text-center">
                                 <button onClick={() => handleDelete(returnItem.id_Return)} className="text-red-600 hover:text-red-800">
                                     <RiDeleteBinFill />

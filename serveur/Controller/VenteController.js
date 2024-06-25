@@ -1,12 +1,27 @@
 const pool = require("../db")
 
+// const createVente = (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         if (err) throw err;
+//         const {code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet } = req.body; // Added check_Delivery
+//         connection.query(
+//             'INSERT INTO vente (code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet) VALUES (?, ?, ?, ?, ?, ?)', 
+//             [code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet], // Included check_Delivery in values
+//             (err, result) => {
+//                 connection.release();
+//                 if (err) return res.status(500).send(err);
+//                 res.send('Vente added.');
+//             }
+//         );
+//     });
+// };
 const createVente = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        const {code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet } = req.body; // Added check_Delivery
+        const {code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd} = req.body; // Added check_Delivery
         connection.query(
-            'INSERT INTO vente (code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet) VALUES (?, ?, ?, ?, ?, ?)', 
-            [code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet], // Included check_Delivery in values
+            'INSERT INTO vente (code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+            [code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd], // Included check_Delivery in values
             (err, result) => {
                 connection.release();
                 if (err) return res.status(500).send(err);
@@ -15,7 +30,6 @@ const createVente = (req, res) => {
         );
     });
 };
-
 // Get all ventes
 const getAllVentes = (req, res) => {
     pool.getConnection((err, connection) => {
