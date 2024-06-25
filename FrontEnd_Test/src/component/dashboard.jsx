@@ -1221,22 +1221,22 @@ const Dashboard = () => {
             dataset={lineChartData}
             margin={{
               top: 16,
-              right: 20,
+              right: 35,
               left: 70,
-              bottom: 30,
+              bottom: 45,
             }}
             xAxis={[
-              {
+              {label:'Date',
                 scaleType: 'point',
                 dataKey: 'time',
-                tickNumber: 2,
+                tickNumber: 10,
               },
             ]}
             yAxis={[
               {
-                label: 'Sales ($)',
-                max: 2500,
-                tickNumber: 3,
+                label: 'TotalQTE',
+                max: 500,
+                tickNumber: 5,
               },
             ]}
             series={[
