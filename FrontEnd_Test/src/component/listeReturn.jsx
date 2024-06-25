@@ -1016,7 +1016,7 @@ const ListeReturn = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentItems.map((returnItem, index) => (
+                    {currentItems.reverse().map((returnItem, index) => (
                         <tr key={returnItem.id_Return} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
                             <td className="border px-4 py-2">{returnItem.code_Produit}</td>
                             <td className="border px-4 py-2">{returnItem.designation_Produit}</td>

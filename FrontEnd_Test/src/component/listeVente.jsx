@@ -213,7 +213,7 @@ const ListeVente = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentItems.map((vente, index) => (
+                    {currentItems.reverse().map((vente, index) => (
                         <tr key={vente.id_Vente} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
                             <td className="border px-4 py-2">{vente.code_Produit}</td>
                             <td className="border px-4 py-2">{vente.designation_Produit}</td>
