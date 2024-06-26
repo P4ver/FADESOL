@@ -1019,14 +1019,16 @@ const ListeReturn = () => {
                 <tbody>
                     {currentItems.reverse().map((returnItem, index) => (
                         <tr key={returnItem.id_Return} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
-                            <td className="border px-4">{returnItem.code_Produit}</td>
-                            <td className="border px-4">{returnItem.designation_Produit}</td>
-                            <td className="border px-4">{returnItem.qte_Produit}</td>
-                            <td className="border px-4">{returnItem.n_Serie}</td>
-                            <td className="border px-4">{returnItem.code_Projet}</td>
-                            <td className="border px-4">{returnItem.nom_Projet}</td>
-                            <td className="border px-4">{returnItem.user_Dmd}</td>
-                            <td className="border px-4 text-center">
+
+                            <td className="border px-4 py-2">{returnItem.code_Produit}</td>
+                            <td className="border px-4 py-2">{returnItem.designation_Produit}</td>
+                            <td className="border px-4 py-2">{returnItem.qte_Produit}</td>
+                            <td className="border px-4 py-2">{returnItem.n_Serie}</td>
+                            <td className="border px-4 py-2">{returnItem.code_Projet}</td>
+                            <td className="border px-4 py-2">{returnItem.nom_Projet}</td>
+                            <td className="border px-4 py-2">{returnItem.user_Dmd}</td>
+                            <td className="border px-4 py-2 text-center">
+
                                 <button onClick={() => handleDelete(returnItem.id_Return)} className="text-red-600 hover:text-red-800">
                                     <RiDeleteBinFill />
                                 </button>

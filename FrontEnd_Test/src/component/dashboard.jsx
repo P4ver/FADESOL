@@ -1127,6 +1127,7 @@ const Dashboard = () => {
           time: item.date,
           amount: item.totalSales,
         }));
+        console.log("frm_Dashboard  lineChartData:",lineChartData)
         setLineChartData(formattedData);
       })
       .catch(error => {
@@ -1216,7 +1217,7 @@ const Dashboard = () => {
       </section>
       {/* LineChart */}
       <Grid item xs={12} md={8} lg={9}>
-        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', height: 240 }}>
+        <Paper sx={{ p: 1, display: 'flex', flexDirection: 'column', height: 300 }}>
         <h2 className="text-xl font-semibold mb-4"> Nombre de vente par jour</h2>
           <LineChart
             dataset={lineChartData}
@@ -1227,7 +1228,8 @@ const Dashboard = () => {
               bottom: 45,
             }}
             xAxis={[
-              {label:'Date',
+              {
+                label: 'date',
                 scaleType: 'point',
                 dataKey: 'time',
                 tickNumber: 10,
@@ -1235,8 +1237,8 @@ const Dashboard = () => {
             ]}
             yAxis={[
               {
-                label: 'TotalQTE',
-                max: 500,
+                label: 'qte',
+                max: 1000,
                 tickNumber: 5,
               },
             ]}

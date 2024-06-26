@@ -556,6 +556,7 @@ const Sortie = () => {
         nom_Projet: projetDetails.nom_Projet,
         id_Article: demandeDetails.id_Article,
         user_Dmd: user.username
+
       };
       const newQteMagasin = demandeDetails.qte_Magasin - parseInt(quantite, 10);
       await dispatch(updateQteMagasin({

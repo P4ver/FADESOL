@@ -303,7 +303,9 @@ const NavBar = () => {
               <button className="flex h-8 w-8 items-center justify-center bg-customGreen rounded-full text-gray-600 hover:text-black hover:shadow ml-2">
                 <LogoutComponent />
               </button>
+
               <button onClick={handleNotificationClick} className="flex h-8 w-8 items-center justify-center bg-gray-900 rounded-full text-white hover:text-gray-400 hover:shadow ml-2">
+
                 <IoNotificationsOutline />
               </button>
             </li>
