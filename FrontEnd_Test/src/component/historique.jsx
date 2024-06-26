@@ -127,7 +127,7 @@ const Historique = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredData.reverse().map((item, index) => (
+          {filteredData.slice().reverse().map((item, index) => (
             <tr key={item.id_Historique} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
               <td className="border px-4 ">{item.id_Historique}</td>
               <td className="border px-4 ">{item.type_Op}</td>

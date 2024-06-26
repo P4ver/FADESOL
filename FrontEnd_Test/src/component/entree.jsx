@@ -106,8 +106,8 @@ const handleSubmit = async () => {
         if (id_Article === null) {
           throw new Error(`Article with code ${line.demandeCode} not found`);
         }
-// const code_Produit = productData.find(item => item.id_Produit === id_Article)?.code_Produit || '';
-console.log("d",productData )
+const code_Prd = productData.find(item => item.id_Article === id_Article)?.Numéro_Article || '';
+
         const achatPayload = {
           code: line.demandeCode,
           designation: designation,
@@ -125,7 +125,7 @@ console.log("d",productData )
         };
 const historiqueData = {
   type_Op:"entree",
-  code: line.demandeCode,
+  code_Produit: code_Prd,
   designation_Produit: designation,
   code_Projet: line.projetCode,
   nom_Projet: nom_Projet,
