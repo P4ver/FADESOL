@@ -43,8 +43,6 @@ export const persistor = persistStore(store);
 
 export default store;
 
-
-
 // import { combineReducers } from 'redux';
 // import { configureStore } from '@reduxjs/toolkit';
 // import { persistStore, persistReducer } from 'redux-persist';

@@ -920,6 +920,7 @@
 // export default ListeReturn;
 
 
+
 //resolve the problem of lower case i think
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -1002,7 +1003,7 @@ const ListeReturn = () => {
                     className="border rounded py-2 px-4 w-1/3"
                 />
             </div>
-            <table className="min-w-full table-auto bg-white border border-gray-200">
+            <table className="w-full table-auto bg-white border border-gray-200">
                 <thead>
                     <tr className='bg-green-600 text-white'>
                         <th className="px-4 py-2">Code</th>
@@ -1018,6 +1019,7 @@ const ListeReturn = () => {
                 <tbody>
                     {currentItems.reverse().map((returnItem, index) => (
                         <tr key={returnItem.id_Return} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
+
                             <td className="border px-4 py-2">{returnItem.code_Produit}</td>
                             <td className="border px-4 py-2">{returnItem.designation_Produit}</td>
                             <td className="border px-4 py-2">{returnItem.qte_Produit}</td>
@@ -1026,6 +1028,7 @@ const ListeReturn = () => {
                             <td className="border px-4 py-2">{returnItem.nom_Projet}</td>
                             <td className="border px-4 py-2">{returnItem.user_Dmd}</td>
                             <td className="border px-4 py-2 text-center">
+
                                 <button onClick={() => handleDelete(returnItem.id_Return)} className="text-red-600 hover:text-red-800">
                                     <RiDeleteBinFill />
                                 </button>
