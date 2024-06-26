@@ -245,6 +245,17 @@ const Sortie = () => {
         id_Article: demandeDetails.id_Article,
         user_Dmd: user.username
       };
+      const historiqueData = {
+        type_Op: "sortie",
+        code_Produit: demandeDetails.Numéro_Article,
+        designation_Produit: demandeDetails.Description_Article,
+        qte_Produit: parseInt(quantite, 10),
+        n_Serie: parseInt(n_Serie, 10),
+        code_Projet: projetDetails.code_Projet,
+        nom_Projet: projetDetails.nom_Projet,
+        id_Article: demandeDetails.id_Article,
+        user_Dmd: user.username
+      };
       const newQteMagasin = demandeDetails.qte_Magasin - parseInt(quantite, 10);
       await dispatch(updateQteMagasin({
         productId: demandeDetails.id_Article,
@@ -271,6 +282,8 @@ const Sortie = () => {
         .catch(error => {
           console.error("Post Vente Data Error:", error);
         });
+
+
     } else {
       console.error('Demande or Projet details or quantite or n_Serie are not available');
     }

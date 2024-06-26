@@ -95,17 +95,22 @@
 import React, { useState, useEffect } from 'react';
 import LogoutComponent from './logoutComponent';
 import logo from '../pictures/logo.png';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaUser } from "react-icons/fa";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { IoNotificationsOutline } from "react-icons/io5";
 import Notification from './notification';
-
+import { fetchHistoriqueData } from '../store/historiqueSlice';
 const NavBar = () => {
+
+  const dispatch = useDispatch();
   const authState = useSelector(state => state.auth);
   const userState = useSelector(state => state.user);
   const userData = useSelector(state => state.user.userData);
-
+  //==========================
+  const historiqueData = useSelector(state => state.historique)
+  //==========================
+  
   const [userRole, setUserRole] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -121,10 +126,17 @@ const NavBar = () => {
   const handleDropdownClick = () => {
     setShowDropdown(!showDropdown);
   };
+  //==========================
+  useEffect(() => {
+    dispatch(fetchHistoriqueData());
+  }, [dispatch]);
+  //==========================
+
 
   const handleNotificationClick = () => {
     setShowNotifications(!showNotifications);
   };
+  console.log("navbar =====+======> historiqueData : ", historiqueData)
   const notificationsData = [
     { id: 1, text: "Melissa Maker assigned you as 'Sales Rep' of 'Malibu Nails' on 'Sales CRM'", time: "6h" },
     { id: 2, text: "Leslie Link set a reminder for you to contact 'Casey of Casey Cosmetics' in '1 Week'", time: "10h" },
@@ -183,9 +195,6 @@ const NavBar = () => {
               <button className="flex h-8 w-8 items-center justify-center bg-customGreen rounded-full text-gray-600 hover:text-black hover:shadow ml-2">
                 <LogoutComponent />
               </button>
-              {/* <button className="flex h-8 w-8 items-center justify-center bg-customBlue rounded-full text-white hover:text-black hover:shadow ml-2">
-                <IoChatboxEllipsesOutline />
-              </button> */}
               <button onClick={handleNotificationClick} className="flex h-8 w-8 items-center justify-center bg-customBlue rounded-full text-white hover:text-gray-400 hover:shadow ml-2">
                 <IoNotificationsOutline />
               </button>

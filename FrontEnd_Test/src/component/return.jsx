@@ -345,6 +345,7 @@ import { fetchVenteData } from '../store/venteSlice';
 import { fetchProductData, updateQteMagasin } from '../store/productSlice';
 import { fetchReturnData, postReturnData } from '../store/returnSlice';
 import Swal from 'sweetalert2';
+import { postHistoriqueData } from '../store/historiqueSlice';
 
 const Return = () => {
   const [demandeCode, setDemandeCode] = useState('');
@@ -402,6 +403,16 @@ const Return = () => {
         user_Dmd: user.username
       };
 
+      const historiqueDetails = {
+        type_Op:"entree",
+        code_Produit: venteDetails.code_Produit,
+        designation_Produit: venteDetails.designation_Produit,
+        qte_Produit: parseInt(quantite, 10),
+        n_Serie: venteDetails.n_Serie,
+        code_Projet: venteDetails.code_Projet,
+        nom_Projet: venteDetails.nom_Projet,
+        user_Dmd: user.username
+      };
       const product = productData.find(product => product.Numéro_Article === venteDetails.code_Produit);
       if (product) {
         const newQteMagasin = product.qte_Magasin + parseInt(quantite, 10);
@@ -429,6 +440,18 @@ const Return = () => {
           .catch(error => {
             console.error("Post Return Data Error:", error);
           });
+        await dispatch(postHistoriqueData(historiqueDetails))
+          .then(response => {
+            console.log("Post historique Data Response:", response);
+            // Clear the input fields on successful submission
+            // setDemandeCode('');
+            // setVenteDetails(null);
+            // setQuantite('');
+          })
+          .catch(error => {
+            console.error("Post historique Data Error:", error);
+          });
+
       } else {
         console.error('Product not found in stock');
       }
