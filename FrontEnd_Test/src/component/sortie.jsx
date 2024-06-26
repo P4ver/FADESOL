@@ -175,6 +175,7 @@ import { fetchVenteData, postVenteData } from '../store/venteSlice';
 import { fetchProductData, updateQteMagasin } from '../store/productSlice';
 import { fetchAchatempoData } from '../store/achatempoSlice';
 import Swal from 'sweetalert2';
+import { postHistoriqueData } from '../store/historiqueSlice';
 
 const Sortie = () => {
   const [demandeCode, setDemandeCode] = useState('');
@@ -253,7 +254,7 @@ const Sortie = () => {
         n_Serie: parseInt(n_Serie, 10),
         code_Projet: projetDetails.code_Projet,
         nom_Projet: projetDetails.nom_Projet,
-        id_Article: demandeDetails.id_Article,
+        // id_Article: demandeDetails.id_Article,
         user_Dmd: user.username
       };
       const newQteMagasin = demandeDetails.qte_Magasin - parseInt(quantite, 10);
@@ -261,6 +262,7 @@ const Sortie = () => {
         productId: demandeDetails.id_Article,
         qte_Magasin: newQteMagasin
       }));
+
       dispatch(postVenteData(achatPayload))
         .then(response => {
           console.log("Post Vente Data Response:", response);
@@ -283,7 +285,19 @@ const Sortie = () => {
           console.error("Post Vente Data Error:", error);
         });
 
-
+        dispatch(postHistoriqueData(historiqueData))
+        .then(response => {
+          console.log("Post historique Data Response:", response);
+          // setDemandeCode('');
+          // setProjetCode('');
+          // setQuantite('');
+          // setN_Serie('');
+          // setDemandeDetails(null);
+          // setProjetDetails(null);
+        })
+        .catch(error => {
+          console.error("Post historique Data Error:", error);
+        });
     } else {
       console.error('Demande or Projet details or quantite or n_Serie are not available');
     }
