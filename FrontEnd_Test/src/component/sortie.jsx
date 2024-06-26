@@ -175,6 +175,7 @@ import { fetchVenteData, postVenteData } from '../store/venteSlice';
 import { fetchProductData, updateQteMagasin } from '../store/productSlice';
 import { fetchAchatempoData } from '../store/achatempoSlice';
 import Swal from 'sweetalert2';
+import { postHistoriqueData } from '../store/historiqueSlice';
 
 const Sortie = () => {
   const [demandeCode, setDemandeCode] = useState('');
@@ -283,7 +284,13 @@ const Sortie = () => {
           console.error("Post Vente Data Error:", error);
         });
 
-
+      dispatch(postHistoriqueData(historiqueData))
+        .then(response => {
+          console.log("Post Vente Data Response:", response);
+        })
+        .catch(error => {
+          console.error("Post Vente Data Error:", error);
+        });
     } else {
       console.error('Demande or Projet details or quantite or n_Serie are not available');
     }
