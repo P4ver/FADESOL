@@ -6,6 +6,8 @@ import { fetchProjetData } from '../store/projetSlice';
 import { fetchAchatempoData, postAchatempoData } from '../store/achatempoSlice';
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { Typography, IconButton } from '@mui/material';
+import { postHistoriqueData } from '../store/historiqueSlice';
+import Swal from 'sweetalert2';
 
 const Entree = () => {
   const [lines, setLines] = useState([{ demandeCode: '', projetCode: '', quantite: '' }]);
@@ -86,6 +88,7 @@ const Entree = () => {
 // };
 
 
+
 const handleSubmit = async () => {
   try {
     const currentDate = new Date();
@@ -103,7 +106,8 @@ const handleSubmit = async () => {
         if (id_Article === null) {
           throw new Error(`Article with code ${line.demandeCode} not found`);
         }
-
+// const code_Produit = productData.find(item => item.id_Produit === id_Article)?.code_Produit || '';
+console.log("d",productData )
         const achatPayload = {
           code: line.demandeCode,
           designation: designation,
@@ -117,8 +121,36 @@ const handleSubmit = async () => {
           qte_Reçu: 0,
           qte_Magasin: qte_Magasin,
           id_Article: id_Article
+          // code_Produit: code_Produit 
         };
-
+const historiqueData = {
+  type_Op:"entree",
+  code: line.demandeCode,
+  designation_Produit: designation,
+  code_Projet: line.projetCode,
+  nom_Projet: nom_Projet,
+  n_Serie : "======",
+  user_Dmd: user.username,
+  qte_Produit: parseInt(line.quantite, 10),
+  id_Article: id_Article
+}
+await dispatch(postHistoriqueData(historiqueData))
+  .then(response => {
+    console.log("Post historique Data Response:", response);
+    Swal.fire({
+      title: 'Success',
+      text: 'Sortie effectuée avec succès dans le stock',
+      icon: 'success',
+      confirmButtonText: 'OK'
+    });
+    // Clear the input fields on successful submission
+    // setDemandeCode('');
+    // setVenteDetails(null);
+    // setQuantite('');
+  })
+  .catch(error => {
+    console.error("Post historique Data Error:", error);
+  });
         console.log("===achatpayload===>", achatPayload);
         // Dispatch postAchatempoData thunk with achatPayload
         const response = await dispatch(postAchatempoData(achatPayload));
@@ -144,6 +176,7 @@ const handleSubmit = async () => {
       handleAddLine();
     }
   };
+  
 
   return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
