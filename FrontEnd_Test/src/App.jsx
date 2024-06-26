@@ -100,6 +100,7 @@ import PageReturn from './pages/pageReturn';
 import PageListeReturn from './pages/pageListeReturn';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PageHistorique from './pages/pageHistorique';
 
 disableReactDevTools();
 
@@ -124,6 +125,7 @@ function App() {
                 <Route path="/liste-demandes" element={<PageListeDemande />} />
                 <Route path="/liste-ventes" element={<PageListeVente />} />
                 <Route path="/liste-return" element={<PageListeReturn />} />
+                <Route path="/historique" element={<PageHistorique />} />
                 <Route path="/return" element={<PageReturn />} />
                 <Route path="/livraison" element={<PageLivraison />} />
               </Route>
