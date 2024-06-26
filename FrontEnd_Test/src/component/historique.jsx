@@ -92,10 +92,6 @@
 
 
 
-
-
-
-
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchHistoriqueData } from '../store/historiqueSlice';
@@ -135,18 +131,24 @@ const Historique = () => {
 
   useEffect(() => {
     // Calculate statistics based on selectedDate
-    const stats = { entrees: 0, sorties: 0, retours: 0 };
+    if (selectedDate) {
+      const stats = { entrees: 0, sorties: 0, retours: 0 };
 
-    const filteredByDate = historiqueData.filter(item => item.date_Op.includes(selectedDate));
-    
-    filteredByDate.forEach(item => {
-      if (item.type_Op === 'entree') stats.entrees += 1;
-      else if (item.type_Op === 'sortie') stats.sorties += 1;
-      else if (item.type_Op === 'retour') stats.retours += 1;
-    });
+      const filteredByDate = historiqueData.filter(item => item.date_Op.includes(selectedDate));
 
-    setFilteredData(filteredByDate);
-    setStats(stats);
+      filteredByDate.forEach(item => {
+        if (item.type_Op === 'entree') stats.entrees += 1;
+        else if (item.type_Op === 'sortie') stats.sorties += 1;
+        else if (item.type_Op === 'retour') stats.retours += 1;
+      });
+
+      setFilteredData(filteredByDate);
+      setStats(stats);
+    } else {
+      // If no date selected, show all data and reset stats
+      setFilteredData(historiqueData);
+      setStats({ entrees: 0, sorties: 0, retours: 0 });
+    }
   }, [historiqueData, selectedDate]);
 
   const handleSearchChange = e => {
@@ -192,12 +194,11 @@ const Historique = () => {
           </div>
         </div>
       )}
-      {selectedDate && filteredData.length > 0 && (
+      {filteredData.length > 0 && (
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto bg-white border border-gray-200">
             <thead>
               <tr className="bg-green-600 text-white">
-                {/* <th className="px-4 py-2">ID</th> */}
                 <th className="px-4 py-2">Type Operation</th>
                 <th className="px-4 py-2">Date</th>
                 <th className="px-4 py-2">Code Produit</th>
@@ -212,7 +213,6 @@ const Historique = () => {
             <tbody>
               {filteredData.slice().reverse().map((item, index) => (
                 <tr key={item.id_Historique} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
-                  {/* <td className="border px-4 py-2">{item.id_Historique}</td> */}
                   <td className="border px-4 py-2">{item.type_Op}</td>
                   <td className="border px-4 py-2">{item.date_Op}</td>
                   <td className="border px-4 py-2">{item.code_Produit}</td>
@@ -233,8 +233,6 @@ const Historique = () => {
 };
 
 export default Historique;
-
-
 
 
 
