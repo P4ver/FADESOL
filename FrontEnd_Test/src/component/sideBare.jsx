@@ -9,6 +9,7 @@ import { SlBasket, SlArrowDown, SlArrowUp } from "react-icons/sl";
 import { RxDashboard } from "react-icons/rx";
 import { CgProfile } from "react-icons/cg";
 import { fetchUserData } from '../store/userSlice';
+import { LuHistory } from "react-icons/lu";
 
 const SideBare = () => {
   const [isEntreeDropdownOpen, setIsEntreeDropdownOpen] = useState(false);
@@ -174,7 +175,7 @@ const SideBare = () => {
                   </li>
                   <li className="relative">
                     <Link to="/historique" className="flex items-center space-x-3 px-6 py-3 text-white hover:bg-gray-700 rounded-lg transition duration-200">
-                      <RxDashboard className="text-2xl" />
+                      <LuHistory className="text-xl"/>
                       <span className="text-lg">Historique</span>
                     </Link>
                   </li>

@@ -215,14 +215,14 @@ const ListeVente = () => {
                 <tbody>
                     {currentItems.reverse().map((vente, index) => (
                         <tr key={vente.id_Vente} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
-                            <td className="border px-4 py-2">{vente.code_Produit}</td>
-                            <td className="border px-4 py-2">{vente.designation_Produit}</td>
-                            <td className="border px-4 py-2">{vente.qte_Produit}</td>
-                            <td className="border px-4 py-2">{vente.n_Serie}</td>
-                            <td className="border px-4 py-2">{vente.code_Projet}</td>
-                            <td className="border px-4 py-2">{vente.nom_Projet}</td>
-                            <td className="border px-4 py-2">{vente.user_Dmd}</td>
-                            <td className="border px-4 py-2 text-center">
+                            <td className="border px-4">{vente.code_Produit}</td>
+                            <td className="border px-4">{vente.designation_Produit}</td>
+                            <td className="border px-4">{vente.qte_Produit}</td>
+                            <td className="border px-4">{vente.n_Serie}</td>
+                            <td className="border px-4">{vente.code_Projet}</td>
+                            <td className="border px-4">{vente.nom_Projet}</td>
+                            <td className="border px-4">{vente.user_Dmd}</td>
+                            <td className="border px-4 text-center">
                                 <button onClick={() => handleDelete(vente.id_Vente)} className="text-red-600 hover:text-red-800">
                                     <RiDeleteBinFill />
                                 </button>
