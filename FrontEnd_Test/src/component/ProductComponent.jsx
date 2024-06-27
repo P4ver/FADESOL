@@ -535,12 +535,10 @@ const downloadCombinedPDF = async (numArticle, product) => {
                                     }
                                 </TableRow>
                                 <TableRow>
-
-             
                                     <TableCell colSpan={9} style={{ paddingBottom: 0, paddingTop: 0 }}>
                                         <Collapse in={expandedUser === product.id_Article} timeout="auto" unmountOnExit>
-                                            <Grid container spacing={2}>
-                                                <Grid item xs={4}>
+                                            <Grid container spacing={2} style={{ display: 'flex', flexWrap: 'nowrap' }}>
+                                                <Grid item xs={3}>
                                                     <Card>
                                                         <CardContent>
                                                             <Typography variant="h6">Product Details</Typography>
@@ -548,7 +546,7 @@ const downloadCombinedPDF = async (numArticle, product) => {
                                                             <Typography><strong>Description article: </strong>{product.Description_Article}</Typography>
                                                             <Typography><strong>Groupe d'articles: </strong>{product.Groupe_Articles}</Typography>
                                                             <Typography><strong>Date actualisation: </strong>{product.Date_Actualisation}</Typography>
-                                                            <Typography><strong>Date actualisation: </strong>{product.Emplacement}</Typography>
+                                                            <Typography><strong>Emplacement: </strong>{product.Emplacement}</Typography>
                                                         </CardContent>
                                                     </Card>
                                                 </Grid>
@@ -557,42 +555,47 @@ const downloadCombinedPDF = async (numArticle, product) => {
                                                         <CardContent>
                                                             <Typography variant="subtitle1">Barcode</Typography>
                                                             <BarcodeCanvas value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`} />
-                                                            <Button variant="contained" color="primary" onClick={() => downloadBarcodeAsPDF(product.Numéro_Article)}>
+                                                            <button 
+                                                                onClick={() => downloadBarcodeAsPDF(product.Numéro_Article)} 
+                                                                className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
+                                                            >
                                                                 Download as PDF
-                                                            </Button>
+                                                            </button>
                                                         </CardContent>
-
                                                     </Card>
                                                 </Grid>
-                                                <Grid item xs={4}>
+                                                <Grid item xs={3}>
                                                     <Card>
                                                         <CardContent>
-                                                        <Typography variant="subtitle1">QR+ Code</Typography>
+                                                            <Typography variant="subtitle1">QR+ Code</Typography>
                                                             <QRCode value={product.code_Barre} id={`qrCodeCanvas-${product.Numéro_Article}`} />
-                                                            <Button variant="contained" color="primary" onClick={() => downloadQRCodeAsPDF(product.Numéro_Article)}>
+                                                            <button 
+                                                                onClick={() => downloadQRCodeAsPDF(product.Numéro_Article)} 
+                                                                className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
+                                                            >
                                                                 Download as PDF
-                                                            </Button>
-                                                            {/* <button onClick={() => downloadQRCode(product.Numéro_Article)} className='flex items-center bg-blue-600 rounded-md py-2 px-3 text-white'>
-                                                                <p className='px-1'>Télécharge QRCode</p><IoQrCode />
-                                                            </button> */}
+                                                            </button>
                                                         </CardContent>
                                                     </Card>
                                                 </Grid>
-
-                                                <Card>
-                                                    <CardContent>
-                                                        <Typography variant="subtitle1">format complet</Typography>
-                                                        {/* <QRCode value={product.code_Barre} id={`qrCodeCanvas-${product.Numéro_Article}`} /> */}
-                                                        <Button variant="contained" color="primary" onClick={() => downloadCombinedPDF(product.Numéro_Article, product)}>
-                                                            Download Combined PDF
-                                                        </Button>
-                                                    </CardContent>
-                                                </Card>
-
+                                                <Grid item xs={3}>
+                                                    <Card>
+                                                        <CardContent>
+                                                            <Typography variant="subtitle1">Format Complet</Typography>
+                                                            <button 
+                                                                onClick={() => downloadCombinedPDF(product.Numéro_Article, product)} 
+                                                                className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
+                                                            >
+                                                                Download Combined PDF
+                                                            </button>
+                                                        </CardContent>
+                                                    </Card>
+                                                </Grid>
                                             </Grid>
                                         </Collapse>
                                     </TableCell>
                                 </TableRow>
+
 
                                 </>
                             ))}
