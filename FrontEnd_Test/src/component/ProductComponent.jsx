@@ -424,7 +424,8 @@ const downloadCombinedPDF = async (numArticle, product) => {
 };
 
 
-
+console.log("Designation_Fadesol===>", filteredProducts)
+console.log("tzeqhslkjqhfsqk===>", filteredProducts.reverse().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (product)))
 
 // useEffect(() => {
 //     productData.forEach((product) => {
@@ -490,10 +491,11 @@ const downloadCombinedPDF = async (numArticle, product) => {
                                     <Checkbox color="primary" />
                                 </TableCell>
                                 <TableCell>Numéro d'article</TableCell>
-                                <TableCell>Description article</TableCell>
+                                <TableCell>Designation fornisseur</TableCell>
                                 <TableCell>Groupe d'articles</TableCell>
-                                <TableCell>Date d'actualisation</TableCell>
-                                <TableCell>Disponibilité en Stock</TableCell>
+                                <TableCell>Designation Fadesol</TableCell>
+                                <TableCell>Gamme Etiquette</TableCell>
+                                <TableCell>Actif</TableCell>
                                 <TableCell>Emplacement</TableCell>
                                 {checkAccess() && 
                                     <TableCell align="center">Actions</TableCell>
@@ -511,8 +513,10 @@ const downloadCombinedPDF = async (numArticle, product) => {
                                     <TableCell>{product.Numéro_Article}</TableCell>
                                     <TableCell>{product.Description_Article}</TableCell>
                                     <TableCell>{product.Groupe_Articles}</TableCell>
-                                    <TableCell>{product.Date_Actualisation}</TableCell>
+                                    <TableCell>{product.Designation_Fadesol}</TableCell>
                                     <TableCell>{product.qte_Magasin}</TableCell>
+                                    <TableCell>{product.Actif}</TableCell>
+                                    <TableCell>{product.Gamme_Etiquette}</TableCell>
                                     <TableCell>{product.Emplacement}</TableCell>
                                     {checkAccess() && 
                                         <TableCell align="center">
@@ -545,7 +549,7 @@ const downloadCombinedPDF = async (numArticle, product) => {
                                                             <Typography><strong>Numéro article: </strong>{product.Numéro_Article}</Typography>
                                                             <Typography><strong>Description article: </strong>{product.Description_Article}</Typography>
                                                             <Typography><strong>Groupe d'articles: </strong>{product.Groupe_Articles}</Typography>
-                                                            <Typography><strong>Date actualisation: </strong>{product.Date_Actualisation}</Typography>
+                                                            <Typography><strong>Date actualisation: </strong>{product.Designation_Fadesol}</Typography>
                                                             <Typography><strong>Emplacement: </strong>{product.Emplacement}</Typography>
                                                         </CardContent>
                                                     </Card>
@@ -718,10 +722,28 @@ const downloadCombinedPDF = async (numArticle, product) => {
       <TextField
         margin="dense"
         name="Description_Article"
-        label="Description article"
+        label="Designation Fournisseur"
         type="text"
         fullWidth
         value={formData.Description_Article}
+        onChange={handlePostChange}
+      />
+      <TextField
+        margin="dense"
+        name="Designation_Fadesol"
+        label="Designation fadesol"
+        type="text"
+        fullWidth
+        value={formData.Designation_Fadesol}
+        onChange={handlePostChange}
+      />
+      <TextField
+        margin="dense"
+        name="Gamme_Etiquette"
+        label="Gamme Etiquette"
+        type="text"
+        fullWidth
+        value={formData.Gamme_Etiquette}
         onChange={handlePostChange}
       />
       <TextField
@@ -735,11 +757,11 @@ const downloadCombinedPDF = async (numArticle, product) => {
       />
       <TextField
         margin="dense"
-        name="code_Barre"
-        label="Code Barre"
+        name="Actif"
+        label="Actif"
         type="text"
         fullWidth
-        value={formData.code_Barre}
+        value={formData.Actif}
         onChange={handlePostChange}
       />
       <TextField // Add this new field

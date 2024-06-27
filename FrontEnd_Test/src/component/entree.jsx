@@ -185,7 +185,7 @@ await dispatch(postHistoriqueData(historiqueData))
         <thead>
           <tr>
             <th className="border px-4 py-2">Numero Article ou Code Barre</th>
-            <th className="border px-4 py-2">Description Article</th>
+            <th className="border px-4 py-2">Designation Fournisseur</th>
             <th className="border px-4 py-2">Projet Code</th>
             <th className="border px-4 py-2">Projet Nom</th>
             <th className="border px-4 py-2">Quantité Magasin</th>
