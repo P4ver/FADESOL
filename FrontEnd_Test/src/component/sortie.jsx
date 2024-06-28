@@ -598,21 +598,28 @@ const Sortie = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto flex justify-center items-center">
+    <div className="w-full mx-auto flex justify-center items-center">
       <div className="mb-4 flex">
-        <div className="mr-2 w-60">
+        <div className="mr-2 w-32">
           <label className="block text-sm font-bold mb-2">Article Code:</label>
           <input type="text" value={demandeCode} placeholder='enter code' onChange={handleDemandeCodeChange} className="w-full border rounded py-2 px-3" />
         </div>
         {demandeDetails && (
-          <div className="mr-2">
+          <>
+          
+          <div className="mr-2 w-60">
             <label className="block text-sm font-bold mb-2">Description:</label>
             <input type="text" value={demandeDetails.Description_Article} className="w-full border rounded py-2 px-3" disabled />
           </div>
+          <div className="mr-2">
+            <label className="block text-sm font-bold mb-2">Designation fadesol</label>
+            <input type="text" value={demandeDetails.Designation_Fadesol} className="w-full border rounded py-2 px-3" disabled />
+          </div>
+          </>
         )}
       </div>
       <div className="mb-4 flex">
-        <div className="mr-2 w-60">
+        <div className="mr-2 w-32">
           <label className="block text-sm font-bold mb-2">Projet Code:</label>
           <input type="text" value={projetCode} placeholder='Code de Projet' onChange={handleProjetCodeChange} className="w-full border rounded py-2 px-3" />
         </div>
@@ -623,8 +630,8 @@ const Sortie = () => {
           </div>
         )}
       </div>
-      <div className="mb-4 mr-2">
-        <label className="block text-sm font-bold mb-2 w-20">Quantite:</label>
+      <div className="mb-4 mr-2 w-16">
+        <label className="block text-sm font-bold mb-2">Quantite:</label>
         <input type="number" value={quantite} placeholder='0' onChange={(e) => setQuantite(e.target.value)} className="w-full border rounded py-2 px-2" />
       </div>
       <div className="mb-4">

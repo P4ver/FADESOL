@@ -26,6 +26,7 @@ const TableTest = () => {
       prenom_User:"",  
       tel_User:"",     
       note_User:"",    
+      status:"",    
       type_User:"",    
       email_User:"",    
   });
@@ -100,6 +101,7 @@ const checkAccess = ()=>{
       prenom_User:user.prenom_User,
       tel_User: user.tel_User,
       note_User: user.note_User,
+      status: user.status,
       type_User: user.type_User,
       email_User: user.email_User
     });
@@ -433,6 +435,10 @@ const checkAccess = ()=>{
                             <div className="col-span-6 sm:col-span-4">
                               <label htmlFor="note" className="block text-sm font-medium text-gray-700">Note</label>
                               <input type="note" name="note_User" id="note" value={editedUser.note_User} onChange={handleEditChange} autoComplete="note_User" required className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                            </div>
+                            <div className="col-span-6 sm:col-span-4">
+                              <label htmlFor="note" className="block text-sm font-medium text-gray-700">status</label>
+                              <input type="text" name="status" id="note" value={editedUser.status} onChange={handleEditChange} autoComplete="status" required className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                             </div>
                             <div className="col-span-6 sm:col-span-3">
                               <label htmlFor="type_User" className="block text-sm font-medium text-gray-700">Role</label>
