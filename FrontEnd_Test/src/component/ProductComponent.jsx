@@ -78,14 +78,24 @@ const ProductTable = () => {
     const [editProduct, setEditProduct] = useState(null);
     const [expandedUser, setExpandedUser] = useState(null); 
 
+    // const [editedProduct, setEditedProduct] = useState({
+    //     Numéro_Article: "",
+    //     Description_Article: "",
+    //     Groupe_Articles: "",
+    //     Designation_Fadesol: "",
+    //     code_Barre: "",
+    // });
     const [editedProduct, setEditedProduct] = useState({
         Numéro_Article: "",
         Description_Article: "",
         Groupe_Articles: "",
-        Date_Actualisation: "",
+        Designation_Fadesol: "",
+        Emplacement: "",
+        qte_Magasin: "",
+        Gamme_Etiquette: "",
+        Actif: "",
         code_Barre: "",
     });
-    
     //   ==============================================================
     const [ userValue, setUserValue] = useState(null);
     const [typeUser, setTypeUser] = useState(null);
@@ -111,14 +121,24 @@ const ProductTable = () => {
         else return false
       }
     //   ==============================================================
+    // const [formData, setFormData] = useState({
+    //     Numéro_Article: "",
+    //     Description_Article: "",
+    //     Groupe_Articles: "",
+    //     code_Barre: "",
+    //     Emplacement: "",
+    // });
     const [formData, setFormData] = useState({
         Numéro_Article: "",
         Description_Article: "",
         Groupe_Articles: "",
-        code_Barre: "",
+        Actif: "",
+        Designation_Fadesol:"",
+        Gamme_Etiquette:"",
         Emplacement: "",
+        qte_Magasin: "",
+        code_Barre: "", 
     });
-    
     const handlePostChange = (event) => {
         const { name, value } = event.target;
         setFormData({
@@ -132,16 +152,27 @@ const ProductTable = () => {
         try {
           const currentDate = new Date().toLocaleDateString();
           await dispatch(postProductData({
-            ...formData,
-            Date_Actualisation: currentDate,
-            Emplacement: formData.Emplacement, // Add this new property
+            ...formData
+            // Date_Actualisation: currentDate,
+            // Emplacement: formData.Emplacement, // Add this new property
           }));
-          setFormData({
+        //   setFormData({
+        //     Numéro_Article: "",
+        //     Description_Article: "",
+        //     Groupe_Articles: "",
+        //     code_Barre: "",
+        //     Emplacement: "", // Reset the emplacement field
+        //   });
+        setFormData({
             Numéro_Article: "",
             Description_Article: "",
             Groupe_Articles: "",
-            code_Barre: "",
-            Emplacement: "", // Reset the emplacement field
+            Actif: "",
+            Designation_Fadesol:"",
+            Gamme_Etiquette:"",
+            Emplacement: "",
+            qte_Magasin: "",
+            // code_Barre: "", 
           });
           setOpenAddDialog(false);
           console.log('Before toast.success');
@@ -163,6 +194,19 @@ const ProductTable = () => {
         setPage(0);
     };
 
+    // const handleOpenEditDialog = (product) => {
+    //     setEditProduct(product);
+    //     setEditedProduct({
+    //         id_Article: product.id_Article,
+    //         Numéro_Article: product.Numéro_Article,
+    //         Description_Article: product.Description_Article,
+    //         Groupe_Articles: product.Groupe_Articles,
+    //         Designation_Fadesol: product.Designation_Fadesol,
+    //         code_Barre: product.code_Barre,
+    //         Emplacement: product.Emplacement
+    //     });
+    //     setOpenDialog(true);
+    // };
     const handleOpenEditDialog = (product) => {
         setEditProduct(product);
         setEditedProduct({
@@ -170,9 +214,12 @@ const ProductTable = () => {
             Numéro_Article: product.Numéro_Article,
             Description_Article: product.Description_Article,
             Groupe_Articles: product.Groupe_Articles,
-            Date_Actualisation: product.Date_Actualisation,
+            Designation_Fadesol: product.Designation_Fadesol,
             code_Barre: product.code_Barre,
-            Emplacement: product.Emplacement
+            Emplacement: product.Emplacement,
+            qte_Magasin: product.qte_Magasin,
+            Gamme_Etiquette: product.Gamme_Etiquette,
+            Actif: product.Actif
         });
         setOpenDialog(true);
     };
@@ -191,14 +238,20 @@ const ProductTable = () => {
         setSelectedProduct(null);
     };
 
+    // const handleEditChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setEditedProduct((prevUser) => ({
+    //         ...prevUser,
+    //         [name]: value
+    //     }));
+    // };
     const handleEditChange = (e) => {
         const { name, value } = e.target;
-        setEditedProduct((prevUser) => ({
-            ...prevUser,
+        setEditedProduct((prevProduct) => ({
+            ...prevProduct,
             [name]: value
         }));
     };
-
     const handleSaveEdit = async () => {
         try {
             await dispatch(updateProductData({ productId: editProduct.id_Article, updatedProductData: editedProduct }));
@@ -213,17 +266,27 @@ const ProductTable = () => {
         }
     };
 
+    // const filteredProducts = productData ? productData.filter((product) => {
+     
+    //      return (
+    //         (product.Numéro_Article && product.Numéro_Article.toLowerCase().includes(search.toLowerCase())) ||
+    //         (product.Description_Article && product.Description_Article.toLowerCase().includes(search.toLowerCase())) ||
+    //         (product.code_Barre && product.code_Barre.toLowerCase().includes(search.toLowerCase()))
+    //     );
+    // }) : [];
+
     const filteredProducts = productData ? productData.filter((product) => {
-        // return (
-        //     (product.Numéro_Article && product.Numéro_Article.toLowerCase().includes(search.toLowerCase())) ||
-        //     (product.Description_Article && product.Description_Article.toLowerCase().includes(search.toLowerCase()))
-        // );
-         return (
-            (product.Numéro_Article && product.Numéro_Article.toLowerCase().includes(search.toLowerCase())) ||
-            (product.Description_Article && product.Description_Article.toLowerCase().includes(search.toLowerCase())) ||
-            (product.code_Barre && product.code_Barre.toLowerCase().includes(search.toLowerCase()))
-        );
-    }) : [];
+     
+        return (
+           (product.Numéro_Article && product.Numéro_Article.toLowerCase().includes(search.toLowerCase())) ||
+           (product.Description_Article && product.Description_Article.toLowerCase().includes(search.toLowerCase())) ||
+           (product.Designation_Fadesol && product.Designation_Fadesol.toLowerCase().includes(search.toLowerCase())) ||
+           (product.Groupe_Articles && product.Groupe_Articles.toLowerCase().includes(search.toLowerCase())) ||
+           (product.Gamme_Etiquette && product.Gamme_Etiquette.toLowerCase().includes(search.toLowerCase())) ||
+           (product.Emplacement && product.Emplacement.toLowerCase().includes(search.toLowerCase())) 
+
+       );
+   }) : [];
 
     // console.log("=>+>+>+>+>+>+>",filteredProducts.reverse())
     const [anchorEl, setAnchorEl] = useState(null);
@@ -281,60 +344,6 @@ const handleDeleteProduct = () => {
         autoClose: 3000,
     });
 };
-
-// const downloadQRCode = (numArticle) => {
-//     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
-//     const pngUrl = canvas
-//         .toDataURL("image/png")
-//         .replace("image/png", "image/octet-stream");
-//     let downloadLink = document.createElement("a");
-//     downloadLink.href = pngUrl;
-//     downloadLink.download = `${numArticle}.png`;
-//     document.body.appendChild(downloadLink);
-//     downloadLink.click();
-//     document.body.removeChild(downloadLink);
-// };
-
-// const downloadQRCodeAsPDF = async (numArticle) => {
-//     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
-//     console.log("canvas QR",canvas)
-//     const pdf = new jsPDF();
-//     const imgData = canvas.toDataURL('image/png');
-    
-//     const imgProps = pdf.getImageProperties(imgData);
-//     const pdfWidth = pdf.internal.pageSize.getWidth();
-//     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-//     pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-//     pdf.save(`${numArticle}.pdf`);
-// };
-
-// const downloadBarcode = (numArticle) => {
-//     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
-//     const pngUrl = canvas
-//         .toDataURL("image/png")
-//         .replace("image/png", "image/octet-stream");
-//     let downloadLink = document.createElement("a");
-//     downloadLink.href = pngUrl;
-//     downloadLink.download = `${numArticle}-barcode.png`;
-//     document.body.appendChild(downloadLink);
-//     downloadLink.click();
-//     document.body.removeChild(downloadLink);
-// };
-
-// const downloadBarcodeAsPDF = async (numArticle) => {
-//     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
-//     console.log("canvas code barre",canvas)
-//     const pdf = new jsPDF();
-//     const imgData = canvas.toDataURL('image/png');
-    
-//     const imgProps = pdf.getImageProperties(imgData);
-//     const pdfWidth = pdf.internal.pageSize.getWidth();
-//     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-//     pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-//     pdf.save(`${numArticle}.pdf`);
-// };
 
 const downloadQRCodeAsPDF = async (numArticle, size) => {
     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
@@ -423,22 +432,6 @@ const downloadCombinedPDF = async (numArticle, product) => {
     }
 };
 
-
-console.log("Designation_Fadesol===>", filteredProducts)
-console.log("tzeqhslkjqhfsqk===>", filteredProducts.reverse().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (product)))
-
-// useEffect(() => {
-//     productData.forEach((product) => {
-//         const canvas = document.getElementById(`barcodeCanvas-${product.Numéro_Article}`);
-//         if (canvas) {
-//             JsBarcode(canvas, product.Numéro_Article, {
-//                 format: "CODE128",
-//                 displayValue: true,
-//                 fontSize: 18
-//             });
-//         }
-//     });
-// }, [productData]);
     return (
         <>
             <Paper>
@@ -491,10 +484,11 @@ console.log("tzeqhslkjqhfsqk===>", filteredProducts.reverse().slice(page * rowsP
                                     <Checkbox color="primary" />
                                 </TableCell>
                                 <TableCell>Numéro d'article</TableCell>
-                                <TableCell>Designation fornisseur</TableCell>
+                                <TableCell>Désignation  Fournisseur</TableCell>
                                 <TableCell>Groupe d'articles</TableCell>
-                                <TableCell>Designation Fadesol</TableCell>
-                                <TableCell>Gamme Etiquette</TableCell>
+                                <TableCell>Désignation  Fadesol </TableCell>
+                                <TableCell>Gamme Etiquette </TableCell>
+                                <TableCell>Disponibilité en Stock</TableCell>
                                 <TableCell>Actif</TableCell>
                                 <TableCell>Emplacement</TableCell>
                                 {checkAccess() && 
@@ -514,9 +508,9 @@ console.log("tzeqhslkjqhfsqk===>", filteredProducts.reverse().slice(page * rowsP
                                     <TableCell>{product.Description_Article}</TableCell>
                                     <TableCell>{product.Groupe_Articles}</TableCell>
                                     <TableCell>{product.Designation_Fadesol}</TableCell>
+                                    <TableCell>{product.Gamme_Etiquette}</TableCell>
                                     <TableCell>{product.qte_Magasin}</TableCell>
                                     <TableCell>{product.Actif}</TableCell>
-                                    <TableCell>{product.Gamme_Etiquette}</TableCell>
                                     <TableCell>{product.Emplacement}</TableCell>
                                     {checkAccess() && 
                                         <TableCell align="center">
@@ -539,67 +533,69 @@ console.log("tzeqhslkjqhfsqk===>", filteredProducts.reverse().slice(page * rowsP
                                     }
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell colSpan={9} style={{ paddingBottom: 0, paddingTop: 0 }}>
-                                        <Collapse in={expandedUser === product.id_Article} timeout="auto" unmountOnExit>
-                                            <Grid container spacing={2} style={{ display: 'flex', flexWrap: 'nowrap' }}>
-                                                <Grid item xs={3}>
-                                                    <Card>
-                                                        <CardContent>
-                                                            <Typography variant="h6">Product Details</Typography>
-                                                            <Typography><strong>Numéro article: </strong>{product.Numéro_Article}</Typography>
-                                                            <Typography><strong>Description article: </strong>{product.Description_Article}</Typography>
-                                                            <Typography><strong>Groupe d'articles: </strong>{product.Groupe_Articles}</Typography>
-                                                            <Typography><strong>Date actualisation: </strong>{product.Designation_Fadesol}</Typography>
-                                                            <Typography><strong>Emplacement: </strong>{product.Emplacement}</Typography>
-                                                        </CardContent>
-                                                    </Card>
-                                                </Grid>
-                                                <Grid item xs={4}>
-                                                    <Card>
-                                                        <CardContent>
-                                                            <Typography variant="subtitle1">Barcode</Typography>
-                                                            <BarcodeCanvas value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`} />
-                                                            <button 
-                                                                onClick={() => downloadBarcodeAsPDF(product.Numéro_Article)} 
-                                                                className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
-                                                            >
+    <TableCell colSpan={9} style={{ paddingBottom: 0, paddingTop: 0 }}>
+        <Collapse in={expandedUser === product.id_Article} timeout="auto" unmountOnExit>
+            <Grid container spacing={2} style={{ display: 'flex', flexWrap: 'nowrap' }}>
+                <Grid item xs={3}>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h6">Product Details</Typography>
+                            <Typography><strong>Numéro article: </strong>{product.Numéro_Article}</Typography>
+                            <Typography><strong>Désignation  Fournisseur: </strong>{product.Description_Article}</Typography>
+                            <Typography><strong>Groupe d'articles: </strong>{product.Groupe_Articles}</Typography>
+                            <Typography><strong>Designation Fadesol: </strong>{product.Designation_Fadesol}</Typography>
+                            <Typography><strong>Emplacement: </strong>{product.Emplacement}</Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs={3}>
+                    <Card>
+                    <CardContent>
+                            <Typography variant="subtitle1">Barcode</Typography>
+                            <BarcodeCanvas value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`} />
+                            <button 
+                                onClick={() => downloadBarcodeAsPDF(product.Numéro_Article)} 
+                                className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
+                            >
+                                Download as PDF
+                            </button>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs={3}>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="subtitle1">QR+ Code</Typography>
+                            <QRCode value={product.code_Barre} id={`qrCodeCanvas-${product.Numéro_Article}`} />
+                                                            {/* <Button variant="contained" color="primary" onClick={() => downloadQRCodeAsPDF(product.Numéro_Article)}>
                                                                 Download as PDF
-                                                            </button>
-                                                        </CardContent>
-                                                    </Card>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                    <Card>
-                                                        <CardContent>
-                                                            <Typography variant="subtitle1">QR+ Code</Typography>
-                                                            <QRCode value={product.code_Barre} id={`qrCodeCanvas-${product.Numéro_Article}`} />
-                                                            <button 
-                                                                onClick={() => downloadQRCodeAsPDF(product.Numéro_Article)} 
-                                                                className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
-                                                            >
-                                                                Download as PDF
-                                                            </button>
-                                                        </CardContent>
-                                                    </Card>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                    <Card>
-                                                        <CardContent>
-                                                            <Typography variant="subtitle1">Format Complet</Typography>
-                                                            <button 
-                                                                onClick={() => downloadCombinedPDF(product.Numéro_Article, product)} 
-                                                                className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
-                                                            >
-                                                                Download Combined PDF
-                                                            </button>
-                                                        </CardContent>
-                                                    </Card>
-                                                </Grid>
-                                            </Grid>
-                                        </Collapse>
-                                    </TableCell>
-                                </TableRow>
-
+                                                            </Button> */}
+                                                          <button 
+                                onClick={() => downloadQRCodeAsPDF(product.Numéro_Article)} 
+                                className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
+                            >
+                                Download as PDF
+                            </button>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs={3}>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="subtitle1">Format Complet</Typography>
+                            <button 
+                                onClick={() => downloadCombinedPDF(product.Numéro_Article, product)} 
+                                className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
+                            >
+                                Download Combined PDF
+                            </button>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+        </Collapse>
+    </TableCell>
+</TableRow>
 
                                 </>
                             ))}
@@ -643,7 +639,7 @@ console.log("tzeqhslkjqhfsqk===>", filteredProducts.reverse().slice(page * rowsP
                                                 <TextField
                                                     fullWidth
                                                     margin="normal"
-                                                    label="Description article"
+                                                    label="Description Fournisseur"
                                                     name="Description_Article"
                                                     value={editedProduct.Description_Article}
                                                     onChange={handleEditChange}
@@ -661,11 +657,29 @@ console.log("tzeqhslkjqhfsqk===>", filteredProducts.reverse().slice(page * rowsP
                                                 <TextField
                                                     fullWidth
                                                     margin="normal"
-                                                    label="Date d'actualisation"
-                                                    name="Date_Actualisation"
-                                                    value={editedProduct.Date_Actualisation}
+                                                    label="Designation Fadesol"
+                                                    name="Designation_Fadesol"
+                                                    value={editedProduct.Designation_Fadesol}
                                                     onChange={handleEditChange}
                                                     variant="outlined"
+                                                />
+                                                <TextField
+                                                    margin="normal"
+                                                    name="Gamme_Etiquette"
+                                                    label="Gamme Etiquette"
+                                                    type="text"
+                                                    fullWidth
+                                                    value={editedProduct.Gamme_Etiquette}
+                                                    onChange={handleEditChange}
+                                                />
+                                                <TextField
+                                                    margin="normal"
+                                                    name="Actif"
+                                                    label="Actif"
+                                                    type="text"
+                                                    fullWidth
+                                                    value={editedProduct.Actif}
+                                                    onChange={handleEditChange}
                                                 />
                                                 <TextField
                                                     fullWidth
@@ -682,6 +696,15 @@ console.log("tzeqhslkjqhfsqk===>", filteredProducts.reverse().slice(page * rowsP
                                                     label="Emplacement"
                                                     name="Emplacement"
                                                     value={editedProduct.Emplacement}
+                                                    onChange={handleEditChange}
+                                                    variant="outlined"
+                                                />
+                                                    <TextField
+                                                    fullWidth
+                                                    margin="normal"
+                                                    label="QTE Magasin"
+                                                    name="qte_Magasin"
+                                                    value={editedProduct.qte_Magasin}
                                                     onChange={handleEditChange}
                                                     variant="outlined"
                                                 />
@@ -771,6 +794,15 @@ console.log("tzeqhslkjqhfsqk===>", filteredProducts.reverse().slice(page * rowsP
         type="text"
         fullWidth
         value={formData.Emplacement}
+        onChange={handlePostChange}
+      />
+      <TextField // Add this new field
+        margin="dense"
+        name="code_Barre"
+        label="code Barre"
+        type="text"
+        fullWidth
+        value={formData.code_Barre}
         onChange={handlePostChange}
       />
       <TextField 
