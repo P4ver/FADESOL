@@ -186,6 +186,7 @@ await dispatch(postHistoriqueData(historiqueData))
           <tr>
             <th className="border px-4 py-2">Numero Article ou Code Barre</th>
             <th className="border px-4 py-2">Designation Fournisseur</th>
+            <th className="border px-4 py-2">Designation Fadesol</th>
             <th className="border px-4 py-2">Projet Code</th>
             <th className="border px-4 py-2">Projet Nom</th>
             <th className="border px-4 py-2">Quantité Magasin</th>
@@ -212,6 +213,16 @@ await dispatch(postHistoriqueData(historiqueData))
                   value={line.demandeCode ? productData.find(demande =>
                     demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode
                   )?.Description_Article : ''}
+                  className="w-full px-2 py-1 border-none"
+                  disabled
+                />
+              </td>
+              <td>
+              <input
+                  type="text"
+                  value={line.demandeCode ? productData.find(demande =>
+                    demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode
+                  )?.Designation_Fadesol : ''}
                   className="w-full px-2 py-1 border-none"
                   disabled
                 />

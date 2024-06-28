@@ -511,7 +511,6 @@ const Sortie = () => {
       }
     }
   }, [demandeCode, productData]);
-
   useEffect(() => {
     if (projetCode) {
       const selectedProjet = projetData.find(projet => projet.code_Projet == projetCode);
@@ -540,7 +539,8 @@ const Sortie = () => {
         code_Produit: demandeDetails.Numéro_Article,
         designation_Produit: demandeDetails.Description_Article,
         qte_Produit: parseInt(quantite, 10),
-        n_Serie: parseInt(n_Serie, 10),
+        // n_Serie: parseInt(n_Serie, 10),
+        n_Serie: n_Serie,
         code_Projet: projetDetails.code_Projet,
         nom_Projet: projetDetails.nom_Projet,
         id_Article: demandeDetails.id_Article,
@@ -551,7 +551,8 @@ const Sortie = () => {
         code_Produit: demandeDetails.Numéro_Article,
         designation_Produit: demandeDetails.Description_Article,
         qte_Produit: parseInt(quantite, 10),
-        n_Serie: parseInt(n_Serie, 10),
+        n_Serie: n_Serie,
+        // n_Serie: parseInt(n_Serie, 10),
         code_Projet: projetDetails.code_Projet,
         nom_Projet: projetDetails.nom_Projet,
         user_Dmd: user.username
@@ -596,6 +597,7 @@ const Sortie = () => {
       console.error('Demande or Projet details or quantite or n_Serie are not available');
     }
   };
+  console.log("demandeDetails==>", demandeDetails)
 
   return (
     <div className="w-full mx-auto flex justify-center items-center">
@@ -608,12 +610,17 @@ const Sortie = () => {
           <>
           
           <div className="mr-2 w-60">
-            <label className="block text-sm font-bold mb-2">Description:</label>
+            <label className="block text-sm font-bold mb-2">Designation Fournisseur</label>
             <input type="text" value={demandeDetails.Description_Article} className="w-full border rounded py-2 px-3" disabled />
           </div>
           <div className="mr-2">
             <label className="block text-sm font-bold mb-2">Designation fadesol</label>
             <input type="text" value={demandeDetails.Designation_Fadesol} className="w-full border rounded py-2 px-3" disabled />
+          </div>
+          <div className="mr-2">
+            <label className="block text-sm font-bold mb-2">Quantite Actual</label>
+            <label className="block text-sm font-bold mb-2">Quantite Actual</label>
+            <input type="text" value={demandeDetails.qte_Magasin} className="w-full border rounded py-2 px-3" disabled />
           </div>
           </>
         )}
@@ -623,12 +630,12 @@ const Sortie = () => {
           <label className="block text-sm font-bold mb-2">Projet Code:</label>
           <input type="text" value={projetCode} placeholder='Code de Projet' onChange={handleProjetCodeChange} className="w-full border rounded py-2 px-3" />
         </div>
-        {projetDetails && (
+        {/* {projetDetails && (
           <div className='mr-2'>
             <label className="block text-sm font-bold mb-2">Nom Projet:</label>
             <input type="text" value={projetDetails.nom_Projet} className="w-full border rounded py-2 px-3 " disabled />
           </div>
-        )}
+        )} */}
       </div>
       <div className="mb-4 mr-2 w-16">
         <label className="block text-sm font-bold mb-2">Quantite:</label>
@@ -636,7 +643,7 @@ const Sortie = () => {
       </div>
       <div className="mb-4">
         <label className="block text-sm font-bold mb-2 w-20">N° Serie:</label>
-        <input type="number" value={n_Serie} placeholder='0' onChange={(e) => setN_Serie(e.target.value)} className="w-36 border rounded py-2 px-2" />
+        <input type="text" value={n_Serie} placeholder='0' onChange={(e) => setN_Serie(e.target.value)} className="w-36 border rounded py-2 px-2" />
       </div>
       <div className="mb-4 ml-3">
         <button onClick={handleSubmit} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 mt-6 px-10 rounded">Create</button>
