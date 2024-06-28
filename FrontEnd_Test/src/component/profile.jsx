@@ -184,7 +184,7 @@ const Profile = () => {
                 name="login_User"
                 value={formData.login_User}
                 onChange={handleInputChange}
-                readOnly={!isEditing}
+                readOnly={true}
                 className="w-full p-2 border rounded transition-all duration-300 ease-in-out focus:outline-none focus:border-blue-500"
               />
             </div>

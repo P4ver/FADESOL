@@ -408,7 +408,7 @@ const checkAccess = ()=>{
                           <div className="grid grid-cols-6 gap-6">
                             <div className="col-span-6 sm:col-span-4">
                               <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
-                              <input type="text" name="login_User" id="username" value={editedUser.login_User} onChange={handleEditChange} autoComplete="login_User" required className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                              <input type="text" name="login_User" id="username" value={editedUser.login_User} onChange={handleEditChange} autoComplete="login_User" disabled className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                             </div>
                             <div className="col-span-6 sm:col-span-4">
                               <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
