@@ -26,15 +26,28 @@
 
 // module.exports = pool;
 
-
 const mysql = require('mysql');
 
 const pool = mysql.createPool({
     connectionLimit: 10,
-    host: 'localhost',
-    user: 'root', // Your MySQL username
-    password: null, // Your MySQL password
-    database: 'fadesoldb', // Name of the database you created
+    host: 'fadesoldbaws.cfwqk6yaale8.eu-central-1.rds.amazonaws.com',
+    user: 'admin', // Your MySQL username
+    password: "fadesol2O24", // Your MySQL password
+    database: 'fadesoldbaws', // Name of the database you created
+    port: 3306
 });
 
 module.exports = pool;
+
+
+// const mysql = require('mysql');
+
+// const pool = mysql.createPool({
+//     connectionLimit: 10,
+//     host: 'localhost',
+//     user: 'root', // Your MySQL username
+//     password: null, // Your MySQL password
+//     database: 'fadesoldb', // Name of the database you created
+// });
+
+// module.exports = pool;
