@@ -52,7 +52,7 @@ const NavBar = () => {
 
 
   useEffect(() => {
-    const socket = io("http://localhost:3000");
+    const socket = io("http://15.236.46.59:3000");
 
     socket.on('notify-admin', (data) => {
       setNotifications(prevNotifications => [

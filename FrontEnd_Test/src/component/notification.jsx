@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { IoClose } from "react-icons/io5";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3000");
+const socket = io("http://15.236.46.59:3000");
 const EXPIRATION_DAYS = 7;
 
 const Notification = ({ initialNotifications }) => {
