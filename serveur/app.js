@@ -14,7 +14,7 @@ const path = require('path');
 // Configurer CORS pour Socket.io
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: 'http://15.236.46.59',
     methods: ['GET', 'POST'],
     credentials: true,
   }
@@ -41,7 +41,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'http://15.236.46.59',
   credentials: true,
 }));
 
