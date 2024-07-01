@@ -6,7 +6,7 @@ import Dashboard from "../component/dashboard";
 import { fetchUserData } from "../store/userSlice";
 import Swal from 'sweetalert2';
 
-const socket = io("http://localhost:3000"); // Assurez-vous que l'URL correspond à votre serveur
+const socket = io("http://15.236.46.59:3000"); // Assurez-vous que l'URL correspond à votre serveur
 
 const PageDashboard = () => {
   const [user, setUser] = useState(null);
@@ -83,71 +83,3 @@ const PageDashboard = () => {
 };
 
 export default PageDashboard;
-
-// import { useDispatch, useSelector } from "react-redux";
-// import Dashboard from "../component/dashboard";
-// import React, { useEffect, useState } from "react";
-// import { fetchUserData } from "../store/userSlice";
-// import Swal from 'sweetalert2'
-// const PageDashboard = () => {
-//   const [user, setUser] = useState(null);
-//   const [typeUser, setTypeUser] = useState(null);
-//   const [statusValue, setStatusValue] = useState(null)
-  
-//   const dispatch = useDispatch();
-
-//   const authState = useSelector(state => state.auth);
-//   const userState = useSelector(state => state.user);
-
-
-//   useEffect(() => {
-//     if (authState.user) {
-//       setUser(authState.user);
-//       dispatch(fetchUserData()); 
-//     }
-//   }, [authState, dispatch]);
-
-//   useEffect(() => {
-//     if (user && userState.userData.length > 0) {
-//       // const match = userState.userData.find(u => u.id == user.id);
-//       const match = userState.userData.find(usr => usr.login_User == user.username);
-//       setTypeUser(match.type_User)
-//       setStatusValue(match.status)
-//     }
-//   }, [user, userState]);
-
-//   const checkAccess = ()=>{
-//     if (typeUser === "Super Admin") return true
-//     else if (typeUser === "Admin") return true
-//     else return false
-//   }
-
-//   const checkStatus = () =>{
-//     if (statusValue === "Active") return true
-//     else return false
-//   }
-//   return (
-//     <div>
-//       {checkStatus() ?  
-//       <Dashboard/>
-//       :
-//       <>
-//         {/* <div className="flex items-center justify-center h-screen bg-red-50">
-//           <p className="text-xl font-semibold text-red-500">
-//             Votre compte a été inactif.
-//           </p>
-//         </div> */}
-
-//         Swal.fire({
-//             icon: "error",
-//             title: "Oops...",
-//             text: "Something went wrong!",
-//             footer: '<a href="#">Why do I have this issue?</a>'
-//           });
-//       </>
-//       }
-//     </div>
-//   );
-// };
-
-// export default PageDashboard;
