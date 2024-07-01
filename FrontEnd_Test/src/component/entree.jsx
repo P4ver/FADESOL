@@ -23,24 +23,33 @@ const Entree = () => {
     dispatch(fetchProjetData());
     dispatch(fetchAchatempoData());
 
-    // Generate the next codeAchat when the component mounts
-    // const generateNextCodeAchat = () => {
-    //   const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-000';
-    //   const lastNumber = parseInt(lastCode.split('-')[1], 10);
-    //   const newCode = `CA-${String(lastNumber + 1).padStart(3, '0')}`;
-    //   setCodeAchat(newCode);
-    //   localStorage.setItem('lastCodeAchat', newCode);
+    // const generateNextCodeAchat = async () => {
+    //   try {
+    //     const response = await dispatch(fetchAchatempoData());
+    //     const achatempoData = response.payload;
+    //     if (achatempoData && achatempoData.length > 0) {
+    //       const latestAchatempo = achatempoData[achatempoData.length - 1];
+    //       console
+    //       const newCode = `CA-${latestAchatempo.id_Achat}`;
+    //       setCodeAchat(newCode);
+    //     }
+    //   } catch (error) {
+    //     console.error('Error fetching achatempo data:', error);
+    //   }
     // };
 
-    // generateNextCodeAchat();
     const generateNextCodeAchat = async () => {
       try {
         const response = await dispatch(fetchAchatempoData());
         const achatempoData = response.payload;
+        
         if (achatempoData && achatempoData.length > 0) {
           const latestAchatempo = achatempoData[achatempoData.length - 1];
           const newCode = `CA-${latestAchatempo.id_Achat}`;
           setCodeAchat(newCode);
+        } else {
+          // If achatempoData is empty, start with CA-001
+          setCodeAchat('CA-001');
         }
       } catch (error) {
         console.error('Error fetching achatempo data:', error);

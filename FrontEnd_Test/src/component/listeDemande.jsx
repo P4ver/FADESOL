@@ -76,6 +76,9 @@ function ListeDemande() {
   const authState = useSelector(state => state.auth);
   const user = authState.user;
   const dispatch = useDispatch();
+  
+  
+
   useEffect(() => {
     dispatch(fetchAchatData());
     dispatch(fetchProductData());
@@ -87,7 +90,6 @@ function ListeDemande() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedAchat, setSelectedAchat] = useState(null);
-
   const filteredAchatData = achatempoData.filter(data => data.user_Dmd === user.username);
   const lookNewQteMagasin = (id_Article) =>{
     const findQteMagasinUpdate = productData.find(p => p.id_Article  == id_Article)
@@ -129,6 +131,9 @@ function ListeDemande() {
         console.log('updateProductData action dispatched successfully.');
         
         setUpdateSuccess(true);
+        const updatedItem = achatempoData.find(item => item.id_Achat == id);
+        console.log("lsitdemand:===>", updatedItem)
+
       } catch (error) {
         console.error('Error updating quantity received:', error);
         alert('Failed to update quantity received.');
@@ -137,7 +142,6 @@ function ListeDemande() {
       alert('Please enter a quantity received.');
     }
   };
-  
 
 
   const handleDelete = (id) => {
@@ -180,6 +184,7 @@ function ListeDemande() {
       return 'Unknown';
     }
   };
+
   const openModal = (achat) => {
     setSelectedAchat(achat);
     setModalIsOpen(true);
@@ -226,8 +231,24 @@ function ListeDemande() {
           id_Achat: id,
           updatedAchatempoData: { qte_Reçu: qteRecu[id] }
         }));
-  
+        
         const updatedItem = achatempoData.find(item => item.id_Achat == id);
+        // console.log("===>getStatus===>", getStatus(updatedItem.quantite, qteRecu[id]))
+        console.log("qte reçu",  qteRecu[id])
+        console.log("qte ",  updatedItem.quantite)
+        // console.log("")
+        if (updatedItem.quantite == qteRecu[id]) {
+          const achatDataToInsert = {
+            code_Achat: updatedItem.code_Achat,
+            code_Projet: updatedItem.code_Projet,
+            designation: updatedItem.designation,
+            quantite: updatedItem.quantite,
+            nom_Projet: updatedItem.nom_Projet,
+            date: updatedItem.date,
+            user_Dmd: updatedItem.user_Dmd,
+          };
+          await dispatch(postAchatData(achatDataToInsert));
+        }
         if (!updatedItem) {
           throw new Error(`Item with id ${id} not found in achatempoData`);
         }
@@ -236,7 +257,7 @@ function ListeDemande() {
         if (!product) {
           throw new Error(`Product with designation ${updatedItem.designation} not found`);
         }
-        // console.log("============>updatedItem: qte Reçu",updatedItem.qte_Reçu)
+        console.log("lstdemand============>updatedItem: ",updatedItem)
         const newQteMagasin = (parseInt(qteRecu[id]) - updatedItem.qte_Reçu) + product.qte_Magasin;
         console.log("newQteMagasin : ", newQteMagasin)
         await dispatch(updateQteMagasin({
@@ -247,7 +268,21 @@ function ListeDemande() {
       await Promise.all(updatePromises);
       setUpdateSuccess(true);
       setModalIsOpen(false);
-  
+
+          // if (getStatus(updatedItem.quantite, qteRecu[id]) == 'Livré') {
+          // const achatDataToInsert = {
+          //   code_Achat: updatedItem.code_Achat,
+          //   code_Projet: updatedItem.code_Projet,
+          //   designation: updatedItem.designation,
+          //   quantite: updatedItem.quantite,
+          //   nom_Projet: updatedItem.nom_Projet,
+          //   date: updatedItem.date,
+          //   user_Dmd: updatedItem.user_Dmd,
+          // };
+
+          // // Dispatch de l'action pour insérer dans la table 'achat'
+          // await dispatch(postAchatData(achatDataToInsert));
+          // }
       // Rest of the function...
     } catch (error) {
       console.error('Error updating quantities:', error);
