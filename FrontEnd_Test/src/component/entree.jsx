@@ -93,7 +93,7 @@ const handleSubmit = async () => {
   try {
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
-    console.log(formattedDate);
+    console.log("entree====>date:",formattedDate);
 
     for (const line of lines) {
       if (line.demandeCode && line.projetCode && line.quantite) {
@@ -132,8 +132,9 @@ const historiqueData = {
   n_Serie : "======",
   user_Dmd: user.username,
   qte_Produit: parseInt(line.quantite, 10),
-  id_Article: id_Article
+  date_Op: currentDate,
 }
+console.log("entree: historiqueData",historiqueData)
 await dispatch(postHistoriqueData(historiqueData))
   .then(response => {
     console.log("Post historique Data Response:", response);

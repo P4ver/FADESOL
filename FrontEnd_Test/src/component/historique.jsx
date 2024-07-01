@@ -12,7 +12,7 @@ const Historique = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
   const [stats, setStats] = useState({ entrees: 0, sorties: 0, retours: 0 });
-
+console.log("historique=+>", historiqueData)
   useEffect(() => {
     dispatch(fetchHistoriqueData());
 

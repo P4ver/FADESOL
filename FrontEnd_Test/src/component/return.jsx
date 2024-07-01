@@ -52,6 +52,7 @@ const Return = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const currentDate = new Date();
     if (venteDetails && quantite) {
       const newReturnDetails = {
         code_Produit: venteDetails.code_Produit,
@@ -71,7 +72,8 @@ const Return = () => {
         n_Serie: venteDetails.n_Serie,
         code_Projet: venteDetails.code_Projet,
         nom_Projet: venteDetails.nom_Projet,
-        user_Dmd: user.username
+        user_Dmd: user.username,
+        date_Op: currentDate,
       };
       const product = productData.find(product => product.Numéro_Article === venteDetails.code_Produit);
       if (product) {

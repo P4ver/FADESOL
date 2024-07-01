@@ -66,6 +66,7 @@ const Sortie = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const currentDate = new Date();
     if (demandeDetails && projetDetails && quantite && n_Serie) {
       const achatPayload = {
         code_Produit: demandeDetails.Numéro_Article,
@@ -87,7 +88,8 @@ const Sortie = () => {
         // n_Serie: parseInt(n_Serie, 10),
         code_Projet: projetDetails.code_Projet,
         nom_Projet: projetDetails.nom_Projet,
-        user_Dmd: user.username
+        user_Dmd: user.username,
+        date_Op: currentDate,
       };
       const newQteMagasin = demandeDetails.qte_Magasin - parseInt(quantite, 10);
       await dispatch(updateQteMagasin({
@@ -150,7 +152,6 @@ const Sortie = () => {
             <input type="text" value={demandeDetails.Designation_Fadesol} className="w-full border rounded py-2 px-3" disabled />
           </div>
           <div className="mr-2">
-            <label className="block text-sm font-bold mb-2">Quantite Actual</label>
             <label className="block text-sm font-bold mb-2">Quantite Actual</label>
             <input type="text" value={demandeDetails.qte_Magasin} className="w-full border rounded py-2 px-3" disabled />
           </div>
