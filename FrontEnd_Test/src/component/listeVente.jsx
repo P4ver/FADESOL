@@ -13,7 +13,7 @@ const ListeVente = () => {
     const user = authState.user;
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(3); // Display 3 items per page
+    const [itemsPerPage] = useState(20); // Display 3 items per page
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleDelete = (id_Vente) => {
@@ -53,7 +53,7 @@ const ListeVente = () => {
     console.log("vente: filtered data ", filteredData.filter(data => data.user_Dmd === user.username))
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredData.filter(data => data.user_Dmd === user.username).slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredData.reverse().filter(data => data.user_Dmd === user.username).slice(indexOfFirstItem, indexOfLastItem);
 
     const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
@@ -94,7 +94,7 @@ const ListeVente = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentItems.reverse().map((vente, index) => (
+                    {currentItems.map((vente, index) => (
                         <tr key={vente.id_Vente} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
                             <td className="border px-4 py-2">{vente.code_Produit}</td>
                             <td className="border px-4 py-2">{vente.designation_Produit}</td>

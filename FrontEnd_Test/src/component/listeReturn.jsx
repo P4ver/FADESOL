@@ -14,7 +14,7 @@ const ListeReturn = () => {
     const user = authState.user;
     console.log("from list  user ==+>",user)
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(5); // Display 5 items per page
+    const [itemsPerPage] = useState(20); // Display 5 items per page
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleDelete = (id_Return) => {
@@ -45,7 +45,7 @@ const ListeReturn = () => {
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredData.filter(data => data.user_Dmd === user.username).slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredData.reverse().filter(data => data.user_Dmd === user.username).slice(indexOfFirstItem, indexOfLastItem);
     const currentItems2 = filteredData.slice(indexOfFirstItem, indexOfLastItem);
     console.log("======>>>>old",currentItems)
     console.log("======>>>>new",currentItems2)
@@ -96,7 +96,7 @@ const ListeReturn = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentItems.reverse().map((returnItem, index) => (
+                    {currentItems.map((returnItem, index) => (
                         <tr key={returnItem.id_Return} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
 
                             <td className="border px-4 py-2">{returnItem.code_Produit}</td>
