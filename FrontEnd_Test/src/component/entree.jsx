@@ -113,7 +113,7 @@ const handleSubmit = async () => {
         if (id_Article === null) {
           throw new Error(`Article with code ${line.demandeCode} not found`);
         }
-const code_Prd = productData.find(item => item.id_Article === id_Article)?.Numéro_Article || '';
+        const code_Prd = productData.find(item => item.id_Article === id_Article)?.Numéro_Article || '';
 
         const achatPayload = {
           code: line.demandeCode,
