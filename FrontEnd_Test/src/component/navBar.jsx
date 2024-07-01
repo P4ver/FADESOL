@@ -7,6 +7,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import Notification from './notification';
 import { fetchHistoriqueData } from '../store/historiqueSlice';
 import io from "socket.io-client";
+import { API_BASE_URL } from '../apiConfig';
 
 const NavBar = () => {
 
@@ -52,7 +53,8 @@ const NavBar = () => {
 
 
   useEffect(() => {
-    const socket = io("http://15.236.46.59:3000");
+    const socket = io(`${API_BASE_URL}`);
+    // const socket = io("http://15.236.46.59:3000");
 
     socket.on('notify-admin', (data) => {
       setNotifications(prevNotifications => [

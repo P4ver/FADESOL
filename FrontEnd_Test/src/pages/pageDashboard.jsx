@@ -5,8 +5,10 @@ import io from "socket.io-client";
 import Dashboard from "../component/dashboard";
 import { fetchUserData } from "../store/userSlice";
 import Swal from 'sweetalert2';
+import { API_BASE_URL } from "../apiConfig";
 
-const socket = io("http://15.236.46.59:3000"); // Assurez-vous que l'URL correspond à votre serveur
+const socket = io(`${API_BASE_URL}`); // Assurez-vous que l'URL correspond à votre serveur
+// const socket = io("http://15.236.46.59:3000"); // Assurez-vous que l'URL correspond à votre serveur
 
 const PageDashboard = () => {
   const [user, setUser] = useState(null);
