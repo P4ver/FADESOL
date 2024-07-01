@@ -132,7 +132,7 @@ const historiqueData = {
   n_Serie : "======",
   user_Dmd: user.username,
   qte_Produit: parseInt(line.quantite, 10),
-  id_Article: id_Article
+  date_Op: currentDate
 }
 await dispatch(postHistoriqueData(historiqueData))
   .then(response => {
