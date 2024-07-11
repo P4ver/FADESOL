@@ -29,11 +29,11 @@
 const mysql = require('mysql');
 
 const pool = mysql.createPool({
-    connectionLimit: 10,
-    host: 'fadesoldbaws.cfwqk6yaale8.eu-central-1.rds.amazonaws.com',
-    user: 'admin', // Your MySQL username
-    password: "fadesol2O24", // Your MySQL password
-    database: 'fadesoldbaws', // Name of the database you created
+    // connectionLimit: 10,
+    host: 'localhost',
+    user: 'rjwlqhzfqsno_admin', // Your MySQL username
+    password: "fadesol@2024", // Your MySQL password
+    database: 'rjwlqhzfqsno_fadesolcpanel', // Name of the database you created
     port: 3306
 });
 
