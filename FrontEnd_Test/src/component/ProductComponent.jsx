@@ -345,92 +345,300 @@ const handleDeleteProduct = () => {
     });
 };
 
-const downloadQRCodeAsPDF = async (numArticle, size) => {
+// const downloadQRCodeAsPDF = async (numArticle, size) => {
+//     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
+//     if (canvas) {
+//         console.log("canvas QR", canvas);
+//         const pdf = new jsPDF();
+//         const imgData = canvas.toDataURL('image/png');
+//         const imgProps = pdf.getImageProperties(imgData);
+//         const pdfWidth = pdf.internal.pageSize.getWidth();
+//         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+//         const contentWidth = pdfWidth * 0.5; // Adjust the size to make it smaller
+//         const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
+
+//         pdf.addImage(imgData, 'PNG', (pdfWidth - contentWidth) / 2, 20, contentWidth, contentHeight);
+//         pdf.setFontSize(12);
+//         pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, contentHeight + 40, { align: 'center' });
+//         pdf.save(`${numArticle}.pdf`);
+//     } else {
+//         console.error('Canvas for QR Code not found');
+//     }
+// };
+const downloadQRCodeAsPDF = async (numArticle) => {
     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
     if (canvas) {
-        console.log("canvas QR", canvas);
-        const pdf = new jsPDF();
+        const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'cm',
+            format: [10, 6],
+            putOnlyUsedFonts: true,
+            floatPrecision: 16
+        });
+
         const imgData = canvas.toDataURL('image/png');
         const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        
+        // Set smaller width for the barcode
+        const contentWidth = 4; // Smaller width in cm
+        const contentHeight = (imgProps.height * contentWidth) / imgProps.width; // Maintain aspect ratio
 
-        const contentWidth = pdfWidth * 0.5; // Adjust the size to make it smaller
-        const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
-
-        pdf.addImage(imgData, 'PNG', (pdfWidth - contentWidth) / 2, 20, contentWidth, contentHeight);
+        pdf.addImage(imgData, 'PNG', 2.9, 1, contentWidth, contentHeight); // Position the image with margins
         pdf.setFontSize(12);
-        pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, contentHeight + 40, { align: 'center' });
+        pdf.text('FADESOLE', 5, 5.5, { align: 'center' });
+
         pdf.save(`${numArticle}.pdf`);
     } else {
-        console.error('Canvas for QR Code not found');
+        console.error('Canvas for QR not found');
     }
 };
-const downloadBarcodeAsPDF = async (numArticle, size) => {
+// const downloadQRCodeAsPDF = async (numArticle) => {
+//     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
+//     if (canvas) {
+//         const imgData = canvas.toDataURL('image/png');
+//         const link = document.createElement('a');
+//         link.href = imgData;
+//         link.download = `${numArticle}.png`;
+//         document.body.appendChild(link);
+//         link.click();
+//         document.body.removeChild(link);
+//     } else {
+//         console.error('Canvas for QR not found');
+//     }
+// };
+
+// const downloadBarcodeAsPDF = async (numArticle, size) => {
+//     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+//     if (canvas) {
+//         console.log("canvas code barre", canvas);
+//         const pdf = new jsPDF();
+//         const imgData = canvas.toDataURL('image/png');
+//         const imgProps = pdf.getImageProperties(imgData);
+//         const pdfWidth = pdf.internal.pageSize.getWidth();
+//         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        
+//         const contentWidth = pdfWidth * 0.5; // Adjust the size to make it smaller
+//         console.log("contentWidth")
+//         const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
+        
+//         // pdf.text('test', pdfWidth, contentHeight + 40, { align: 'center' });
+//         pdf.addImage(imgData, 'PNG', (pdfWidth - contentWidth) / 2, 20, contentWidth, contentHeight);
+//         pdf.setFontSize(12);
+//         pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, contentHeight + 40, { align: 'center' });
+//         // pdf.text(`Size: ${size}`, pdfWidth / 2, contentHeight + 50, { align: 'center' });
+//         pdf.save(`${numArticle}.pdf`);
+//     } else {
+//         console.error('Canvas for Barcode not found');
+//     }
+// };
+
+
+// const downloadBarcodeAsPDF = async (numArticle, size) => {
+//     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+//     if (canvas) {
+//         console.log("canvas code barre", canvas);
+//         const pdf = new jsPDF({
+//             orientation: 'portrait', // Vertical layout
+//             unit: 'cm',
+//             format: [6, 10], // Set the page size to 6cm x 10cm
+//             putOnlyUsedFonts: true,
+//             floatPrecision: 16 // Use higher precision for floats
+//         });
+//         const imgData = canvas.toDataURL('image/png');
+//         const imgProps = pdf.getImageProperties(imgData);
+        
+//         const pdfWidth = 6; // Width in cm
+//         const pdfHeight = 10; // Height in cm
+
+//         const contentWidth = pdfWidth; // Fill the width
+//         const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
+        
+//         // Position the barcode at the top of the page
+//         const yPosition = 3; // Start from the top
+
+//         pdf.addImage(imgData, 'PNG', 0, yPosition, contentWidth, contentHeight);
+        
+//         // Set text position near the bottom
+//         const textYPosition = pdfHeight - 2; // Adjust to keep some margin from the bottom
+//         pdf.setFontSize(12);
+//         pdf.text('FADESOLE', pdfWidth / 2, textYPosition, { align: 'center' });
+        
+//         pdf.save(`${numArticle}.pdf`);
+//     } else {
+//         console.error('Canvas for Barcode not found');
+//     }
+// };
+
+const downloadBarcodeAsPDF = async (numArticle) => {
     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
     if (canvas) {
-        console.log("canvas code barre", canvas);
-        const pdf = new jsPDF();
+        const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'cm',
+            format: [10, 6],
+            putOnlyUsedFonts: true,
+            floatPrecision: 16
+        });
+
         const imgData = canvas.toDataURL('image/png');
         const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         
-        const contentWidth = pdfWidth * 0.5; // Adjust the size to make it smaller
-        const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
-        
-        // pdf.text('test', pdfWidth, contentHeight + 40, { align: 'center' });
-        pdf.addImage(imgData, 'PNG', (pdfWidth - contentWidth) / 2, 20, contentWidth, contentHeight);
+        // Set smaller width for the barcode
+        const contentWidth = 5; // Smaller width in cm
+        const contentHeight = (imgProps.height * contentWidth) / imgProps.width; // Maintain aspect ratio
+
+        pdf.addImage(imgData, 'PNG', 2.5, 1, contentWidth, contentHeight); // Position the image with margins
         pdf.setFontSize(12);
-        pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, contentHeight + 40, { align: 'center' });
-        // pdf.text(`Size: ${size}`, pdfWidth / 2, contentHeight + 50, { align: 'center' });
+        pdf.text('FADESOLE', 5, 5.5, { align: 'center' });
+
         pdf.save(`${numArticle}.pdf`);
     } else {
         console.error('Canvas for Barcode not found');
     }
 };
 
-const downloadCombinedPDF = async (numArticle, product) => {
+
+// const downloadBarcodeAsPDF = async (numArticle) => {
+//     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+//     if (canvas) {
+//         console.log("canvas code barre", canvas);
+//         const pdf = new jsPDF({
+//             orientation: 'landscape', // Horizontal layout
+//             unit: 'cm',
+//             format: [10, 6], // Set the page size to 10cm x 6cm
+//             putOnlyUsedFonts: true,
+//             floatPrecision: 16 // Use higher precision for floats
+//         });
+//         const imgData = canvas.toDataURL('image/png');
+//         const imgProps = pdf.getImageProperties(imgData);
+        
+//         const pdfWidth = 10; // Width in cm
+//         const pdfHeight = 6; // Height in cm
+
+//         const contentWidth = pdfWidth; // Fill the width
+//         const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
+        
+//         // Position the barcode at the top of the page
+//         const yPosition = 1; // Start from the top with a margin
+
+//         pdf.addImage(imgData, 'PNG', 0, yPosition, contentWidth, contentHeight);
+        
+//         // Set text position near the bottom
+//         const textYPosition = pdfHeight - 1; // Adjust to keep some margin from the bottom
+//         pdf.setFontSize(12);
+//         pdf.text('FADESOLE', pdfWidth / 2, textYPosition, { align: 'center' });
+        
+//         pdf.save(`${numArticle}.pdf`);
+//     } else {
+//         console.error('Canvas for Barcode not found');
+//     }
+// };
+
+
+
+//it works
+// const downloadBarcodeAsPDF = async (numArticle) => {
+//     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+//     if (canvas) {
+//         const imgData = canvas.toDataURL('image/png');
+//         const link = document.createElement('a');
+//         link.href = imgData;
+//         link.download = `${numArticle}.png`;
+//         document.body.appendChild(link);
+//         link.click();
+//         document.body.removeChild(link);
+//     } else {
+//         console.error('Canvas for Barcode not found');
+//     }
+// };
+
+// const downloadCombinedPDF = async (numArticle, product) => {
+//     const barcodeCanvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+//     const qrCodeCanvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
+    
+//     if (barcodeCanvas && qrCodeCanvas) {
+//         console.log("Barcode canvas:", barcodeCanvas);
+//         console.log("QR Code canvas:", qrCodeCanvas);
+        
+//         const pdf = new jsPDF();
+//         const pdfWidth = pdf.internal.pageSize.getWidth();
+
+        
+//         // Calculate dimensions for placing images side by side
+//         const imageWidth = pdfWidth / 2 - 10;
+//         const imageHeight = imageWidth * 0.75; // Assuming aspect ratio
+        
+//         // Convert barcode to image data
+//         const barcodeImgData = barcodeCanvas.toDataURL('image/png');
+//         const barcodeImgProps = pdf.getImageProperties(barcodeImgData);
+        
+//         // Convert QR code to image data
+//         const qrCodeImgData = qrCodeCanvas.toDataURL('image/png');
+//         const qrCodeImgProps = pdf.getImageProperties(qrCodeImgData);
+        
+//         // Add barcode image
+//         pdf.addImage(barcodeImgData, 'PNG', 10, 10, imageWidth, imageHeight);
+        
+//         // Add QR code image
+//         pdf.addImage(qrCodeImgData, 'PNG', pdfWidth / 2 + 10, 10, imageWidth, imageHeight);
+        
+//         // Add company name and product size
+//         pdf.setFontSize(12);
+//         pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, imageHeight + 20, { align: 'center' });
+//         // pdf.text(`Size`, pdfWidth / 2, imageHeight + 30, { align: 'center' });
+        
+
+//         pdf.save(`${numArticle}_combined.pdf`);
+//     } else {
+//         console.error('Canvas for Barcode or QR Code not found');
+//     }
+// };
+
+
+const downloadCombinedImage = async (numArticle, product) => {
     const barcodeCanvas = document.getElementById(`barcodeCanvas-${numArticle}`);
     const qrCodeCanvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
-    
+
     if (barcodeCanvas && qrCodeCanvas) {
-        console.log("Barcode canvas:", barcodeCanvas);
-        console.log("QR Code canvas:", qrCodeCanvas);
-        
-        const pdf = new jsPDF();
-        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const combinedWidth = barcodeCanvas.width + qrCodeCanvas.width + 20; // Ajouter de l'espace entre les images
+        const combinedHeight = Math.max(barcodeCanvas.height, qrCodeCanvas.height);
 
-        
-        // Calculate dimensions for placing images side by side
-        const imageWidth = pdfWidth / 2 - 10;
-        const imageHeight = imageWidth * 0.75; // Assuming aspect ratio
-        
-        // Convert barcode to image data
-        const barcodeImgData = barcodeCanvas.toDataURL('image/png');
-        const barcodeImgProps = pdf.getImageProperties(barcodeImgData);
-        
-        // Convert QR code to image data
-        const qrCodeImgData = qrCodeCanvas.toDataURL('image/png');
-        const qrCodeImgProps = pdf.getImageProperties(qrCodeImgData);
-        
-        // Add barcode image
-        pdf.addImage(barcodeImgData, 'PNG', 10, 10, imageWidth, imageHeight);
-        
-        // Add QR code image
-        pdf.addImage(qrCodeImgData, 'PNG', pdfWidth / 2 + 10, 10, imageWidth, imageHeight);
-        
-        // Add company name and product size
-        pdf.setFontSize(12);
-        pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, imageHeight + 20, { align: 'center' });
-        // pdf.text(`Size`, pdfWidth / 2, imageHeight + 30, { align: 'center' });
-        
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = combinedWidth;
+        tempCanvas.height = combinedHeight;
+        const ctx = tempCanvas.getContext('2d');
 
-        pdf.save(`${numArticle}_combined.pdf`);
+        // Remplir le fond en blanc
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+        // Dessiner le code-barres
+        ctx.drawImage(barcodeCanvas, 0, (combinedHeight - barcodeCanvas.height) / 2);
+
+        // Dessiner le QR code à côté du code-barres
+        ctx.drawImage(qrCodeCanvas, barcodeCanvas.width + 10, (combinedHeight - qrCodeCanvas.height) / 2);
+
+        // Ajouter le nom de l'entreprise et le nom du produit
+        ctx.font = '16px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = 'black';
+        // ctx.fillText('FADESOLE POWER SOLUTIONS', combinedWidth / 2, combinedHeight - 20);
+        // ctx.fillText(`Product: ${product}`, combinedWidth / 2, combinedHeight - 5);
+
+        // Convertir le canvas combiné en image et télécharger
+        const imgData = tempCanvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = imgData;
+        link.download = `${numArticle}_combined.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     } else {
         console.error('Canvas for Barcode or QR Code not found');
     }
 };
+
 
     return (
         <>
@@ -584,7 +792,7 @@ const downloadCombinedPDF = async (numArticle, product) => {
                         <CardContent>
                             <Typography variant="subtitle1">Format Complet</Typography>
                             <button 
-                                onClick={() => downloadCombinedPDF(product.Numéro_Article, product)} 
+                                onClick={() => downloadCombinedImage(product.Numéro_Article, product)} 
                                 className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
                             >
                                 Download Combined PDF
