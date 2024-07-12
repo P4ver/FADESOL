@@ -408,69 +408,8 @@ const downloadQRCodeAsPDF = async (numArticle) => {
 //     }
 // };
 
-// const downloadBarcodeAsPDF = async (numArticle, size) => {
-//     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
-//     if (canvas) {
-//         console.log("canvas code barre", canvas);
-//         const pdf = new jsPDF();
-//         const imgData = canvas.toDataURL('image/png');
-//         const imgProps = pdf.getImageProperties(imgData);
-//         const pdfWidth = pdf.internal.pageSize.getWidth();
-//         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        
-//         const contentWidth = pdfWidth * 0.5; // Adjust the size to make it smaller
-//         console.log("contentWidth")
-//         const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
-        
-//         // pdf.text('test', pdfWidth, contentHeight + 40, { align: 'center' });
-//         pdf.addImage(imgData, 'PNG', (pdfWidth - contentWidth) / 2, 20, contentWidth, contentHeight);
-//         pdf.setFontSize(12);
-//         pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, contentHeight + 40, { align: 'center' });
-//         // pdf.text(`Size: ${size}`, pdfWidth / 2, contentHeight + 50, { align: 'center' });
-//         pdf.save(`${numArticle}.pdf`);
-//     } else {
-//         console.error('Canvas for Barcode not found');
-//     }
-// };
-
-
-// const downloadBarcodeAsPDF = async (numArticle, size) => {
-//     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
-//     if (canvas) {
-//         console.log("canvas code barre", canvas);
-//         const pdf = new jsPDF({
-//             orientation: 'portrait', // Vertical layout
-//             unit: 'cm',
-//             format: [6, 10], // Set the page size to 6cm x 10cm
-//             putOnlyUsedFonts: true,
-//             floatPrecision: 16 // Use higher precision for floats
-//         });
-//         const imgData = canvas.toDataURL('image/png');
-//         const imgProps = pdf.getImageProperties(imgData);
-        
-//         const pdfWidth = 6; // Width in cm
-//         const pdfHeight = 10; // Height in cm
-
-//         const contentWidth = pdfWidth; // Fill the width
-//         const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
-        
-//         // Position the barcode at the top of the page
-//         const yPosition = 3; // Start from the top
-
-//         pdf.addImage(imgData, 'PNG', 0, yPosition, contentWidth, contentHeight);
-        
-//         // Set text position near the bottom
-//         const textYPosition = pdfHeight - 2; // Adjust to keep some margin from the bottom
-//         pdf.setFontSize(12);
-//         pdf.text('FADESOLE', pdfWidth / 2, textYPosition, { align: 'center' });
-        
-//         pdf.save(`${numArticle}.pdf`);
-//     } else {
-//         console.error('Canvas for Barcode not found');
-//     }
-// };
-
-const downloadBarcodeAsPDF = async (numArticle) => {
+// /==========================================================
+const downloadBarcodeAsPDF = async (numArticle, Gamme, Designation, desi_fadesol) => {
     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
     if (canvas) {
         const pdf = new jsPDF({
@@ -488,16 +427,46 @@ const downloadBarcodeAsPDF = async (numArticle) => {
         const contentWidth = 5; // Smaller width in cm
         const contentHeight = (imgProps.height * contentWidth) / imgProps.width; // Maintain aspect ratio
 
-        pdf.addImage(imgData, 'PNG', 2.5, 1, contentWidth, contentHeight); // Position the image with margins
-        pdf.setFontSize(12);
-        pdf.text('FADESOLE', 5, 5.5, { align: 'center' });
+        pdf.addImage(imgData, 'PNG', 2.5, 4, contentWidth, contentHeight); // Position the image with margins
+        
+        pdf.setFontSize(14); // Smaller font size
+        pdf.setFont("helvetica", "bold");
+        pdf.text('Services', 6, 1.4, { align: 'center' });
+        pdf.setFontSize(15);
+        // Set font to bold for 'FADESOL'
+        pdf.setFont("helvetica", "bold");
+        pdf.text(`FADESOL`, 1, 1);
+        pdf.setFontSize(10);
+        // Reset font to normal
+        pdf.setFont("helvetica", "normal");
+        pdf.text(`UPS SYSTEMS`, 1, 1.5);
+
+
+        pdf.setLineWidth(0.25); // Set line width
+        pdf.line(1, 2, 3.5, 2); // Draw line from (1 cm, 2 cm) to (9 cm, 2 cm)
+        pdf.text('Pièce détachée d\'origine', 6, 2.3, { align: 'center' });
+
+        pdf.setFontSize(8); // Even smaller font size
+
+        pdf.text(`: ${Gamme}`, 3, 2.8);
+        pdf.text(`Gamme`, 1, 2.8);
+
+        pdf.text(`: ${numArticle}`, 3, 3.1);
+        pdf.text(`Références`, 1, 3.1);
+        
+        pdf.text(`: ${Designation}`, 3, 3.4);
+        pdf.text(`Designation`, 1, 3.4);
+        
+        pdf.text(`: ${desi_fadesol}`, 3, 3.7);
+        pdf.text(`Designation frn`, 1, 3.7);
+        
+        pdf.text(`Quantite    :`, 1, 4);
 
         pdf.save(`${numArticle}.pdf`);
     } else {
         console.error('Canvas for Barcode not found');
     }
 };
-
 
 // const downloadBarcodeAsPDF = async (numArticle) => {
 //     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
@@ -594,7 +563,6 @@ const downloadBarcodeAsPDF = async (numArticle) => {
 //         console.error('Canvas for Barcode or QR Code not found');
 //     }
 // };
-
 
 const downloadCombinedImage = async (numArticle, product) => {
     const barcodeCanvas = document.getElementById(`barcodeCanvas-${numArticle}`);
@@ -762,7 +730,7 @@ const downloadCombinedImage = async (numArticle, product) => {
                             <Typography variant="subtitle1">Barcode</Typography>
                             <BarcodeCanvas value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`} />
                             <button 
-                                onClick={() => downloadBarcodeAsPDF(product.Numéro_Article)} 
+                                onClick={() => downloadBarcodeAsPDF(product.Numéro_Article, product.Gamme_Etiquette, product.Description_Article, product.Designation_Fadesol)} 
                                 className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
                             >
                                 Download as PDF
