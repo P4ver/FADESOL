@@ -393,6 +393,7 @@ const downloadQRCodeAsPDF = async (numArticle) => {
         console.error('Canvas for QR not found');
     }
 };
+
 // const downloadQRCodeAsPDF = async (numArticle) => {
 //     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
 //     if (canvas) {
@@ -409,6 +410,7 @@ const downloadQRCodeAsPDF = async (numArticle) => {
 // };
 
 // /==========================================================
+
 const downloadBarcodeAsPDF = async (numArticle, Gamme, Designation, desi_fadesol) => {
     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
     if (canvas) {
@@ -443,9 +445,12 @@ const downloadBarcodeAsPDF = async (numArticle, Gamme, Designation, desi_fadesol
 
 
         pdf.setLineWidth(0.25); // Set line width
-        pdf.line(1, 2, 3.5, 2); // Draw line from (1 cm, 2 cm) to (9 cm, 2 cm)
+        pdf.line(1, 1.8, 3.5, 1.8); // Draw line from (1 cm, 2 cm) to (9 cm, 2 cm)
+        
+        pdf.setFont("helvetica", "bold");
         pdf.text('Pièce détachée d\'origine', 6, 2.3, { align: 'center' });
 
+        pdf.setFont("helvetica", "normal");
         pdf.setFontSize(8); // Even smaller font size
 
         pdf.text(`: ${Gamme}`, 3, 2.8);
@@ -460,7 +465,8 @@ const downloadBarcodeAsPDF = async (numArticle, Gamme, Designation, desi_fadesol
         pdf.text(`: ${desi_fadesol}`, 3, 3.7);
         pdf.text(`Designation frn`, 1, 3.7);
         
-        pdf.text(`Quantite    :`, 1, 4);
+        pdf.text(`Quantite`, 1, 4);
+        pdf.text(`:`, 3, 4);
 
         pdf.save(`${numArticle}.pdf`);
     } else {
