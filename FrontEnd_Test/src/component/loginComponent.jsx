@@ -7,7 +7,7 @@ import axios from 'axios';
 import { loginSuccess, loginFailure } from '../store/authActions';
 import logo from '../pictures/logo.png';
 import { API_BASE_URL } from '../apiConfig';
-import ReCAPTCHA from 'react-google-recaptcha';
+// import ReCAPTCHA from 'react-google-recaptcha';
 
 const LoginComponent = () => {
   const dispatch = useDispatch();
@@ -16,22 +16,22 @@ const LoginComponent = () => {
     name: '',
     password: '',
   });
-  const [recaptchaToken, setRecaptchaToken] = useState('');
+  // const [recaptchaToken, setRecaptchaToken] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleRecaptchaChange = (token) => {
-    setRecaptchaToken(token);
-  };
+  // const handleRecaptchaChange = (token) => {
+  //   setRecaptchaToken(token);
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!recaptchaToken) {
-      toast.error('Veuillez compléter la vérification reCAPTCHA.');
-      return;
-    }
+    // if (!recaptchaToken) {
+    //   toast.error('Veuillez compléter la vérification reCAPTCHA.');
+    //   return;
+    // }
     try {
     const response = await axios.post(`${API_BASE_URL}/auth/login`, formData, {
       // const response = await axios.post(`${API_BASE_URL}/auth/login`, { ...formData, recaptchaToken }, {
@@ -111,11 +111,11 @@ const LoginComponent = () => {
           </div>
 
           <div className="mt-4">
-
+{/* 
            <ReCAPTCHA
             sitekey="6LfFO_MpAAAAAOIgO1O8KmM7yBO6DqROTLdNf8zA"
             onChange={handleRecaptchaChange}
-          /> 
+          />  */}
 
 
           </div>
