@@ -91,7 +91,7 @@ function ListeDemande() {
   const filteredAchatData = achatempoData.filter(data => data.user_Dmd === user.username);
   const lookNewQteMagasin = (id_Article) =>{
     const findQteMagasinUpdate = productData.find(p => p.id_Article  == id_Article)
-    console.log("=>==>=>=>", findQteMagasinUpdate.qte_Magasin)
+    console.log("=>==>=>=>", findQteMagasinUpdate)
     return findQteMagasinUpdate.qte_Magasin
   }
 
@@ -228,17 +228,22 @@ function ListeDemande() {
         }));
   
         const updatedItem = achatempoData.find(item => item.id_Achat == id);
+        console.log("updatedItem : ", updatedItem)
         if (!updatedItem) {
           throw new Error(`Item with id ${id} not found in achatempoData`);
         }
-        const product = productData.find(p => p.Description_Article == updatedItem.designation);
-        console.log("product", product)
+        const product = productData.find(p => p.Numéro_Article == updatedItem.code);
+        // console.log("product", productData.map(pr=>pr))
+        console.log("product=>+>", product)
         if (!product) {
           throw new Error(`Product with designation ${updatedItem.designation} not found`);
         }
         // console.log("============>updatedItem: qte Reçu",updatedItem.qte_Reçu)
         const newQteMagasin = (parseInt(qteRecu[id]) - updatedItem.qte_Reçu) + product.qte_Magasin;
         console.log("newQteMagasin : ", newQteMagasin)
+        console.log("parseInt(qteRecu[id]) : ", parseInt(qteRecu[id]))
+        console.log("updatedItem.qte_Reçu", updatedItem.qte_Reçu)
+        console.log("product.qte_Magasin", product.qte_Magasin)
         await dispatch(updateQteMagasin({
           productId: product.id_Article,
           qte_Magasin: newQteMagasin
