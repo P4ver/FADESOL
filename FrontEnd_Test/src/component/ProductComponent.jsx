@@ -348,24 +348,66 @@ const handleDeleteProduct = () => {
 const downloadQRCodeAsPDF = async (numArticle, Gamme, Designation, desi_fadesol) => {
     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
     if (canvas) {
-        console.log("canvas QR", canvas);
-        const pdf = new jsPDF();
+        const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'cm',
+            format: [10, 6],
+            putOnlyUsedFonts: true,
+            floatPrecision: 16
+        });
+
         const imgData = canvas.toDataURL('image/png');
         const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        
+        // Set smaller width for the barcode
+        const contentWidth = 2; // Smaller width in cm
+        const contentHeight = (imgProps.height * contentWidth) / imgProps.width; // Maintain aspect ratio
 
-        const contentWidth = pdfWidth * 0.5; // Adjust the size to make it smaller
-        const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
+        pdf.addImage(imgData, 'PNG', 4, 4, contentWidth, contentHeight); // Position the image with margins
+        
+        pdf.setFontSize(14); // Smaller font size
+        pdf.setFont("helvetica", "bold");
+        pdf.text('Services', 6, 1.4, { align: 'center' });
+        pdf.setFontSize(15);
+        // Set font to bold for 'FADESOL'
+        pdf.setFont("helvetica", "bold");
+        pdf.text(`FADESOL`, 1, 1);
+        pdf.setFontSize(10);
+        // Reset font to normal
+        pdf.setFont("helvetica", "normal");
+        pdf.text(`UPS SYSTEMS`, 1, 1.5);
 
-        pdf.addImage(imgData, 'PNG', (pdfWidth - contentWidth) / 2, 20, contentWidth, contentHeight);
-        pdf.setFontSize(12);
-        pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, contentHeight + 40, { align: 'center' });
+
+        pdf.setLineWidth(0.25); // Set line width
+        pdf.line(1, 1.8, 3.5, 1.8); // Draw line from (1 cm, 2 cm) to (9 cm, 2 cm)
+        
+        pdf.setFont("helvetica", "bold");
+        pdf.text('Pièce détachée d\'origine', 6, 2.3, { align: 'center' });
+
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(8); // Even smaller font size
+
+        pdf.text(`: ${Gamme}`, 3, 2.8);
+        pdf.text(`Gamme`, 1, 2.8);
+
+        pdf.text(`: ${numArticle}`, 3, 3.1);
+        pdf.text(`Références`, 1, 3.1);
+        
+        pdf.text(`: ${Designation}`, 3, 3.4);
+        pdf.text(`Designation`, 1, 3.4);
+        
+        pdf.text(`: ${desi_fadesol}`, 3, 3.7);
+        pdf.text(`Designation frn`, 1, 3.7);
+        
+        pdf.text(`Quantite`, 1, 4);
+        pdf.text(`:`, 3, 4);
+
         pdf.save(`${numArticle}.pdf`);
     } else {
-        console.error('Canvas for QR Code not found');
+        console.error('Canvas for Barcode not found');
     }
 };
+
 // const downloadBarcodeAsPDF = async (numArticle, size) => {
 //     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
 //     if (canvas) {
