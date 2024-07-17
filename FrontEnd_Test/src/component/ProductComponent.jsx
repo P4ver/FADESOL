@@ -733,7 +733,7 @@ const downloadCombinedImage = async (numArticle, Gamme) => {
                     <Card>
                     <CardContent>
                             <Typography variant="subtitle1">Barcode</Typography>
-                            <BarcodeCanvas value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`} />
+                            <BarcodeCanvas value={product.code_Barre ? product.code_Barre : product.Numéro_Article} id={`barcodeCanvas-${product.Numéro_Article}`} />
                             <button 
                                 onClick={() => downloadBarcodeAsPDF(product.Numéro_Article, product.Gamme_Etiquette, product.Description_Article, product.Designation_Fadesol)} 
                                 className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
@@ -747,7 +747,7 @@ const downloadCombinedImage = async (numArticle, Gamme) => {
                     <Card>
                         <CardContent>
                             <Typography variant="subtitle1">QR+ Code</Typography>
-                            <QRCode value={product.code_Barre} id={`qrCodeCanvas-${product.Numéro_Article}`} />
+                            <QRCode value={product.code_Barre ? product.code_Barre : product.Numéro_Article} id={`qrCodeCanvas-${product.Numéro_Article}`} />
                                                             {/* <Button variant="contained" color="primary" onClick={() => downloadQRCodeAsPDF(product.Numéro_Article)}>
                                                                 Download as PDF
                                                             </Button> */}
