@@ -67,7 +67,7 @@ const ProductTable = () => {
     const [products, setProducts] = useState([]);
     const [search, setSearch] = useState('');
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [tabValue, setTabValue] = useState(0);
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [openAddDialog, setOpenAddDialog] = useState(false);
@@ -705,7 +705,7 @@ const downloadCombinedPDF = async (numArticle, product) => {
                         </TableBody>
                     </Table>
                     <TablePagination
-                        rowsPerPageOptions={[5, 20, 50]}
+                        rowsPerPageOptions={[10, 30, 50]}
                         component="div"
                         count={filteredProducts.length}
                         rowsPerPage={rowsPerPage}
