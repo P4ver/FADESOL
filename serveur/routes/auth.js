@@ -61,7 +61,8 @@ router.post('/login', (req, res) => {
         const { id_User, type_User } = results[0];
         const token = jwt.sign({ id_User, type_User }, 'secret_key');
   
-        res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000, secure: true, sameSite: 'None' });
+        // res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000, secure: true, sameSite: 'None' });
+        res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'None' });
         res.json({ message: 'Successfully logged in' });
       });
     });
