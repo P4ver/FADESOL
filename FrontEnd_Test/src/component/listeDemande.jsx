@@ -252,10 +252,10 @@ function ListeDemande() {
         if (!updatedItem) {
           throw new Error(`Item with id ${id} not found in achatempoData`);
         }
-        const product = productData.find(p => p.Description_Article == updatedItem.designation);
+        const product = productData.find(p => p.Numéro_Article == updatedItem.code);
         console.log("product", product)
         if (!product) {
-          throw new Error(`Product with designation ${updatedItem.designation} not found`);
+          throw new Error(`Product with Numéro_Article ${updatedItem.code} not found`);
         }
         console.log("lstdemand============>updatedItem: ",updatedItem)
         const newQteMagasin = (parseInt(qteRecu[id]) - updatedItem.qte_Reçu) + product.qte_Magasin;
