@@ -28,7 +28,7 @@ import PageListeReturn from './pages/pageListeReturn';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PageHistorique from './pages/pageHistorique';
-
+import InactivityHandler from './component/InactivityHandler ';
 disableReactDevTools();
 
 function App() {
@@ -36,6 +36,7 @@ function App() {
     <>
       <Provider store={store}>
         <BrowserRouter>
+        <InactivityHandler />
           <Routes>
             <Route path="/login" element={<LoginComponent />} />
             <Route path="/" element={<LoginComponent />} />
