@@ -35,6 +35,7 @@ const pool = require("../db")
 //     });
 // });
 
+//correct
 
 router.post('/login', (req, res) => {
     const { name, password } = req.body;

@@ -1,4 +1,3 @@
-
 import React, { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { IoQrCode } from "react-icons/io5";
@@ -67,7 +66,7 @@ const ProductTable = () => {
     const [products, setProducts] = useState([]);
     const [search, setSearch] = useState('');
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(15);
     const [tabValue, setTabValue] = useState(0);
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [openAddDialog, setOpenAddDialog] = useState(false);
@@ -78,13 +77,7 @@ const ProductTable = () => {
     const [editProduct, setEditProduct] = useState(null);
     const [expandedUser, setExpandedUser] = useState(null); 
 
-    // const [editedProduct, setEditedProduct] = useState({
-    //     Numéro_Article: "",
-    //     Description_Article: "",
-    //     Groupe_Articles: "",
-    //     Designation_Fadesol: "",
-    //     code_Barre: "",
-    // });
+ 
     const [editedProduct, setEditedProduct] = useState({
         Numéro_Article: "",
         Description_Article: "",
@@ -120,14 +113,7 @@ const ProductTable = () => {
         else if (typeUser === "Admin") return true
         else return false
       }
-    //   ==============================================================
-    // const [formData, setFormData] = useState({
-    //     Numéro_Article: "",
-    //     Description_Article: "",
-    //     Groupe_Articles: "",
-    //     code_Barre: "",
-    //     Emplacement: "",
-    // });
+  
     const [formData, setFormData] = useState({
         Numéro_Article: "",
         Description_Article: "",
@@ -153,16 +139,9 @@ const ProductTable = () => {
           const currentDate = new Date().toLocaleDateString();
           await dispatch(postProductData({
             ...formData
-            // Date_Actualisation: currentDate,
-            // Emplacement: formData.Emplacement, // Add this new property
+      
           }));
-        //   setFormData({
-        //     Numéro_Article: "",
-        //     Description_Article: "",
-        //     Groupe_Articles: "",
-        //     code_Barre: "",
-        //     Emplacement: "", // Reset the emplacement field
-        //   });
+     
         setFormData({
             Numéro_Article: "",
             Description_Article: "",
@@ -194,19 +173,7 @@ const ProductTable = () => {
         setPage(0);
     };
 
-    // const handleOpenEditDialog = (product) => {
-    //     setEditProduct(product);
-    //     setEditedProduct({
-    //         id_Article: product.id_Article,
-    //         Numéro_Article: product.Numéro_Article,
-    //         Description_Article: product.Description_Article,
-    //         Groupe_Articles: product.Groupe_Articles,
-    //         Designation_Fadesol: product.Designation_Fadesol,
-    //         code_Barre: product.code_Barre,
-    //         Emplacement: product.Emplacement
-    //     });
-    //     setOpenDialog(true);
-    // };
+
     const handleOpenEditDialog = (product) => {
         setEditProduct(product);
         setEditedProduct({
@@ -238,13 +205,7 @@ const ProductTable = () => {
         setSelectedProduct(null);
     };
 
-    // const handleEditChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setEditedProduct((prevUser) => ({
-    //         ...prevUser,
-    //         [name]: value
-    //     }));
-    // };
+   
     const handleEditChange = (e) => {
         const { name, value } = e.target;
         setEditedProduct((prevProduct) => ({
@@ -265,15 +226,6 @@ const ProductTable = () => {
             console.error("Error updating user:", error);
         }
     };
-
-    // const filteredProducts = productData ? productData.filter((product) => {
-     
-    //      return (
-    //         (product.Numéro_Article && product.Numéro_Article.toLowerCase().includes(search.toLowerCase())) ||
-    //         (product.Description_Article && product.Description_Article.toLowerCase().includes(search.toLowerCase())) ||
-    //         (product.code_Barre && product.code_Barre.toLowerCase().includes(search.toLowerCase()))
-    //     );
-    // }) : [];
 
     const filteredProducts = productData ? productData.filter((product) => {
      
@@ -345,92 +297,273 @@ const handleDeleteProduct = () => {
     });
 };
 
-const downloadQRCodeAsPDF = async (numArticle, size) => {
+
+// const downloadQRCodeAsPDF = async (numArticle) => {
+//     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
+//     if (canvas) {
+//         const pdf = new jsPDF({
+//             orientation: 'landscape',
+//             unit: 'cm',
+//             format: [10, 6],
+//             putOnlyUsedFonts: true,
+//             floatPrecision: 16
+//         });
+
+//         const imgData = canvas.toDataURL('image/png');
+//         const imgProps = pdf.getImageProperties(imgData);
+        
+//         // Set smaller width for the barcode
+//         const contentWidth = 4; // Smaller width in cm
+//         const contentHeight = (imgProps.height * contentWidth) / imgProps.width; // Maintain aspect ratio
+
+//         pdf.addImage(imgData, 'PNG', 2.9, 1, contentWidth, contentHeight); // Position the image with margins
+//         pdf.setFontSize(12);
+//         pdf.text('FADESOLE', 5, 5.5, { align: 'center' });
+
+//         pdf.save(`${numArticle}.pdf`);
+//     } else {
+//         console.error('Canvas for QR not found');
+//     }
+// };
+
+const downloadQRCodeAsPDF = async (numArticle, Gamme, Designation, desi_fadesol) => {
     const canvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
+    console.log('numArticle:', numArticle);
+    console.log('Gamme:', Gamme);
+    console.log('Designation:', Designation);
+    console.log('desi_fadesol:', desi_fadesol);
     if (canvas) {
-        console.log("canvas QR", canvas);
-        const pdf = new jsPDF();
+        const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'cm',
+            format: [10, 6],
+            putOnlyUsedFonts: true,
+            floatPrecision: 16
+        });
+
         const imgData = canvas.toDataURL('image/png');
         const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        
+        // Set smaller width for the QR code
+        const contentWidth = 2; // Smaller width in cm
+        const contentHeight = (imgProps.height * contentWidth) / imgProps.width; // Maintain aspect ratio
 
-        const contentWidth = pdfWidth * 0.5; // Adjust the size to make it smaller
-        const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
+        // Add QR code image to PDF
+        pdf.addImage(imgData, 'PNG', 2.5, 4, contentWidth, contentHeight); // Position the image with margins
 
-        pdf.addImage(imgData, 'PNG', (pdfWidth - contentWidth) / 2, 20, contentWidth, contentHeight);
-        pdf.setFontSize(12);
-        pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, contentHeight + 40, { align: 'center' });
+        pdf.setFontSize(14); // Smaller font size
+        pdf.setFont("helvetica", "bold");
+        pdf.text('Services', 6, 1.4, { align: 'center' });
+        pdf.setFontSize(15);
+        // Set font to bold for 'FADESOL'
+        pdf.setFont("helvetica", "bold");
+        pdf.text(`FADESOL`, 1, 1);
+        pdf.setFontSize(10);
+        // Reset font to normal
+        pdf.setFont("helvetica", "normal");
+        pdf.text(`UPS SYSTEMS`, 1, 1.5);
+
+
+        pdf.setLineWidth(0.25); // Set line width
+        pdf.line(1, 1.8, 3.5, 1.8); // Draw line from (1 cm, 2 cm) to (9 cm, 2 cm)
+        pdf.setFont("helvetica", "bold");
+        pdf.text('Pièce détachée d\'origine', 6, 2.3, { align: 'center' });
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(8); // Even smaller font size
+
+        pdf.text(`: ${Gamme}`, 3, 2.8);
+        pdf.text(`Gamme`, 1, 2.8);
+
+        pdf.text(`: ${numArticle}`, 3, 3.1);
+        pdf.text(`Références`, 1, 3.1);
+        
+        pdf.text(`: ${Designation}`, 3, 3.4);
+        pdf.text(`Designation`, 1, 3.4);
+        
+        pdf.text(`: ${desi_fadesol}`, 3, 3.7);
+        pdf.text(`Designation frn`, 1, 3.7);
+        
+        pdf.text(`Quantite    :`, 1, 4);
+
         pdf.save(`${numArticle}.pdf`);
     } else {
-        console.error('Canvas for QR Code not found');
+        console.error('Canvas for Barcode not found');
     }
 };
-const downloadBarcodeAsPDF = async (numArticle, size) => {
+const downloadBarcodeAsPDF = async (numArticle, Gamme, Designation, desi_fadesol) => {
     const canvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+    
     if (canvas) {
-        console.log("canvas code barre", canvas);
-        const pdf = new jsPDF();
+        const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'cm',
+            format: [10, 6],
+            putOnlyUsedFonts: true,
+            floatPrecision: 16
+        });
+
         const imgData = canvas.toDataURL('image/png');
         const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         
-        const contentWidth = pdfWidth * 0.5; // Adjust the size to make it smaller
-        const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
+        // Set smaller width for the barcode
+        const contentWidth = 2.8; // Smaller width in cm
+        const contentHeight = (imgProps.height * contentWidth) / imgProps.width; // Maintain aspect ratio
+
+        pdf.addImage(imgData, 'PNG', 2.5, 4, contentWidth, contentHeight); // Position the image with margins
         
-        // pdf.text('test', pdfWidth, contentHeight + 40, { align: 'center' });
-        pdf.addImage(imgData, 'PNG', (pdfWidth - contentWidth) / 2, 20, contentWidth, contentHeight);
-        pdf.setFontSize(12);
-        pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, contentHeight + 40, { align: 'center' });
-        // pdf.text(`Size: ${size}`, pdfWidth / 2, contentHeight + 50, { align: 'center' });
+        pdf.setFontSize(14); // Smaller font size
+        pdf.setFont("helvetica", "bold");
+        pdf.text('Services', 6, 1.4, { align: 'center' });
+        pdf.setFontSize(15);
+        // Set font to bold for 'FADESOL'
+        pdf.setFont("helvetica", "bold");
+        pdf.text(`FADESOL`, 1, 1);
+        pdf.setFontSize(10);
+        // Reset font to normal
+        pdf.setFont("helvetica", "normal");
+        pdf.text(`UPS SYSTEMS`, 1, 1.5);
+
+
+        pdf.setLineWidth(0.25); // Set line width
+        pdf.line(1, 1.8, 3.5, 1.8); // Draw line from (1 cm, 2 cm) to (9 cm, 2 cm)
+        pdf.setFont("helvetica", "bold");
+        pdf.text('Pièce détachée d\'origine', 6, 2.3, { align: 'center' });
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(8); // Even smaller font size
+
+        pdf.text(`: ${Gamme}`, 3, 2.8);
+        pdf.text(`Gamme`, 1, 2.8);
+
+        pdf.text(`: ${numArticle}`, 3, 3.1);
+        pdf.text(`Références`, 1, 3.1);
+        
+        pdf.text(`: ${Designation}`, 3, 3.4);
+        pdf.text(`Designation`, 1, 3.4);
+        
+        pdf.text(`: ${desi_fadesol}`, 3, 3.7);
+        pdf.text(`Designation frn`, 1, 3.7);
+        
+        pdf.text(`Quantite    :`, 1, 4);
+
         pdf.save(`${numArticle}.pdf`);
     } else {
         console.error('Canvas for Barcode not found');
     }
 };
 
-const downloadCombinedPDF = async (numArticle, product) => {
+// const downloadCombinedImage = async (numArticle, product) => {
+//     const barcodeCanvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+//     const qrCodeCanvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
+
+//     if (barcodeCanvas && qrCodeCanvas) {
+//         const combinedWidth = barcodeCanvas.width + qrCodeCanvas.width + 20; // Ajouter de l'espace entre les images
+//         const combinedHeight = Math.max(barcodeCanvas.height, qrCodeCanvas.height);
+
+//         const tempCanvas = document.createElement('canvas');
+//         tempCanvas.width = combinedWidth;
+//         tempCanvas.height = combinedHeight;
+//         const ctx = tempCanvas.getContext('2d');
+
+//         // Remplir le fond en blanc
+//         ctx.fillStyle = 'white';
+//         ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+//         // Dessiner le code-barres
+//         ctx.drawImage(barcodeCanvas, 0, (combinedHeight - barcodeCanvas.height) / 2);
+
+//         // Dessiner le QR code à côté du code-barres
+//         ctx.drawImage(qrCodeCanvas, barcodeCanvas.width + 10, (combinedHeight - qrCodeCanvas.height) / 2);
+
+//         // Ajouter le nom de l'entreprise et le nom du produit
+//         ctx.font = '16px Arial';
+//         ctx.textAlign = 'center';
+//         ctx.fillStyle = 'black';
+//         // ctx.fillText('FADESOLE POWER SOLUTIONS', combinedWidth / 2, combinedHeight - 20);
+//         // ctx.fillText(`Product: ${product}`, combinedWidth / 2, combinedHeight - 5);
+
+//         // Convertir le canvas combiné en image et télécharger
+//         const imgData = tempCanvas.toDataURL('image/png');
+//         const link = document.createElement('a');
+//         link.href = imgData;
+//         link.download = `${numArticle}_combined.png`;
+//         document.body.appendChild(link);
+//         link.click();
+//         document.body.removeChild(link);
+//     } else {
+//         console.error('Canvas for Barcode or QR Code not found');
+//     }
+// };
+const downloadCombinedImage = async (numArticle, Gamme) => {
+    const Designation = Gamme.Description_Article; // Extraction de la désignation
+    const desi_fadesol = Gamme.Designation_Fadesol; // Extraction de la désignation fadesol
+
+    console.log('numArticle:', numArticle);
+    console.log('Gamme:', Gamme);
+    console.log('Designation:', Designation);
+    console.log('desi_fadesol:', desi_fadesol);
+
     const barcodeCanvas = document.getElementById(`barcodeCanvas-${numArticle}`);
     const qrCodeCanvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
-    
-    if (barcodeCanvas && qrCodeCanvas) {
-        console.log("Barcode canvas:", barcodeCanvas);
-        console.log("QR Code canvas:", qrCodeCanvas);
-        
-        const pdf = new jsPDF();
-        const pdfWidth = pdf.internal.pageSize.getWidth();
 
-        
-        // Calculate dimensions for placing images side by side
-        const imageWidth = pdfWidth / 2 - 10;
-        const imageHeight = imageWidth * 0.75; // Assuming aspect ratio
-        
-        // Convert barcode to image data
+    if (barcodeCanvas && qrCodeCanvas) {
+        const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'cm',
+            format: [10, 6],
+            putOnlyUsedFonts: true,
+            floatPrecision: 16
+        });
+
+        // Convert barcode canvas to image
         const barcodeImgData = barcodeCanvas.toDataURL('image/png');
         const barcodeImgProps = pdf.getImageProperties(barcodeImgData);
-        
-        // Convert QR code to image data
+        const barcodeWidth = 2; // Smaller width in cm
+        const barcodeHeight = (barcodeImgProps.height * barcodeWidth) / barcodeImgProps.width;
+
+        // Convert QR code canvas to image
         const qrCodeImgData = qrCodeCanvas.toDataURL('image/png');
         const qrCodeImgProps = pdf.getImageProperties(qrCodeImgData);
-        
-        // Add barcode image
-        pdf.addImage(barcodeImgData, 'PNG', 10, 10, imageWidth, imageHeight);
-        
-        // Add QR code image
-        pdf.addImage(qrCodeImgData, 'PNG', pdfWidth / 2 + 10, 10, imageWidth, imageHeight);
-        
-        // Add company name and product size
-        pdf.setFontSize(12);
-        pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, imageHeight + 20, { align: 'center' });
-        // pdf.text(`Size`, pdfWidth / 2, imageHeight + 30, { align: 'center' });
-        
+        const qrCodeWidth = 2; // Same width as barcode
+        const qrCodeHeight = (qrCodeImgProps.height * qrCodeWidth) / qrCodeImgProps.width;
 
-        pdf.save(`${numArticle}_combined.pdf`);
+        // Add barcode image to PDF
+        pdf.addImage(barcodeImgData, 'PNG', 4, 3.9, barcodeWidth, barcodeHeight);
+
+        // Add QR code image to PDF
+        pdf.addImage(qrCodeImgData, 'PNG', 1, 4, qrCodeWidth, qrCodeHeight);
+
+        pdf.setFontSize(14); // Smaller font size
+        pdf.setFont("helvetica", "bold");
+        pdf.text('Services', 6, 1.4, { align: 'center' });
+        pdf.setFontSize(15);
+        // Set font to bold for 'FADESOL'
+        pdf.setFont("helvetica", "bold");
+        pdf.text('FADESOL', 1, 1);
+        pdf.setFontSize(10);
+        // Reset font to normal
+        pdf.setFont("helvetica", "normal");
+        pdf.text('UPS SYSTEMS', 1, 1.5);
+
+        pdf.setLineWidth(0.25); // Set line width
+        pdf.line(1, 1.8, 3.5, 1.8); // Draw line from (1 cm, 2 cm) to (9 cm, 2 cm)
+        pdf.setFont("helvetica", "bold");
+        pdf.text('Pièce détachée d\'origine', 6, 2.3, { align: 'center' });
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(8); // Even smaller font size
+
+        pdf.text(`Gamme : ${Gamme.Gamme_Etiquette}`, 1, 2.8); // Ajout de Gamme.Etiquette
+        pdf.text(`Références : ${numArticle}`, 1, 3.1);
+        pdf.text(`Designation : ${Designation}`, 1, 3.4);
+        pdf.text(`Designation frn : ${desi_fadesol}`, 1, 3.7);
+        pdf.text('Quantite    :', 1, 4);
+
+        pdf.save(`${numArticle}.pdf`);
     } else {
         console.error('Canvas for Barcode or QR Code not found');
     }
 };
+
+
 
     return (
         <>
@@ -552,9 +685,9 @@ const downloadCombinedPDF = async (numArticle, product) => {
                     <Card>
                     <CardContent>
                             <Typography variant="subtitle1">Barcode</Typography>
-                            <BarcodeCanvas value={product.code_Barre} id={`barcodeCanvas-${product.Numéro_Article}`} />
+                            <BarcodeCanvas value={product.code_Barre ? product.code_Barre : product.Numéro_Article} id={`barcodeCanvas-${product.Numéro_Article}`} />
                             <button 
-                                onClick={() => downloadBarcodeAsPDF(product.Numéro_Article)} 
+                                onClick={() => downloadBarcodeAsPDF(product.Numéro_Article, product.Gamme_Etiquette, product.Description_Article, product.Designation_Fadesol)} 
                                 className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
                             >
                                 Download as PDF
@@ -566,7 +699,7 @@ const downloadCombinedPDF = async (numArticle, product) => {
                     <Card>
                         <CardContent>
                             <Typography variant="subtitle1">QR+ Code</Typography>
-                            <QRCode value={product.code_Barre} id={`qrCodeCanvas-${product.Numéro_Article}`} />
+                            <QRCode value={product.code_Barre ? product.code_Barre : product.Numéro_Article} id={`qrCodeCanvas-${product.Numéro_Article}`} />
                                                             {/* <Button variant="contained" color="primary" onClick={() => downloadQRCodeAsPDF(product.Numéro_Article)}>
                                                                 Download as PDF
                                                             </Button> */}
@@ -584,7 +717,7 @@ const downloadCombinedPDF = async (numArticle, product) => {
                         <CardContent>
                             <Typography variant="subtitle1">Format Complet</Typography>
                             <button 
-                                onClick={() => downloadCombinedPDF(product.Numéro_Article, product)} 
+                                onClick={() => downloadCombinedImage(product.Numéro_Article, product)} 
                                 className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
                             >
                                 Download Combined PDF
@@ -602,7 +735,7 @@ const downloadCombinedPDF = async (numArticle, product) => {
                         </TableBody>
                     </Table>
                     <TablePagination
-                        rowsPerPageOptions={[5, 20, 50]}
+                        rowsPerPageOptions={[10, 30, 50]}
                         component="div"
                         count={filteredProducts.length}
                         rowsPerPage={rowsPerPage}

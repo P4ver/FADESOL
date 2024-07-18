@@ -45,49 +45,6 @@ const Entree = () => {
     setLines(newLines);
   };
 
-// const handleSubmit = async () => {
-//   try {
-//       const currentDate = new Date();
-//       const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
-//     console.log(formattedDate)
-//       for (const line of lines) {
-//           if (line.demandeCode && line.projetCode && line.quantite) {
-//               const designation = productData.find(demande => demande.Numéro_Article === line.demandeCode)?.Description_Article || '';
-//               const nom_Projet = projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || '';
-//               const qte_Magasin = productData.find(demande => demande.Numéro_Article === line.demandeCode)?.qte_Magasin || '';
-//               const achatPayload = {
-//                   code: line.demandeCode,
-//                   designation: designation,
-//                   quantite: parseInt(line.quantite, 10),
-//                   code_Projet: line.projetCode,
-//                   nom_Projet: nom_Projet,
-//                   check_Delivery: false,
-//                   code_Achat: codeAchat,
-//                   user_Dmd: user.username,
-//                   date: formattedDate,
-//                   qte_Reçu: 0,
-//                   qte_Magasin:qte_Magasin
-//               };
-
-//               console.log("===achatpayload===>", achatPayload);
-//               // Dispatch postAchatempoData thunk with achatPayload
-//               const response = await dispatch(postAchatempoData(achatPayload));
-//               console.log("===Res===>", response);
-//               // Handle response/error
-//               if (response.error) {
-//                   throw new Error(response.error.message);
-//               }
-//           }
-//       }
-
-//       // Reset lines after successful submission
-//       setLines([{ demandeCode: '', projetCode: '', quantite: '' }]);
-//   } catch (error) {
-//       console.error('Error submitting data:', error.message);
-//   }
-// };
-
-
 
 const handleSubmit = async () => {
   try {

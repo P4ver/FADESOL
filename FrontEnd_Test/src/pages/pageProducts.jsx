@@ -32,6 +32,7 @@ const PageProducts = () => {
   const checkAccess = ()=>{
     if (typeUser === "Super Admin") return true
     else if (typeUser === "Admin") return true
+    else if (typeUser === "Utilisateur") return true
     else return false
   }
 

@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
 // Middleware function for verifying JWT token
 // const verifyToken = (req, res, next) => {
@@ -31,6 +31,41 @@ const jwt = require('jsonwebtoken');
 //     };
 // };
 
+// const verifyToken = (req, res, next) => {
+//     const token = req.cookies.jwt;
+
+//     if (!token) {
+//         return res.status(401).json({ message: 'JWT requis' });
+//     }
+
+//     jwt.verify(token, 'secret_key', (err, decoded) => {
+//         if (err) {
+//             return res.status(403).json({ message: 'JWT invalide' });
+//         }
+
+//         req.user = decoded;
+//         next(); // Proceed to the next middleware
+//     });
+// };
+// const authorizeRole = (roles) => {
+//     return (req, res, next) => {
+//         const role = req.user.type_User;
+
+//         if (roles.includes(role)) {
+//             next(); // Allow access if user role is in the allowed roles
+//         } else {
+//             return res.status(403).json({ message: 'Accès non autorisé' });
+//         }
+//     };
+// };
+
+// module.exports = { verifyToken, authorizeRole };
+const jwt = require('jsonwebtoken');
+
+const generateToken = (user) => {
+    return jwt.sign(user, 'secret_key', { expiresIn: '1s' });
+};
+
 const verifyToken = (req, res, next) => {
     const token = req.cookies.jwt;
 
@@ -40,27 +75,30 @@ const verifyToken = (req, res, next) => {
 
     jwt.verify(token, 'secret_key', (err, decoded) => {
         if (err) {
+            if (err.name === 'TokenExpiredError') {
+                return res.status(401).json({ message: 'JWT expiré' });
+            }
             return res.status(403).json({ message: 'JWT invalide' });
         }
 
         req.user = decoded;
-        next(); // Proceed to the next middleware
+        next();
     });
 };
+
 const authorizeRole = (roles) => {
     return (req, res, next) => {
         const role = req.user.type_User;
 
         if (roles.includes(role)) {
-            next(); // Allow access if user role is in the allowed roles
+            next();
         } else {
             return res.status(403).json({ message: 'Accès non autorisé' });
         }
     };
 };
 
-module.exports = { verifyToken, authorizeRole };
-
+module.exports = { verifyToken, authorizeRole, generateToken };
 
 // const verifyToken = (req, res, next) => {
 //     // Get JWT token from cookie
