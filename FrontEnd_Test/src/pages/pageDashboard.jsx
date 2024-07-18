@@ -5,6 +5,7 @@ import io from "socket.io-client";
 import Dashboard from "../component/dashboard";
 import { fetchUserData } from "../store/userSlice";
 import Swal from 'sweetalert2';
+import UserPage from "../component/userPage";
 
 const socket = io("http://localhost:3000"); // Assurez-vous que l'URL correspond à votre serveur
 
@@ -37,6 +38,9 @@ const PageDashboard = () => {
 
   const checkAccess = () => {
     return typeUser === "Super Admin" || typeUser === "Admin";
+  }
+  const checkAccessUser = () => {
+    return typeUser === "Utilisateur";
   }
 
   const checkStatus = () => {
@@ -73,16 +77,21 @@ const PageDashboard = () => {
 
   return (
     <div>
-      {checkStatus() ?  
-        <Dashboard />
-        :
-        null 
-      }
+      {checkStatus() ? (
+        checkAccess() ? <Dashboard /> : checkAccessUser() ? <UserPage /> : null
+      ) : null}
     </div>
   );
 };
 
 export default PageDashboard;
+    // <div>
+    //   {checkStatus() ?  
+    //     <Dashboard />
+    //     :
+    //     <UserPage/>
+    //   }
+    // </div>
 
 // import { useDispatch, useSelector } from "react-redux";
 // import Dashboard from "../component/dashboard";

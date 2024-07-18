@@ -33,9 +33,10 @@ const PageSortie = () => {
     if (statusValue === "Active") return true
     else return false
   }
+
   return (
     <div>
-      {checkAccess() && checkStatus() &&
+      {checkStatus() &&
         <Sortie />
       }
     </div>
@@ -43,3 +44,9 @@ const PageSortie = () => {
 };
 
 export default PageSortie;
+
+    // <div>
+    //   {checkAccess() && checkStatus() &&
+    //     <Sortie />
+    //   }
+    // </div>

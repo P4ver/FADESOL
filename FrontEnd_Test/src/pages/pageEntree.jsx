@@ -28,6 +28,7 @@ const PageEntree = () => {
     else if (typeUser === "Admin") return true
     else return false
   }
+  
   // const checkStatus = () => {
   //   return statusValue === "Active";
   // }
@@ -37,7 +38,7 @@ const PageEntree = () => {
   }
   return (
     <div>
-      {checkAccess() && checkStatus() &&
+      {checkStatus() &&
         <Entree />
       }
     </div>

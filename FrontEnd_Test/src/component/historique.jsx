@@ -158,7 +158,7 @@ const Historique = () => {
   const handleDateChange = e => {
     setSelectedDate(e.target.value);
   };
-
+console.log("filteredData", filteredData)
   return (
     <div className="max-w-7xl mx-auto p-4">
       <div className="mb-4 flex justify-between items-center">
@@ -207,6 +207,7 @@ const Historique = () => {
                 <th className="px-4 py-2">N° Serie</th>
                 <th className="px-4 py-2">Code Projet</th>
                 <th className="px-4 py-2">Nom Projet</th>
+                <th className="px-4 py-2">Partenaire</th>
                 <th className="px-4 py-2">User</th>
               </tr>
             </thead>
@@ -221,6 +222,7 @@ const Historique = () => {
                   <td className="border px-4 py-2">{item.n_Serie}</td>
                   <td className="border px-4 py-2">{item.code_Projet}</td>
                   <td className="border px-4 py-2">{item.nom_Projet}</td>
+                  <td className="border px-4 py-2">{item.Partenaire}</td>
                   <td className="border px-4 py-2">{item.user_Dmd}</td>
                 </tr>
               ))}

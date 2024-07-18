@@ -4,10 +4,10 @@ const pool = require("../db");
 const createHistorique = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        const { type_Op, date_Op, user_Dmd, code_Produit, designation_Produit, n_Serie, code_Projet, nom_Projet, qte_Produit } = req.body;
+        const { type_Op, date_Op, user_Dmd, code_Produit, designation_Produit, n_Serie, code_Projet, nom_Projet, qte_Produit, Partenaire } = req.body;
         connection.query(
-            'INSERT INTO historique (type_Op, date_Op, user_Dmd, code_Produit, designation_Produit, n_Serie, code_Projet, nom_Projet, qte_Produit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [type_Op, date_Op, user_Dmd, code_Produit, designation_Produit, n_Serie, code_Projet, nom_Projet, qte_Produit],
+            'INSERT INTO historique (type_Op, date_Op, user_Dmd, code_Produit, designation_Produit, n_Serie, code_Projet, nom_Projet, qte_Produit, Partenaire) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [type_Op, date_Op, user_Dmd, code_Produit, designation_Produit, n_Serie, code_Projet, nom_Projet, qte_Produit, Partenaire],
             (err, result) => {
                 connection.release();
                 if (err) return res.status(500).send(err);

@@ -29,6 +29,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PageHistorique from './pages/pageHistorique';
 import InactivityHandler from './component/InactivityHandler ';
+import Client from './component/client';
 
 disableReactDevTools();
 
@@ -57,6 +58,7 @@ function App() {
                 <Route path="/historique" element={<PageHistorique />} />
                 <Route path="/return" element={<PageReturn />} />
                 <Route path="/livraison" element={<PageLivraison />} />
+                <Route path="/client" element={<Client />} />
               </Route>
             </Route>
           </Routes>
