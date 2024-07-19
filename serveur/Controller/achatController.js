@@ -3,10 +3,10 @@ const pool = require('../db');
 const createAchat = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        const { code_Projet, designation, quantite, nom_Projet, date, code_Achat, user_Dmd } = req.body; // Added check_Delivery
+        const { code, code_Projet, designation, quantite, nom_Projet, date, code_Achat, user_Dmd, Partenaire } = req.body; // Added check_Delivery
         connection.query(
-            'INSERT INTO achat ( code_Projet, designation, quantite, nom_Projet, date, code_Achat, user_Dmd) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-            [ code_Projet, designation, quantite, nom_Projet, date,  code_Achat, user_Dmd], // Included check_Delivery in values
+            'INSERT INTO achat (code, code_Projet, designation, quantite, nom_Projet, date, code_Achat, user_Dmd, Partenaire) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+            [code, code_Projet, designation, quantite, nom_Projet, date,  code_Achat, user_Dmd, Partenaire], // Included check_Delivery in values
             (err, result) => {
                 connection.release();
                 if (err) return res.status(500).send(err);

@@ -18,10 +18,10 @@ const pool = require("../db")
 const createVente = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        const {code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd} = req.body; // Added check_Delivery
+        const {code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd, Partenaire} = req.body; // Added check_Delivery
         connection.query(
-            'INSERT INTO vente (code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-            [code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd], // Included check_Delivery in values
+            'INSERT INTO vente (code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd, Partenaire) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+            [code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd, Partenaire], // Included check_Delivery in values
             (err, result) => {
                 connection.release();
                 if (err) return res.status(500).send(err);
