@@ -1,3 +1,97 @@
+
+
+// import React, { useState, useEffect } from 'react';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { fetchHistoriqueData } from '../store/historiqueSlice';
+
+// const Historique = () => {
+//   const dispatch = useDispatch();
+//   const historiqueData = useSelector(state => state.historique.historiqueData);
+//   const authState = useSelector(state => state.auth);
+//   const user = authState.user;
+
+//   const [searchTerm, setSearchTerm] = useState('');
+//   const [filteredData, setFilteredData] = useState([]);
+
+//   useEffect(() => {
+//     dispatch(fetchHistoriqueData());
+
+//     // Set up interval to refresh the data every 5 minutes (300000 milliseconds)
+//     const interval = setInterval(() => {
+//       dispatch(fetchHistoriqueData());
+//     }, 300000);
+
+//     // Clean up the interval on component unmount
+//     return () => clearInterval(interval);
+//   }, [dispatch]);
+
+//   useEffect(() => {
+//     // Filter data based on searchTerm
+//     const filtered = historiqueData.filter(item =>
+//       item.user_Dmd && item.user_Dmd.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       item.date_Op && item.date_Op .toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       item.type_Op && item.type_Op .toLowerCase().includes(searchTerm.toLowerCase())
+//     );
+//     setFilteredData(filtered);
+//   }, [historiqueData, searchTerm]);
+
+//   const handleSearchChange = e => {
+//     setSearchTerm(e.target.value);
+//   };
+
+//   return (
+//     <div className="w-full mx-auto p-4">
+//       <input
+//         type="text"
+//         placeholder="Rechercher par utilisateur, date ou type opération..."
+//         value={searchTerm}
+//         onChange={handleSearchChange}
+//         className="p-2 mb-4 border border-gray-300 rounded"
+//       />
+//       <table className="min-w-full table-auto bg-white border border-gray-200">
+//         <thead>
+//           <tr className='bg-green-600 text-white'>
+//             <th className="px-4 py-2">ID</th>
+//             <th className="px-4 py-2">Type Operation</th>
+//             <th className="px-4 py-2">Date</th>
+//             <th className="px-4 py-2">Code Produit</th>
+//             <th className="px-4 py-2">Designation</th>
+//             <th className="px-4 py-2">Quantite</th>
+//             <th className="px-4 py-2">N° Serie</th>
+//             <th className="px-4 py-2">Code Projet</th>
+//             <th className="px-4 py-2">Nom Projet</th>
+//             <th className="px-4 py-2">User</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {filteredData.slice().reverse().map((item, index) => (
+//             <tr key={item.id_Historique} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
+//               <td className="border px-4 ">{item.id_Historique}</td>
+//               <td className="border px-4 ">{item.type_Op}</td>
+//               <td className="border px-4 ">{item.date_Op}</td>
+//               <td className="border px-4 ">{item.code_Produit}</td>
+//               <td className="border px-4 ">{item.designation_Produit}</td>
+//               <td className="border px-4 ">{item.qte_Produit}</td>
+//               <td className="border px-4 ">{item.n_Serie}</td>
+//               <td className="border px-4 ">{item.code_Projet}</td>
+//               <td className="border px-4 ">{item.nom_Projet}</td>
+//               <td className="border px-4 ">{item.user_Dmd}</td>
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// };
+
+// export default Historique;
+
+
+
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchHistoriqueData } from '../store/historiqueSlice';
@@ -12,7 +106,7 @@ const Historique = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
   const [stats, setStats] = useState({ entrees: 0, sorties: 0, retours: 0 });
-console.log("historique=+>", historiqueData)
+
   useEffect(() => {
     dispatch(fetchHistoriqueData());
 
@@ -64,7 +158,7 @@ console.log("historique=+>", historiqueData)
   const handleDateChange = e => {
     setSelectedDate(e.target.value);
   };
-
+console.log("filteredData", filteredData)
   return (
     <div className="max-w-7xl mx-auto p-4">
       <div className="mb-4 flex justify-between items-center">
@@ -113,6 +207,7 @@ console.log("historique=+>", historiqueData)
                 <th className="px-4 py-2">N° Serie</th>
                 <th className="px-4 py-2">Code Projet</th>
                 <th className="px-4 py-2">Nom Projet</th>
+                <th className="px-4 py-2">Partenaire</th>
                 <th className="px-4 py-2">User</th>
               </tr>
             </thead>
@@ -127,6 +222,7 @@ console.log("historique=+>", historiqueData)
                   <td className="border px-4 py-2">{item.n_Serie}</td>
                   <td className="border px-4 py-2">{item.code_Projet}</td>
                   <td className="border px-4 py-2">{item.nom_Projet}</td>
+                  <td className="border px-4 py-2">{item.Partenaire}</td>
                   <td className="border px-4 py-2">{item.user_Dmd}</td>
                 </tr>
               ))}
@@ -139,5 +235,11 @@ console.log("historique=+>", historiqueData)
 };
 
 export default Historique;
+
+
+
+
+
+
 
 

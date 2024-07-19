@@ -12,7 +12,7 @@ import achatReducer from "./achatSlice";
 import venteReducer from "./venteSlice";
 import returnReducer from "./returnSlice"
 import historiqueReducer from "./historiqueSlice"
-
+import clientReducer from "./clientSlice"
 
 const persistConfig = {
   key: 'root',
@@ -29,7 +29,8 @@ const rootReducer = combineReducers({
   vente: venteReducer,
   achat : achatReducer,
   return : returnReducer,
-  historique : historiqueReducer
+  historique : historiqueReducer,
+  client : clientReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
