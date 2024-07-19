@@ -286,7 +286,7 @@ console.log("sortie: checkAccess:", checkAccess())
   const { projetData, projetLoading, projetError } = useSelector((state) => state.projet);
   const { venteData, venteLoading, venteError } = useSelector((state) => state.vente);
   const clientData = useSelector((state) => state.client.clientData);
-  console.log("FSortie : clientData",clientData)
+  console.log("FSortie : clientData", clientData)
 
   useEffect(() => {
     dispatch(fetchDemandeData());
@@ -309,6 +309,7 @@ console.log("sortie: checkAccess:", checkAccess())
   useEffect(() => {
     const selectedClient = clientData.find(client => client.Partenaire == clientDetails)?.Partenaire || '';
     // if (clientDetails && clientDetails.length > 0) {
+    console.log("clientDetails find", selectedClient)
     if (selectedClient) {
       setClientDetails(selectedClient);
     }
@@ -316,7 +317,8 @@ console.log("sortie: checkAccess:", checkAccess())
   // const selectedClient = clientData.find(client => client.Partenaire == clientDetails);
   // const selectedClient = clientData.map(client => client.Partenaire);
   // console.log("clientDetails find", selectedClient)
-  console.log("clientDetails ", clientDetails)
+  // console.log("clientDetails ", clientData.find(client => client.Partenaire ==))
+  console.log("clientDetails", clientDetails)
   
   
   useEffect(() => {
@@ -468,7 +470,7 @@ console.log("sortie: checkAccess:", checkAccess())
       <td className="border px-4 py-2">
         <select
           value={clientDetails}
-          onChange={e => (e) => setClientDetails(e.target.value)}
+          onChange={(e) => setClientDetails(e.target.value)}
           className="w-full px-2 py-1 border-none"
         >
           <option value="">Sélectionner un client</option>
