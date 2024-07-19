@@ -427,10 +427,10 @@ const downloadBarcodeAsPDF = async (numArticle, Gamme, Designation, desi_fadesol
         const imgProps = pdf.getImageProperties(imgData);
         
         // Set smaller width for the barcode
-        const contentWidth = 3; // Smaller width in cm
+        const contentWidth = 3.5; // Smaller width in cm
         const contentHeight = (imgProps.height * contentWidth) / imgProps.width; // Maintain aspect ratio
-
-        pdf.addImage(imgData, 'PNG', 2.5, 4, contentWidth, contentHeight); // Position the image with margins
+        console.log("contentHeight==+>",contentHeight)
+        pdf.addImage(imgData, 'PNG', 2.5, 4, contentWidth, 2); // Position the image with margins
         
         pdf.setFontSize(14); // Smaller font size
         pdf.setFont("helvetica", "bold");
