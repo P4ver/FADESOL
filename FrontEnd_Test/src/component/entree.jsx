@@ -6,11 +6,61 @@ import { fetchProjetData } from '../store/projetSlice';
 import { fetchAchatempoData, postAchatempoData } from '../store/achatempoSlice';
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { Typography, IconButton } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { fetchHistoriqueData, postHistoriqueData } from '../store/historiqueSlice';
 import Swal from 'sweetalert2';
 import { fetchClientData } from '../store/clientSlice';
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+  },
+  modal: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '80%',
+    maxWidth: 800,
+    backgroundColor: 'white',
+    boxShadow: 24,
+    padding: 20,
+  },
+  modalHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  input: {
+    marginBottom: '10px',
+    width: '100px',
+  },
+  updateButton: {
+    marginLeft: 10,
+  },
+  statusIcon: {
+    marginRight: 5,
+    verticalAlign: 'middle',
+  },
+  validateButton: {
+    marginTop: 10,
+  },
+  printArea: {
+    display: 'none',
+  },
+  filterContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  searchInput: {
+    marginRight: 10,
 
+  },
+});
 const Entree = () => {
+  const classes = useStyles();
   const [lines, setLines] = useState([{ demandeCode: '', projetCode: '', quantite: '' }]);
   const productData = useSelector((state) => state.product.productData);
   const projetData = useSelector((state) => state.projet.projetData);
@@ -264,6 +314,16 @@ await dispatch(postHistoriqueData(historiqueData))
     }
   };
   
+
+  const handlePrint = () => {
+    const printContents = document.getElementById('print-area').innerHTML;
+    const originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+    window.location.reload();
+  };
+
   console.log("fEntree: client ",clientData)
   return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
@@ -407,41 +467,142 @@ await dispatch(postHistoriqueData(historiqueData))
       {!checkAccess() && 
         <>
           {historiqueForUser.length > 0 && (
-            <div className="overflow-x-auto mt-5">
-              <table className="min-w-full table-auto bg-white border border-gray-200">
-                <thead>
-                  <tr className="bg-green-600 text-white">
-                    <th className="px-4 py-2">Type Operation</th>
-                    <th className="px-4 py-2">Date</th>
-                    <th className="px-4 py-2">Code Produit</th>
-                    <th className="px-4 py-2">Designation</th>
-                    <th className="px-4 py-2">Quantite</th>
-                    <th className="px-4 py-2">N° Serie</th>
-                    <th className="px-4 py-2">Partenaire</th>
-                    <th className="px-4 py-2">User</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {historiqueForUser.slice().reverse().map((item, index) => (
-                    <tr key={item.id_Historique} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
-                      <td className="border px-4 py-2">{item.type_Op}</td>
-                      <td className="border px-4 py-2">{item.date_Op}</td>
-                      <td className="border px-4 py-2">{item.code_Produit}</td>
-                      <td className="border px-4 py-2">{item.designation_Produit}</td>
-                      <td className="border px-4 py-2">{item.qte_Produit}</td>
-                      <td className="border px-4 py-2">{item.n_Serie}</td>
-                      <td className="border px-4 py-2">{item.Partenaire}</td>
-                      <td className="border px-4 py-2">{item.user_Dmd}</td>
+            <>
+              <div className="overflow-x-auto mt-5">
+                {/* <table className="min-w-full table-auto bg-white border border-gray-200"> */}
+                <table className="min-w-full table-auto bg-white border border-gray-200">
+                  <thead>
+                    <tr className="bg-green-600 text-white">
+                      <th className="px-4 py-2">Type Operation</th>
+                      <th className="px-4 py-2">Date</th>
+                      <th className="px-4 py-2">Code Produit</th>
+                      <th className="px-4 py-2">Designation</th>
+                      <th className="px-4 py-2">Quantite</th>
+                      <th className="px-4 py-2">N° Serie</th>
+                      <th className="px-4 py-2">Partenaire</th>
+                      <th className="px-4 py-2">User</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {historiqueForUser.slice().reverse().map((item, index) => (
+                      <tr key={item.id_Historique} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
+                        <td className="border px-4 py-2">{item.type_Op}</td>
+                        <td className="border px-4 py-2">{item.date_Op}</td>
+                        <td className="border px-4 py-2">{item.code_Produit}</td>
+                        <td className="border px-4 py-2">{item.designation_Produit}</td>
+                        <td className="border px-4 py-2">{item.qte_Produit}</td>
+                        <td className="border px-4 py-2">{item.n_Serie}</td>
+                        <td className="border px-4 py-2">{item.Partenaire}</td>
+                        <td className="border px-4 py-2">{item.user_Dmd}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <button className={classes.updateButton} onClick={handlePrint}>PRINT</button>
+            </>
           )}
         </>
      }
+     
+
+<div id="print-area" className={`${classes.printArea} p-4`}>
+  <div className="w-32 mx-auto">
+  </div>
+  <h5 className="mt-4 text-sm">list Operation</h5>
+  <br />
+  <br />
+
+  {historiqueForUser.length > 0 && (
+    <div className="overflow-x-auto mt-5">
+      <table className="w-full border border-black rounded shadow-md">
+        <thead>
+          <tr className="bg-gray-100 text-black text-sm">
+            <th className="px-1">Type Operation</th>
+            <th className="px-1">Date</th>
+            <th className="px-1">Code Produit</th>
+            <th className="px-1">Designation</th>
+            <th className="px-1">Quantite</th>
+            <th className="px-1">N° Serie</th>
+            <th className="px-1">Partenaire</th>
+            <th className="px-1">User</th>
+          </tr>
+        </thead>
+        <tbody>
+          {historiqueForUser.slice().reverse().map((item, index) => (
+            <tr key={item.id_Historique} className={`${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} text-xs`}>
+              <td className="border border-black px-2">{item.type_Op}</td>
+              <td className="border border-black px-2">{item.date_Op}</td>
+              <td className="border border-black px-2">{item.code_Produit}</td>
+              <td className="border border-black px-2">{item.designation_Produit}</td>
+              <td className="border border-black px-2">{item.qte_Produit}</td>
+              <td className="border border-black px-2">{item.n_Serie}</td>
+              <td className="border border-black px-2">{item.Partenaire}</td>
+              <td className="border border-black px-2">{item.user_Dmd}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+
+  <br />
+  <div className="my-2 float-right">
+    <p className="text-xs">Signature<span className="text-gray-300">___________________</span></p>
+  </div>
+</div>
+
     </div>
   );
 };
 
 export default Entree;
+
+     {/* <div id="print-area" className={`${classes.printArea}`}>
+  <div style={{ width: '128px', margin: '0 auto' }}>
+  </div>
+  <h5 style={{ marginTop: '16px' }}>list Operation</h5>
+  <br />
+  <br />
+
+  {historiqueForUser.length > 0 && (
+    <div style={{ overflowX: 'auto', marginTop: '20px' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid green', borderRadius: '4px', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)' }}>
+        <thead>
+          <tr style={{ backgroundColor: 'green', color: 'white' }}>
+            <th style={{ padding: '8px' }}>Type Operation</th>
+            <th style={{ padding: '8px' }}>Date</th>
+            <th style={{ padding: '8px' }}>Code Produit</th>
+            <th style={{ padding: '8px' }}>Designation</th>
+            <th style={{ padding: '8px' }}>Quantite</th>
+            <th style={{ padding: '8px' }}>N° Serie</th>
+            <th style={{ padding: '8px' }}>Partenaire</th>
+            <th style={{ padding: '8px' }}>User</th>
+          </tr>
+        </thead>
+        <tbody>
+          {historiqueForUser.slice().reverse().map((item, index) => (
+            <tr key={item.id_Historique} style={{ backgroundColor: index % 2 === 0 ? '#f7f7f7' : 'white' }}>
+              <td style={{ border: '1px solid green', padding: '8px' }}>{item.type_Op}</td>
+              <td style={{ border: '1px solid green', padding: '8px' }}>{item.date_Op}</td>
+              <td style={{ border: '1px solid green', padding: '8px' }}>{item.code_Produit}</td>
+              <td style={{ border: '1px solid green', padding: '8px' }}>{item.designation_Produit}</td>
+              <td style={{ border: '1px solid green', padding: '8px' }}>{item.qte_Produit}</td>
+              <td style={{ border: '1px solid green', padding: '8px' }}>{item.n_Serie}</td>
+              <td style={{ border: '1px solid green', padding: '8px' }}>{item.Partenaire}</td>
+              <td style={{ border: '1px solid green', padding: '8px' }}>{item.user_Dmd}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+
+  <br />
+  <div style={{ margin: '10px 0', float: 'right' }}>
+    <p>Signature<span style={{ color: '#e5e5e5' }}>___________________</span></p>
+  </div>
+</div> */}
+
+
+
