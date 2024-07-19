@@ -425,9 +425,9 @@ const downloadBarcodeAsPDF = async (numArticle, Gamme, Designation, desi_fadesol
 
         const imgData = canvas.toDataURL('image/png');
         const imgProps = pdf.getImageProperties(imgData);
-        
+        console.log("imgProps==>", imgProps)
         // Set smaller width for the barcode
-        const contentWidth = 3.5; // Smaller width in cm
+        const contentWidth = 5.5; // Smaller width in cm
         const contentHeight = (imgProps.height * contentWidth) / imgProps.width; // Maintain aspect ratio
         console.log("contentHeight==+>",contentHeight)
         pdf.addImage(imgData, 'PNG', 2.5, 4, contentWidth, 2); // Position the image with margins
