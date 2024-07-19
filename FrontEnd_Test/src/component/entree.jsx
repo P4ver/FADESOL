@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProductData } from '../store/productSlice';
+import { fetchProductData, updateProductData, updateQteMagasin } from '../store/productSlice';
 import { fetchProjetData } from '../store/projetSlice';
 import { fetchAchatempoData, postAchatempoData } from '../store/achatempoSlice';
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { Typography, IconButton } from '@mui/material';
-import { postHistoriqueData } from '../store/historiqueSlice';
+import { fetchHistoriqueData, postHistoriqueData } from '../store/historiqueSlice';
 import Swal from 'sweetalert2';
 import { fetchClientData } from '../store/clientSlice';
 
@@ -15,6 +15,9 @@ const Entree = () => {
   const productData = useSelector((state) => state.product.productData);
   const projetData = useSelector((state) => state.projet.projetData);
   const clientData = useSelector((state) => state.client.clientData);
+  const historiqueData = useSelector(state => state.historique.historiqueData);
+
+  const [filteredData, setFilteredData] = useState([]);
 
   const [codeAchat, setCodeAchat] = useState('');
   const authState = useSelector(state => state.auth);
@@ -51,7 +54,8 @@ const Entree = () => {
     dispatch(fetchProductData());
     dispatch(fetchProjetData());
     dispatch(fetchAchatempoData());
-    dispatch(fetchClientData()); 
+    dispatch(fetchClientData());
+    dispatch(fetchHistoriqueData()); 
 
     // Generate the next codeAchat when the component mounts
     const generateNextCodeAchat = () => {
@@ -64,7 +68,10 @@ const Entree = () => {
 
     generateNextCodeAchat();
   }, [dispatch]);
-
+  console.log("ooooouseroooo",user.username)
+  console.log("===>historiqueData==>:", historiqueData)
+  const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
+  console.log("historiqueForUser==>:",historiqueForUser)
   const handleAddLine = () => {
     setLines([...lines, { demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
   };
@@ -119,6 +126,7 @@ const Entree = () => {
 // };
 
 
+// console.log("==><==")
 
 const handleSubmit = async () => {
   try {
@@ -177,6 +185,7 @@ const handleSubmit = async () => {
           Partenaire: Partenaire,
           // code_Produit: code_Produit 
         };
+        console.log("qte=========>", parseInt(line.quantite, 10) + qte_Magasin)
         const historiqueData = {
           type_Op:"entree",
           code_Produit: code_Prd,
@@ -191,6 +200,7 @@ const handleSubmit = async () => {
           id_Article: id_Article,
           Partenaire: Partenaire,
         }
+        
 await dispatch(postHistoriqueData(historiqueData))
   .then(response => {
     console.log("Post historique Data Response:", response);
@@ -208,6 +218,18 @@ await dispatch(postHistoriqueData(historiqueData))
   .catch(error => {
     console.error("Post historique Data Error:", error);
   });
+    const quantityReceived = parseInt(line.quantite, 10) + qte_Magasin;
+    console.log("id_Article==============>",id_Article)
+
+    //============================================================
+    if (typeUser === "Utilisateur"){
+      await dispatch(updateQteMagasin({
+        productId: id_Article,
+        qte_Magasin: quantityReceived
+      }));
+    }
+    //============================================================
+    
         console.log("===achatpayload===>", achatPayload);
         // Dispatch postAchatempoData thunk with achatPayload
         const response = await dispatch(postAchatempoData(achatPayload));
@@ -216,6 +238,14 @@ await dispatch(postHistoriqueData(historiqueData))
         if (response.error) {
           throw new Error(response.error.message);
         }
+      }else {//<<<<===========
+        Swal.fire({
+          title: 'Error',
+          text: 'Les détails de Demande ou Projet ou quantité ou n_Serie ou Client ne sont pas disponibles.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+        console.error('Demande or Projet details or quantite or n_Serie or Client are not available');
       }
     }
 
@@ -372,6 +402,44 @@ await dispatch(postHistoriqueData(historiqueData))
       <div className="text-center mt-4">
         <button onClick={handleSubmit} className="bg-customGreen text-white hover:bg-green-600 px-4 py-2 rounded-md">Create</button>
       </div>
+
+
+      {!checkAccess() && 
+        <>
+          {historiqueForUser.length > 0 && (
+            <div className="overflow-x-auto mt-5">
+              <table className="min-w-full table-auto bg-white border border-gray-200">
+                <thead>
+                  <tr className="bg-green-600 text-white">
+                    <th className="px-4 py-2">Type Operation</th>
+                    <th className="px-4 py-2">Date</th>
+                    <th className="px-4 py-2">Code Produit</th>
+                    <th className="px-4 py-2">Designation</th>
+                    <th className="px-4 py-2">Quantite</th>
+                    <th className="px-4 py-2">N° Serie</th>
+                    <th className="px-4 py-2">Partenaire</th>
+                    <th className="px-4 py-2">User</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {historiqueForUser.slice().reverse().map((item, index) => (
+                    <tr key={item.id_Historique} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
+                      <td className="border px-4 py-2">{item.type_Op}</td>
+                      <td className="border px-4 py-2">{item.date_Op}</td>
+                      <td className="border px-4 py-2">{item.code_Produit}</td>
+                      <td className="border px-4 py-2">{item.designation_Produit}</td>
+                      <td className="border px-4 py-2">{item.qte_Produit}</td>
+                      <td className="border px-4 py-2">{item.n_Serie}</td>
+                      <td className="border px-4 py-2">{item.Partenaire}</td>
+                      <td className="border px-4 py-2">{item.user_Dmd}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </>
+     }
     </div>
   );
 };

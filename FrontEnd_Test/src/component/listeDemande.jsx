@@ -240,6 +240,7 @@ function ListeDemande() {
         }
         // console.log("============>updatedItem: qte Reçu",updatedItem.qte_Reçu)
         const newQteMagasin = (parseInt(qteRecu[id]) - updatedItem.qte_Reçu) + product.qte_Magasin;
+        console.log("product.id_Article : ", product.id_Article)
         console.log("newQteMagasin : ", newQteMagasin)
         console.log("parseInt(qteRecu[id]) : ", parseInt(qteRecu[id]))
         console.log("updatedItem.qte_Reçu", updatedItem.qte_Reçu)

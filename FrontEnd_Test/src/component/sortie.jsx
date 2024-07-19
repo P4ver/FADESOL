@@ -125,7 +125,7 @@ console.log("sortie: checkAccess:", checkAccess())
     }
 
     // if (demandeDetails && projetDetails && quantite && n_Serie) {
-    if (demandeDetails &&  quantite && n_Serie) {
+    if (demandeDetails &&  quantite && n_Serie && clientDetails) {
       const achatPayload = {
         code_Produit: demandeDetails.Numéro_Article,
         designation_Produit: demandeDetails.Description_Article,
@@ -151,6 +151,8 @@ console.log("sortie: checkAccess:", checkAccess())
         user_Dmd: user.username,
         Partenaire: clientDetails
       };
+      // console.log("==========>clientDetails:", clientDetails);
+      console.log("==========>demandeDetails:", demandeDetails);
       const newQteMagasin = demandeDetails.qte_Magasin - parseInt(quantite, 10);
       await dispatch(updateQteMagasin({
         productId: demandeDetails.id_Article,
@@ -189,7 +191,13 @@ console.log("sortie: checkAccess:", checkAccess())
           console.error("Post Vente Data Error:", error);
         });
     } else {
-      console.error('Demande or Projet details or quantite or n_Serie are not available');
+      Swal.fire({
+        title: 'Error',
+        text: 'Les détails de Demande ou Projet ou quantité ou n_Serie ou Client ne sont pas disponibles.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      console.error('Demande or Projet details or quantite or n_Serie or Client are not available');
     }
   };
   console.log("FSortie : demandeDetails==>", demandeDetails)
