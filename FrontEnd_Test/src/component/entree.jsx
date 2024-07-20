@@ -406,8 +406,9 @@ await dispatch(postHistoriqueData(historiqueData))
       <div className="text-center mt-4">
         <button onClick={handleSubmit} className="bg-customGreen text-white hover:bg-green-600 px-4 py-2 rounded-md">Create</button>
       </div>
-
-<ListeDemandeUser/>
+      {!checkAccess() && 
+        <ListeDemandeUser/>
+      }
       {/*
        {!checkAccess() && 
         <>

@@ -326,7 +326,9 @@ function ListeDemandeUser() {
       [name]: value
     }));
   };
-
+  const currentDate = new Date();
+  const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
+  
 // console.log("from listdemand:",achatempoData)
   return (
     <div>
@@ -369,12 +371,13 @@ function ListeDemandeUser() {
       <React.Fragment key={codeAchat}>
         <TableRow>
           <TableCell>{firstDemand.code_Achat}</TableCell>
-          <TableCell>{firstDemand.date}</TableCell>
+          <TableCell>{formattedDate}</TableCell>
+          {/* <TableCell>{firstDemand.date}</TableCell> */}
           <TableCell>{firstDemand.user_Dmd}</TableCell>
           {/* <TableCell>{renderStatus(status)}</TableCell> Use renderStatus to display the status with the correct styling */}
           <TableCell>
             <IconButton onClick={() => openModal(firstDemand)}><div className='text-blue-500'><FaEye /></div></IconButton>
-            <IconButton onClick={() => handleDelete(firstDemand.id_Achat)}><div className='text-red-500'><FaTimes /></div></IconButton>
+            {/* <IconButton onClick={() => handleDelete(firstDemand.id_Achat)}><div className='text-red-500'><FaTimes /></div></IconButton> */}
           </TableCell>
         </TableRow>
       </React.Fragment>
@@ -438,14 +441,14 @@ function ListeDemandeUser() {
                 </TableBody>
               </Table>
             </TableContainer>
-            <Button
+            {/* <Button
               variant="contained"
               color="primary"
               className={classes.validateButton}
               onClick={handleValidation}
             >
               Valider Tout
-            </Button>
+            </Button> */}
             <Button
               variant="contained"
               color="secondary"
