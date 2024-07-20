@@ -71,6 +71,8 @@ const Entree = () => {
   const [filteredData, setFilteredData] = useState([]);
 
   const [codeAchat, setCodeAchat] = useState('');
+  const [loading, setLoading] = useState(true);
+
   const authState = useSelector(state => state.auth);
   const user = authState.user;
   //=========================================================================================
@@ -88,6 +90,7 @@ const Entree = () => {
     if (userAth && userState.userData.length > 0) {
       const match = userState.userData.find(usr => usr.login_User == userAth.username);
       setTypeUser(match.type_User)
+      setLoading(false);
     }
   }, [userAth, userState]);
   console.log("typeUser!",typeUser)
@@ -406,148 +409,14 @@ await dispatch(postHistoriqueData(historiqueData))
       <div className="text-center mt-4">
         <button onClick={handleSubmit} className="bg-customGreen text-white hover:bg-green-600 px-4 py-2 rounded-md">Create</button>
       </div>
-      {!checkAccess() && 
+      {/* {!checkAccess() && 
         <ListeDemandeUser/>
-      }
-      {/*
-       {!checkAccess() && 
-        <>
-          {historiqueForUser.length > 0 && (
-            <>
-              <div className="overflow-x-auto mt-5">
-                <table className="min-w-full table-auto bg-white border border-gray-200">
-                  <thead>
-                    <tr className="bg-green-600 text-white">
-                      <th className="px-4 py-2">Type Operation</th>
-                      <th className="px-4 py-2">Date</th>
-                      <th className="px-4 py-2">Code Produit</th>
-                      <th className="px-4 py-2">Designation</th>
-                      <th className="px-4 py-2">Quantite</th>
-                      <th className="px-4 py-2">N° Serie</th>
-                      <th className="px-4 py-2">Partenaire</th>
-                      <th className="px-4 py-2">User</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {historiqueForUser.slice().reverse().map((item, index) => (
-                      <tr key={item.id_Historique} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
-                        <td className="border px-4 py-2">{item.type_Op}</td>
-                        <td className="border px-4 py-2">{item.date_Op}</td>
-                        <td className="border px-4 py-2">{item.code_Produit}</td>
-                        <td className="border px-4 py-2">{item.designation_Produit}</td>
-                        <td className="border px-4 py-2">{item.qte_Produit}</td>
-                        <td className="border px-4 py-2">{item.n_Serie}</td>
-                        <td className="border px-4 py-2">{item.Partenaire}</td>
-                        <td className="border px-4 py-2">{item.user_Dmd}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <button className={classes.updateButton} onClick={handlePrint}>PRINT</button>
-            </>
-          )}
-        </>
-       } 
-     
-        <div id="print-area" className={`${classes.printArea} p-4`}>
-        <div className="w-32 mx-auto">
-        </div>
-        <h5 className="mt-4 text-sm">list Operation</h5>
-        <br />
-        <br />
+      } */}
 
-        {historiqueForUser.length > 0 && (
-          <div className="overflow-x-auto mt-5">
-            <table className="w-full border border-black rounded shadow-md">
-              <thead>
-                <tr className="bg-gray-100 text-black text-sm">
-                  <th className="px-1">Type Operation</th>
-                  <th className="px-1">Date</th>
-                  <th className="px-1">Code Produit</th>
-                  <th className="px-1">Designation</th>
-                  <th className="px-1">Quantite</th>
-                  <th className="px-1">N° Serie</th>
-                  <th className="px-1">Partenaire</th>
-                  <th className="px-1">User</th>
-                </tr>
-              </thead>
-              <tbody>
-                {historiqueForUser.slice().reverse().map((item, index) => (
-                  <tr key={item.id_Historique} className={`${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} text-xs`}>
-                    <td className="border border-black px-2">{item.type_Op}</td>
-                    <td className="border border-black px-2">{item.date_Op}</td>
-                    <td className="border border-black px-2">{item.code_Produit}</td>
-                    <td className="border border-black px-2">{item.designation_Produit}</td>
-                    <td className="border border-black px-2">{item.qte_Produit}</td>
-                    <td className="border border-black px-2">{item.n_Serie}</td>
-                    <td className="border border-black px-2">{item.Partenaire}</td>
-                    <td className="border border-black px-2">{item.user_Dmd}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        <br />
-        <div className="my-2 float-right">
-          <p className="text-xs">Signature<span className="text-gray-300">___________________</span></p>
-        </div>
-        </div>
-      */}
+      {!loading && !checkAccess() && <ListeDemandeUser />}
 
     </div>
   );
 };
 
 export default Entree;
-
-     {/* <div id="print-area" className={`${classes.printArea}`}>
-  <div style={{ width: '128px', margin: '0 auto' }}>
-  </div>
-  <h5 style={{ marginTop: '16px' }}>list Operation</h5>
-  <br />
-  <br />
-
-  {historiqueForUser.length > 0 && (
-    <div style={{ overflowX: 'auto', marginTop: '20px' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid green', borderRadius: '4px', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)' }}>
-        <thead>
-          <tr style={{ backgroundColor: 'green', color: 'white' }}>
-            <th style={{ padding: '8px' }}>Type Operation</th>
-            <th style={{ padding: '8px' }}>Date</th>
-            <th style={{ padding: '8px' }}>Code Produit</th>
-            <th style={{ padding: '8px' }}>Designation</th>
-            <th style={{ padding: '8px' }}>Quantite</th>
-            <th style={{ padding: '8px' }}>N° Serie</th>
-            <th style={{ padding: '8px' }}>Partenaire</th>
-            <th style={{ padding: '8px' }}>User</th>
-          </tr>
-        </thead>
-        <tbody>
-          {historiqueForUser.slice().reverse().map((item, index) => (
-            <tr key={item.id_Historique} style={{ backgroundColor: index % 2 === 0 ? '#f7f7f7' : 'white' }}>
-              <td style={{ border: '1px solid green', padding: '8px' }}>{item.type_Op}</td>
-              <td style={{ border: '1px solid green', padding: '8px' }}>{item.date_Op}</td>
-              <td style={{ border: '1px solid green', padding: '8px' }}>{item.code_Produit}</td>
-              <td style={{ border: '1px solid green', padding: '8px' }}>{item.designation_Produit}</td>
-              <td style={{ border: '1px solid green', padding: '8px' }}>{item.qte_Produit}</td>
-              <td style={{ border: '1px solid green', padding: '8px' }}>{item.n_Serie}</td>
-              <td style={{ border: '1px solid green', padding: '8px' }}>{item.Partenaire}</td>
-              <td style={{ border: '1px solid green', padding: '8px' }}>{item.user_Dmd}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  )}
-
-  <br />
-  <div style={{ margin: '10px 0', float: 'right' }}>
-    <p>Signature<span style={{ color: '#e5e5e5' }}>___________________</span></p>
-  </div>
-</div> */}
-
-
-
