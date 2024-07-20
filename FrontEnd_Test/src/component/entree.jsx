@@ -10,6 +10,7 @@ import { makeStyles } from '@mui/styles';
 import { fetchHistoriqueData, postHistoriqueData } from '../store/historiqueSlice';
 import Swal from 'sweetalert2';
 import { fetchClientData } from '../store/clientSlice';
+import ListeDemandeUser from './listeDemandeUser';
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -118,10 +119,10 @@ const Entree = () => {
 
     generateNextCodeAchat();
   }, [dispatch]);
-  console.log("ooooouseroooo",user.username)
-  console.log("===>historiqueData==>:", historiqueData)
+  // console.log("ooooouseroooo",user.username)
+  // console.log("===>historiqueData==>:", historiqueData)
   const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
-  console.log("historiqueForUser==>:",historiqueForUser)
+  // console.log("historiqueForUser==>:",historiqueForUser)
   const handleAddLine = () => {
     setLines([...lines, { demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
   };
@@ -132,64 +133,11 @@ const Entree = () => {
     setLines(newLines);
   };
 
-
-// const handleSubmit = async () => {
-//   try {
-//       const currentDate = new Date();
-//       const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
-//     console.log(formattedDate)
-//       for (const line of lines) {
-//           if (line.demandeCode && line.projetCode && line.quantite) {
-//               const designation = productData.find(demande => demande.Numéro_Article === line.demandeCode)?.Description_Article || '';
-//               const nom_Projet = projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || '';
-//               const qte_Magasin = productData.find(demande => demande.Numéro_Article === line.demandeCode)?.qte_Magasin || '';
-//               const achatPayload = {
-//                   code: line.demandeCode,
-//                   designation: designation,
-//                   quantite: parseInt(line.quantite, 10),
-//                   code_Projet: line.projetCode,
-//                   nom_Projet: nom_Projet,
-//                   check_Delivery: false,
-//                   code_Achat: codeAchat,
-//                   user_Dmd: user.username,
-//                   date: formattedDate,
-//                   qte_Reçu: 0,
-//                   qte_Magasin:qte_Magasin
-//               };
-
-//               console.log("===achatpayload===>", achatPayload);
-//               // Dispatch postAchatempoData thunk with achatPayload
-//               const response = await dispatch(postAchatempoData(achatPayload));
-//               console.log("===Res===>", response);
-//               // Handle response/error
-//               if (response.error) {
-//                   throw new Error(response.error.message);
-//               }
-//           }
-//       }
-
-//       // Reset lines after successful submission
-//       setLines([{ demandeCode: '', projetCode: '', quantite: '' }]);
-//   } catch (error) {
-//       console.error('Error submitting data:', error.message);
-//   }
-// };
-
-
-// console.log("==><==")
-
 const handleSubmit = async () => {
   try {
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
     
-    // let checkCodeProjet = "sans"; // Initialize with default value
-    // let checkNomProjet = "sans"; // Initialize with default value 
-  
-    // if (projetDetails) {
-    //   checkCodeProjet = projetDetails.code_Projet;
-    //   checkNomProjet = projetDetails.nom_Projet;
-    // }
     for (const line of lines) {
       // if (line.demandeCode && line.projetCode && line.quantite && line.partenaire) {
       if (line.demandeCode && line.quantite && line.partenaire) {
@@ -209,8 +157,8 @@ const handleSubmit = async () => {
           checkNomProjet = nom_Projet;
         }
 
-        console.log("line from input:",line)
-        console.log("Partenaire:",Partenaire)
+        // console.log("line from input:",line)
+        // console.log("Partenaire:",Partenaire)
         
         if (id_Article === null) {
           throw new Error(`Article with code ${line.demandeCode} not found`);
@@ -260,6 +208,7 @@ await dispatch(postHistoriqueData(historiqueData))
       icon: 'success',
       confirmButtonText: 'OK'
     });
+    
     // Clear the input fields on successful submission
     // setDemandeCode('');
     // setVenteDetails(null);
@@ -269,7 +218,9 @@ await dispatch(postHistoriqueData(historiqueData))
     console.error("Post historique Data Error:", error);
   });
     const quantityReceived = parseInt(line.quantite, 10) + qte_Magasin;
-    console.log("id_Article==============>",id_Article)
+    console.log("parseInt(line.quantite, 10)==============>", parseInt(line.quantite, 10))
+    console.log("quantityReceived==============>", quantityReceived)
+    // console.log("id_Article==============>",id_Article)
 
     //============================================================
     if (typeUser === "Utilisateur"){
@@ -301,6 +252,8 @@ await dispatch(postHistoriqueData(historiqueData))
 
     // Reset lines after successful submission
     setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
+
+    window.location.reload();
   } catch (error) {
     console.error('Error submitting data:', error.message);
   }
@@ -324,7 +277,7 @@ await dispatch(postHistoriqueData(historiqueData))
     window.location.reload();
   };
 
-  console.log("fEntree: client ",clientData)
+  // console.log("fEntree: client ",clientData)
   return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
       <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography>
@@ -399,16 +352,7 @@ await dispatch(postHistoriqueData(historiqueData))
 
               </>}
 
-                {/* <td className="border px-4 py-2">
-                 <input
-                   type="text"
-                   value={line.partenaire}
-                   placeholder='Enter Client'
-                   onChange={(e) => handleChange(index, 'partenaire', e.target.value)}
-                   className="w-full px-2 py-1 border-none"
-                   onKeyPress={(e) => handleKeyPress(e, index)}
-                 />
-               </td>*/}
+
                <td className="border px-4 py-2">
                   <select
                     value={line.partenaire}
@@ -463,13 +407,13 @@ await dispatch(postHistoriqueData(historiqueData))
         <button onClick={handleSubmit} className="bg-customGreen text-white hover:bg-green-600 px-4 py-2 rounded-md">Create</button>
       </div>
 
-
-      {!checkAccess() && 
+<ListeDemandeUser/>
+      {/*
+       {!checkAccess() && 
         <>
           {historiqueForUser.length > 0 && (
             <>
               <div className="overflow-x-auto mt-5">
-                {/* <table className="min-w-full table-auto bg-white border border-gray-200"> */}
                 <table className="min-w-full table-auto bg-white border border-gray-200">
                   <thead>
                     <tr className="bg-green-600 text-white">
@@ -503,54 +447,54 @@ await dispatch(postHistoriqueData(historiqueData))
             </>
           )}
         </>
-     }
+       } 
      
+        <div id="print-area" className={`${classes.printArea} p-4`}>
+        <div className="w-32 mx-auto">
+        </div>
+        <h5 className="mt-4 text-sm">list Operation</h5>
+        <br />
+        <br />
 
-<div id="print-area" className={`${classes.printArea} p-4`}>
-  <div className="w-32 mx-auto">
-  </div>
-  <h5 className="mt-4 text-sm">list Operation</h5>
-  <br />
-  <br />
+        {historiqueForUser.length > 0 && (
+          <div className="overflow-x-auto mt-5">
+            <table className="w-full border border-black rounded shadow-md">
+              <thead>
+                <tr className="bg-gray-100 text-black text-sm">
+                  <th className="px-1">Type Operation</th>
+                  <th className="px-1">Date</th>
+                  <th className="px-1">Code Produit</th>
+                  <th className="px-1">Designation</th>
+                  <th className="px-1">Quantite</th>
+                  <th className="px-1">N° Serie</th>
+                  <th className="px-1">Partenaire</th>
+                  <th className="px-1">User</th>
+                </tr>
+              </thead>
+              <tbody>
+                {historiqueForUser.slice().reverse().map((item, index) => (
+                  <tr key={item.id_Historique} className={`${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} text-xs`}>
+                    <td className="border border-black px-2">{item.type_Op}</td>
+                    <td className="border border-black px-2">{item.date_Op}</td>
+                    <td className="border border-black px-2">{item.code_Produit}</td>
+                    <td className="border border-black px-2">{item.designation_Produit}</td>
+                    <td className="border border-black px-2">{item.qte_Produit}</td>
+                    <td className="border border-black px-2">{item.n_Serie}</td>
+                    <td className="border border-black px-2">{item.Partenaire}</td>
+                    <td className="border border-black px-2">{item.user_Dmd}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
 
-  {historiqueForUser.length > 0 && (
-    <div className="overflow-x-auto mt-5">
-      <table className="w-full border border-black rounded shadow-md">
-        <thead>
-          <tr className="bg-gray-100 text-black text-sm">
-            <th className="px-1">Type Operation</th>
-            <th className="px-1">Date</th>
-            <th className="px-1">Code Produit</th>
-            <th className="px-1">Designation</th>
-            <th className="px-1">Quantite</th>
-            <th className="px-1">N° Serie</th>
-            <th className="px-1">Partenaire</th>
-            <th className="px-1">User</th>
-          </tr>
-        </thead>
-        <tbody>
-          {historiqueForUser.slice().reverse().map((item, index) => (
-            <tr key={item.id_Historique} className={`${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} text-xs`}>
-              <td className="border border-black px-2">{item.type_Op}</td>
-              <td className="border border-black px-2">{item.date_Op}</td>
-              <td className="border border-black px-2">{item.code_Produit}</td>
-              <td className="border border-black px-2">{item.designation_Produit}</td>
-              <td className="border border-black px-2">{item.qte_Produit}</td>
-              <td className="border border-black px-2">{item.n_Serie}</td>
-              <td className="border border-black px-2">{item.Partenaire}</td>
-              <td className="border border-black px-2">{item.user_Dmd}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  )}
-
-  <br />
-  <div className="my-2 float-right">
-    <p className="text-xs">Signature<span className="text-gray-300">___________________</span></p>
-  </div>
-</div>
+        <br />
+        <div className="my-2 float-right">
+          <p className="text-xs">Signature<span className="text-gray-300">___________________</span></p>
+        </div>
+        </div>
+      */}
 
     </div>
   );
