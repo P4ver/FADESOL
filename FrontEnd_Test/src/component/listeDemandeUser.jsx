@@ -18,6 +18,7 @@ import { fetchAchatData, postAchatData, deleteAchatData } from '../store/achatSl
 
 Modal.setAppElement('#root');
 
+
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
