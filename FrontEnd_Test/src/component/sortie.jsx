@@ -122,7 +122,7 @@ console.log("sortie: checkAccess:", checkAccess())
     }
 
     // if (demandeDetails && projetDetails && quantite && n_Serie) {
-    if (demandeDetails &&  quantite && n_Serie) {
+    if (demandeDetails &&  quantite && n_Serie && clientDetails) {
       const achatPayload = {
         code_Produit: demandeDetails.Numéro_Article,
         designation_Produit: demandeDetails.Description_Article,
@@ -148,6 +148,8 @@ console.log("sortie: checkAccess:", checkAccess())
         user_Dmd: user.username,
         Partenaire: clientDetails
       };
+      // console.log("==========>clientDetails:", clientDetails);
+      console.log("==========>demandeDetails:", demandeDetails);
       const newQteMagasin = demandeDetails.qte_Magasin - parseInt(quantite, 10);
       await dispatch(updateQteMagasin({
         productId: demandeDetails.id_Article,
@@ -186,7 +188,13 @@ console.log("sortie: checkAccess:", checkAccess())
           console.error("Post Vente Data Error:", error);
         });
     } else {
-      console.error('Demande or Projet details or quantite or n_Serie are not available');
+      Swal.fire({
+        title: 'Error',
+        text: 'Les détails de Demande ou Projet ou quantité ou n_Serie ou Client ne sont pas disponibles.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      console.error('Demande or Projet details or quantite or n_Serie or Client are not available');
     }
   };
   console.log("FSortie : demandeDetails==>", demandeDetails)
@@ -261,6 +269,12 @@ console.log("sortie: checkAccess:", checkAccess())
 };
 
 export default Sortie;
+
+
+
+
+
+
 
 
 
@@ -493,7 +507,7 @@ export default Sortie;
 //         </div>
 //       </div>
 //       }
-//       <div className="mb-4 mr-2">
+//       <div className="mb-4 mr-2 min-w-20 w-20">
 //         <label className="block text-sm font-bold mb-2">Quantite:</label>
 //         <input type="number" value={quantite} placeholder='0' onChange={(e) => setQuantite(e.target.value)} className="w-full border rounded py-2 px-2" />
 //       </div>
@@ -501,11 +515,12 @@ export default Sortie;
 //         <label className="block text-sm font-bold mb-2 w-20">Partenaire</label>
 //         <input type="text" value={clientDetails} placeholder='client' onChange={(e) => setClientDetails(e.target.value)} className="w-36 border rounded py-2 px-2" />
 //       </div> */}
-//       <td className="border px-4 py-2">
+//       <td className="">
+//       <label className="block text-sm font-bold mb-2">Partenaire:</label>
 //         <select
 //           value={clientDetails}
 //           onChange={(e) => setClientDetails(e.target.value)}
-//           className="w-full px-2 py-1 border-none"
+//           className="w-40 px-2 py-2 border-none mb-4 mx-1"
 //         >
 //           <option value="">Sélectionner un client</option>
 //           {clientData.map(client => (
@@ -527,3 +542,5 @@ export default Sortie;
 // };
 
 // export default Sortie;
+
+
