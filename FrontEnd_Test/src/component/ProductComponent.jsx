@@ -553,13 +553,12 @@ const downloadCombinedImage = async (numArticle, Gamme) => {
     console.log('desi_fadesol:', desi_fadesol);
 
     const barcodeCanvas = document.getElementById(`barcodeCanvas-${numArticle}`);
-    const qrCodeCanvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
 
-    if (barcodeCanvas && qrCodeCanvas) {
+    if (barcodeCanvas) {
         const pdf = new jsPDF({
             orientation: 'landscape',
             unit: 'cm',
-            format: [10, 6],
+            format: [5, 3.4],
             putOnlyUsedFonts: true,
             floatPrecision: 16
         });
@@ -567,45 +566,26 @@ const downloadCombinedImage = async (numArticle, Gamme) => {
         // Convert barcode canvas to image
         const barcodeImgData = barcodeCanvas.toDataURL('image/png');
         const barcodeImgProps = pdf.getImageProperties(barcodeImgData);
-        const barcodeWidth = 2; // Smaller width in cm
+        const barcodeWidth = 4.9; // Smaller width in cm
         const barcodeHeight = (barcodeImgProps.height * barcodeWidth) / barcodeImgProps.width;
 
-        // Convert QR code canvas to image
-        const qrCodeImgData = qrCodeCanvas.toDataURL('image/png');
-        const qrCodeImgProps = pdf.getImageProperties(qrCodeImgData);
-        const qrCodeWidth = 2; // Same width as barcode
-        const qrCodeHeight = (qrCodeImgProps.height * qrCodeWidth) / qrCodeImgProps.width;
-
         // Add barcode image to PDF
-        pdf.addImage(barcodeImgData, 'PNG', 4, 3.9, barcodeWidth, barcodeHeight);
+        pdf.addImage(barcodeImgData, 'PNG', 0.05, 1.3, barcodeWidth, 2);
 
-        // Add QR code image to PDF
-        pdf.addImage(qrCodeImgData, 'PNG', 1, 4, qrCodeWidth, qrCodeHeight);
-
-        pdf.setFontSize(14); // Smaller font size
-        pdf.setFont("helvetica", "bold");
-        pdf.text('Services', 6, 1.4, { align: 'center' });
-        pdf.setFontSize(15);
+        pdf.setFontSize(12);
         // Set font to bold for 'FADESOL'
         pdf.setFont("helvetica", "bold");
-        pdf.text('FADESOL', 1, 1);
-        pdf.setFontSize(10);
+        pdf.text('FADESOL', 0.2, 0.5);
+        pdf.setFontSize(8);
         // Reset font to normal
         pdf.setFont("helvetica", "normal");
-        pdf.text('UPS SYSTEMS', 1, 1.5);
+        pdf.text('UPS SYSTEMS', 0.2, 0.8);
 
-        pdf.setLineWidth(0.25); // Set line width
-        pdf.line(1, 1.8, 3.5, 1.8); // Draw line from (1 cm, 2 cm) to (9 cm, 2 cm)
-        pdf.setFont("helvetica", "bold");
-        pdf.text('Pièce détachée d\'origine', 6, 2.3, { align: 'center' });
+        pdf.setLineWidth(0.16); // Set line width
+        pdf.line(0.2, 1, 2.2, 1); // Draw line from (1 cm, 2 cm) to (9 cm, 2 cm)
+
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(8); // Even smaller font size
-
-        pdf.text(`Gamme : ${Gamme.Gamme_Etiquette}`, 1, 2.8); // Ajout de Gamme.Etiquette
-        pdf.text(`Références : ${numArticle}`, 1, 3.1);
-        pdf.text(`Designation : ${Designation}`, 1, 3.4);
-        pdf.text(`Designation frn : ${desi_fadesol}`, 1, 3.7);
-        pdf.text('Quantite    :', 1, 4);
 
         pdf.save(`${numArticle}.pdf`);
     } else {
@@ -763,12 +743,12 @@ const downloadCombinedImage = async (numArticle, Gamme) => {
                 <Grid item xs={3}>
                     <Card>
                         <CardContent>
-                            <Typography variant="subtitle1">Format Complet</Typography>
+                            <Typography variant="subtitle1">Mini Barcode</Typography>
                             <button 
                                 onClick={() => downloadCombinedImage(product.Numéro_Article, product)} 
                                 className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
                             >
-                                Download Combined PDF
+                                Download PDF
                             </button>
                         </CardContent>
                     </Card>
