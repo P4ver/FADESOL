@@ -120,14 +120,9 @@ const ProductTable = () => {
         else if (typeUser === "Admin") return true
         else return false
       }
+
     //   ==============================================================
-    // const [formData, setFormData] = useState({
-    //     Numéro_Article: "",
-    //     Description_Article: "",
-    //     Groupe_Articles: "",
-    //     code_Barre: "",
-    //     Emplacement: "",
-    // });
+
     const [formData, setFormData] = useState({
         Numéro_Article: "",
         Description_Article: "",
@@ -156,13 +151,6 @@ const ProductTable = () => {
             // Date_Actualisation: currentDate,
             // Emplacement: formData.Emplacement, // Add this new property
           }));
-        //   setFormData({
-        //     Numéro_Article: "",
-        //     Description_Article: "",
-        //     Groupe_Articles: "",
-        //     code_Barre: "",
-        //     Emplacement: "", // Reset the emplacement field
-        //   });
         setFormData({
             Numéro_Article: "",
             Description_Article: "",
@@ -194,19 +182,6 @@ const ProductTable = () => {
         setPage(0);
     };
 
-    // const handleOpenEditDialog = (product) => {
-    //     setEditProduct(product);
-    //     setEditedProduct({
-    //         id_Article: product.id_Article,
-    //         Numéro_Article: product.Numéro_Article,
-    //         Description_Article: product.Description_Article,
-    //         Groupe_Articles: product.Groupe_Articles,
-    //         Designation_Fadesol: product.Designation_Fadesol,
-    //         code_Barre: product.code_Barre,
-    //         Emplacement: product.Emplacement
-    //     });
-    //     setOpenDialog(true);
-    // };
     const handleOpenEditDialog = (product) => {
         setEditProduct(product);
         setEditedProduct({
@@ -223,7 +198,6 @@ const ProductTable = () => {
         });
         setOpenDialog(true);
     };
-
     const handleCloseDialog = () => {
         setOpenDialog(false);
     };
@@ -593,6 +567,15 @@ const downloadCombinedImage = async (numArticle, Gamme) => {
     }
 };
 
+
+const handleDuplicate = (product) => {
+    setFormData({
+        ...product,
+        Numéro_Article: `${product.Numéro_Article} - Copy`, // or another logic to differentiate
+    });
+    setOpenAddDialog(true);
+};
+
     return (
         <>
             <Paper>
@@ -660,104 +643,104 @@ const downloadCombinedImage = async (numArticle, Gamme) => {
                         <TableBody >
                             {filteredProducts.reverse().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
                                 <>
-                                
-                                <TableRow key={product.id_Article}>
-                                    <TableCell padding="checkbox">
-                                        <Checkbox color="primary" />
-                                    </TableCell>
-                                    <TableCell>{product.Numéro_Article}</TableCell>
-                                    <TableCell>{product.Description_Article}</TableCell>
-                                    <TableCell>{product.Groupe_Articles}</TableCell>
-                                    <TableCell>{product.Designation_Fadesol}</TableCell>
-                                    <TableCell>{product.Gamme_Etiquette}</TableCell>
-                                    <TableCell>{product.qte_Magasin}</TableCell>
-                                    <TableCell>{product.Actif}</TableCell>
-                                    <TableCell>{product.Emplacement}</TableCell>
-                                    {checkAccess() && 
-                                        <TableCell align="center">
-                                            <button
-                                                type="button"
-                                                className="text-green-600 hover:text-green-900 focus:outline-none"
-                                                onClick={() => handleOpenEditDialog(product)}>
-                                                <Edit/>
-                                            </button>
-                                            <IconButton color="secondary" onClick={() => handleDeleteClick(product)}><Delete /></IconButton>
-                                            <button
-                                                type="button"
-                                                className="text-gray-600 hover:text-gray-900 focus:outline-none"
-                                                onClick={() => handleExpandUser(product)}
-                                                >
-                                                <GrView />
-                                                <path d="M10 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-3m-4 8v4m0-8V6m4 8h3m2-3h-8"></path>
-                                            </button>
+                                    <TableRow key={product.id_Article}>
+                                        <TableCell padding="checkbox">
+                                            <Checkbox color="primary" />
                                         </TableCell>
-                                    }
-                                </TableRow>
-                                <TableRow>
-    <TableCell colSpan={9} style={{ paddingBottom: 0, paddingTop: 0 }}>
-        <Collapse in={expandedUser === product.id_Article} timeout="auto" unmountOnExit>
-            <Grid container spacing={2} style={{ display: 'flex', flexWrap: 'nowrap' }}>
-                <Grid item xs={3}>
-                    <Card>
-                        <CardContent>
-                            <Typography variant="h6">Product Details</Typography>
-                            <Typography><strong>Numéro article: </strong>{product.Numéro_Article}</Typography>
-                            <Typography><strong>Désignation  Fournisseur: </strong>{product.Description_Article}</Typography>
-                            <Typography><strong>Groupe d'articles: </strong>{product.Groupe_Articles}</Typography>
-                            <Typography><strong>Designation Fadesol: </strong>{product.Designation_Fadesol}</Typography>
-                            <Typography><strong>Emplacement: </strong>{product.Emplacement}</Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
-                <Grid item xs={3}>
-                    <Card>
-                    <CardContent>
-                            <Typography variant="subtitle1">Barcode</Typography>
-                            <BarcodeCanvas value={product.code_Barre ? product.code_Barre : product.Numéro_Article} id={`barcodeCanvas-${product.Numéro_Article}`} />
-                            <button 
-                                onClick={() => downloadBarcodeAsPDF(product.Numéro_Article, product.Gamme_Etiquette, product.Description_Article, product.Designation_Fadesol)} 
-                                className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
-                            >
-                                Download as PDF
-                            </button>
-                        </CardContent>
-                    </Card>
-                </Grid>
-                <Grid item xs={3}>
-                    <Card>
-                        <CardContent>
-                            <Typography variant="subtitle1">QR+ Code</Typography>
-                            <QRCode value={product.code_Barre ? product.code_Barre : product.Numéro_Article} id={`qrCodeCanvas-${product.Numéro_Article}`} />
-                                                            {/* <Button variant="contained" color="primary" onClick={() => downloadQRCodeAsPDF(product.Numéro_Article)}>
-                                                                Download as PDF
-                                                            </Button> */}
-                                                          <button 
-                                onClick={() => downloadQRCodeAsPDF(product.Numéro_Article, product.Gamme_Etiquette, product.Description_Article, product.Designation_Fadesol)} 
-                                className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
-                            >
-                                Download as PDF
-                            </button>
-                        </CardContent>
-                    </Card>
-                </Grid>
-                <Grid item xs={3}>
-                    <Card>
-                        <CardContent>
-                            <Typography variant="subtitle1">Mini Barcode</Typography>
-                            <button 
-                                onClick={() => downloadCombinedImage(product.Numéro_Article, product)} 
-                                className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
-                            >
-                                Download PDF
-                            </button>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </Grid>
-        </Collapse>
-    </TableCell>
-</TableRow>
+                                        <TableCell>{product.Numéro_Article}</TableCell>
+                                        <TableCell>{product.Description_Article}</TableCell>
+                                        <TableCell>{product.Groupe_Articles}</TableCell>
+                                        <TableCell>{product.Designation_Fadesol}</TableCell>
+                                        <TableCell>{product.Gamme_Etiquette}</TableCell>
+                                        <TableCell>{product.qte_Magasin}</TableCell>
+                                        <TableCell>{product.Actif}</TableCell>
+                                        <TableCell>{product.Emplacement}</TableCell>
+                                        {checkAccess() && 
+                                            <TableCell align="center">
+                                                <button
+                                                    type="button"
+                                                    className="text-green-600 hover:text-green-900 focus:outline-none"
+                                                    onClick={() => handleOpenEditDialog(product)}>
+                                                    <Edit/>
+                                                </button>
+                                                <IconButton color="secondary" onClick={() => handleDeleteClick(product)}><Delete /></IconButton>
+                                                <button
+                                                    type="button"
+                                                    className="text-gray-600 hover:text-gray-900 focus:outline-none"
+                                                    onClick={() => handleExpandUser(product)}
+                                                    >
+                                                    <GrView />
+                                                    <path d="M10 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-3m-4 8v4m0-8V6m4 8h3m2-3h-8"></path>
+                                                </button>
+                                                <button onClick={() => handleDuplicate(product)}>Duplicate</button>
 
+                                            </TableCell>
+                                        }
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell colSpan={9} style={{ paddingBottom: 0, paddingTop: 0 }}>
+                                            <Collapse in={expandedUser === product.id_Article} timeout="auto" unmountOnExit>
+                                                <Grid container spacing={2} style={{ display: 'flex', flexWrap: 'nowrap' }}>
+                                                    <Grid item xs={3}>
+                                                        <Card>
+                                                            <CardContent>
+                                                                <Typography variant="h6">Product Details</Typography>
+                                                                <Typography><strong>Numéro article: </strong>{product.Numéro_Article}</Typography>
+                                                                <Typography><strong>Désignation  Fournisseur: </strong>{product.Description_Article}</Typography>
+                                                                <Typography><strong>Groupe d'articles: </strong>{product.Groupe_Articles}</Typography>
+                                                                <Typography><strong>Designation Fadesol: </strong>{product.Designation_Fadesol}</Typography>
+                                                                <Typography><strong>Emplacement: </strong>{product.Emplacement}</Typography>
+                                                            </CardContent>
+                                                        </Card>
+                                                    </Grid>
+                                                    <Grid item xs={3}>
+                                                        <Card>
+                                                        <CardContent>
+                                                                <Typography variant="subtitle1">Barcode</Typography>
+                                                                <BarcodeCanvas value={product.code_Barre ? product.code_Barre : product.Numéro_Article} id={`barcodeCanvas-${product.Numéro_Article}`} />
+                                                                <button 
+                                                                    onClick={() => downloadBarcodeAsPDF(product.Numéro_Article, product.Gamme_Etiquette, product.Description_Article, product.Designation_Fadesol)} 
+                                                                    className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
+                                                                >
+                                                                    Download as PDF
+                                                                </button>
+                                                            </CardContent>
+                                                        </Card>
+                                                    </Grid>
+                                                    <Grid item xs={3}>
+                                                        <Card>
+                                                            <CardContent>
+                                                                <Typography variant="subtitle1">QR+ Code</Typography>
+                                                                <QRCode value={product.code_Barre ? product.code_Barre : product.Numéro_Article} id={`qrCodeCanvas-${product.Numéro_Article}`} />
+                                                                                                {/* <Button variant="contained" color="primary" onClick={() => downloadQRCodeAsPDF(product.Numéro_Article)}>
+                                                                                                    Download as PDF
+                                                                                                </Button> */}
+                                                                                            <button 
+                                                                    onClick={() => downloadQRCodeAsPDF(product.Numéro_Article, product.Gamme_Etiquette, product.Description_Article, product.Designation_Fadesol)} 
+                                                                    className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
+                                                                >
+                                                                    Download as PDF
+                                                                </button>
+                                                            </CardContent>
+                                                        </Card>
+                                                    </Grid>
+                                                    <Grid item xs={3}>
+                                                        <Card>
+                                                            <CardContent>
+                                                                <Typography variant="subtitle1">Mini Barcode</Typography>
+                                                                <button 
+                                                                    onClick={() => downloadCombinedImage(product.Numéro_Article, product)} 
+                                                                    className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
+                                                                >
+                                                                    Download PDF
+                                                                </button>
+                                                            </CardContent>
+                                                        </Card>
+                                                    </Grid>
+                                                </Grid>
+                                            </Collapse>
+                                        </TableCell>
+                                    </TableRow>
                                 </>
                             ))}
                         </TableBody>
@@ -887,105 +870,107 @@ const downloadCombinedImage = async (numArticle, Gamme) => {
                 )}
 
               
-<Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
-  <DialogTitle>Add New Product</DialogTitle>
-  <DialogContent>
-    <DialogContentText>
-      Please fill in the form to add a new product.
-    </DialogContentText>
-    <form>
-      <TextField
-        margin="dense"
-        name="Numéro_Article"
-        label="Numéro d'article"
-        type="text"
-        fullWidth
-        value={formData.Numéro_Article}
-        onChange={handlePostChange}
-      />
-      <TextField
-        margin="dense"
-        name="Description_Article"
-        label="Designation Fournisseur"
-        type="text"
-        fullWidth
-        value={formData.Description_Article}
-        onChange={handlePostChange}
-      />
-      <TextField
-        margin="dense"
-        name="Designation_Fadesol"
-        label="Designation fadesol"
-        type="text"
-        fullWidth
-        value={formData.Designation_Fadesol}
-        onChange={handlePostChange}
-      />
-      <TextField
-        margin="dense"
-        name="Gamme_Etiquette"
-        label="Gamme Etiquette"
-        type="text"
-        fullWidth
-        value={formData.Gamme_Etiquette}
-        onChange={handlePostChange}
-      />
-      <TextField
-        margin="dense"
-        name="Groupe_Articles"
-        label="Groupe d'articles"
-        type="text"
-        fullWidth
-        value={formData.Groupe_Articles}
-        onChange={handlePostChange}
-      />
-      <TextField
-        margin="dense"
-        name="Actif"
-        label="Actif"
-        type="text"
-        fullWidth
-        value={formData.Actif}
-        onChange={handlePostChange}
-      />
-      <TextField // Add this new field
-        margin="dense"
-        name="Emplacement"
-        label="Emplacement"
-        type="text"
-        fullWidth
-        value={formData.Emplacement}
-        onChange={handlePostChange}
-      />
-      <TextField // Add this new field
-        margin="dense"
-        name="code_Barre"
-        label="code Barre"
-        type="text"
-        fullWidth
-        value={formData.code_Barre}
-        onChange={handlePostChange}
-      />
-      <TextField 
-        margin="dense"
-        name="qte_Magasin"
-        label="Qte MAgasin"
-        type="text"
-        fullWidth
-        value={formData.qte_Magasin}
-        onChange={handlePostChange}
-      />
-    </form>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={() => setOpenAddDialog(false)} color="primary">
-      Cancel
-    </Button>
-    <Button onClick={handleSubmit} color="primary">
-      Add
-    </Button>
-  </DialogActions>
-</Dialog>
+                <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
+                    <DialogTitle>Add New Product</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                        Please fill in the form to add a new product.
+                        </DialogContentText>
+                        <form>
+                        <TextField
+                            margin="dense"
+                            name="Numéro_Article"
+                            label="Numéro d'article"
+                            type="text"
+                            fullWidth
+                            value={formData.Numéro_Article}
+                            onChange={handlePostChange}
+                        />
+                        <TextField
+                            margin="dense"
+                            name="Description_Article"
+                            label="Designation Fournisseur"
+                            type="text"
+                            fullWidth
+                            value={formData.Description_Article}
+                            onChange={handlePostChange}
+                        />
+                        <TextField
+                            margin="dense"
+                            name="Designation_Fadesol"
+                            label="Designation fadesol"
+                            type="text"
+                            fullWidth
+                            value={formData.Designation_Fadesol}
+                            onChange={handlePostChange}
+                        />
+                        <TextField
+                            margin="dense"
+                            name="Gamme_Etiquette"
+                            label="Gamme Etiquette"
+                            type="text"
+                            fullWidth
+                            value={formData.Gamme_Etiquette}
+                            onChange={handlePostChange}
+                        />
+                        <TextField
+                            margin="dense"
+                            name="Groupe_Articles"
+                            label="Groupe d'articles"
+                            type="text"
+                            fullWidth
+                            value={formData.Groupe_Articles}
+                            onChange={handlePostChange}
+                        />
+                        <TextField
+                            margin="dense"
+                            name="Actif"
+                            label="Actif"
+                            type="text"
+                            fullWidth
+                            value={formData.Actif}
+                            onChange={handlePostChange}
+                        />
+                        <TextField // Add this new field
+                            margin="dense"
+                            name="Emplacement"
+                            label="Emplacement"
+                            type="text"
+                            fullWidth
+                            value={formData.Emplacement}
+                            onChange={handlePostChange}
+                        />
+                        <TextField // Add this new field
+                            margin="dense"
+                            name="code_Barre"
+                            label="code Barre"
+                            type="text"
+                            fullWidth
+                            value={formData.code_Barre}
+                            onChange={handlePostChange}
+                        />
+                        <TextField 
+                            margin="dense"
+                            name="qte_Magasin"
+                            label="Qte MAgasin"
+                            type="text"
+                            fullWidth
+                            value={formData.qte_Magasin}
+                            onChange={handlePostChange}
+                        />
+                        </form>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setOpenAddDialog(false)} color="primary">
+                        Cancel
+                        </Button>
+                        <Button onClick={handleSubmit} color="primary">
+                        Add
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+
                 <Dialog open={openDeleteDialog} onClose={handleDeleteDialogClose}>
                     <DialogTitle>Confirm Delete</DialogTitle>
                     <DialogContent>
@@ -1002,6 +987,112 @@ const downloadCombinedImage = async (numArticle, Gamme) => {
                         </Button>
                     </DialogActions>
                 </Dialog>
+
+
+
+                <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
+                    <DialogTitle>{formData.Numéro_Article ? 'Edit Product' : 'Add New Product'}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Please fill in the form to add a new product.
+                        </DialogContentText>
+                        <form>
+                            <TextField
+                                margin="dense"
+                                name="Numéro_Article"
+                                label="Numéro d'article"
+                                type="text"
+                                fullWidth
+                                value={formData.Numéro_Article}
+                                onChange={handlePostChange}
+                            />
+                            <TextField
+                                margin="dense"
+                                name="Description_Article"
+                                label="Designation Fournisseur"
+                                type="text"
+                                fullWidth
+                                value={formData.Description_Article}
+                                onChange={handlePostChange}
+                            />
+                            <TextField
+                                margin="dense"
+                                name="Designation_Fadesol"
+                                label="Designation fadesol"
+                                type="text"
+                                fullWidth
+                                value={formData.Designation_Fadesol}
+                                onChange={handlePostChange}
+                            />
+                            <TextField
+                                margin="dense"
+                                name="Gamme_Etiquette"
+                                label="Gamme Etiquette"
+                                type="text"
+                                fullWidth
+                                value={formData.Gamme_Etiquette}
+                                onChange={handlePostChange}
+                            />
+                            <TextField
+                                margin="dense"
+                                name="Groupe_Articles"
+                                label="Groupe d'articles"
+                                type="text"
+                                fullWidth
+                                value={formData.Groupe_Articles}
+                                onChange={handlePostChange}
+                            />
+                            <TextField
+                                margin="dense"
+                                name="Actif"
+                                label="Actif"
+                                type="text"
+                                fullWidth
+                                value={formData.Actif}
+                                onChange={handlePostChange}
+                            />
+                            <TextField // Add this new field
+                                margin="dense"
+                                name="Emplacement"
+                                label="Emplacement"
+                                type="text"
+                                fullWidth
+                                value={formData.Emplacement}
+                                onChange={handlePostChange}
+                            />
+                            <TextField // Add this new field
+                                margin="dense"
+                                name="code_Barre"
+                                label="code Barre"
+                                type="text"
+                                fullWidth
+                                value={formData.code_Barre}
+                                onChange={handlePostChange}
+                            />
+                            <TextField 
+                                margin="dense"
+                                name="qte_Magasin"
+                                label="Qte MAgasin"
+                                type="text"
+                                fullWidth
+                                value={formData.qte_Magasin}
+                                onChange={handlePostChange}
+                            />
+                        </form>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setOpenAddDialog(false)} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={handleSubmit} color="primary">
+                            {formData.Numéro_Article ? 'Save' : 'Add'}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+
+
+
             </Paper>
             <ToastContainer />
         </>
