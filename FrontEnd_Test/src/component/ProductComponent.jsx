@@ -493,43 +493,51 @@ const downloadBarcodeAsPDF = async (numArticle, Gamme, Designation, desi_fadesol
         console.error('Canvas for Barcode not found');
     }
 };
-const downloadCombinedPDF = async (numArticle, product) => {
-    const barcodeCanvas = document.getElementById(`barcodeCanvas-${numArticle}`);
-    const qrCodeCanvas = document.getElementById(`qrCodeCanvas-${numArticle}`);
-    
-    if (barcodeCanvas && qrCodeCanvas) {
-        console.log("Barcode canvas:", barcodeCanvas);
-        console.log("QR Code canvas:", qrCodeCanvas);
-        
-        const pdf = new jsPDF();
-        const pdfWidth = pdf.internal.pageSize.getWidth();
+const downloadCombinedImage = async (numArticle, Gamme) => {
+    const Designation = Gamme.Description_Article; // Extraction de la désignation
+    const desi_fadesol = Gamme.Designation_Fadesol; // Extraction de la désignation fadesol
 
-        
-        // Calculate dimensions for placing images side by side
-        const imageWidth = pdfWidth / 2 - 10;
-        const imageHeight = imageWidth * 0.75; // Assuming aspect ratio
-        
-        // Convert barcode to image data
+    console.log('numArticle:', numArticle);
+    console.log('Gamme:', Gamme);
+    console.log('Designation:', Designation);
+    console.log('desi_fadesol:', desi_fadesol);
+
+    const barcodeCanvas = document.getElementById(`barcodeCanvas-${numArticle}`);
+
+    if (barcodeCanvas) {
+        const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'cm',
+            format: [5, 3.4],
+            putOnlyUsedFonts: true,
+            floatPrecision: 16
+        });
+
+        // Convert barcode canvas to image
         const barcodeImgData = barcodeCanvas.toDataURL('image/png');
         const barcodeImgProps = pdf.getImageProperties(barcodeImgData);
-        
-        // Convert QR code to image data
-        const qrCodeImgData = qrCodeCanvas.toDataURL('image/png');
-        const qrCodeImgProps = pdf.getImageProperties(qrCodeImgData);
-        
-        // Add barcode image
-        pdf.addImage(barcodeImgData, 'PNG', 10, 10, imageWidth, imageHeight);
-        
-        // Add QR code image
-        pdf.addImage(qrCodeImgData, 'PNG', pdfWidth / 2 + 10, 10, imageWidth, imageHeight);
-        
-        // Add company name and product size
-        pdf.setFontSize(12);
-        pdf.text('FADESOLE POWER SOLUTIONS', pdfWidth / 2, imageHeight + 20, { align: 'center' });
-        // pdf.text(`Size`, pdfWidth / 2, imageHeight + 30, { align: 'center' });
-        
+        const barcodeWidth = 4.9; // Smaller width in cm
+        const barcodeHeight = (barcodeImgProps.height * barcodeWidth) / barcodeImgProps.width;
 
-        pdf.save(`${numArticle}_combined.pdf`);
+        // Add barcode image to PDF
+        pdf.addImage(barcodeImgData, 'PNG', 0.05, 1.3, barcodeWidth, 2);
+
+        pdf.setFontSize(12);
+        // Set font to bold for 'FADESOL'
+        pdf.setFont("helvetica", "bold");
+        pdf.text('FADESOL', 0.2, 0.5);
+        pdf.setFontSize(8);
+        // Reset font to normal
+        pdf.setFont("helvetica", "normal");
+        pdf.text('UPS SYSTEMS', 0.2, 0.8);
+
+        pdf.setLineWidth(0.16); // Set line width
+        pdf.line(0.2, 1, 2.2, 1); // Draw line from (1 cm, 2 cm) to (9 cm, 2 cm)
+
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(8); // Even smaller font size
+
+        pdf.save(`${numArticle}.pdf`);
     } else {
         console.error('Canvas for Barcode or QR Code not found');
     }
@@ -685,12 +693,12 @@ const downloadCombinedPDF = async (numArticle, product) => {
                 <Grid item xs={3}>
                     <Card>
                         <CardContent>
-                            <Typography variant="subtitle1">Format Complet</Typography>
+                            <Typography variant="subtitle1">Mini Barcode</Typography>
                             <button 
-                                onClick={() => downloadCombinedPDF(product.Numéro_Article, product)} 
+                                onClick={() => downloadCombinedImage(product.Numéro_Article, product)} 
                                 className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
                             >
-                                Download Combined PDF
+                                Download Mini Barcode
                             </button>
                         </CardContent>
                     </Card>
