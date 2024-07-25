@@ -127,4 +127,50 @@ const updateQteMagasin = (req, res) => {
 };
 
 
-module.exports = {obtenirProduits, obtenirProduitsID, ajouterProduit, modifierProduit, supprimerProduit, updateQteMagasin};
+const dupliquerProduit = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("connected as id", connection.threadId);
+
+        const originalId = req.params.id; // Get the ID of the product to duplicate
+
+        // Fetch the original product
+        connection.query('SELECT * FROM articles WHERE id_Article = ?', [originalId], (err, rows) => {
+            if (err) {
+                connection.release();
+                console.error("Failed to fetch product:", err);
+                res.status(500).send("Failed to fetch product");
+                return;
+            }
+
+            const originalProduct = rows[0];
+            if (!originalProduct) {
+                connection.release();
+                res.status(404).send("Product not found");
+                return;
+            }
+
+            // Remove the id_Article from the original product data
+            const { id_Article, Numéro_Article, ...newProduct } = originalProduct;
+
+            // Modify the Numéro_Article field
+            newProduct.Numéro_Article = `${Numéro_Article}-copy`;
+
+            // Insert the new product with a unique ID
+            connection.query("INSERT INTO articles SET ?", [newProduct], (err, result) => {
+                connection.release();
+                if (err) {
+                    console.error("Failed to duplicate product:", err);
+                    res.status(500).send("Failed to duplicate product");
+                    return;
+                }
+                res.send("Product duplicated successfully.");
+            });
+        });
+    });
+};
+
+// module.exports = {obtenirProduits, obtenirProduitsID, ajouterProduit, modifierProduit, supprimerProduit, updateQteMagasin};
+
+
+module.exports = { obtenirProduits, obtenirProduitsID, ajouterProduit, modifierProduit, supprimerProduit, updateQteMagasin, dupliquerProduit };

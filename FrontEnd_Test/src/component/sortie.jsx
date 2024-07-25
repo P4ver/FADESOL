@@ -250,11 +250,19 @@ console.log("sortie: checkAccess:", checkAccess())
           className="w-40 px-2 py-2 border-none mb-4 mx-1"
         >
           <option value="">Sélectionner un client</option>
-          {clientData.map(client => (
+          {/* {clientData.map(client => (
             <option key={client.id} value={client.Partenaire}>
               {client.Partenaire}
             </option>
-          ))}
+          ))} */}
+          {clientData
+            .slice()
+            .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire))
+            .map(client => (
+              <option key={client.id} value={client.Partenaire}>
+                {client.Partenaire}
+              </option>
+            ))}
         </select>
       </td>
       <div className="mb-4">
