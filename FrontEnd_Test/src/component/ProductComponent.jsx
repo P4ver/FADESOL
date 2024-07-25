@@ -122,6 +122,8 @@ const ProductTable = () => {
       }
 
     //   ==============================================================
+    const [duplicateError, setDuplicateError] = useState(false);
+    //   ==============================================================
 
     const [formData, setFormData] = useState({
         Numéro_Article: "",
@@ -145,6 +147,11 @@ const ProductTable = () => {
 
     const handleSubmit = async () => {
         try {
+            const isDuplicate = productData.some(product => product.Numéro_Article === formData.Numéro_Article);
+            if (isDuplicate) {
+                setDuplicateError(true);
+                return;
+            }
           const currentDate = new Date().toLocaleDateString();
           await dispatch(postProductData({
             ...formData
@@ -985,6 +992,19 @@ const handleDuplicate = (productId) => {
                     </DialogActions>
                 </Dialog>
 
+                <Dialog open={duplicateError} onClose={() => setDuplicateError(false)}>
+                    <DialogTitle>Erreur de duplication</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Un produit avec le même "Numéro d'Article" existe déjà.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setDuplicateError(false)} color="primary">
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
 
                 <Dialog open={openDeleteDialog} onClose={handleDeleteDialogClose}>
                     <DialogTitle>Confirm Delete</DialogTitle>
