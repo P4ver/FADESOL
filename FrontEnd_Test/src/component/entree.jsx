@@ -363,7 +363,15 @@ await dispatch(postHistoriqueData(historiqueData))
                     className="w-full px-2 py-1 border-none"
                   >
                     <option value="">Sélectionner un client</option>
-                    {clientData.map(client => (
+                    {/* {clientData.map(client => (
+                      <option key={client.id} value={client.Partenaire}>
+                        {client.Partenaire}
+                      </option>
+                    ))} */}
+                    {clientData
+                    .slice()
+                    .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire))
+                    .map(client => (
                       <option key={client.id} value={client.Partenaire}>
                         {client.Partenaire}
                       </option>

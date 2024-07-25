@@ -22,7 +22,10 @@ import { Grid } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import { IoDuplicateOutline } from "react-icons/io5";
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 
 const BarcodeCanvas = ({ value, id }) => {
     const ref = useRef(null);
@@ -457,74 +460,6 @@ const downloadBarcodeAsPDF = async (numArticle, Gamme, Designation, desi_fadesol
     }
 };
 
-
-// const downloadCombinedImage = async (numArticle, Gamme, Designation, desi_fadesol) => {
-//     const canvasqr = document.getElementById(`qrCodeCanvas-${numArticle}`);
-//     const canvasbr = document.getElementById(`barcodeCanvas-${numArticle}`);
-//     if (canvas) {
-//         const pdf = new jsPDF({
-//             orientation: 'landscape',
-//             unit: 'cm',
-//             format: [10, 6],
-//             putOnlyUsedFonts: true,
-//             floatPrecision: 16
-//         });
-
-//         const imgDataqr = canvasqr.toDataURL('image/png');
-//         const imgPropsqr = pdf.getImageProperties(imgDataqr);
-//         const imgData = canvasbr.toDataURL('image/png');
-//         const imgProps = pdf.getImageProperties(imgDatabr);
-        
-//         // Set smaller width for the barcode
-//         const contentWidth = 2; // Smaller width in cm
-//         const contentHeight = (imgProps.height * contentWidth) / imgProps.width; // Maintain aspect ratio
-
-//         pdf.addImage(imgData, 'PNG', 4, 4, contentWidth, contentHeight); // Position the image with margins
-        
-//         pdf.setFontSize(14); // Smaller font size
-//         pdf.setFont("helvetica", "bold");
-//         pdf.text('Services', 6, 1.4, { align: 'center' });
-//         pdf.setFontSize(15);
-//         // Set font to bold for 'FADESOL'
-//         pdf.setFont("helvetica", "bold");
-//         pdf.text(`FADESOL`, 1, 1);
-//         pdf.setFontSize(10);
-//         // Reset font to normal
-//         pdf.setFont("helvetica", "normal");
-//         pdf.text(`UPS SYSTEMS`, 1, 1.5);
-
-
-//         pdf.setLineWidth(0.25); // Set line width
-//         pdf.line(1, 1.8, 3.5, 1.8); // Draw line from (1 cm, 2 cm) to (9 cm, 2 cm)
-        
-//         pdf.setFont("helvetica", "bold");
-//         pdf.text('Pièce détachée d\'origine', 6, 2.3, { align: 'center' });
-
-//         pdf.setFont("helvetica", "normal");
-//         pdf.setFontSize(8); // Even smaller font size
-
-//         pdf.text(`: ${Gamme}`, 3, 2.8);
-//         pdf.text(`Gamme`, 1, 2.8);
-
-//         pdf.text(`: ${numArticle}`, 3, 3.1);
-//         pdf.text(`Références`, 1, 3.1);
-        
-//         pdf.text(`: ${Designation}`, 3, 3.4);
-//         pdf.text(`Designation`, 1, 3.4);
-        
-//         pdf.text(`: ${desi_fadesol}`, 3, 3.7);
-//         pdf.text(`Designation frn`, 1, 3.7);
-        
-//         pdf.text(`Quantite`, 1, 4);
-//         pdf.text(`:`, 3, 4);
-
-//         pdf.save(`${numArticle}.pdf`);
-//     } else {
-//         console.error('Canvas for Barcode not found');
-//     }
-// };
-
-
 const downloadCombinedImage = async (numArticle, Gamme) => {
     const Designation = Gamme.Description_Article; // Extraction de la désignation
     const desi_fadesol = Gamme.Designation_Fadesol; // Extraction de la désignation fadesol
@@ -575,26 +510,50 @@ const downloadCombinedImage = async (numArticle, Gamme) => {
     }
 };
 
-const handleDuplicate = (productId) => {
-    console.log('Duplicate product:', productId);
-    dispatch(duplicateProductData(productId))
-      .then(() => {
-        // Optionally, you can handle success, such as showing a success message
-      })
-      .catch((err) => {
-        // Optionally, you can handle errors, such as showing an error message
-      });
-  };
-
-// const handleDuplicate = (product) => {
-//     console.log('Duplicate product:', product);
-//     setFormData({
-//         ...product,
-//         Numéro_Article: `${product.Numéro_Article} - Copy`, // or another logic to differentiate
-//     });
-//     console.log('FormData', formData);
-//     setOpenAddDialog(true);
-// };
+// const handleDuplicate = (productId) => {
+//     console.log('Duplicate productID:', productId);
+//     dispatch(duplicateProductData(productId))
+//       .then(() => {
+//         // Optionally, you can handle success, such as showing a success message
+//       })
+//       .catch((err) => {
+//         // Optionally, you can handle errors, such as showing an error message
+//       });
+//   };
+        const handleDuplicate = (productId) => {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to duplicate this product?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, duplicate it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    dispatch(duplicateProductData(productId))
+                        .then(() => {
+                            toast.success('Product duplicated successfully!', {
+                                position: toast.POSITION_TOP_RIGHT,
+                                autoClose: 3000,
+                            });
+                        })
+                        .catch((err) => {
+                            toast.error('Failed to duplicate product.', {
+                                position: toast.POSITION_TOP_RIGHT,
+                                autoClose: 3000,
+                            });
+                        });
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    toast.info('Product duplication canceled.', {
+                        position: toast.POSITION_TOP_RIGHT,
+                        autoClose: 3000,
+                    });
+                }
+            });
+        };
 
 
     return (
@@ -636,11 +595,6 @@ const handleDuplicate = (productId) => {
                     }}
                 />
             </Toolbar>
-            {/* <Tabs value={tabValue} onChange={handleTabChange}>
-                <Tab label="All" />
-                <Tab label="Publish" />
-                <Tab label="Unpublish" />
-            </Tabs> */}
                 <TableContainer >
                     <Table size='small'>
                         <TableHead>
@@ -678,23 +632,34 @@ const handleDuplicate = (productId) => {
                                         <TableCell>{product.Emplacement}</TableCell>
                                         {checkAccess() && 
                                             <TableCell align="center">
-                                                <button
-                                                    type="button"
-                                                    className="text-green-600 hover:text-green-900 focus:outline-none"
-                                                    onClick={() => handleOpenEditDialog(product)}>
-                                                    <Edit/>
-                                                </button>
-                                                <IconButton color="secondary" onClick={() => handleDeleteClick(product)}><Delete /></IconButton>
-                                                <button
-                                                    type="button"
-                                                    className="text-gray-600 hover:text-gray-900 focus:outline-none"
-                                                    onClick={() => handleExpandUser(product)}
-                                                    >
-                                                    <GrView />
-                                                    <path d="M10 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-3m-4 8v4m0-8V6m4 8h3m2-3h-8"></path>
-                                                </button>
-                                                {/* <button onClick={() => handleDuplicate(product)}>Duplicate</button> */}
-                                                <button onClick={() => handleDuplicate(product.id_Article)}>dup</button>
+                                                <div className='flex'>
+                                                    <button
+                                                        type="button"
+                                                        className="text-gray-600 hover:text-gray-900 focus:outline-none px-1"
+                                                        onClick={() => handleExpandUser(product)}
+                                                        >
+                                                        <GrView />
+                                                        <path d="M10 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-3m-4 8v4m0-8V6m4 8h3m2-3h-8"></path>
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        className="text-green-600 hover:text-green-900 focus:outline-none"
+                                                        onClick={() => handleOpenEditDialog(product)}>
+                                                        <Edit/>
+                                                    </button>
+
+                                                    <button 
+                                                        onClick={() => handleDuplicate(product.id_Article)}
+                                                        className="text-gray-600 text-xl px-1 hover:text-gray-900 focus:outline-none"
+                                                        >
+                                                        <IoDuplicateOutline />
+                                                    </button>
+                                                    <button className='text-red-700' onClick={() => handleDeleteClick(product)}>
+                                                        {/* <IconButton color="secondary" onClick={() => handleDeleteClick(product)}><Delete /></IconButton> */}
+                                                        <Delete />
+                                                    </button>
+                                                </div>
 
                                             </TableCell>
                                         }
@@ -890,10 +855,12 @@ const handleDuplicate = (productId) => {
                         </div>
                     </div>
                 )}
-
-              
-                <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
-                    <DialogTitle>Add New Product</DialogTitle>
+                               
+                <Dialog
+                    open={openAddDialog}
+                    onClose={() => setOpenAddDialog(false)}
+                    >
+                        <DialogTitle>Add New Product</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                         Please fill in the form to add a new product.
