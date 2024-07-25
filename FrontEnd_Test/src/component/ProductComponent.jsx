@@ -12,7 +12,7 @@ import { Add, Edit, Delete, Search } from '@mui/icons-material';
 import { GrView } from "react-icons/gr";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProductData } from '../store/productSlice';
-import { deleteProductData, updateProductData, postProductData } from '../store/productSlice';
+import { deleteProductData, updateProductData, postProductData, duplicateProductData } from '../store/productSlice';
 import JsBarcode from 'jsbarcode';
 import { Collapse, Card, CardContent, Menu, MenuItem } from "@material-ui/core";
 import Barcode from 'react-barcode';
@@ -173,6 +173,7 @@ const ProductTable = () => {
           console.error("Failed to add product:", error);
         }
       };
+
     const handlePageChange = (event, newPage) => {
         setPage(newPage);
     };
@@ -567,14 +568,27 @@ const downloadCombinedImage = async (numArticle, Gamme) => {
     }
 };
 
+const handleDuplicate = (productId) => {
+    console.log('Duplicate product:', productId);
+    dispatch(duplicateProductData(productId))
+      .then(() => {
+        // Optionally, you can handle success, such as showing a success message
+      })
+      .catch((err) => {
+        // Optionally, you can handle errors, such as showing an error message
+      });
+  };
 
-const handleDuplicate = (product) => {
-    setFormData({
-        ...product,
-        Numéro_Article: `${product.Numéro_Article} - Copy`, // or another logic to differentiate
-    });
-    setOpenAddDialog(true);
-};
+// const handleDuplicate = (product) => {
+//     console.log('Duplicate product:', product);
+//     setFormData({
+//         ...product,
+//         Numéro_Article: `${product.Numéro_Article} - Copy`, // or another logic to differentiate
+//     });
+//     console.log('FormData', formData);
+//     setOpenAddDialog(true);
+// };
+
 
     return (
         <>
@@ -672,7 +686,8 @@ const handleDuplicate = (product) => {
                                                     <GrView />
                                                     <path d="M10 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-3m-4 8v4m0-8V6m4 8h3m2-3h-8"></path>
                                                 </button>
-                                                <button onClick={() => handleDuplicate(product)}>Duplicate</button>
+                                                {/* <button onClick={() => handleDuplicate(product)}>Duplicate</button> */}
+                                                <button onClick={() => handleDuplicate(product.id_Article)}>dup</button>
 
                                             </TableCell>
                                         }
@@ -990,107 +1005,106 @@ const handleDuplicate = (product) => {
 
 
 
-                <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
-                    <DialogTitle>{formData.Numéro_Article ? 'Edit Product' : 'Add New Product'}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            Please fill in the form to add a new product.
-                        </DialogContentText>
-                        <form>
-                            <TextField
-                                margin="dense"
-                                name="Numéro_Article"
-                                label="Numéro d'article"
-                                type="text"
-                                fullWidth
-                                value={formData.Numéro_Article}
-                                onChange={handlePostChange}
-                            />
-                            <TextField
-                                margin="dense"
-                                name="Description_Article"
-                                label="Designation Fournisseur"
-                                type="text"
-                                fullWidth
-                                value={formData.Description_Article}
-                                onChange={handlePostChange}
-                            />
-                            <TextField
-                                margin="dense"
-                                name="Designation_Fadesol"
-                                label="Designation fadesol"
-                                type="text"
-                                fullWidth
-                                value={formData.Designation_Fadesol}
-                                onChange={handlePostChange}
-                            />
-                            <TextField
-                                margin="dense"
-                                name="Gamme_Etiquette"
-                                label="Gamme Etiquette"
-                                type="text"
-                                fullWidth
-                                value={formData.Gamme_Etiquette}
-                                onChange={handlePostChange}
-                            />
-                            <TextField
-                                margin="dense"
-                                name="Groupe_Articles"
-                                label="Groupe d'articles"
-                                type="text"
-                                fullWidth
-                                value={formData.Groupe_Articles}
-                                onChange={handlePostChange}
-                            />
-                            <TextField
-                                margin="dense"
-                                name="Actif"
-                                label="Actif"
-                                type="text"
-                                fullWidth
-                                value={formData.Actif}
-                                onChange={handlePostChange}
-                            />
-                            <TextField // Add this new field
-                                margin="dense"
-                                name="Emplacement"
-                                label="Emplacement"
-                                type="text"
-                                fullWidth
-                                value={formData.Emplacement}
-                                onChange={handlePostChange}
-                            />
-                            <TextField // Add this new field
-                                margin="dense"
-                                name="code_Barre"
-                                label="code Barre"
-                                type="text"
-                                fullWidth
-                                value={formData.code_Barre}
-                                onChange={handlePostChange}
-                            />
-                            <TextField 
-                                margin="dense"
-                                name="qte_Magasin"
-                                label="Qte MAgasin"
-                                type="text"
-                                fullWidth
-                                value={formData.qte_Magasin}
-                                onChange={handlePostChange}
-                            />
-                        </form>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => setOpenAddDialog(false)} color="primary">
-                            Cancel
-                        </Button>
-                        <Button onClick={handleSubmit} color="primary">
-                            {formData.Numéro_Article ? 'Save' : 'Add'}
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-
-
+{/* 
+ <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
+    <DialogTitle>{formData.Numéro_Article ? 'Edit Product' : 'Add New Product'}</DialogTitle>
+    <DialogContent>
+        <DialogContentText>
+            {formData.Numéro_Article ? 'Please edit the form to update the product.' : 'Please fill in the form to add a new product.'}
+        </DialogContentText>
+        <form>
+            <TextField
+                margin="dense"
+                name="Numéro_Article"
+                label="Numéro d'article"
+                type="text"
+                fullWidth
+                value={formData.Numéro_Article || ''}
+                onChange={handlePostChange}
+            />
+            <TextField
+                margin="dense"
+                name="Description_Article"
+                label="Désignation Fournisseur"
+                type="text"
+                fullWidth
+                value={formData.Description_Article || ''}
+                onChange={handlePostChange}
+            />
+            <TextField
+                margin="dense"
+                name="Designation_Fadesol"
+                label="Désignation Fadesol"
+                type="text"
+                fullWidth
+                value={formData.Designation_Fadesol || ''}
+                onChange={handlePostChange}
+            />
+            <TextField
+                margin="dense"
+                name="Gamme_Etiquette"
+                label="Gamme Étiquette"
+                type="text"
+                fullWidth
+                value={formData.Gamme_Etiquette || ''}
+                onChange={handlePostChange}
+            />
+            <TextField
+                margin="dense"
+                name="Groupe_Articles"
+                label="Groupe d'articles"
+                type="text"
+                fullWidth
+                value={formData.Groupe_Articles || ''}
+                onChange={handlePostChange}
+            />
+            <TextField
+                margin="dense"
+                name="Actif"
+                label="Actif"
+                type="text"
+                fullWidth
+                value={formData.Actif || ''}
+                onChange={handlePostChange}
+            />
+            <TextField
+                margin="dense"
+                name="Emplacement"
+                label="Emplacement"
+                type="text"
+                fullWidth
+                value={formData.Emplacement || ''}
+                onChange={handlePostChange}
+            />
+            <TextField
+                margin="dense"
+                name="code_Barre"
+                label="Code Barre"
+                type="text"
+                fullWidth
+                value={formData.code_Barre || ''}
+                onChange={handlePostChange}
+            />
+            <TextField
+                margin="dense"
+                name="qte_Magasin"
+                label="Qte Magasin"
+                type="text"
+                fullWidth
+                value={formData.qte_Magasin || ''}
+                onChange={handlePostChange}
+            />
+        </form>
+    </DialogContent>
+    <DialogActions>
+        <Button onClick={() => setOpenAddDialog(false)} color="primary">
+            Cancel
+        </Button>
+        <Button onClick={handleDuplicateSubmit} color="primary">
+            {formData.Numéro_Article ? 'Save' : 'Add'}
+        </Button>
+    </DialogActions>
+</Dialog> */}
 
 
             </Paper>

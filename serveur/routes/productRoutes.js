@@ -9,7 +9,7 @@ router.post('/produits', ajouterProduit)
 router.put('/produits/:id', modifierProduit)
 router.put('/produits/qte/:id', updateQteMagasin)
 router.delete('/produits/:id', supprimerProduit)
-router.post('/produits/dupliquer/:id', dupliquerProduit); // Add this line
+router.post('/produits/dupliquer/:id', dupliquerProduit);
 
 
 module.exports = router;
