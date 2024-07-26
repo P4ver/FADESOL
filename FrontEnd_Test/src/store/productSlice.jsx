@@ -45,6 +45,31 @@ export const postProductData = createAsyncThunk(
   }
 );
 
+export const duplicateProductData = createAsyncThunk(
+  'product/duplicateProductData',
+  async (productId, thunkAPI) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/produits/dupliquer/${productId}`, {}, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      });
+
+      if (response.status !== 200) {
+        throw new Error('Failed to duplicate product data');
+      }
+      
+      // Fetch product data again after duplication
+      await thunkAPI.dispatch(fetchProductData());
+      return response.data; // Return the duplicated product data
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+
 export const updateProductData = createAsyncThunk(
   'product/updateProductData',
   async ({ productId, updatedProductData }, thunkAPI) => {
@@ -207,6 +232,18 @@ const productSlice = createSlice({
         );
       })
       .addCase(updateQteMagasin.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(duplicateProductData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(duplicateProductData.fulfilled, (state, action) => {
+        state.loading = false;
+        state.productData = [...state.productData, action.payload];
+      })
+      .addCase(duplicateProductData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
