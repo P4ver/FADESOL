@@ -11,6 +11,7 @@ import { fetchHistoriqueData, postHistoriqueData } from '../store/historiqueSlic
 import Swal from 'sweetalert2';
 import { fetchClientData } from '../store/clientSlice';
 import ListeDemandeUser from './listeDemandeUser';
+import { postAchatData } from '../store/achatSlice';
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -201,6 +202,18 @@ const handleSubmit = async () => {
           id_Article: id_Article,
           Partenaire: Partenaire,
         }
+        const ToAchatData={
+          code_Achat: codeAchat,
+          user_Dmd: user.username,
+          code: code_Prd,
+          code_Projet: checkCodeProjet,
+          nom_Projet: checkNomProjet,
+          date: formattedDate,
+          designation_Produit: designation,
+          quantite: parseInt(line.quantite, 10),
+          // id_Article: id_Article,
+          Partenaire: Partenaire,
+        }
         
 await dispatch(postHistoriqueData(historiqueData))
   .then(response => {
@@ -231,6 +244,7 @@ await dispatch(postHistoriqueData(historiqueData))
         productId: id_Article,
         qte_Magasin: quantityReceived
       }));
+      await dispatch(postAchatData(ToAchatData));
     }
     //============================================================
     

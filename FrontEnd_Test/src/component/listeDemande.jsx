@@ -237,18 +237,18 @@ function ListeDemande() {
         console.log("qte reçu",  qteRecu[id])
         console.log("qte ",  updatedItem.quantite)
         // console.log("")
-        if (updatedItem.quantite == qteRecu[id]) {
-          const achatDataToInsert = {
-            code_Achat: updatedItem.code_Achat,
-            code_Projet: updatedItem.code_Projet,
-            designation: updatedItem.designation,
-            quantite: updatedItem.quantite,
-            nom_Projet: updatedItem.nom_Projet,
-            date: updatedItem.date,
-            user_Dmd: updatedItem.user_Dmd,
-          };
-          await dispatch(postAchatData(achatDataToInsert));
-        }
+        // if (updatedItem.quantite == qteRecu[id]) {
+        //   const achatDataToInsert = {
+        //     code_Achat: updatedItem.code_Achat,
+        //     code_Projet: updatedItem.code_Projet,
+        //     designation: updatedItem.designation,
+        //     quantite: updatedItem.quantite,
+        //     nom_Projet: updatedItem.nom_Projet,
+        //     date: updatedItem.date,
+        //     user_Dmd: updatedItem.user_Dmd,
+        //   };
+        //   await dispatch(postAchatData(achatDataToInsert));
+        // }
         if (!updatedItem) {
           throw new Error(`Item with id ${id} not found in achatempoData`);
         }
@@ -264,6 +264,26 @@ function ListeDemande() {
           productId: product.id_Article,
           qte_Magasin: newQteMagasin
         }));
+
+        const ToAchatData={
+          code_Achat: updatedItem.code_Achat,
+          user_Dmd: updatedItem.user_Dmd,
+          code: updatedItem.code,
+          code_Projet: updatedItem.code_Projet,
+          nom_Projet: updatedItem.nom_Projet,
+          date: updatedItem.date,
+          designation_Produit: updatedItem.designation,
+          quantite: updatedItem.quantite,
+          // id_Article: id_Article,
+          Partenaire: updatedItem.Partenaire,
+        }
+        console.log("out ToAchatData ",ToAchatData)
+        if (updatedItem.quantite == parseInt(qteRecu[id])){
+          console.log("ToAchatData ",ToAchatData)
+          await dispatch(postAchatData(ToAchatData));
+        }
+
+
       });
       await Promise.all(updatePromises);
       setUpdateSuccess(true);
