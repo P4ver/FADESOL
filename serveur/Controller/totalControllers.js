@@ -28,7 +28,7 @@ const countProducts = (callback) => {
 const countAchats = (callback) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query('SELECT COUNT(*) AS achatCount FROM achat', (err, results) => {
+        connection.query('SELECT COUNT(*) AS achatCount FROM achatempo WHERE qte_Reçu = quantite', (err, results) => {
             connection.release();
             if (err) return callback(err, null);
             callback(null, results[0].achatCount);

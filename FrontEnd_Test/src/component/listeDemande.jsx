@@ -240,20 +240,39 @@ function ListeDemande() {
         }
         // console.log("============>updatedItem: qte Reçu",updatedItem.qte_Reçu)
         const newQteMagasin = (parseInt(qteRecu[id]) - updatedItem.qte_Reçu) + product.qte_Magasin;
+        console.log("updatedItem.quantite : ", updatedItem.quantite)
+        console.log("parseInt(qteRecu[id]) : ", parseInt(qteRecu[id]))
         console.log("product.id_Article : ", product.id_Article)
         console.log("newQteMagasin : ", newQteMagasin)
-        console.log("parseInt(qteRecu[id]) : ", parseInt(qteRecu[id]))
         console.log("updatedItem.qte_Reçu", updatedItem.qte_Reçu)
         console.log("product.qte_Magasin", product.qte_Magasin)
         await dispatch(updateQteMagasin({
           productId: product.id_Article,
           qte_Magasin: newQteMagasin
         }));
+        const ToAchatData={
+          code_Achat: updatedItem.code_Achat,
+          user_Dmd: updatedItem.user_Dmd,
+          code: updatedItem.code,
+          code_Projet: updatedItem.code_Projet,
+          nom_Projet: updatedItem.nom_Projet,
+          date: updatedItem.date,
+          designation_Produit: updatedItem.designation,
+          quantite: updatedItem.quantite,
+          // id_Article: id_Article,
+          Partenaire: updatedItem.Partenaire,
+        }
+        console.log("out ToAchatData ",ToAchatData)
+        if (updatedItem.quantite == parseInt(qteRecu[id])){
+          console.log("ToAchatData ",ToAchatData)
+          await dispatch(postAchatData(ToAchatData));
+        }
+
       });
       await Promise.all(updatePromises);
       setUpdateSuccess(true);
       setModalIsOpen(false);
-  
+      
       // Rest of the function...
     } catch (error) {
       console.error('Error updating quantities:', error);
