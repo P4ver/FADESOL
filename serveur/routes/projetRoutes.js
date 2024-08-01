@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const { obtenirDonnéesProjet, obtenirProjetID, ajouterProjet, modifierProjet, supprimerProjet } = require("../Controller/projetController")
-
+const { verifyToken, authorizeRole } = require("../middleware/verifyToken")
 
 // Route to create a new product
 router.post('/projet', ajouterProjet);
 // Route to fetch all products
-router.get('/projet', obtenirDonnéesProjet);
+router.get('/projet', verifyToken, obtenirDonnéesProjet);
 
 router.get('/projet/:id', obtenirProjetID);
 

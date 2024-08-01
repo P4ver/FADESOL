@@ -11,6 +11,7 @@ import { fetchAchatempoData } from '../store/achatempoSlice';
 import Swal from 'sweetalert2';
 import { postHistoriqueData } from '../store/historiqueSlice';
 import { fetchClientData } from '../store/clientSlice';
+import ListeSortieUser from './listeSortieUser';
 
 const Sortie = () => {
   const [demandeCode, setDemandeCode] = useState('');
@@ -26,7 +27,7 @@ const Sortie = () => {
 const [userAth, setUser] = useState(null);
 const [typeUser, setTypeUser] = useState(null);
 const userState = useSelector(state => state.user);
-
+const [loading, setLoading] = useState(true);
 useEffect(() => {
   if (authState.user) {
     setUser(authState.user);
@@ -37,6 +38,7 @@ useEffect(() => {
   if (userAth && userState.userData.length > 0) {
     const match = userState.userData.find(usr => usr.login_User == userAth.username);
     setTypeUser(match.type_User)
+    setLoading(false);
   }
 }, [userAth, userState]);
 console.log("typeUser!",typeUser)
@@ -205,6 +207,7 @@ console.log("sortie: checkAccess:", checkAccess())
   // console.log("under if checkNomProjet", checkNomProjet)
 
   return (
+    <>
     <div className="w-full flex justify-center items-center border">
       <div className="mb-4 flex">
         <div className="mr-2 ">
@@ -275,7 +278,14 @@ console.log("sortie: checkAccess:", checkAccess())
       <div className="mb-4 ml-3">
         <button onClick={handleSubmit} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 mt-6 px-10 rounded">Create</button>
       </div>
+
     </div>
+
+      <div>
+        {/* <ListeSortieUser/>        */}
+        {!loading && !checkAccess() && <ListeSortieUser />}
+      </div>
+      </>
   );
 };
 

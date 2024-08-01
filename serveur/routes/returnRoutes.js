@@ -7,6 +7,7 @@ const {
 } = require('../Controller/returnController');
 
 const router = express.Router();
+const { verifyToken, authorizeRole } = require("../middleware/verifyToken")
 
 router.post('/return', createReturn);
 router.get('/return', getAllReturns);

@@ -8,6 +8,7 @@ const {
 } = require('../Controller/achatempoController');
 
 const router = express.Router();
+const { verifyToken, authorizeRole } = require("../middleware/verifyToken")
 
 router.post('/achatempo', createAchat);
 router.get('/achatempo', getAllAchats);

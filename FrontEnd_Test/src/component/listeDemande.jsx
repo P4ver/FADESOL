@@ -88,7 +88,8 @@ function ListeDemande() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedAchat, setSelectedAchat] = useState(null);
 
-  const filteredAchatData = achatempoData.filter(data => data.user_Dmd === user.username);
+  // const filteredAchatData = achatempoData.filter(data => data.user_Dmd === user.username);
+  const filteredAchatData = achatempoData
   const lookNewQteMagasin = (id_Article) =>{
     const findQteMagasinUpdate = productData.find(p => p.id_Article  == id_Article)
     console.log("=>==>=>=>", findQteMagasinUpdate)

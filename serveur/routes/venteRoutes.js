@@ -28,6 +28,7 @@ const {
 } = require('../Controller/VenteController');
 
 const router = express.Router();
+const { verifyToken, authorizeRole } = require("../middleware/verifyToken")
 
 router.post('/vente', createVente);
 router.get('/vente', getAllVentes);

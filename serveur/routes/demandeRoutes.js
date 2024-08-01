@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {obtenirDemandes, obtenirDemandesID, ajouterDemande, modifierDemande, supprimerDemande} = require("../Controller/demandeController")
+const { verifyToken, authorizeRole } = require("../middleware/verifyToken")
 
 
 // Route to create a new product

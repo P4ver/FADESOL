@@ -7,6 +7,7 @@ const {
 } = require('../Controller/historiqueController');
 
 const router = express.Router();
+const { verifyToken, authorizeRole } = require("../middleware/verifyToken")
 
 router.post('/historique', createHistorique);
 router.get('/historique', getAllHistoriques);

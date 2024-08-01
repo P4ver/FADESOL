@@ -3,6 +3,8 @@ const router = express.Router();
 // const pool = require("../db")
 
 const {obtenirProduits, obtenirProduitsID, ajouterProduit, modifierProduit, supprimerProduit, updateQteMagasin, dupliquerProduit} = require('../Controller/productController')
+const { verifyToken, authorizeRole } = require("../middleware/verifyToken")
+
 router.get('/produits', obtenirProduits)
 router.get('/produits/:id', obtenirProduitsID)
 router.post('/produits', ajouterProduit)
