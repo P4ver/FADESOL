@@ -162,7 +162,7 @@ function ListeVente() {
 
   return (
     <div>
-      <Typography variant="h5" gutterBottom>Liste des Ventes</Typography>
+      <Typography variant="h5" gutterBottom>Liste de Sorties</Typography>
       <Box className={classes.filterContainer}>
         <TextField
           label="Rechercher par Code Produit"

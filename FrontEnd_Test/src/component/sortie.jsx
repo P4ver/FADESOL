@@ -1,6 +1,4 @@
 
-//code med
-
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDemandeData } from '../store/demandeSlice';
@@ -507,18 +505,5 @@ export default Sortie;
 // };
 
 // export default Sortie;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -74,6 +74,9 @@ function ListeDemande() {
   const { achatData } = useSelector(state => state.achat);
   const { productData } = useSelector(state => state.product);
   const authState = useSelector(state => state.auth);
+
+  const userState = useSelector(state => state.user);
+
   const user = authState.user;
   const dispatch = useDispatch();
   useEffect(() => {
@@ -158,7 +161,17 @@ function ListeDemande() {
     });
   };
 
-  const getStatus = (quantite, qteRecu) => {
+  const getStatus = (quantite, qteRecu, userDmd) => {
+    console.log("getStatus", userDmd)
+    // console.log("getStatus type",userState.userData.find(user => user.login_User === userDmd).type_User)
+    const typeOfUser = userState.userData.find(user => user.login_User === userDmd).type_User
+    if (typeOfUser === 'Utilisateur'){
+      return (
+        <span className="text-black">
+          ==Livré==
+        </span>
+      );
+    }
     if (qteRecu === 0) {
       return (
         <span className="text-red-500">
@@ -289,9 +302,21 @@ function ListeDemande() {
     document.body.innerHTML = originalContents;
     window.location.reload();
   };
-
   const getGeneralStatus = (codeAchat) => {
     const relatedDemands = filteredAchatData.filter(data => data.code_Achat === codeAchat);
+
+    const relatedUserStates = relatedDemands.map(demand =>
+      userState.userData.find(user => user.login_User === demand.user_Dmd)
+    );
+    
+    const  relatedUserType = relatedUserStates.map(user=>user.type_User)
+    // console.log("*******relatedUserType**",relatedUserType)
+
+    // console.log("*******fnduser**", filteredAchatData.map(dt=>dt.user_Dmd))
+    // console.log("*******relatedDemands**",relatedDemands.every(demand=>demand.user_Dmd))
+    if (relatedUserType[0] == 'Utilisateur') {
+      return '=====';
+    }
 
     if (relatedDemands.every(demand => demand.qte_Reçu === 0)) {
       return 'Pending';
@@ -309,6 +334,8 @@ function ListeDemande() {
   };
   const renderStatus = (status) => {
     switch (status) {
+      case '=====':
+        return <p className='text-black'>==Livré==</p>;
       case 'Pending':
         return <p className='text-red-600'>Pending</p>;
       case 'Livré':
@@ -345,11 +372,11 @@ function ListeDemande() {
       [name]: value
     }));
   };
-
+// console.log("***filteredAchatData==>",filteredAchatData.map(data => data.code_Achat))
 // console.log("from listdemand:",achatempoData)
   return (
     <div>
-      <Typography variant="h5" gutterBottom>Liste des Demandes d'Achat</Typography>
+      <Typography variant="h5" gutterBottom>Liste des Demandes d'Entree</Typography>
       <Box className={classes.filterContainer}>
         <TextField
           label="Rechercher par Code Achat"
@@ -437,7 +464,7 @@ function ListeDemande() {
                       <TableCell>{data.designation}</TableCell>
                       <TableCell>{data.quantite}</TableCell>
                       <TableCell>{data.qte_Reçu}</TableCell>
-                      <TableCell>{getStatus(data.quantite, data.qte_Reçu)}</TableCell>
+                      <TableCell>{getStatus(data.quantite, data.qte_Reçu, data.user_Dmd)}</TableCell>
                       <TableCell>
                         <TextField
                           type="number"
@@ -456,6 +483,7 @@ function ListeDemande() {
                 </TableBody>
               </Table>
             </TableContainer>
+
             <Button
               variant="contained"
               color="primary"
@@ -472,58 +500,59 @@ function ListeDemande() {
             >
               <FaPrint /> Imprimer
             </Button>
+
             <div id="print-area" className={`${classes.printArea}`}>
-  <div className='w-32 mx-auto'>
-    <img src={logo} alt="Logo" />
-  </div>
-  <h5 className='mt-4'>Demande Achat</h5>
+                <div className='w-32 mx-auto'>
+                  <img src={logo} alt="Logo" />
+                </div>
+                <h5 className='mt-4'>Demande d'Entree</h5>
 
-  <table className='w-2/5 shadow-y-lg'> 
-    <tbody>
-      {[
-        { label: 'Code Achat', value: selectedAchat?.code_Achat },
-        { label: 'Date', value: selectedAchat?.date ? new Date(selectedAchat.date).toISOString().split('T')[0] : '' },
-        { label: 'User', value: selectedAchat?.user_Dmd }
-      ].map((item, idx) => (
-        <tr key={idx}>
-          <td><h6>{item.label}</h6></td>
-          <td>: {item.value}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-  <br />
-  <br />
+                <table className='w-2/5 shadow-y-lg'> 
+                  <tbody>
+                    {[
+                      { label: 'Code Achat', value: selectedAchat?.code_Achat },
+                      { label: 'Date', value: selectedAchat?.date ? new Date(selectedAchat.date).toISOString().split('T')[0] : '' },
+                      { label: 'User', value: selectedAchat?.user_Dmd }
+                    ].map((item, idx) => (
+                      <tr key={idx}>
+                        <td><h6>{item.label}</h6></td>
+                        <td>: {item.value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <br />
+                <br />
 
-  <div className='my-4'>
-  <table className={`${classes.table} w-[10%] border-collapse border border-green-800 rounded-lg shadow-sm`}>
-    <thead>
-      <tr className='border'>
-      <th className="border border-black text-[9px] font-semibold text-center py-1">Code</th>
-           <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Désignation</th>
-           <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Quantité</th>
-           <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th>
-          <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Projet</th>
-      </tr>
-    
-    </thead>
-    <tbody>
-      {achatempoData.filter(a => a.code_Achat === selectedAchat?.code_Achat).map((item, idx) => (
-        <tr key={idx} className='border'>
-          <td className=" border border-black text-[9px] text-center  py-1">{item.code}</td>
-          <td className=" border border-black text-[9px] text-center  py-1 w-2/5">{item.designation}</td>
-          <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.quantite}</td>
-          {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Magasin}</td> */}
-          <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td>
-          <td className=" border border-black text-[9px] text-center   py-1 w-1/5">{item.nom_Projet}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
-  <br />
-  <div className='my-2 float-right'><p>Signature<span className='text-gray-200'>___________________</span></p></div>
-</div>
+                <div className='my-4'>
+                <table className={`${classes.table} w-[10%] border-collapse border border-green-800 rounded-lg shadow-sm`}>
+                  <thead>
+                    <tr className='border'>
+                    <th className="border border-black text-[9px] font-semibold text-center py-1">Code</th>
+                        <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Désignation</th>
+                        <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Quantité</th>
+                        <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th>
+                        <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Projet</th>
+                    </tr>
+                  
+                  </thead>
+                  <tbody>
+                    {achatempoData.filter(a => a.code_Achat === selectedAchat?.code_Achat).map((item, idx) => (
+                      <tr key={idx} className='border'>
+                        <td className=" border border-black text-[9px] text-center  py-1">{item.code}</td>
+                        <td className=" border border-black text-[9px] text-center  py-1 w-2/5">{item.designation}</td>
+                        <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.quantite}</td>
+                        {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Magasin}</td> */}
+                        <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td>
+                        <td className=" border border-black text-[9px] text-center   py-1 w-1/5">{item.nom_Projet}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+                <br />
+                <div className='my-2 float-right'><p>Signature<span className='text-gray-200'>___________________</span></p></div>
+            </div>
           </>
         )}
       </Modal>
