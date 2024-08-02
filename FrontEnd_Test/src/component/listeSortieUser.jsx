@@ -189,6 +189,7 @@ console.log("test filteredAndSearchedData", filteredAndSearchedData)
             <TableRow>
               <TableCell>Numero Article</TableCell>
               <TableCell>Date</TableCell>
+              <TableCell>Designation</TableCell>
               <TableCell>Utilisateur</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
@@ -205,6 +206,7 @@ console.log("test filteredAndSearchedData", filteredAndSearchedData)
                   <TableRow>
                     <TableCell>{CVente.code_Produit}</TableCell>
                     <TableCell>{CVente.date_Vente}</TableCell>
+                    <TableCell>{CVente.designation_Produit}</TableCell>
                     <TableCell>{CVente.user_Dmd}</TableCell>
                     <TableCell>
                       <IconButton onClick={() => openModal(firstDemand)}><div className='text-blue-500'><FaEye /></div></IconButton>
@@ -232,6 +234,7 @@ console.log("test filteredAndSearchedData", filteredAndSearchedData)
           <>
             <Typography variant="subtitle1">Numero Article: {selectedAchat.code_Produit}</Typography>
             <Typography variant="subtitle1">Date: {selectedAchat.date_Vente}</Typography>
+            {/* <Typography variant="subtitle1">designation: {selectedAchat.designation_Produit}</Typography> */}
             <Typography variant="subtitle1">Utilisateur: {selectedAchat.user_Dmd}</Typography>
             <TableContainer component={Paper}>
               <Table className={classes.table} aria-label="simple table">

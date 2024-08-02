@@ -30,6 +30,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import PageHistorique from './pages/pageHistorique';
 import InactivityHandler from './component/InactivityHandler ';
 import Client from './component/client';
+import SortX from './component/sortiecopyfrmentree';
 
 disableReactDevTools();
 
@@ -49,7 +50,8 @@ function App() {
                 <Route path="/users" element={<PageUsers />} />
                 <Route path="/products" element={<PageProducts/>} />
                 <Route path="/entree" element={<PageEntree/>} />
-                <Route path="/sortie" element={<PageSortie/>} />
+                <Route path="/sortie" element={<SortX/>} />
+                {/* <Route path="/sortie" element={<PageSortie/>} /> */}
                 <Route path="/profile" element={<Profile/>} />
                 <Route path="/dashboard" element={<PageDashboard/>} />
                 <Route path="/liste-demandes" element={<PageListeDemande />} />

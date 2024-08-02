@@ -332,8 +332,8 @@ function ListeDemandeUser() {
 // console.log("from listdemand:",achatempoData)
   return (
     <div>
+      <Typography variant="h5" gutterBottom>Liste des Demandes d'Entree</Typography>
       {/*
-      <Typography variant="h5" gutterBottom>Liste des Demandes d'Achat</Typography>
        <Box className={classes.filterContainer}>
         <TextField
           label="Rechercher par Code Achat"
