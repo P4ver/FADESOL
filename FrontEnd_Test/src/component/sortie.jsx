@@ -507,18 +507,3 @@ export default Sortie;
 // };
 
 // export default Sortie;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

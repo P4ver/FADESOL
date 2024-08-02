@@ -162,7 +162,7 @@ function ListeVente() {
 
   return (
     <div>
-      <Typography variant="h5" gutterBottom>Liste des Ventes</Typography>
+      <Typography variant="h5" gutterBottom>Liste des Sorties</Typography>
       <Box className={classes.filterContainer}>
         <TextField
           label="Rechercher par Code Produit"
@@ -248,7 +248,7 @@ function ListeVente() {
             </div>
 
             <div>
-              <h3>Details de la Vente:</h3>
+              <h3>Details de la Sortie:</h3>
               <p>Code Produit: {selectedVente.code_Produit}</p>
               <p>Date : {selectedVente && selectedVente.date_Vente ? new Date(selectedVente.date_Vente).toISOString().split('T')[0] : ''}</p>
               <p>Utilisateur: {selectedVente.user_Dmd}</p>

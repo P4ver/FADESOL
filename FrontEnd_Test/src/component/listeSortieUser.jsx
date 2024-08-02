@@ -182,8 +182,11 @@ console.log("test filteredAndSearchedData", filteredAndSearchedData)
   
   return (
     <div>
+            <h2 className="text-xl font-bold mb-4">Liste de Sorties</h2>
       <TableContainer component={Paper}>
+
         <Table className={classes.table} aria-label="simple table" size='small'>
+   
           <TableHead>
             <TableRow>
               <TableCell>Numero Article</TableCell>
@@ -224,7 +227,7 @@ console.log("test filteredAndSearchedData", filteredAndSearchedData)
         contentLabel="Order Details"
       >
         <div className={classes.modalHeader}>
-          <Typography variant="h6">Details de la Demande d'Achat</Typography>
+          <Typography variant="h6">Details de la Demande de Sortie</Typography>
           <IconButton onClick={closeModal}><FaTimes /></IconButton>
         </div>
         {selectedAchat && (
@@ -263,7 +266,7 @@ console.log("test filteredAndSearchedData", filteredAndSearchedData)
               <div className='w-32 mx-auto'>
                 <img src={logo} alt="Logo" />
               </div>
-              <h5 className='mt-4'>Demande de Vente</h5>
+              <h5 className='mt-4'>Demande de Sortie</h5>
 
               <table className='w-2/5 shadow-y-lg'> 
                 <tbody>
