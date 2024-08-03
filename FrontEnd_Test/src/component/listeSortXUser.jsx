@@ -425,7 +425,7 @@ function ListeSortXUser() {
   <div className='w-32 mx-auto'>
     <img src={logo} alt="Logo" />
   </div>
-  <h5 className='mt-4'>Demande Achat</h5>
+  <h5 className='mt-4'>Demande de Sortie</h5>
 
   <table className='w-2/5 shadow-y-lg'> 
     <tbody>
