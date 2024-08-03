@@ -154,8 +154,14 @@ function ListeVente() {
   };
 
   // const filteredAndSearchedData = filteredVenteData.filter((data) => {
+  // const filteredAndSearchedData = venteData.filter((data) => {
+  //   const matchesSearchQuery = data.code_Produit.toLowerCase().includes(searchQuery.toLowerCase());
+  //   const matchesFilterType = filterType === 'all';
+  //   return matchesSearchQuery && matchesFilterType;
+  // });
   const filteredAndSearchedData = venteData.filter((data) => {
-    const matchesSearchQuery = data.code_Produit.toLowerCase().includes(searchQuery.toLowerCase());
+    const codeProduit = data.code_Produit || ''; // Default to an empty string if code_Produit is null or undefined
+    const matchesSearchQuery = codeProduit.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFilterType = filterType === 'all';
     return matchesSearchQuery && matchesFilterType;
   });

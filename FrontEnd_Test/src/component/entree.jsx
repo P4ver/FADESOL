@@ -143,11 +143,9 @@ const handleSubmit = async () => {
     const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
     
     for (const line of lines) {
-      console.log("===============>line====>", line)
       // if (line.demandeCode && line.projetCode && line.quantite && line.partenaire) {
       if (line.demandeCode && line.quantite && line.partenaire) {
         const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
-        console.log("===>article: ",article)
         const designation = article?.Description_Article || '';
         const id_Article = article?.id_Article || null;
         const nom_Projet = projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || '';
@@ -216,6 +214,7 @@ const handleSubmit = async () => {
           // id_Article: id_Article,
           Partenaire: Partenaire,
         }
+        
 await dispatch(postHistoriqueData(historiqueData))
   .then(response => {
     console.log("Post historique Data Response:", response);
@@ -249,14 +248,10 @@ await dispatch(postHistoriqueData(historiqueData))
     }
     //============================================================
     
-    console.log("===achatpayload===>", achatPayload);
-    // Dispatch postAchatempoData thunk with achatPayload
-    const response = await dispatch(postAchatempoData(achatPayload));
-    console.log("===Res===>", response);
-    
-    //============================================================
-    // await dispatch(postAchatData(achatData));
-    //============================================================
+        console.log("===achatpayload===>", achatPayload);
+        // Dispatch postAchatempoData thunk with achatPayload
+        const response = await dispatch(postAchatempoData(achatPayload));
+        console.log("===Res===>", response);
         // Handle response/error
         if (response.error) {
           throw new Error(response.error.message);
@@ -275,7 +270,7 @@ await dispatch(postHistoriqueData(historiqueData))
     // Reset lines after successful submission
     setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
 
-    // window.location.reload();
+    window.location.reload();
   } catch (error) {
     console.error('Error submitting data:', error.message);
   }
