@@ -425,7 +425,7 @@ function ListeSortXUser() {
   <div className='w-32 mx-auto'>
     <img src={logo} alt="Logo" />
   </div>
-  <h5 className='mt-4'>Demande Achat</h5>
+  <h5 className='mt-4'>Demande de Sortie</h5>
 
   <table className='w-2/5 shadow-y-lg'> 
     <tbody>
@@ -452,7 +452,7 @@ function ListeSortXUser() {
            <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Désignation</th>
            <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Quantité</th>
            {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th> */}
-          <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Projet</th>
+          {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Projet</th> */}
       </tr>
     
     </thead>
@@ -464,7 +464,7 @@ function ListeSortXUser() {
           <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Produit}</td>
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Magasin}</td> */}
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td> */}
-          <td className=" border border-black text-[9px] text-center   py-1 w-1/5">{item.nom_Projet}</td>
+          {/* <td className=" border border-black text-[9px] text-center   py-1 w-1/5">{item.nom_Projet}</td> */}
         </tr>
       ))}
     </tbody>

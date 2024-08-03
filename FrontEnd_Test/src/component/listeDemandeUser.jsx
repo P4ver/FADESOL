@@ -394,12 +394,12 @@ function ListeDemandeUser() {
         contentLabel="Order Details"
       >
         <div className={classes.modalHeader}>
-          <Typography variant="h6">Details de la Demande d'Achat</Typography>
+          <Typography variant="h6">Details de la Demande d'Entree</Typography>
           <IconButton onClick={closeModal}><FaTimes /></IconButton>
         </div>
         {selectedAchat && (
           <>
-            <Typography variant="subtitle1">Code Achat: {selectedAchat.code_Achat}</Typography>
+            <Typography variant="subtitle1">Code d'Entree: {selectedAchat.code_Achat}</Typography>
             <Typography variant="subtitle1">Date: {selectedAchat.date}</Typography>
             <Typography variant="subtitle1">Utilisateur: {selectedAchat.user_Dmd}</Typography>
             <TableContainer component={Paper}>
@@ -461,12 +461,12 @@ function ListeDemandeUser() {
   <div className='w-32 mx-auto'>
     <img src={logo} alt="Logo" />
   </div>
-  <h5 className='mt-4'>Demande Achat</h5>
+  <h5 className='mt-4'>Demande d'Entree</h5>
 
   <table className='w-2/5 shadow-y-lg'> 
     <tbody>
       {[
-        { label: 'Code Achat', value: selectedAchat?.code_Achat },
+        { label: 'Code Entree', value: selectedAchat?.code_Achat },
         { label: 'Date', value: selectedAchat?.date ? new Date(selectedAchat.date).toISOString().split('T')[0] : '' },
         { label: 'User', value: selectedAchat?.user_Dmd }
       ].map((item, idx) => (

@@ -114,9 +114,9 @@ const Entree = () => {
 
     // Generate the next codeAchat when the component mounts
     const generateNextCodeAchat = () => {
-      const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-000';
+      const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-00000';
       const lastNumber = parseInt(lastCode.split('-')[1], 10);
-      const newCode = `CA-${String(lastNumber + 1).padStart(3, '0')}`;
+      const newCode = `CA-${String(lastNumber + 1).padStart(5, '0')}`;
       setCodeAchat(newCode);
       localStorage.setItem('lastCodeAchat', newCode);
     };
