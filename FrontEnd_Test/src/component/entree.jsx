@@ -143,9 +143,11 @@ const handleSubmit = async () => {
     const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
     
     for (const line of lines) {
+      console.log("===============>line====>", line)
       // if (line.demandeCode && line.projetCode && line.quantite && line.partenaire) {
       if (line.demandeCode && line.quantite && line.partenaire) {
         const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
+        console.log("===>article: ",article)
         const designation = article?.Description_Article || '';
         const id_Article = article?.id_Article || null;
         const nom_Projet = projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || '';

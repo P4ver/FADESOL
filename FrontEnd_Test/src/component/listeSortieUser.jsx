@@ -170,11 +170,7 @@ console.log("==================>vent==+>", venteData)
     const matchesSearchQuery = codeProduit.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesSearchQuery;
   });
-  // const filteredAndSearchedData = filteredAchatData.filter((data) => {
 
-  //   const matchesSearchQuery = data.code_Achat.toLowerCase().includes(searchQuery.toLowerCase());
-  //   return matchesSearchQuery ;
-  // });
   console.log("===>selectedAchat===>", selectedAchat)
 console.log("test filteredAndSearchedData", filteredAndSearchedData)
   // const currentDate = new Date();

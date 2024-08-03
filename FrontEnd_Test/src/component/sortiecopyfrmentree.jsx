@@ -11,8 +11,8 @@ import { fetchHistoriqueData, postHistoriqueData } from '../store/historiqueSlic
 import Swal from 'sweetalert2';
 import { fetchClientData } from '../store/clientSlice';
 import ListeDemandeUser from './listeDemandeUser';
-import { postAchatData } from '../store/achatSlice';
-import { fetchVenteData } from '../store/venteSlice';
+import { fetchVenteData, postVenteData } from '../store/venteSlice';
+import ListeSortXUser from './listeSortXUser';
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -117,19 +117,16 @@ const SortX = () => {
 
     // Generate the next codeAchat when the component mounts
     const generateNextCodeAchat = () => {
-      const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-000';
+      const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-00000';
       const lastNumber = parseInt(lastCode.split('-')[1], 10);
-      const newCode = `CA-${String(lastNumber + 1).padStart(3, '0')}`;
+      const newCode = `CS-${String(lastNumber + 1).padStart(5, '0')}`;
       setCodeAchat(newCode);
       localStorage.setItem('lastCodeAchat', newCode);
     };
 
     generateNextCodeAchat();
   }, [dispatch]);
-  // console.log("ooooouseroooo",user.username)
-  // console.log("===>historiqueData==>:", historiqueData)
-  const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
-  // console.log("historiqueForUser==>:",historiqueForUser)
+  // const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
   const handleAddLine = () => {
     setLines([...lines, { demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
   };
@@ -150,6 +147,7 @@ const handleSubmit = async () => {
       // if (line.demandeCode && line.projetCode && line.quantite && line.partenaire) {
       if (line.demandeCode && line.quantite && line.partenaire) {
         const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
+        console.log("===>article: ",article)
         const designation = article?.Description_Article || '';
         const id_Article = article?.id_Article || null;
         const nom_Projet = projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || '';
@@ -165,32 +163,22 @@ const handleSubmit = async () => {
           checkNomProjet = nom_Projet;
         }
 
-        // console.log("line from input:",line)
-        // console.log("Partenaire:",Partenaire)
-        
         if (id_Article === null) {
           throw new Error(`Article with code ${line.demandeCode} not found`);
         }
         const code_Prd = productData.find(item => item.id_Article === id_Article)?.Numéro_Article || '';
 
-        const achatPayload = {
+        const ventePayload = {
           code_Produit: line.demandeCode,
           designation_Produit: designation,
           qte_Produit: parseInt(line.quantite, 10),
           code_Projet: checkCodeProjet,
           nom_Projet: checkNomProjet,
           n_Serie:"trt test",
-          // code_Projet: line.projetCode,
-          // nom_Projet: nom_Projet,
-          // check_Delivery: false,
           code_Sortie: codeAchat,
           user_Dmd: user.username,
-          // date: formattedDate,
-          // qte_Reçu: 0,
-          // qte_Magasin: qte_Magasin,
           id_Article: id_Article,
           Partenaire: Partenaire,
-          // code_Produit: code_Produit 
         };
         // const achatPayload = {
         //   code: line.demandeCode,
@@ -217,35 +205,22 @@ const handleSubmit = async () => {
           designation_Produit: designation,
           code_Projet: checkCodeProjet,
           nom_Projet: checkNomProjet,
-          // code_Projet: line.projetCode,
-          // nom_Projet: nom_Projet,
           n_Serie : "======",
           user_Dmd: user.username,
           qte_Produit: parseInt(line.quantite, 10),
           id_Article: id_Article,
           Partenaire: Partenaire,
         }
-        const ToAchatData={
-          code_Achat: codeAchat,
-          user_Dmd: user.username,
-          code: code_Prd,
-          code_Projet: checkCodeProjet,
-          nom_Projet: checkNomProjet,
-          date: formattedDate,
-          designation_Produit: designation,
-          quantite: parseInt(line.quantite, 10),
-          // id_Article: id_Article,
-          Partenaire: Partenaire,
-        }
-await dispatch(postHistoriqueData(historiqueData))
-  .then(response => {
-    console.log("Post historique Data Response:", response);
-    Swal.fire({
-      title: 'Success',
-      text: 'Sortie effectuée avec succès dans le stock',
-      icon: 'success',
-      confirmButtonText: 'OK'
-    });
+
+      await dispatch(postHistoriqueData(historiqueData))
+        .then(response => {
+          console.log("Post historique Data Response:", response);
+          Swal.fire({
+            title: 'Success',
+            text: 'Sortie effectuée avec succès dans le stock',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
     
     // Clear the input fields on successful submission
     // setDemandeCode('');
@@ -255,29 +230,16 @@ await dispatch(postHistoriqueData(historiqueData))
   .catch(error => {
     console.error("Post historique Data Error:", error);
   });
-    // const quantityReceived = parseInt(line.quantite, 10) + qte_Magasin;
     const quantityReceived = qte_Magasin - parseInt(line.quantite, 10);
-    console.log("parseInt(line.quantite, 10)==============>", parseInt(line.quantite, 10))
-    console.log("quantityReceived==============>", quantityReceived)
-    // console.log("id_Article==============>",id_Article)
-
     //============================================================
-    if (typeUser === "Utilisateur"){
+    // if (typeUser === "Utilisateur"){
       await dispatch(updateQteMagasin({
         productId: id_Article,
         qte_Magasin: quantityReceived
       }));
-      await dispatch(postAchatData(ToAchatData));
-    }
-    //============================================================
-    dispatch(postVenteData(achatPayload))
-    // console.log("===achatpayload===>", achatPayload);
-    // Dispatch postAchatempoData thunk with achatPayload
-    // const response = await dispatch(postAchatempoData(achatPayload));
-    // console.log("===Res===>", response);
-    
-    //============================================================
-    // await dispatch(postAchatData(achatData));
+      
+    // }
+    const response = await dispatch(postVenteData(ventePayload))
     //============================================================
         // Handle response/error
         if (response.error) {
@@ -311,17 +273,6 @@ await dispatch(postHistoriqueData(historiqueData))
     }
   };
   
-
-  const handlePrint = () => {
-    const printContents = document.getElementById('print-area').innerHTML;
-    const originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
-    window.location.reload();
-  };
-
-  // console.log("fEntree: client ",clientData)
   return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
       <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography>
@@ -462,7 +413,7 @@ await dispatch(postHistoriqueData(historiqueData))
         <ListeDemandeUser/>
       } */}
 
-      {!loading && !checkAccess() && <ListeDemandeUser />}
+      {!loading && !checkAccess() && <ListeSortXUser />}
 
     </div>
   );
