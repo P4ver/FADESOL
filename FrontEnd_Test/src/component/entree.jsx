@@ -137,6 +137,8 @@ const Entree = () => {
     setLines(newLines);
   };
 
+const [showclient, setshowclient] = useState('');
+console.log("showclient==>", showclient)
 const handleSubmit = async () => {
   try {
     const currentDate = new Date();
@@ -185,6 +187,7 @@ const handleSubmit = async () => {
           qte_Magasin: qte_Magasin,
           id_Article: id_Article,
           Partenaire: Partenaire,
+          // Partenaire: showclient,
           // code_Produit: code_Produit 
         };
         console.log("qte=========>", parseInt(line.quantite, 10) + qte_Magasin)
@@ -295,7 +298,6 @@ await dispatch(postHistoriqueData(historiqueData))
   };
 
 
-
   const [searchTerm, setSearchTerm] = useState('');
   const [showOptions, setShowOptions] = useState(false);
 
@@ -367,7 +369,7 @@ await dispatch(postHistoriqueData(historiqueData))
 
               {checkAccess() && 
               <>       
-                  <td className="border px-4 py-2">
+                <td className="border px-4 py-2">
                   <input
                     type="text"
                     value={line.projetCode}
@@ -385,11 +387,6 @@ await dispatch(postHistoriqueData(historiqueData))
                     disabled
                   /></td>
               </>}
-
-
-
-
-
 
               {/* <td className="border px-4 py-2 relative">
                 <input
@@ -424,7 +421,9 @@ await dispatch(postHistoriqueData(historiqueData))
                <td className="border px-4 py-2">
                   <select
                     value={line.partenaire}
-                    onChange={e => handleChange(index, 'partenaire', e.target.value)}
+                    onChange={e => {handleChange(index, 'partenaire', e.target.value)
+                      setshowclient(e.target.value)
+                    }}
                     className="w-full px-2 py-1 border-none"
                   >
                     <option value="">Sélectionner un client</option>

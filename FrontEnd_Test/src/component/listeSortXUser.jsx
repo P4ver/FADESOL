@@ -450,6 +450,7 @@ function ListeSortXUser() {
       <tr className='border'>
       <th className="border border-black text-[9px] font-semibold text-center py-1">Code</th>
            <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Désignation</th>
+           <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Client</th>
            <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Quantité</th>
            {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th> */}
           {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Projet</th> */}
@@ -461,6 +462,7 @@ function ListeSortXUser() {
         <tr key={idx} className='border'>
           <td className=" border border-black text-[9px] text-center  py-1">{item.code_Produit}</td>
           <td className=" border border-black text-[9px] text-center  py-1 w-2/5">{item.designation_Produit}</td>
+          <td className=" border border-black text-[9px] text-center  py-1 w-2/5">{item.Partenaire}</td>
           <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Produit}</td>
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Magasin}</td> */}
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td> */}
