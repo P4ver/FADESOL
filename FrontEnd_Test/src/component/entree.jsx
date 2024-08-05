@@ -294,7 +294,24 @@ await dispatch(postHistoriqueData(historiqueData))
     window.location.reload();
   };
 
-  // console.log("fEntree: client ",clientData)
+
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showOptions, setShowOptions] = useState(false);
+
+  const filteredClients = clientData
+    .filter(client => 
+      client.Partenaire.toLowerCase().startsWith(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire));
+
+  const handleOptionClick = (index, value) => {
+    setSearchTerm(value); // Update the input field with the selected value
+    handleChange(index, 'partenaire', value); // Pass the selected value to the parent component
+    setShowOptions(false); // Hide the options list
+  };
+  // console.log("searchClien :=+>",searchClien)
+  // console.log("searchTerm :=+>",searchTerm)
   return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
       <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography>
@@ -347,6 +364,7 @@ await dispatch(postHistoriqueData(historiqueData))
                   disabled
                 />
               </td>
+
               {checkAccess() && 
               <>       
                   <td className="border px-4 py-2">
@@ -366,8 +384,41 @@ await dispatch(postHistoriqueData(historiqueData))
                     className="w-full px-2 py-1 border-none"
                     disabled
                   /></td>
-
               </>}
+
+
+
+
+
+
+              {/* <td className="border px-4 py-2 relative">
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={e => {
+                    setSearchTerm(e.target.value);
+                    setShowOptions(true);
+                    // handleChange(index, 'partenaire', e.target.value)
+                  }}
+                  placeholder="Rechercher un client..."
+                  className="w-full px-2 py-1 border-none"
+                  onBlur={() => setTimeout(() => setShowOptions(false), 200)} // Delay hiding to allow for click
+                  onFocus={() => setShowOptions(true)}
+                />
+                {showOptions && filteredClients.length > 0 && (
+                  <ul className="absolute z-10 w-full bg-white border border-gray-300 mt-1 max-h-40 overflow-y-auto">
+                    {filteredClients.map(client => (
+                      <li
+                        key={client.id}
+                        onClick={() => handleOptionClick(index, client.Partenaire)}
+                        className="px-2 py-1 cursor-pointer hover:bg-gray-200"
+                      >
+                        {client.Partenaire}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </td> */}
 
 
                <td className="border px-4 py-2">
@@ -377,11 +428,6 @@ await dispatch(postHistoriqueData(historiqueData))
                     className="w-full px-2 py-1 border-none"
                   >
                     <option value="">Sélectionner un client</option>
-                    {/* {clientData.map(client => (
-                      <option key={client.id} value={client.Partenaire}>
-                        {client.Partenaire}
-                      </option>
-                    ))} */}
                     {clientData
                     .slice()
                     .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire))
