@@ -218,12 +218,12 @@ const handleSubmit = async () => {
 await dispatch(postHistoriqueData(historiqueData))
   .then(response => {
     console.log("Post historique Data Response:", response);
-    Swal.fire({
-      title: 'Success',
-      text: 'Sortie effectuée avec succès dans le stock',
-      icon: 'success',
-      confirmButtonText: 'OK'
-    });
+    // Swal.fire({
+    //   title: 'Success',
+    //   text: 'Sortie effectuée avec succès dans le stock',
+    //   icon: 'success',
+    //   confirmButtonText: 'OK'
+    // });
     
     // Clear the input fields on successful submission
     // setDemandeCode('');
