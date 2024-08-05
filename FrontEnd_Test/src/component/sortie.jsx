@@ -163,12 +163,12 @@ console.log("sortie: checkAccess:", checkAccess())
         .then(response => {
           console.log("Post Vente Data Response:", response);
           // Show success notification
-          Swal.fire({
-            title: 'Success',
-            text: 'Sortie effectuée avec succès dans le stock',
-            icon: 'success',
-            confirmButtonText: 'OK'
-          });
+          // Swal.fire({
+          //   title: 'Success',
+          //   text: 'Sortie effectuée avec succès dans le stock',
+          //   icon: 'success',
+          //   confirmButtonText: 'OK'
+          // });
           // Reset the input fields and state variables here
           setDemandeCode('');
           setClientDetails('')
