@@ -152,8 +152,8 @@ const handleSubmit = async () => {
         const id_Article = article?.id_Article || null;
         const nom_Projet = projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || '';
         const qte_Magasin = article?.qte_Magasin || '';
-        const Partenaire = clientData.find(client=>client.Partenaire == line.partenaire)?.Partenaire || '';
-        // const Partenaire = clientData.map(client=>client.Partenaire)
+        // const Partenaire = clientData.find(client=>client.Partenaire == line.partenaire)?.Partenaire || '';
+        const Partenaire = 'TMU'
 
         let checkCodeProjet = "sans"; // Initialize with default value
         let checkNomProjet = "sans"; // Initialize with default value 
@@ -417,7 +417,7 @@ await dispatch(postHistoriqueData(historiqueData))
                 )}
               </td> */}
 
-
+{/* 
                <td className="border px-4 py-2">
                   <select
                     value={line.partenaire}
@@ -436,7 +436,7 @@ await dispatch(postHistoriqueData(historiqueData))
                       </option>
                     ))}
                   </select>
-                </td>
+                </td> */}
 
             
               <td className="border px-4 py-2">

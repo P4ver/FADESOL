@@ -332,23 +332,6 @@ function ListeDemandeUser() {
 // console.log("from listdemand:",achatempoData)
   return (
     <div>
-      {/*
-      <Typography variant="h5" gutterBottom>Liste des Demandes d'Achat</Typography>
-       <Box className={classes.filterContainer}>
-        <TextField
-          label="Rechercher par Code Achat"
-          variant="outlined"
-          value={searchQuery}
-          onChange={handleSearch}
-          className={classes.searchInput}
-        />
-        <div>
-          <Button variant="contained" color="primary" onClick={() => setFilterType('all')}>Tous</Button>
-          <Button variant="contained" color="secondary" onClick={() => setFilterType('livre')}>Livré</Button>
-          <Button variant="contained" color="secondary" onClick={() => setFilterType('partiellement_livre')}>Partiellement Livré</Button>
-          <Button variant="contained" color="secondary" onClick={() => setFilterType('pending')}>En Attente</Button>
-        </div>
-      </Box> */}
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table" size='small'>
           <TableHead>
