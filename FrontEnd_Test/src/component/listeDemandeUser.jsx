@@ -495,7 +495,7 @@ function ListeDemandeUser() {
     <tbody>
       {achatempoData.filter(a => a.code_Achat === selectedAchat?.code_Achat).map((item, idx) => (
         <tr key={idx} className='border'>
-          <td className=" border border-black text-[9px] text-center  py-1">{item.code}</td>
+          <td className=" border border-black text-[9px] text-center  py-1 min-w-28">{item.code}</td>
           <td className=" border border-black text-[9px] text-center  py-1 w-2/5">{item.designation}</td>
           <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.quantite}</td>
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Magasin}</td> */}
