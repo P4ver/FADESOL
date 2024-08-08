@@ -417,7 +417,7 @@ await dispatch(postHistoriqueData(historiqueData))
                 )}
               </td> */}
 
-{/* 
+
                <td className="border px-4 py-2">
                   <select
                     value={line.partenaire}
@@ -436,7 +436,7 @@ await dispatch(postHistoriqueData(historiqueData))
                       </option>
                     ))}
                   </select>
-                </td> */}
+                </td>
 
             
               <td className="border px-4 py-2">
