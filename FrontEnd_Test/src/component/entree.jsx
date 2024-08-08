@@ -294,10 +294,41 @@ await dispatch(postHistoriqueData(historiqueData))
     window.location.reload();
   };
 
+
+
+
+  const [inputValue, setInputValue] = useState('');
+
+  const filteredClients = clientData
+    .filter(client => 
+      client.Partenaire.toLowerCase().includes(inputValue.toLowerCase())
+    )
+    .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire));
+
+
   // console.log("fEntree: client ",clientData)
   return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
       <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography>
+
+      
+{ lines.map((line, index) => (
+                   <select
+                    value={line.partenaire}
+                    onChange={e => handleChange(index, 'partenaire', e.target.value)}
+                    className="w-full px-2 py-1 border-none"
+                  >
+                    <option value="">Sélectionner un client</option>
+                    {clientData
+                    .slice()
+                    .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire))
+                    .map(client => (
+                      <option key={client.id} value={client.Partenaire}>
+                        {client.Partenaire}
+                      </option>
+                    ))}
+                  </select>))}
+                
       <table className="min-w-full border-collapse">
         <thead>
           <tr>
@@ -308,7 +339,7 @@ await dispatch(postHistoriqueData(historiqueData))
               <th className="border px-4 py-2">Projet Code</th>
               <th className="border px-4 py-2">Projet Nom</th>
             </>}
-            <th className="border px-4 py-2">Client</th>
+            {/* <th className="border px-4 py-2">Client</th> */}
             <th className="border px-4 py-2">Quantité Magasin</th>
             <th className="border px-4 py-2">Quantité</th>
             <th className="border px-4 py-2">Action</th>
@@ -370,6 +401,33 @@ await dispatch(postHistoriqueData(historiqueData))
               </>}
 
 
+              {/* <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={e => setInputValue(e.target.value)}
+                  className="w-full px-2 py-1 border-none"
+                  placeholder="Sélectionner un client"
+                />
+
+                {inputValue && (
+                  <ul className="border mt-1 max-h-40 overflow-y-auto">
+                    {filteredClients.map(client => (
+                      <li
+                        key={client.id}
+                        onClick={() => {
+                          handleChange(index, 'partenaire', client.Partenaire);
+                          setInputValue(client.Partenaire); // Update input with selected value
+                        }}
+                        className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+                      >
+                        {client.Partenaire}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </td> */}
+{/* 
                <td className="border px-4 py-2">
                   <select
                     value={line.partenaire}
@@ -377,11 +435,6 @@ await dispatch(postHistoriqueData(historiqueData))
                     className="w-full px-2 py-1 border-none"
                   >
                     <option value="">Sélectionner un client</option>
-                    {/* {clientData.map(client => (
-                      <option key={client.id} value={client.Partenaire}>
-                        {client.Partenaire}
-                      </option>
-                    ))} */}
                     {clientData
                     .slice()
                     .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire))
@@ -391,7 +444,7 @@ await dispatch(postHistoriqueData(historiqueData))
                       </option>
                     ))}
                   </select>
-                </td>
+                </td> */}
 
             
               <td className="border px-4 py-2">

@@ -39,10 +39,7 @@ const useStyles = makeStyles({
   },
   printArea: {
     display: 'none', // Masquer l'élément par défaut
-  },
-  printArea: {
-    display: 'none',
-  },
+  }
 });
 
 function ListeReturn() {
