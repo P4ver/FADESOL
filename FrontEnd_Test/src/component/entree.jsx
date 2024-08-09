@@ -332,12 +332,11 @@ await dispatch(postHistoriqueData(historiqueData))
 //const findClient = clientData.find(item => item.id_Article === id_Article)?.Numéro_Article || '';
   const findClient = clientData.find(item => item.Partenaire === selectedClient)?.Partenaire || ''
 
+  console.log("findClient: ====> ",findClient)
 
-console.log("findClient: ====> ",findClient)
-
-  // if (findClient){
-  //   setLines(lines.map(line => ({ ...line, partenaire: findClient })));
-  // }
+  if (findClient){
+    setLines(lines.map(line => ({ ...line, partenaire: findClient })));
+  }
   // console.log("finputValueList: inputValueList ",inputValueList)
   // console.log("fEntree: client ",clientData)
   return (
