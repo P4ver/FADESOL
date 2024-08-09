@@ -486,9 +486,9 @@ function ListeDemandeUser() {
       <tr className='border'>
       <th className="border border-black text-[9px] font-semibold text-center py-1">Code</th>
            <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Désignation</th>
+          <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Client</th>
            <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Quantité</th>
-           <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th>
-          <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Projet</th>
+           {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th> */}
       </tr>
     
     </thead>
@@ -497,17 +497,17 @@ function ListeDemandeUser() {
         <tr key={idx} className='border'>
           <td className=" border border-black text-[9px] text-center  py-1 min-w-28">{item.code}</td>
           <td className=" border border-black text-[9px] text-center  py-1 w-2/5">{item.designation}</td>
+          <td className=" border border-black text-[9px] text-center   py-1 w-1/5">{item.Partenaire}</td>
           <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.quantite}</td>
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Magasin}</td> */}
-          <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td>
-          <td className=" border border-black text-[9px] text-center   py-1 w-1/5">{item.nom_Projet}</td>
+          {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td> */}
         </tr>
       ))}
     </tbody>
   </table>
 </div>
   <br />
-  <div className='my-2 float-right'><p>Signature<span className='text-gray-200'>___________________</span></p></div>
+  <div className='my-2 float-right'><p>Signature<span className='text-gray-200'>___________________.</span></p></div>
 </div>
           </>
         )}

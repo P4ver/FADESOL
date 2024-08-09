@@ -302,7 +302,7 @@ const handleSubmit = async () => {
                   placeholder='Enter Numero article ou Code Barre'
                   onChange={(e) => handleChange(index, 'demandeCode', e.target.value)}
                   className="w-full px-2 py-1 border-none"
-                  onKeyPress={(e) => handleKeyPress(e, index)}
+                  // onKeyPress={(e) => handleKeyPress(e, index)}
                 />
               </td>
               <td className="border px-4 py-2">
