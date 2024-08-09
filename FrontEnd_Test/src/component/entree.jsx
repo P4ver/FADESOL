@@ -270,7 +270,7 @@ await dispatch(postHistoriqueData(historiqueData))
     // Reset lines after successful submission
     setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
 
-    window.location.reload();
+    // window.location.reload();
   } catch (error) {
     console.error('Error submitting data:', error.message);
   }
@@ -294,41 +294,95 @@ await dispatch(postHistoriqueData(historiqueData))
     window.location.reload();
   };
 
-
-
-
   const [inputValue, setInputValue] = useState('');
+  const [inputValueList, setInputValueList] = useState('');
 
-  const filteredClients = clientData
-    .filter(client => 
-      client.Partenaire.toLowerCase().includes(inputValue.toLowerCase())
-    )
-    .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire));
+  // const filteredClients = clientData
+  //   .filter(client => 
+  //     client.Partenaire.toLowerCase().includes(inputValue.toLowerCase())
+  //   )
+  //   .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire));
+
+  
+  
+  
+  // const filteredClients = clientData.filter(client => 
+  //   client.Partenaire.toLowerCase().includes(inputValue.toLowerCase())
+  // )
+
+  // console.log("===>filteredClients=+>:",filteredClients)
+
+  // const [selectedClient, setSelectedClient] = useState('');
+
+  // const handleClientChange = (value) => {
+  //   console.log("===>value:",value)
+  //   setSelectedClient(value);
+  //   setLines(lines.map(line => ({ ...line, partenaire: value })));
+  // };
 
 
+  const filteredClients = clientData.filter(client => 
+    client.Partenaire.toLowerCase().includes(inputValue.toLowerCase())
+  )
+
+  console.log("===>filteredClients=+>:",filteredClients)
+
+  const [selectedClient, setSelectedClient] = useState('');
+
+  const handleClientChange = (value) => {
+    console.log("===>value:",value)
+    setSelectedClient(value);
+    setLines(lines.map(line => ({ ...line, partenaire: value })));
+  };
+
+
+  console.log("finputValueList: selectedClient ",selectedClient)
+  
+//const findClient = clientData.find(item => item.id_Article === id_Article)?.Numéro_Article || '';
+//const findClient = clientData.find(item => item.id_Article === id_Article)
+
+
+  if (selectedClient === ''){
+
+  }
+  // console.log("finputValueList: inputValueList ",inputValueList)
   // console.log("fEntree: client ",clientData)
   return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
+
       <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography>
 
-      
-{ lines.map((line, index) => (
-                   <select
-                    value={line.partenaire}
-                    onChange={e => handleChange(index, 'partenaire', e.target.value)}
-                    className="w-full px-2 py-1 border-none"
-                  >
-                    <option value="">Sélectionner un client</option>
-                    {clientData
-                    .slice()
-                    .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire))
-                    .map(client => (
-                      <option key={client.id} value={client.Partenaire}>
-                        {client.Partenaire}
-                      </option>
-                    ))}
-                  </select>))}
-                
+      <div>
+        <label>Client:</label>
+        <input
+          type="text"
+          value={selectedClient}
+          onChange={(e) =>{ 
+            handleClientChange(e.target.value)
+
+            setInputValue(e.target.value)
+            }}
+          placeholder="Select or type client"
+        />
+      </div>
+
+      <ul className="border mt-1 max-h-40 overflow-y-auto">
+        {filteredClients.map(client => (
+          <li
+            key={client.id}
+            onClick={() => {
+              // handleChange(index, 'partenaire', client.Partenaire);
+              // setInputValue(client.Partenaire); // Update input with selected value
+              // setInputValueList(client.Partenaire)
+              setSelectedClient(client.Partenaire)
+            }}
+            className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+          >
+            {client.Partenaire}
+          </li>
+        ))}
+      </ul> 
+
       <table className="min-w-full border-collapse">
         <thead>
           <tr>
@@ -355,7 +409,7 @@ await dispatch(postHistoriqueData(historiqueData))
                   placeholder='Enter Numero article ou Code Barre'
                   onChange={(e) => handleChange(index, 'demandeCode', e.target.value)}
                   className="w-full px-2 py-1 border-none"
-                  onKeyPress={(e) => handleKeyPress(e, index)}
+                  // onKeyPress={(e) => handleKeyPress(e, index)}
                 />
               </td>
               <td className="border px-4 py-2">
@@ -409,7 +463,6 @@ await dispatch(postHistoriqueData(historiqueData))
                   className="w-full px-2 py-1 border-none"
                   placeholder="Sélectionner un client"
                 />
-
                 {inputValue && (
                   <ul className="border mt-1 max-h-40 overflow-y-auto">
                     {filteredClients.map(client => (
@@ -427,8 +480,8 @@ await dispatch(postHistoriqueData(historiqueData))
                   </ul>
                 )}
               </td> */}
-{/* 
-               <td className="border px-4 py-2">
+
+               {/* <td className="border px-4 py-2">
                   <select
                     value={line.partenaire}
                     onChange={e => handleChange(index, 'partenaire', e.target.value)}
@@ -495,6 +548,13 @@ await dispatch(postHistoriqueData(historiqueData))
 };
 
 export default Entree;
+
+
+//**************************************************************************************************** */
+//**************************************************************************************************** */
+//**************************************************************************************************** */
+
+
 
 
 
@@ -987,3 +1047,5 @@ export default Entree;
 // };
 
 // export default Entree;
+
+

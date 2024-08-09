@@ -288,25 +288,6 @@ function ListeDemandeUser() {
 
     return 'Unknown';
   };
-  const renderStatus = (status) => {
-    switch (status) {
-      case 'Pending':
-        return <p className='text-red-600'>Pending</p>;
-      case 'Livré':
-        return <p className='text-blue-600'>Livré</p>;
-      case 'Partiellement livré':
-        return <p className='text-green-600'>Partiellement livré</p>;
-      default:
-        return <p>Unknown</p>;
-    }
-  };
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleFilterChange = (event) => {
-    setFilterType(event.target.value);
-  };
 
   const filteredAndSearchedData = filteredAchatData.filter((data) => {
     const matchesSearchQuery = data.code_Achat.toLowerCase().includes(searchQuery.toLowerCase());
@@ -319,13 +300,6 @@ function ListeDemandeUser() {
     return matchesSearchQuery && matchesFilterType;
   });
 
-  const handleEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditedProduct(prevProduct => ({
-      ...prevProduct,
-      [name]: value
-    }));
-  };
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
   
@@ -469,9 +443,9 @@ function ListeDemandeUser() {
       <tr className='border'>
       <th className="border border-black text-[9px] font-semibold text-center py-1">Code</th>
            <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Désignation</th>
+          <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Client</th>
            <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Quantité</th>
-           <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th>
-          <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Projet</th>
+           {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th> */}
       </tr>
     
     </thead>
@@ -479,11 +453,11 @@ function ListeDemandeUser() {
       {achatempoData.filter(a => a.code_Achat === selectedAchat?.code_Achat).map((item, idx) => (
         <tr key={idx} className='border'>
           <td className=" border border-black text-[9px] text-center  py-1 min-w-28">{item.code}</td>
-          <td className=" border border-black text-[9px] text-center  py-1 w-2/5">{item.designation}</td>
-          <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.quantite}</td>
+          <td className=" border border-black text-[9px] text-center  py-1 w-2/4">{item.designation}</td>
+          <td className=" border border-black text-[9px] text-center   py-1 w-1/4">{item.Partenaire}</td>
+          <td className=" border border-black text-[9px] text-center py-1 w-1/4">{item.quantite}</td>
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Magasin}</td> */}
-          <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td>
-          <td className=" border border-black text-[9px] text-center   py-1 w-1/5">{item.nom_Projet}</td>
+          {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td> */}
         </tr>
       ))}
     </tbody>
