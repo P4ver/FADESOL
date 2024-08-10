@@ -276,27 +276,44 @@ await dispatch(postHistoriqueData(historiqueData))
   }
 };
 
-
-
   const handleKeyPress = (event, index) => {
     if (event.key === 'Enter' && index === lines.length - 1) {
       handleAddLine();
     }
   };
-  
 
+  const [selectedClient, setSelectedClient] = useState('');
   const [inputValue, setInputValue] = useState('');
-  const [inputValueList, setInputValueList] = useState('');
+  const [filteredClients, setFilteredClients] = useState([]);
+  const [showList, setShowList] = useState(false);
 
-  // const filteredClients = clientData
-  //   .filter(client => 
-  //     client.Partenaire.toLowerCase().includes(inputValue.toLowerCase())
-  //   )
-  //   .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire));
+  const handleClientChange = (value) => {
+    setInputValue(value);
+    if (value) {
+      const filtered = clientData.filter(client =>
+        client.Partenaire.toLowerCase().includes(value.toLowerCase())
+      );
+      // console.log("filtered",filtered)
+      setFilteredClients(filtered);
+      setShowList(true); // Show the list when typing
+    } else {
+      setFilteredClients([]);
+      setShowList(false); // Hide the list if input is empty
+    }
+  };
 
+  const handleClientSelect = (client) => {
+    console.log("client**", client.Partenaire)
+    setSelectedClient(client.Partenaire);
+    setInputValue(client.Partenaire);
+    setShowList(false); // Hide the list after selecting a client
+    if (client.Partenaire && lines.some(line => line.partenaire !== client.Partenaire)) {
+      setLines(lines.map(line => ({ ...line, partenaire: client.Partenaire })));
+    }
+  };
+  console.log('@@select client@@',selectedClient)
   
-  
-  
+  // ==================================================================================================
   // const filteredClients = clientData.filter(client => 
   //   client.Partenaire.toLowerCase().includes(inputValue.toLowerCase())
   // )
@@ -308,42 +325,64 @@ await dispatch(postHistoriqueData(historiqueData))
   // const handleClientChange = (value) => {
   //   console.log("===>value:",value)
   //   setSelectedClient(value);
-  //   setLines(lines.map(line => ({ ...line, partenaire: value })));
+  //   // setLines(lines.map(line => ({ ...line, partenaire: value })));
   // };
 
-
-  const filteredClients = clientData.filter(client => 
-    client.Partenaire.toLowerCase().includes(inputValue.toLowerCase())
-  )
-
-  console.log("===>filteredClients=+>:",filteredClients)
-
-  const [selectedClient, setSelectedClient] = useState('');
-
-  const handleClientChange = (value) => {
-    console.log("===>value:",value)
-    setSelectedClient(value);
-    // setLines(lines.map(line => ({ ...line, partenaire: value })));
-  };
-
-
-  // console.log("finputValueList: selectedClient ",selectedClient)
+// ==================================================================================================
+// ==================================================================================================
+  // const findClient = clientData.find(item => item.Partenaire === selectedClient);
+  // const clientName = findClient ? findClient.Partenaire : '';
+  // if (clientName){
+  //   setLines(lines.map(line => ({ ...line, partenaire: clientName })));
+  // }
   
-//const findClient = clientData.find(item => item.id_Article === id_Article)?.Numéro_Article || '';
-  const findClient = clientData.find(item => item.Partenaire === selectedClient)?.Partenaire || ''
+  // ==================================================================================================
+  // useEffect(() => {
+  //   const findClient = clientData.find(item => item.Partenaire === selectedClient);
+  //   const clientName = findClient ? findClient.Partenaire : '';
+    
+  //   if (clientName && lines.some(line => line.partenaire !== clientName)) {
+  //     setLines(lines.map(line => ({ ...line, partenaire: clientName })));
+  //   }
+  //   // console.log("const clientName: ====> ",clientName)
+  // }, [selectedClient, clientData, lines]);
+  // ==================================================================================================
+  
+  // ==================================================================================================
+  // ==================================================================================================
+// console.log("finputValueList: inputValueList ",inputValueList)
 
-  console.log("findClient: ====> ",findClient)
-
-  if (findClient){
-    setLines(lines.map(line => ({ ...line, partenaire: findClient })));
-  }
-  // console.log("finputValueList: inputValueList ",inputValueList)
-  // console.log("fEntree: client ",clientData)
-  return (
+return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
 
       <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography>
 
+      <div>
+      <label className='border px-4 py-2 mb-4'>Client:</label>
+      <input
+        type="text"
+        value={inputValue}
+        onChange={(e) => handleClientChange(e.target.value)}
+        placeholder="Select or type client"
+      />
+
+      {showList && (
+        <ul className="border mt-1 max-h-40 overflow-y-auto">
+          {filteredClients.map(client => (
+            <li
+              key={client.id}
+              onClick={() => handleClientSelect(client)}
+              className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+            >
+              {client.Partenaire}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+
+      {/*
       <div>
         <label>Client:</label>
         <input
@@ -357,23 +396,25 @@ await dispatch(postHistoriqueData(historiqueData))
           placeholder="Select or type client"
         />
       </div>
-
-      <ul className="border mt-1 max-h-40 overflow-y-auto">
-        {filteredClients.map(client => (
-          <li
-            key={client.id}
-            onClick={() => {
-              // handleChange(index, 'partenaire', client.Partenaire);
-              // setInputValue(client.Partenaire); // Update input with selected value
-              // setInputValueList(client.Partenaire)
-              setSelectedClient(client.Partenaire)
-            }}
-            className="cursor-pointer px-2 py-1 hover:bg-gray-200"
-          >
-            {client.Partenaire}
-          </li>
-        ))}
-      </ul> 
+      {showList && (
+            <ul className="border mt-1 max-h-40 overflow-y-auto">
+              {filteredClients.map(client => (
+                <li
+                  key={client.id}
+                  onClick={() => {
+                    // handleChange(index, 'partenaire', client.Partenaire);
+                    // setInputValue(client.Partenaire); // Update input with selected value
+                    // setInputValueList(client.Partenaire)
+                    setSelectedClient(client.Partenaire)
+                  }}
+                  className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+                >
+                  {client.Partenaire}
+                </li>
+              ))}
+            </ul> 
+      )} 
+      */}
 
       <table className="min-w-full border-collapse">
         <thead>
