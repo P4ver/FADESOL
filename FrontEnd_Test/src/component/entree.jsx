@@ -355,15 +355,17 @@ await dispatch(postHistoriqueData(historiqueData))
 return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
 
-      <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography>
+      {/* <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography> */}
+      <Typography variant="h5" align="center" gutterBottom>Entree</Typography>
 
-      <div>
-      <label className='border px-4 py-2 mb-4'>Client:</label>
+      <div className='border px-4 py-2 mb-4'>
+      <label className='pr-2 font-bold'>Client :</label>
       <input
         type="text"
         value={inputValue}
         onChange={(e) => handleClientChange(e.target.value)}
         placeholder="Select or type client"
+        className='outline-none w-[50%]'
       />
 
       {showList && (

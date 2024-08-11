@@ -362,7 +362,15 @@ function ListeSortXUser() {
       <React.Fragment key={codeAchat}>
         <TableRow>
           <TableCell>{firstDemand.code_Sortie}</TableCell>
-          <TableCell>{formattedDate}</TableCell>
+          <TableCell>
+            {new Date(firstDemand.date_Vente).toLocaleDateString('en-GB', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}
+          </TableCell>
+
+          {/* <TableCell>{firstDemand.date_Vente}</TableCell> */}
           <TableCell>{firstDemand.user_Dmd}</TableCell>
           {/* <TableCell>{renderStatus(status)}</TableCell> Use renderStatus to display the status with the correct styling */}
           <TableCell>

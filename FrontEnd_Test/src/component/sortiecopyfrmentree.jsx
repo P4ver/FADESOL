@@ -259,7 +259,7 @@ const handleSubmit = async () => {
     // Reset lines after successful submission
     setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
 
-    // window.location.reload();
+    window.location.reload();
   } catch (error) {
     console.error('Error submitting data:', error.message);
   }
@@ -272,10 +272,70 @@ const handleSubmit = async () => {
       handleAddLine();
     }
   };
+
   
+  const [selectedClient, setSelectedClient] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const [filteredClients, setFilteredClients] = useState([]);
+  const [showList, setShowList] = useState(false);
+
+  const handleClientChange = (value) => {
+    setInputValue(value);
+    if (value) {
+      const filtered = clientData.filter(client =>
+        client.Partenaire.toLowerCase().includes(value.toLowerCase())
+      );
+      // console.log("filtered",filtered)
+      setFilteredClients(filtered);
+      setShowList(true); // Show the list when typing
+    } else {
+      setFilteredClients([]);
+      setShowList(false); // Hide the list if input is empty
+    }
+  };
+
+  const handleClientSelect = (client) => {
+    console.log("client**", client.Partenaire)
+    setSelectedClient(client.Partenaire);
+    setInputValue(client.Partenaire);
+    setShowList(false); // Hide the list after selecting a client
+    if (client.Partenaire && lines.some(line => line.partenaire !== client.Partenaire)) {
+      setLines(lines.map(line => ({ ...line, partenaire: client.Partenaire })));
+    }
+  };
+  console.log('@@select client@@',selectedClient)
+
   return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
-      <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography>
+      {/* <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography> */}
+      <Typography variant="h5" align="center" gutterBottom>Sortie</Typography>
+
+      <div className='border px-4 py-2 mb-4'>
+      <label className='pr-2 font-bold'>Client :</label>
+      <input
+        type="text"
+        value={inputValue}
+        onChange={(e) => handleClientChange(e.target.value)}
+        placeholder="Select or type client"
+        className='outline-none w-[50%]'
+      />
+
+      {showList && (
+        <ul className="border mt-1 max-h-40 overflow-y-auto">
+          {filteredClients.map(client => (
+            <li
+              key={client.id}
+              onClick={() => handleClientSelect(client)}
+              className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+            >
+              {client.Partenaire}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+
       <table className="min-w-full border-collapse">
         <thead>
           <tr>
@@ -286,7 +346,7 @@ const handleSubmit = async () => {
               <th className="border px-4 py-2">Projet Code</th>
               <th className="border px-4 py-2">Projet Nom</th>
             </>}
-            <th className="border px-4 py-2">Client</th>
+            {/* <th className="border px-4 py-2">Client</th> */}
             <th className="border px-4 py-2">Quantité Magasin</th>
             <th className="border px-4 py-2">Quantité</th>
             <th className="border px-4 py-2">Action</th>
@@ -344,22 +404,16 @@ const handleSubmit = async () => {
                     className="w-full px-2 py-1 border-none"
                     disabled
                   /></td>
-
               </>}
 
 
-               <td className="border px-4 py-2">
+               {/* <td className="border px-4 py-2">
                   <select
                     value={line.partenaire}
                     onChange={e => handleChange(index, 'partenaire', e.target.value)}
                     className="w-full px-2 py-1 border-none"
                   >
                     <option value="">Sélectionner un client</option>
-                    {/* {clientData.map(client => (
-                      <option key={client.id} value={client.Partenaire}>
-                        {client.Partenaire}
-                      </option>
-                    ))} */}
                     {clientData
                     .slice()
                     .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire))
@@ -369,7 +423,7 @@ const handleSubmit = async () => {
                       </option>
                     ))}
                   </select>
-                </td>
+                </td> */}
 
             
               <td className="border px-4 py-2">
