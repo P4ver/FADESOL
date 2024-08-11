@@ -215,12 +215,12 @@ const handleSubmit = async () => {
       await dispatch(postHistoriqueData(historiqueData))
         .then(response => {
           console.log("Post historique Data Response:", response);
-          Swal.fire({
-            title: 'Success',
-            text: 'Sortie effectuée avec succès dans le stock',
-            icon: 'success',
-            confirmButtonText: 'OK'
-          });
+          // Swal.fire({
+          //   title: 'Success',
+          //   text: 'Sortie effectuée avec succès dans le stock',
+          //   icon: 'success',
+          //   confirmButtonText: 'OK'
+          // });
     
     // Clear the input fields on successful submission
     // setDemandeCode('');
@@ -259,7 +259,7 @@ const handleSubmit = async () => {
     // Reset lines after successful submission
     setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
 
-    // window.location.reload();
+    window.location.reload();
   } catch (error) {
     console.error('Error submitting data:', error.message);
   }
@@ -272,6 +272,7 @@ const handleSubmit = async () => {
       handleAddLine();
     }
   };
+
   
   const [selectedClient, setSelectedClient] = useState('');
   const [inputValue, setInputValue] = useState('');
@@ -302,9 +303,11 @@ const handleSubmit = async () => {
       setLines(lines.map(line => ({ ...line, partenaire: client.Partenaire })));
     }
   };
+  console.log('@@select client@@',selectedClient)
 
   return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
+      {/* <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography> */}
       <Typography variant="h5" align="center" gutterBottom>Sortie</Typography>
 
       <div className='border px-4 py-2 mb-4'>
@@ -331,7 +334,8 @@ const handleSubmit = async () => {
         </ul>
       )}
     </div>
-      
+
+
       <table className="min-w-full border-collapse">
         <thead>
           <tr>
@@ -400,7 +404,6 @@ const handleSubmit = async () => {
                     className="w-full px-2 py-1 border-none"
                     disabled
                   /></td>
-
               </>}
 
 
