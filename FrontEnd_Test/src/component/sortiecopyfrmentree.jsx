@@ -303,7 +303,8 @@ const handleSubmit = async () => {
       setLines(lines.map(line => ({ ...line, partenaire: client.Partenaire })));
     }
   };
-  console.log('@@select client@@',selectedClient)
+
+  console.log('@@select client@@', selectedClient)
 
   return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
