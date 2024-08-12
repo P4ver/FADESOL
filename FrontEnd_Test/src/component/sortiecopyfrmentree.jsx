@@ -13,6 +13,8 @@ import { fetchClientData } from '../store/clientSlice';
 import ListeDemandeUser from './listeDemandeUser';
 import { fetchVenteData, postVenteData } from '../store/venteSlice';
 import ListeSortXUser from './listeSortXUser';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -221,7 +223,7 @@ const handleSubmit = async () => {
           //   icon: 'success',
           //   confirmButtonText: 'OK'
           // });
-    
+          toast.success('Sortie effectuée avec succès')
     // Clear the input fields on successful submission
     // setDemandeCode('');
     // setVenteDetails(null);
@@ -493,7 +495,7 @@ const handleSubmit = async () => {
 
 
       {!loading && !checkAccess() && <ListeSortXUser />}
-
+      <ToastContainer />
     </div>
   );
 };

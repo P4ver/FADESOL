@@ -12,6 +12,8 @@ import Swal from 'sweetalert2';
 import { fetchClientData } from '../store/clientSlice';
 import ListeDemandeUser from './listeDemandeUser';
 import { postAchatData } from '../store/achatSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -218,13 +220,13 @@ const handleSubmit = async () => {
 await dispatch(postHistoriqueData(historiqueData))
   .then(response => {
     console.log("Post historique Data Response:", response);
-    Swal.fire({
-      title: 'Success',
-      text: 'Sortie effectuée avec succès dans le stock',
-      icon: 'success',
-      confirmButtonText: 'OK'
-    });
-    
+    // Swal.fire({
+    //   title: 'Success',
+    //   text: 'Sortie effectuée avec succès dans le stock',
+    //   icon: 'success',
+    //   confirmButtonText: 'OK'
+    // });
+    toast.success('Entree effectuée avec succès dans le stock')
     // Clear the input fields on successful submission
     // setDemandeCode('');
     // setVenteDetails(null);
@@ -514,7 +516,7 @@ await dispatch(postHistoriqueData(historiqueData))
       } */}
 
       {!loading && !checkAccess() && <ListeDemandeUser />}
-
+      <ToastContainer />
     </div>
   );
 };
