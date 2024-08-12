@@ -19,6 +19,14 @@ import { fetchAchatData, postAchatData, deleteAchatData } from '../store/achatSl
 Modal.setAppElement('#root');
 
 const useStyles = makeStyles({
+  tableContainer: {
+    maxWidth: '90%', // Adjust as needed
+    margin: 'auto',
+  },
+  tableCell: {
+    padding: '4px 8px', // Reduce padding
+    fontSize: '0.8rem', // Smaller font size
+  },
   table: {
     minWidth: 650,
   },
@@ -518,40 +526,40 @@ function ListeDemande() {
             <Typography variant="subtitle1">Code Achat: {selectedAchat.code_Achat}</Typography>
             <Typography variant="subtitle1">Date: {selectedAchat.date}</Typography>
             <Typography variant="subtitle1">Utilisateur: {selectedAchat.user_Dmd}</Typography>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} className={classes.tableContainer}>
               <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Code Projet</TableCell>
-                    <TableCell>Désignation</TableCell>
-                    <TableCell>Quantité Demandée</TableCell>
-                    <TableCell>Quantité Reçue</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Entrer Qte Reçue</TableCell>
-                    <TableCell>Qte Magasin</TableCell>
+                    <TableCell className={classes.tableCell}>Code Projet</TableCell>
+                    <TableCell className={classes.tableCell}>Désignation</TableCell>
+                    <TableCell className={classes.tableCell}>Quantité Demandée</TableCell>
+                    <TableCell className={classes.tableCell}>Quantité Reçue</TableCell>
+                    <TableCell className={classes.tableCell}>Status</TableCell>
+                    <TableCell className={classes.tableCell}>Entrer Qte Reçue</TableCell>
+                    <TableCell className={classes.tableCell}>Qte Magasin</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {filteredAchatData.filter(data => data.code_Achat === selectedAchat.code_Achat).map((data) => (
                     <TableRow key={data.id_Achat}>
-                      <TableCell>{data.code_Projet}</TableCell>
-                      <TableCell>{data.designation}</TableCell>
-                      <TableCell>{data.quantite}</TableCell>
-                      <TableCell>{data.qte_Reçu}</TableCell>
-                      <TableCell>{getStatus(data.quantite, data.qte_Reçu, data.user_Dmd)}</TableCell>
-                      <TableCell>
+                      <TableCell className={classes.tableCell}>{data.code_Projet}</TableCell>
+                      <TableCell className={classes.tableCell}>{data.designation}</TableCell>
+                      <TableCell className={classes.tableCell}>{data.quantite}</TableCell>
+                      <TableCell className={classes.tableCell}>{data.qte_Reçu}</TableCell>
+                      <TableCell className={classes.tableCell}>{getStatus(data.quantite, data.qte_Reçu, data.user_Dmd)}</TableCell>
+                      <TableCell className={classes.tableCell}>
                         <TextField
                           type="number"
                           className={classes.input}
                           value={qteRecu[data.id_Achat] || ''}
                           onChange={(e) => handleInputChange(data.id_Achat, e.target.value)}
                           />
-                        <IconButton onClick={() => handleFormSubmit(data.id_Achat)}>
+                        {/* <IconButton onClick={() => handleFormSubmit(data.id_Achat)}>
                           <FaCheck />
-                        </IconButton>
+                        </IconButton> */}
                       </TableCell>
                       {/* <TableCell>{data.qte_Magasin}</TableCell> */}
-                      <TableCell>{lookNewQteMagasin(data.id_Article)}</TableCell>
+                      <TableCell className={classes.tableCell}>{lookNewQteMagasin(data.id_Article)}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
