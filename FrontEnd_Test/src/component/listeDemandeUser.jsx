@@ -355,6 +355,7 @@ function ListeDemandeUser() {
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Date</TableCell>
+              <TableCell>Client</TableCell>
               <TableCell>Utilisateur</TableCell>
               {/* <TableCell>Status</TableCell> */}
               <TableCell>Actions</TableCell>
@@ -362,7 +363,7 @@ function ListeDemandeUser() {
           </TableHead>
        
           <TableBody>
-  {uniqueCodeAchats.map((codeAchat) => {
+    {uniqueCodeAchats.map((codeAchat) => {
     const relatedDemands = filteredAndSearchedData.filter(data => data.code_Achat === codeAchat);
     if (relatedDemands.length === 0) return null; // Skip if no matching demands
     const firstDemand = relatedDemands[0];
@@ -371,8 +372,15 @@ function ListeDemandeUser() {
       <React.Fragment key={codeAchat}>
         <TableRow>
           <TableCell>{firstDemand.code_Achat}</TableCell>
-          <TableCell>{formattedDate}</TableCell>
-          {/* <TableCell>{firstDemand.date}</TableCell> */}
+          {/* <TableCell>{formattedDate}</TableCell> */}
+          <TableCell>
+            {new Date(firstDemand.date).toLocaleDateString('en-GB', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}
+          </TableCell>
+          <TableCell>{firstDemand.Partenaire}</TableCell>
           <TableCell>{firstDemand.user_Dmd}</TableCell>
           {/* <TableCell>{renderStatus(status)}</TableCell> Use renderStatus to display the status with the correct styling */}
           <TableCell>
