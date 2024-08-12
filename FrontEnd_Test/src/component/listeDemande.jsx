@@ -518,12 +518,12 @@ function ListeDemande() {
         contentLabel="Order Details"
       >
         <div className={classes.modalHeader}>
-          <Typography variant="h6">Details de la Demande d'Achat</Typography>
+          <Typography variant="h6">Details de la Demande d'Entree</Typography>
           <IconButton onClick={closeModal}><FaTimes /></IconButton>
         </div>
         {selectedAchat && (
           <>
-            <Typography variant="subtitle1">Code Achat: {selectedAchat.code_Achat}</Typography>
+            <Typography variant="subtitle1">Code Entree: {selectedAchat.code_Achat}</Typography>
             <Typography variant="subtitle1">Date: {selectedAchat.date}</Typography>
             <Typography variant="subtitle1">Utilisateur: {selectedAchat.user_Dmd}</Typography>
             <TableContainer component={Paper} className={classes.tableContainer}>
@@ -553,6 +553,8 @@ function ListeDemande() {
                           className={classes.input}
                           value={qteRecu[data.id_Achat] || ''}
                           onChange={(e) => handleInputChange(data.id_Achat, e.target.value)}
+                          size="small" // Makes the input smaller
+                          inputProps={{ style: { padding: '4px 8px' } }} 
                           />
                         {/* <IconButton onClick={() => handleFormSubmit(data.id_Achat)}>
                           <FaCheck />
