@@ -330,30 +330,30 @@ await dispatch(postHistoriqueData(historiqueData))
 
       <Typography variant="h5" align="center" gutterBottom>Entree</Typography>
 
-      <div className='border px-4 py-2 mb-4'>
-      <label className='pr-2 font-bold'>Client :</label>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={(e) => handleClientChange(e.target.value)}
-        placeholder="Select or type client"
-        className='outline-none w-[50%]'
-      />
+      {/* <div className='border px-4 py-2 mb-4'>
+        <label className='pr-2 font-bold'>Client :</label>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => handleClientChange(e.target.value)}
+          placeholder="Select or type client"
+          className='outline-none w-[50%]'
+        />
 
-      {showList && (
-        <ul className="border mt-1 max-h-40 overflow-y-auto">
-          {filteredClients.map(client => (
-            <li
-              key={client.id}
-              onClick={() => handleClientSelect(client)}
-              className="cursor-pointer px-2 py-1 hover:bg-gray-200"
-            >
-              {client.Partenaire}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+        {showList && (
+          <ul className="border mt-1 max-h-40 overflow-y-auto">
+            {filteredClients.map(client => (
+              <li
+                key={client.id}
+                onClick={() => handleClientSelect(client)}
+                className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+              >
+                {client.Partenaire}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div> */}
 
       <table className="min-w-full border-collapse">
         <thead>
@@ -480,6 +480,32 @@ await dispatch(postHistoriqueData(historiqueData))
           ))}
         </tbody>
       </table>
+
+      <div className='border px-4 py-2 my-4'>
+        <label className='pr-2 font-bold'>Client :</label>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => handleClientChange(e.target.value)}
+          placeholder="Select or type client"
+          className='outline-none w-[50%]'
+        />
+
+        {showList && (
+          <ul className="border mt-1 max-h-40 overflow-y-auto">
+            {filteredClients.map(client => (
+              <li
+                key={client.id}
+                onClick={() => handleClientSelect(client)}
+                className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+              >
+                {client.Partenaire}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
       <div className="text-center mt-4">
         <button onClick={handleSubmit} className="bg-customGreen text-white hover:bg-green-600 px-4 py-2 rounded-md">Create</button>
       </div>
