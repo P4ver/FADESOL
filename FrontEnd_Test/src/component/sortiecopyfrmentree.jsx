@@ -13,6 +13,7 @@ import { fetchClientData } from '../store/clientSlice';
 import ListeDemandeUser from './listeDemandeUser';
 import { fetchVenteData, postVenteData } from '../store/venteSlice';
 import ListeSortXUser from './listeSortXUser';
+import { ToastContainer, toast } from 'react-toastify';
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -117,9 +118,9 @@ const SortX = () => {
 
     // Generate the next codeAchat when the component mounts
     const generateNextCodeAchat = () => {
-      const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-00000';
+      const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-000000';
       const lastNumber = parseInt(lastCode.split('-')[1], 10);
-      const newCode = `CS-${String(lastNumber + 1).padStart(5, '0')}`;
+      const newCode = `CS-${String(lastNumber + 1).padStart(6, '0')}`;
       setCodeAchat(newCode);
       localStorage.setItem('lastCodeAchat', newCode);
     };
@@ -215,6 +216,8 @@ const handleSubmit = async () => {
       await dispatch(postHistoriqueData(historiqueData))
         .then(response => {
           console.log("Post historique Data Response:", response);
+          toast.success('Sortie effectuée avec succès')
+
           // Swal.fire({
           //   title: 'Success',
           //   text: 'Sortie effectuée avec succès dans le stock',
@@ -494,7 +497,7 @@ const handleSubmit = async () => {
 
 
       {!loading && !checkAccess() && <ListeSortXUser />}
-
+      <ToastContainer />
     </div>
   );
 };
