@@ -114,9 +114,9 @@ const Entree = () => {
 
     // Generate the next codeAchat when the component mounts
     const generateNextCodeAchat = () => {
-      const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-00000';
+      const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-000';
       const lastNumber = parseInt(lastCode.split('-')[1], 10);
-      const newCode = `CA-${String(lastNumber + 1).padStart(5, '0')}`;
+      const newCode = `CA-${String(lastNumber + 1).padStart(3, '0')}`;
       setCodeAchat(newCode);
       localStorage.setItem('lastCodeAchat', newCode);
     };
@@ -218,12 +218,12 @@ const handleSubmit = async () => {
 await dispatch(postHistoriqueData(historiqueData))
   .then(response => {
     console.log("Post historique Data Response:", response);
-    // Swal.fire({
-    //   title: 'Success',
-    //   text: 'Sortie effectuée avec succès dans le stock',
-    //   icon: 'success',
-    //   confirmButtonText: 'OK'
-    // });
+    Swal.fire({
+      title: 'Success',
+      text: 'Sortie effectuée avec succès dans le stock',
+      icon: 'success',
+      confirmButtonText: 'OK'
+    });
     
     // Clear the input fields on successful submission
     // setDemandeCode('');
@@ -270,16 +270,28 @@ await dispatch(postHistoriqueData(historiqueData))
     // Reset lines after successful submission
     setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
 
-    // window.location.reload();
+    window.location.reload();
   } catch (error) {
     console.error('Error submitting data:', error.message);
   }
 };
 
+
+
   const handleKeyPress = (event, index) => {
     if (event.key === 'Enter' && index === lines.length - 1) {
       handleAddLine();
     }
+  };
+  
+
+  const handlePrint = () => {
+    const printContents = document.getElementById('print-area').innerHTML;
+    const originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+    window.location.reload();
   };
 
   const [selectedClient, setSelectedClient] = useState('');
@@ -311,59 +323,21 @@ await dispatch(postHistoriqueData(historiqueData))
       setLines(lines.map(line => ({ ...line, partenaire: client.Partenaire })));
     }
   };
-  console.log('@@select client@@',selectedClient)
-  
-  // ==================================================================================================
-  // const filteredClients = clientData.filter(client => 
-  //   client.Partenaire.toLowerCase().includes(inputValue.toLowerCase())
-  // )
 
-  // console.log("===>filteredClients=+>:",filteredClients)
 
-  // const [selectedClient, setSelectedClient] = useState('');
-
-  // const handleClientChange = (value) => {
-  //   console.log("===>value:",value)
-  //   setSelectedClient(value);
-  //   // setLines(lines.map(line => ({ ...line, partenaire: value })));
-  // };
-
-// ==================================================================================================
-// ==================================================================================================
-  // const findClient = clientData.find(item => item.Partenaire === selectedClient);
-  // const clientName = findClient ? findClient.Partenaire : '';
-  // if (clientName){
-  //   setLines(lines.map(line => ({ ...line, partenaire: clientName })));
-  // }
-  
-  // ==================================================================================================
-  // useEffect(() => {
-  //   const findClient = clientData.find(item => item.Partenaire === selectedClient);
-  //   const clientName = findClient ? findClient.Partenaire : '';
-    
-  //   if (clientName && lines.some(line => line.partenaire !== clientName)) {
-  //     setLines(lines.map(line => ({ ...line, partenaire: clientName })));
-  //   }
-  //   // console.log("const clientName: ====> ",clientName)
-  // }, [selectedClient, clientData, lines]);
-  // ==================================================================================================
-  
-  // ==================================================================================================
-  // ==================================================================================================
-// console.log("finputValueList: inputValueList ",inputValueList)
-
-return (
+  return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
 
-      <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography>
+      <Typography variant="h5" align="center" gutterBottom>Entree</Typography>
 
-      <div>
-      <label className='border px-4 py-2 mb-4'>Client:</label>
+      <div className='border px-4 py-2 mb-4'>
+      <label className='pr-2 font-bold'>Client :</label>
       <input
         type="text"
         value={inputValue}
         onChange={(e) => handleClientChange(e.target.value)}
         placeholder="Select or type client"
+        className='outline-none w-[50%]'
       />
 
       {showList && (
@@ -380,41 +354,6 @@ return (
         </ul>
       )}
     </div>
-
-
-      {/*
-      <div>
-        <label>Client:</label>
-        <input
-          type="text"
-          value={selectedClient}
-          onChange={(e) =>{ 
-            handleClientChange(e.target.value)
-
-            setInputValue(e.target.value)
-            }}
-          placeholder="Select or type client"
-        />
-      </div>
-      {showList && (
-            <ul className="border mt-1 max-h-40 overflow-y-auto">
-              {filteredClients.map(client => (
-                <li
-                  key={client.id}
-                  onClick={() => {
-                    // handleChange(index, 'partenaire', client.Partenaire);
-                    // setInputValue(client.Partenaire); // Update input with selected value
-                    // setInputValueList(client.Partenaire)
-                    setSelectedClient(client.Partenaire)
-                  }}
-                  className="cursor-pointer px-2 py-1 hover:bg-gray-200"
-                >
-                  {client.Partenaire}
-                </li>
-              ))}
-            </ul> 
-      )} 
-      */}
 
       <table className="min-w-full border-collapse">
         <thead>
@@ -488,32 +427,6 @@ return (
               </>}
 
 
-              {/* <td className="border px-4 py-2">
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={e => setInputValue(e.target.value)}
-                  className="w-full px-2 py-1 border-none"
-                  placeholder="Sélectionner un client"
-                />
-                {inputValue && (
-                  <ul className="border mt-1 max-h-40 overflow-y-auto">
-                    {filteredClients.map(client => (
-                      <li
-                        key={client.id}
-                        onClick={() => {
-                          handleChange(index, 'partenaire', client.Partenaire);
-                          setInputValue(client.Partenaire); // Update input with selected value
-                        }}
-                        className="cursor-pointer px-2 py-1 hover:bg-gray-200"
-                      >
-                        {client.Partenaire}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </td> */}
-
                {/* <td className="border px-4 py-2">
                   <select
                     value={line.partenaire}
@@ -581,4 +494,3 @@ return (
 };
 
 export default Entree;
-
