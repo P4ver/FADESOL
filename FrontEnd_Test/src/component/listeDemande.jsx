@@ -534,7 +534,7 @@ function ListeDemande() {
                     <TableCell className={classes.tableCell}>Quantité Demandée</TableCell>
                     <TableCell className={classes.tableCell}>Quantité Reçue</TableCell>
                     <TableCell className={classes.tableCell}>Status</TableCell>
-                    {/* <TableCell>Entrer Qte Reçue</TableCell> */}
+                    <TableCell>Entrer Qte Reçue</TableCell>
                     <TableCell className={classes.tableCell}>Qte Magasin</TableCell>
                   </TableRow>
                 </TableHead>
@@ -546,17 +546,19 @@ function ListeDemande() {
                       <TableCell className={classes.tableCell}>{data.quantite}</TableCell>
                       <TableCell className={classes.tableCell}>{data.qte_Reçu}</TableCell>
                       <TableCell className={classes.tableCell}>{getStatus(data.quantite, data.qte_Reçu, data.user_Dmd)}</TableCell>
-                      {/* <TableCell>
+                      <TableCell>
                         <TextField
                           type="number"
-                          className={classes.input}
+                          // className={classes.input}
                           value={qteRecu[data.id_Achat] || ''}
+                          size="smaller"
                           onChange={(e) => handleInputChange(data.id_Achat, e.target.value)}
+                          inputProps={{ style: { padding: '4px 8px' } }}
                           />
-                        <IconButton onClick={() => handleFormSubmit(data.id_Achat)}>
+                        {/* <IconButton onClick={() => handleFormSubmit(data.id_Achat)}>
                           <FaCheck />
-                        </IconButton>
-                      </TableCell> */}
+                        </IconButton> */}
+                      </TableCell>
                       {/* <TableCell>{data.qte_Magasin}</TableCell> */}
                       <TableCell className={classes.tableCell}>{lookNewQteMagasin(data.id_Article)}</TableCell>
                     </TableRow>
