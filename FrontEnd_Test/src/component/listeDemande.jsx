@@ -369,11 +369,11 @@ function ListeDemande() {
     if (type_User === 'Utilisateur') {
       return '=====';
     } 
-    
+
     if (filteredDataPrd.every(demand => demand.qte_Reçu === 0)) {
       return 'Pending';
     }
-    
+
     if (filteredDataPrd.every(demand => demand.qte_Reçu === demand.quantite)) {
       return 'Livré';
     }
