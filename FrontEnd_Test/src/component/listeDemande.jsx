@@ -176,7 +176,7 @@ function ListeDemande() {
     if (typeOfUser === 'Utilisateur'){
       return (
         <span className="text-black">
-          ==Livré==
+          ==Livré===
         </span>
       );
     }
@@ -311,7 +311,8 @@ function ListeDemande() {
     window.location.reload();
   };
   // const getGeneralStatus = (codeAchat) => {
-  //   const relatedDemands = filteredAchatData.filter(data => data.code_Achat === codeAchat);
+    // const relatedDemands = filteredAchatData.filter(data => data.code_Achat === codeAchat);
+    // console.log("relatedDemands*****", relatedDemands)
   //   const relatedUserStates = relatedDemands.map(demand =>
   //     userState.userData.find(user => user.login_User === demand.user_Dmd)
   //   );
@@ -368,18 +369,30 @@ function ListeDemande() {
     if (type_User === 'Utilisateur') {
       return '=====';
     } 
-  
-    if (dataPrd.qte_Reçu === 0) {
+    
+    if (filteredDataPrd.every(demand => demand.qte_Reçu === 0)) {
       return 'Pending';
     }
-  
-    if (dataPrd.qte_Reçu === dataPrd.quantite) {
+    
+    if (filteredDataPrd.every(demand => demand.qte_Reçu === demand.quantite)) {
       return 'Livré';
     }
-  
-    if (dataPrd.qte_Reçu > 0 && dataPrd.qte_Reçu < dataPrd.quantite) {
+
+    if (filteredDataPrd.some(demand => demand.qte_Reçu > 0 && demand.qte_Reçu < demand.quantite)) {
       return 'Partiellement livré';
     }
+
+    // if (dataPrd.qte_Reçu === 0) {
+    //   return 'Pending';
+    // }
+  
+    // if (dataPrd.qte_Reçu === dataPrd.quantite) {
+    //   return 'Livré';
+    // }
+    // if (dataPrd.qte_Reçu > 0 && dataPrd.qte_Reçu < dataPrd.quantite) {
+    //   return 'Partiellement livré';
+    // }
+
   }
   
   const renderStatus = (status) => {

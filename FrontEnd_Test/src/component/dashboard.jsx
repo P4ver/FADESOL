@@ -1238,7 +1238,7 @@ const Dashboard = () => {
             yAxis={[
               {
                 label: 'qte',
-                max: 1000,
+                max: 20,
                 tickNumber: 5,
               },
             ]}
