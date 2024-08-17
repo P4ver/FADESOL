@@ -165,6 +165,17 @@ const handleSubmit = async () => {
           checkNomProjet = nom_Projet;
         }
 
+        if (qte_Magasin <= 0 ) {
+          Swal.fire({
+            title: 'Error',
+            text: 'La quantité Magasin n\'est pas disponible.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+          throw new Error(`Article with code ${line.demandeCode} has no stock`);
+        }
+
+
         if (id_Article === null) {
           throw new Error(`Article with code ${line.demandeCode} not found`);
         }
@@ -182,24 +193,16 @@ const handleSubmit = async () => {
           id_Article: id_Article,
           Partenaire: Partenaire,
         };
-        // const achatPayload = {
-        //   code: line.demandeCode,
-        //   designation: designation,
-        //   quantite: parseInt(line.quantite, 10),
-        //   code_Projet: checkCodeProjet,
-        //   nom_Projet: checkNomProjet,
-        //   // code_Projet: line.projetCode,
-        //   // nom_Projet: nom_Projet,
-        //   check_Delivery: false,
-        //   code_Achat: codeAchat,
-        //   user_Dmd: user.username,
-        //   date: formattedDate,
-        //   qte_Reçu: 0,
-        //   qte_Magasin: qte_Magasin,
-        //   id_Article: id_Article,
-        //   Partenaire: Partenaire,
-        //   // code_Produit: code_Produit 
-        // };
+        if (parseInt(line.quantite, 10) > qte_Magasin ) {
+          Swal.fire({
+            title: 'Error',
+            text: 'la quantité que vous voulez n\'est pas disponible.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+          throw new Error(`Article with code ${line.demandeCode} has no stock`);
+        }
+
         console.log("qte=========>", parseInt(line.quantite, 10) + qte_Magasin)
         const historiqueData = {
           type_Op:"Sortie=>",
@@ -224,14 +227,14 @@ const handleSubmit = async () => {
           //   confirmButtonText: 'OK'
           // });
           toast.success('Sortie effectuée avec succès')
-    // Clear the input fields on successful submission
-    // setDemandeCode('');
-    // setVenteDetails(null);
-    // setQuantite('');
-  })
-  .catch(error => {
-    console.error("Post historique Data Error:", error);
-  });
+          // Clear the input fields on successful submission
+          // setDemandeCode('');
+          // setVenteDetails(null);
+          // setQuantite('');
+        })
+        .catch(error => {
+          console.error("Post historique Data Error:", error);
+        });
     const quantityReceived = qte_Magasin - parseInt(line.quantite, 10);
     //============================================================
     // if (typeUser === "Utilisateur"){
@@ -239,7 +242,7 @@ const handleSubmit = async () => {
         productId: id_Article,
         qte_Magasin: quantityReceived
       }));
-      
+
     // }
     const response = await dispatch(postVenteData(ventePayload))
     //============================================================
