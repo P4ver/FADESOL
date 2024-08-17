@@ -164,6 +164,16 @@ const handleSubmit = async () => {
           checkNomProjet = nom_Projet;
         }
 
+        if (qte_Magasin <= 0 ) {
+          Swal.fire({
+            title: 'Error',
+            text: 'Quantité Magasin n\'est pas disponibles.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+          throw new Error(`Article with code ${line.demandeCode} has no stock`);
+        }
+
         if (id_Article === null) {
           throw new Error(`Article with code ${line.demandeCode} not found`);
         }
@@ -213,6 +223,16 @@ const handleSubmit = async () => {
           Partenaire: Partenaire,
         }
 
+        if (parseInt(line.quantite, 10) > qte_Magasin ) {
+          Swal.fire({
+            title: 'Error',
+            text: 'Quantité vous voulez n\'est pas disponibles.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+          throw new Error(`Article with code ${line.demandeCode} has no stock`);
+        }
+
       await dispatch(postHistoriqueData(historiqueData))
         .then(response => {
           console.log("Post historique Data Response:", response);
@@ -234,6 +254,7 @@ const handleSubmit = async () => {
     console.error("Post historique Data Error:", error);
   });
     const quantityReceived = qte_Magasin - parseInt(line.quantite, 10);
+    // if (qte_Magasin <= 0) return console.log("qte_magasin is <= 0")
     //============================================================
     // if (typeUser === "Utilisateur"){
       await dispatch(updateQteMagasin({
@@ -241,6 +262,10 @@ const handleSubmit = async () => {
         qte_Magasin: quantityReceived
       }));
       
+      
+      // console.error("qte_Magasin******", qte_Magasin);
+      // console.error("quantityReceived: qte-parse=***", quantityReceived);
+      // console.error("parseInt(line.quantite, 10)", parseInt(line.quantite, 10));
     // }
     const response = await dispatch(postVenteData(ventePayload))
     //============================================================
@@ -262,7 +287,7 @@ const handleSubmit = async () => {
     // Reset lines after successful submission
     setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
 
-    window.location.reload();
+    // window.location.reload();
   } catch (error) {
     console.error('Error submitting data:', error.message);
   }
