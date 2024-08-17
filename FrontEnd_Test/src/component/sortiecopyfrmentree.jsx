@@ -167,7 +167,7 @@ const handleSubmit = async () => {
         if (qte_Magasin <= 0 ) {
           Swal.fire({
             title: 'Error',
-            text: 'Quantité Magasin n\'est pas disponibles.',
+            text: 'La quantité Magasin n\'est pas disponible.',
             icon: 'error',
             confirmButtonText: 'OK'
           });
@@ -226,7 +226,7 @@ const handleSubmit = async () => {
         if (parseInt(line.quantite, 10) > qte_Magasin ) {
           Swal.fire({
             title: 'Error',
-            text: 'Quantité vous voulez n\'est pas disponibles.',
+            text: 'La quantité que vous voulez n\'est pas disponible.',
             icon: 'error',
             confirmButtonText: 'OK'
           });
