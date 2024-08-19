@@ -158,7 +158,7 @@ const SortX = () => {
     for (const line of lines) {
       console.log("===============>line====>", line)
       // if (line.demandeCode && line.projetCode && line.quantite && line.partenaire) {
-      if (line.demandeCode && line.quantite && line.partenaire) {
+      if (line.demandeCode && line.quantite && line.partenaire && line.note) {
         const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
         console.log("===>article: ",article)
         const designation = article?.Description_Article || '';
