@@ -366,6 +366,7 @@ const SortX = () => {
             {/* <th className="border px-4 py-2">Client</th> */}
             <th className="border px-4 py-2">Quantité Magasin</th>
             <th className="border px-4 py-2">Quantité</th>
+            <th className="border px-4 py-2">Onduleur</th>
             <th className="border px-4 py-2">Action</th>
           </tr>
         </thead>
@@ -462,6 +463,15 @@ const SortX = () => {
                   onChange={(e) => handleChange(index, 'quantite', e.target.value)}
                   className="w-full px-2 py-1 border-none"
                   onKeyPress={(e) => handleKeyPress(e, index)}
+                />
+              </td>
+              <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  value={line.note || ''} // Bind the note value
+                  placeholder='Enter Note'
+                  onChange={(e) => handleChange(index, 'note', e.target.value)} // Handle note change
+                  className="w-full px-2 py-1 border-none"
                 />
               </td>
               <td className="border px-4 py-2">
