@@ -418,22 +418,23 @@ const downloadBarcodeAsPDF = async (numArticle, Gamme, Designation, desi_fadesol
         
         pdf.setFontSize(14); // Smaller font size
         pdf.setFont("helvetica", "bold");
-        pdf.text('Services', 6, 1.4, { align: 'center' });
+        pdf.text('Victron Energy', 6, 1.4, { align: 'center' });
         pdf.setFontSize(15);
         // Set font to bold for 'FADESOL'
         pdf.setFont("helvetica", "bold");
         pdf.text(`FADESOL`, 1, 1);
-        pdf.setFontSize(10);
+        // pdf.setFontSize(10);
         // Reset font to normal
         pdf.setFont("helvetica", "normal");
-        pdf.text(`UPS SYSTEMS`, 1, 1.5);
+        pdf.text(`Power Solutions`, 1, 1.5);
+        // pdf.text(`UPS SYSTEMS`, 1, 1.5);
 
 
         pdf.setLineWidth(0.25); // Set line width
         pdf.line(1, 1.8, 3.5, 1.8); // Draw line from (1 cm, 2 cm) to (9 cm, 2 cm)
         
         pdf.setFont("helvetica", "bold");
-        pdf.text('Pièce détachée d\'origine', 6, 2.3, { align: 'center' });
+        // pdf.text('Pièce détachée d\'origine', 6, 2.3, { align: 'center' });
 
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(8); // Even smaller font size
