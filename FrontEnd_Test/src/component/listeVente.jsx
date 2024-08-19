@@ -22,7 +22,7 @@ Modal.setAppElement('#root');
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 550,
+    // minWidth: 550,
   },
   modal: {
     position: 'absolute',
@@ -482,9 +482,13 @@ function ListeVente() {
         <td><h6>Demandeur</h6></td>
         <td>: {selectedAchat?.user_Dmd}</td>
       </tr>
-      <tr>
+      <tr className='font-extrabold text-xl'>
         <td><h6>Client</h6></td>
         <td>: {selectedAchat?.Partenaire}</td>
+      </tr>
+      <tr>
+        <td><p>{`       `}</p></td>
+        <br />
       </tr>
       <tr>
         <td><h6>Onduleur</h6></td>
@@ -502,9 +506,9 @@ function ListeVente() {
     <thead>
       <tr className='border'>
       <th className="border border-black text-[9px] font-semibold text-center py-1">Code</th>
-           <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Désignation</th>
+           <th className="border border-black text-[9px] font-semibold text-center py-1 ">Désignation</th>
            {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Client</th> */}
-           <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Quantité</th>
+           <th className="border border-black text-[9px] font-semibold text-center py-1 ">Quantité</th>
            {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th> */}
           {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Projet</th> */}
       </tr>
@@ -512,11 +516,11 @@ function ListeVente() {
     </thead>
     <tbody>
       {venteData.filter(a => a.code_Sortie === selectedAchat?.code_Sortie).map((item, idx) => (
-        <tr key={idx} className='border'>
-          <td className=" border border-black text-[9px] text-center py-1 w-4/12">{item.code_Produit}</td>
-          <td className=" border border-black text-[9px] text-center  py-1 w-6/12">{item.designation_Produit}</td>
+          <tr key={idx} className='border'>
+          <td className="border border-black text-[9px] text-center py-1 w-28">{item.code_Produit}</td>
+          <td className=" border border-black text-[9px] text-center py-1 w-96">{item.designation_Produit}</td>
           {/* <td className=" border border-black text-[9px] text-center  py-1 w-2/5">{item.Partenaire}</td> */}
-          <td className=" border border-black text-[9px] text-center py-1 w-2/12">{item.qte_Produit}</td>
+          <td className=" border border-black text-[9px] text-center py-1 w-9">{item.qte_Produit}</td>
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Magasin}</td> */}
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td> */}
           {/* <td className=" border border-black text-[9px] text-center   py-1 w-1/5">{item.nom_Projet}</td> */}
