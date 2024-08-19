@@ -392,7 +392,7 @@ const handleSubmit = async () => {
             {/* <th className="border px-4 py-2">Client</th> */}
             <th className="border px-4 py-2">Quantité Magasin</th>
             <th className="border px-4 py-2">Quantité</th>
-            <th className="border px-4 py-2">Note</th>
+            <th className="border px-4 py-2">Onduleur</th>
             <th className="border px-4 py-2">Action</th>
           </tr>
         </thead>
