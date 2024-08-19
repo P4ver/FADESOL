@@ -434,9 +434,9 @@ function ListeSortXUser() {
   <div className='w-32'>
     <img src={logo} alt="Logo" />
   </div>
-  <h5 className='mt-4'>Demande de Sortie</h5>
+  {/* <h5 className='mt-4'>Demande de Sortie</h5> */}
 
-  <table className='w-2/5 shadow-y-lg'> 
+  <table className='w-2/5 shadow-y-lg ml-auto'> 
     {/* <tbody>
       {[
         { label: 'Code Sortie', value: selectedAchat?.code_Sortie },
@@ -449,28 +449,34 @@ function ListeSortXUser() {
         </tr>
       ))}
     </tbody> */}
-    {[
-        { label: 'Sortie PDR N°', value: selectedAchat?.code_Sortie },
-        { 
-          label: 'Date', 
-          value: selectedAchat?.date_Vente ? 
-            new Date(selectedAchat.date_Vente).toLocaleString('en-GB', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-            }).replace(',', '') : '' 
-        },
-        { label: 'Demandeur', value: selectedAchat?.user_Dmd },
-        { label: 'Client', value: selectedAchat?.Partenaire },
-        { label: 'Onduleur', value: selectedAchat?.note }
-      ].map((item, idx) => (
-        <tr key={idx}>
-          <td><h6>{item.label}</h6></td>
-          <td>: {item.value}</td>
-        </tr>
-      ))} 
+    <tr className='font-bold text-xl'>
+        <td><h6>Sortie PDR N°</h6></td>
+        <td>: {selectedAchat?.code_Sortie}</td>
+      </tr>
+      <tr>
+        <td><h6>Date</h6></td>
+        <td>: {selectedAchat?.date_Vente ? 
+              new Date(selectedAchat.date_Vente).toLocaleString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+              }).replace(',', '') : '' }
+        </td>
+      </tr>
+      <tr>
+        <td><h6>Demandeur</h6></td>
+        <td>: {selectedAchat?.user_Dmd}</td>
+      </tr>
+      <tr>
+        <td><h6>Client</h6></td>
+        <td>: {selectedAchat?.Partenaire}</td>
+      </tr>
+      <tr>
+        <td><h6>Onduleur</h6></td>
+        <td>: {selectedAchat?.note}</td>
+      </tr> 
   </table>
   <br />
   <br />
