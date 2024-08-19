@@ -423,7 +423,7 @@ const downloadBarcodeAsPDF = async (numArticle, Gamme, Designation, desi_fadesol
         // Set font to bold for 'FADESOL'
         pdf.setFont("helvetica", "bold");
         pdf.text(`FADESOL`, 1, 1);
-        // pdf.setFontSize(10);
+        pdf.setFontSize(9.6);
         // Reset font to normal
         pdf.setFont("helvetica", "normal");
         pdf.text(`Power Solutions`, 1, 1.5);
