@@ -598,16 +598,27 @@ function ListeDemande() {
             </Button>
 
             <div id="print-area" className={`${classes.printArea}`}>
-                <div className='w-32 mx-auto'>
+                <div className='w-32'>
                   <img src={logo} alt="Logo" />
                 </div>
                 <h5 className='mt-4'>Demande d'Entree</h5>
 
                 <table className='w-2/5 shadow-y-lg'> 
+                      {/* { label: 'Date', value: selectedAchat?.date ? new Date(selectedAchat.date).toISOString().split('T')[0] : '' }, */}
                   <tbody>
                     {[
                       { label: 'Code Achat', value: selectedAchat?.code_Achat },
-                      { label: 'Date', value: selectedAchat?.date ? new Date(selectedAchat.date).toISOString().split('T')[0] : '' },
+                      { 
+                        label: 'Date', 
+                        value: selectedAchat?.date ? 
+                          new Date(selectedAchat.date).toLocaleString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          }).replace(',', '') : '' 
+                      },
                       { label: 'User', value: selectedAchat?.user_Dmd }
                     ].map((item, idx) => (
                       <tr key={idx}>

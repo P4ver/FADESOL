@@ -429,17 +429,31 @@ function ListeVente() {
               <FaPrint /> Imprimer
             </Button>
             <div id="print-area" className={`${classes.printArea}`}>
-  <div className='w-32 mx-auto'>
+  {/* <div className='w-32 mx-auto'> */}
+  <div className='w-32'>
     <img src={logo} alt="Logo" />
   </div>
   <h5 className='mt-4'>Demande de Sortie</h5>
 
   <table className='w-2/5 shadow-y-lg'> 
+        {/* { label: 'Date', value: selectedAchat?.date_Vente ? new Date(selectedAchat.date_Vente).toISOString().split('T')[0] : '' }, */}
     <tbody>
       {[
-        { label: 'Code Sortie', value: selectedAchat?.code_Sortie },
-        { label: 'Date', value: selectedAchat?.date_Vente ? new Date(selectedAchat.date_Vente).toISOString().split('T')[0] : '' },
-        { label: 'User', value: selectedAchat?.user_Dmd }
+        { label: 'Sortie PDR N°', value: selectedAchat?.code_Sortie },
+        { 
+          label: 'Date', 
+          value: selectedAchat?.date_Vente ? 
+            new Date(selectedAchat.date_Vente).toLocaleString('en-GB', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            }).replace(',', '') : '' 
+        },
+        { label: 'Demandeur', value: selectedAchat?.user_Dmd },
+        { label: 'Client', value: selectedAchat?.Partenaire },
+        { label: 'Onduleur', value: selectedAchat?.note }
       ].map((item, idx) => (
         <tr key={idx}>
           <td><h6>{item.label}</h6></td>
@@ -457,7 +471,7 @@ function ListeVente() {
       <tr className='border'>
       <th className="border border-black text-[9px] font-semibold text-center py-1">Code</th>
            <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Désignation</th>
-           <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Client</th>
+           {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Client</th> */}
            <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Quantité</th>
            {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th> */}
           {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Projet</th> */}
@@ -469,7 +483,7 @@ function ListeVente() {
         <tr key={idx} className='border'>
           <td className=" border border-black text-[9px] text-center py-1 min-w-28">{item.code_Produit}</td>
           <td className=" border border-black text-[9px] text-center  py-1 w-2/5">{item.designation_Produit}</td>
-          <td className=" border border-black text-[9px] text-center  py-1 w-2/5">{item.Partenaire}</td>
+          {/* <td className=" border border-black text-[9px] text-center  py-1 w-2/5">{item.Partenaire}</td> */}
           <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Produit}</td>
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Magasin}</td> */}
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td> */}

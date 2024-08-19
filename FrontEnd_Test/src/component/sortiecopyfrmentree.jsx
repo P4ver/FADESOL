@@ -132,7 +132,7 @@ const SortX = () => {
   }, [dispatch]);
   // const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
   const handleAddLine = () => {
-    setLines([...lines, { demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
+    setLines([...lines, { demandeCode: '', projetCode: '', quantite: '', partenaire: '', note: ''}]);
   };
 
   const handleChange = (index, key, value) => {
@@ -167,6 +167,7 @@ const handleSubmit = async () => {
         const qte_Magasin = article?.qte_Magasin || '';
         const Partenaire = clientData.find(client=>client.Partenaire == line.partenaire)?.Partenaire || '';
         // const Partenaire = clientData.map(client=>client.Partenaire)
+        const note = line.note || '';
 
         let checkCodeProjet = "sans"; // Initialize with default value
         let checkNomProjet = "sans"; // Initialize with default value 
@@ -202,6 +203,7 @@ const handleSubmit = async () => {
           user_Dmd: user.username,
           id_Article: id_Article,
           Partenaire: Partenaire,
+          note: note,
         };
         // const achatPayload = {
         //   code: line.demandeCode,
@@ -297,7 +299,7 @@ const handleSubmit = async () => {
     }
 
     // Reset lines after successful submission
-    setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
+    setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: '', note: ''}]);
 
     // window.location.reload();
   } catch (error) {
@@ -390,6 +392,7 @@ const handleSubmit = async () => {
             {/* <th className="border px-4 py-2">Client</th> */}
             <th className="border px-4 py-2">Quantité Magasin</th>
             <th className="border px-4 py-2">Quantité</th>
+            <th className="border px-4 py-2">Note</th>
             <th className="border px-4 py-2">Action</th>
           </tr>
         </thead>
@@ -486,6 +489,15 @@ const handleSubmit = async () => {
                   onChange={(e) => handleChange(index, 'quantite', e.target.value)}
                   className="w-full px-2 py-1 border-none"
                   onKeyPress={(e) => handleKeyPress(e, index)}
+                />
+              </td>
+              <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  value={line.note || ''} // Bind the note value
+                  placeholder='Enter Note'
+                  onChange={(e) => handleChange(index, 'note', e.target.value)} // Handle note change
+                  className="w-full px-2 py-1 border-none"
                 />
               </td>
               <td className="border px-4 py-2">
