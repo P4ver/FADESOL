@@ -133,7 +133,7 @@ const SortX = () => {
   }, [dispatch]);
   // const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
   const handleAddLine = () => {
-    setLines([...lines, { demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
+    setLines([...lines, { demandeCode: '', projetCode: '', quantite: '', partenaire: '', note: ''}]);
   };
 
   const handleChange = (index, key, value) => {
@@ -167,7 +167,7 @@ const SortX = () => {
         const qte_Magasin = article?.qte_Magasin || '';
         const Partenaire = clientData.find(client=>client.Partenaire == line.partenaire)?.Partenaire || '';
         // const Partenaire = clientData.map(client=>client.Partenaire)
-
+        const note = line.note || '';
         let checkCodeProjet = "sans"; // Initialize with default value
         let checkNomProjet = "sans"; // Initialize with default value 
       
@@ -203,6 +203,7 @@ const SortX = () => {
           user_Dmd: user.username,
           id_Article: id_Article,
           Partenaire: Partenaire,
+          note: note,
         };
         if (parseInt(line.quantite, 10) > qte_Magasin ) {
           Swal.fire({
@@ -273,7 +274,7 @@ const SortX = () => {
     }
 
     // Reset lines after successful submission
-    setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
+    setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: '', note: ''}]);
 
     window.location.reload();
   } catch (error) {
