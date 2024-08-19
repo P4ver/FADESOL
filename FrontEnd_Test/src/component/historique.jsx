@@ -124,7 +124,8 @@ const Historique = () => {
     const filtered = historiqueData.filter(item =>
       (item.user_Dmd && item.user_Dmd.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (item.date_Op && item.date_Op.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (item.type_Op && item.type_Op.toLowerCase().includes(searchTerm.toLowerCase()))
+      (item.type_Op && item.type_Op.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.date_Op && item.code_Produit.toLowerCase().includes(searchTerm.toLowerCase()))
     );
     setFilteredData(filtered);
   }, [historiqueData, searchTerm]);
@@ -215,7 +216,8 @@ console.log("filteredData", filteredData)
               {filteredData.slice().reverse().map((item, index) => (
                 <tr key={item.id_Historique} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
                   <td className="border px-4 py-2">{item.type_Op}</td>
-                  <td className="border px-4 py-2">{item.date_Op}</td>
+                  {/* <td className="border px-4 py-2">{item.date_Op}</td> */}
+                  <td className="border px-4 py-2">{new Date(item.date_Op).toLocaleDateString('en-GB')}</td>
                   <td className="border px-4 py-2">{item.code_Produit}</td>
                   <td className="border px-4 py-2">{item.designation_Produit}</td>
                   <td className="border px-4 py-2">{item.qte_Produit}</td>
