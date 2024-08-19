@@ -15,6 +15,9 @@ import { fetchVenteData, postVenteData } from '../store/venteSlice';
 import ListeSortXUser from './listeSortXUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRef } from 'react';
+
+
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -139,8 +142,16 @@ const SortX = () => {
     setLines(newLines);
   };
 
-const handleSubmit = async () => {
+  const lastClickTimeRef = useRef(0);
+
+  const handleSubmit = async () => {
   try {
+
+    const now = Date.now();
+    if (now - lastClickTimeRef.current < 1000) return; // Ignore clicks within 1 second
+
+    lastClickTimeRef.current = now;
+
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
     
