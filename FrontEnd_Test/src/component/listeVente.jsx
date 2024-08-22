@@ -435,7 +435,7 @@ function ListeVente() {
   </div>
   {/* <h5 className='mt-4'>Demande de Sortie</h5> */}
 
-  <table className='w-2/5 shadow-y-lg  ml-auto'> 
+  <table className='w-2/5 shadow-y-lg ml-auto  w-[50%]'> 
         {/* { label: 'Date', value: selectedAchat?.date_Vente ? new Date(selectedAchat.date_Vente).toISOString().split('T')[0] : '' }, */}
     <tbody>
       {/* {[
@@ -462,8 +462,8 @@ function ListeVente() {
       ))} */}
 
 
-      <tr className='font-extrabold text-xl'>
-        <td><h6>Sortie PDR N°</h6></td>
+      <tr className='font-semibold text-lg'>
+        <td className='w-32'><h6>Sortie PDR N°</h6></td>
         <td>: {selectedAchat?.code_Sortie}</td>
       </tr>
       <tr>
@@ -482,13 +482,15 @@ function ListeVente() {
         <td><h6>Demandeur</h6></td>
         <td>: {selectedAchat?.user_Dmd}</td>
       </tr>
-      <tr className='font-extrabold text-xl'>
-        <td><h6>Client</h6></td>
+      <tr className='font-semibold text-lg'>
+        <td className='flex items-start '><h6>Client</h6></td>
         <td>: {selectedAchat?.Partenaire}</td>
       </tr>
       <tr>
-        <td><p>{`       `}</p></td>
-        <br />
+        <td colSpan="2">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colSpan="2">&nbsp;</td>
       </tr>
       <tr>
         <td><h6>Onduleur</h6></td>
@@ -498,8 +500,8 @@ function ListeVente() {
       
     </tbody>
   </table>
-  <br />
-  <br />
+  {/* <br /> */}
+  {/* <br /> */}
 
   <div className='my-4'>
   <table className={`${classes.table} border-collapse border border-green-800 rounded-lg shadow-sm mx-auto`}>
@@ -520,7 +522,7 @@ function ListeVente() {
           <td className="border border-black text-[9px] text-center py-1 w-28">{item.code_Produit}</td>
           <td className=" border border-black text-[9px] text-center py-1 w-96">{item.designation_Produit}</td>
           {/* <td className=" border border-black text-[9px] text-center  py-1 w-2/5">{item.Partenaire}</td> */}
-          <td className=" border border-black text-[9px] text-center py-1 w-9">{item.qte_Produit}</td>
+          <td className=" border border-black text-[9px] text-center py-1 w-11">{item.qte_Produit}</td>
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Magasin}</td> */}
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td> */}
           {/* <td className=" border border-black text-[9px] text-center   py-1 w-1/5">{item.nom_Projet}</td> */}
