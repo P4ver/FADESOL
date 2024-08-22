@@ -505,7 +505,7 @@ function ListeSortXUser() {
   <br /> */}
 
   <div className='my-4'>
-  <table className={`${classes.table} border-collapse border border-green-800 rounded-lg shadow-sm`}>
+  <table className={`${classes.table} border-collapse border border-green-800 rounded-lg shadow-sm mx-auto `}>
     <thead>
       <tr className='border'>
       <th className="border border-black text-[9px] font-semibold text-center py-1">Code</th>
