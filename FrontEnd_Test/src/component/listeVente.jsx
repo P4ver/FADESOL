@@ -436,21 +436,35 @@ function ListeSortXUser() {
   </div>
   {/* <h5 className='mt-4'>Demande de Sortie</h5> */}
 
-  <table className='w-2/5 shadow-y-lg ml-auto'> 
-    {/* <tbody>
-      {[
-        { label: 'Code Sortie', value: selectedAchat?.code_Sortie },
-        { label: 'Date', value: selectedAchat?.date_Vente ? new Date(selectedAchat.date_Vente).toISOString().split('T')[0] : '' },
-        { label: 'User', value: selectedAchat?.user_Dmd }
+  <table className='w-2/5 shadow-y-lg ml-auto  w-[50%]'> 
+        {/* { label: 'Date', value: selectedAchat?.date_Vente ? new Date(selectedAchat.date_Vente).toISOString().split('T')[0] : '' }, */}
+    <tbody>
+      {/* {[
+        { label: 'Sortie PDR N°', value: selectedAchat?.code_Sortie },
+        { 
+          label: 'Date', 
+          value: selectedAchat?.date_Vente ? 
+            new Date(selectedAchat.date_Vente).toLocaleString('en-GB', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            }).replace(',', '') : '' 
+        },
+        { label: 'Demandeur', value: selectedAchat?.user_Dmd },
+        { label: 'Client', value: selectedAchat?.Partenaire },
+        { label: 'Onduleur', value: selectedAchat?.note }
       ].map((item, idx) => (
         <tr key={idx}>
           <td><h6>{item.label}</h6></td>
           <td>: {item.value}</td>
         </tr>
-      ))}
-    </tbody> */}
-    <tr className='font-bold text-xl'>
-        <td><h6>Sortie PDR N°</h6></td>
+      ))} */}
+
+
+      <tr className='font-semibold text-lg'>
+        <td className='w-32'><h6>Sortie PDR N°</h6></td>
         <td>: {selectedAchat?.code_Sortie}</td>
       </tr>
       <tr>
@@ -469,26 +483,35 @@ function ListeSortXUser() {
         <td><h6>Demandeur</h6></td>
         <td>: {selectedAchat?.user_Dmd}</td>
       </tr>
-      <tr>
-        <td><h6>Client</h6></td>
+      <tr className='font-semibold text-lg'>
+        <td className='flex items-start '><h6>Client</h6></td>
         <td>: {selectedAchat?.Partenaire}</td>
+      </tr>
+      <tr>
+        <td colSpan="2">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colSpan="2">&nbsp;</td>
       </tr>
       <tr>
         <td><h6>Onduleur</h6></td>
         <td>: {selectedAchat?.note}</td>
       </tr>
+
+      
+    </tbody>
   </table>
-  <br />
-  <br />
+  {/* <br />
+  <br /> */}
 
   <div className='my-4'>
   <table className={`${classes.table} border-collapse border border-green-800 rounded-lg shadow-sm mx-auto`}>
     <thead>
       <tr className='border'>
       <th className="border border-black text-[9px] font-semibold text-center py-1">Code</th>
-           <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Désignation</th>
+           <th className="border border-black text-[9px] font-semibold text-center py-1">Désignation</th>
            {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Client</th> */}
-           <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Quantité</th>
+           <th className="border border-black text-[9px] font-semibold text-center py-1">Quantité</th>
            {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th> */}
           {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Projet</th> */}
       </tr>
@@ -496,11 +519,11 @@ function ListeSortXUser() {
     </thead>
     <tbody>
       {venteData.filter(a => a.code_Sortie === selectedAchat?.code_Sortie).map((item, idx) => (
-        <tr key={idx} className='border'>
-          <td className=" border border-black text-[9px] text-center py-1 w-4/12">{item.code_Produit}</td>
-          <td className=" border border-black text-[9px] text-center  py-1 w-6/12">{item.designation_Produit}</td>
+          <tr key={idx} className='border'>
+          <td className="border border-black text-[9px] text-center py-1 w-28">{item.code_Produit}</td>
+          <td className=" border border-black text-[9px] text-center py-1 w-96">{item.designation_Produit}</td>
           {/* <td className=" border border-black text-[9px] text-center  py-1 w-2/5">{item.Partenaire}</td> */}
-          <td className=" border border-black text-[9px] text-center py-1 w-2/12">{item.qte_Produit}</td>
+          <td className=" border border-black text-[9px] text-center py-1 w-11">{item.qte_Produit}</td>
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Magasin}</td> */}
           {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td> */}
           {/* <td className=" border border-black text-[9px] text-center   py-1 w-1/5">{item.nom_Projet}</td> */}
