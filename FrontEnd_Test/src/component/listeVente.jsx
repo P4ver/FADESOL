@@ -489,9 +489,9 @@ function ListeVente() {
       <tr>
         <td colSpan="2">&nbsp;</td>
       </tr>
-      <tr>
+      {/* <tr>
         <td colSpan="2">&nbsp;</td>
-      </tr>
+      </tr> */}
       <tr>
         <td><h6>Onduleur</h6></td>
         <td>: {selectedAchat?.note}</td>

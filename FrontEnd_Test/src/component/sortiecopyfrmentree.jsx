@@ -69,11 +69,13 @@ const useStyles = makeStyles({
 
 const SortX = () => {
   const classes = useStyles();
-  const [lines, setLines] = useState([{ demandeCode: '', projetCode: '', quantite: '' }]);
+  const [lines, setLines] = useState([{ demandeCode: '', projetCode: '', quantite: '', partenaire: '', note: '' }]);
   const productData = useSelector((state) => state.product.productData);
   const projetData = useSelector((state) => state.projet.projetData);
   const clientData = useSelector((state) => state.client.clientData);
   const historiqueData = useSelector(state => state.historique.historiqueData);
+  const { venteData } = useSelector(state => state.vente);
+
 
   const [filteredData, setFilteredData] = useState([]);
 
@@ -110,30 +112,69 @@ const SortX = () => {
   console.log("sortie: checkAccess:", checkAccess())
   //=========================================================================================
   const dispatch = useDispatch();
-
+  const didRunRef = useRef(false);
   useEffect(() => {
-    dispatch(fetchProductData());
-    dispatch(fetchProjetData());
-    dispatch(fetchAchatempoData());
-    dispatch(fetchClientData());
-    dispatch(fetchHistoriqueData()); 
-    dispatch(fetchVenteData()); 
+    // dispatch(fetchProductData());
+    // dispatch(fetchProjetData());
+    // dispatch(fetchAchatempoData());
+    // dispatch(fetchClientData());
+    // dispatch(fetchHistoriqueData()); 
+    // dispatch(fetchVenteData()); 
 
-    // Generate the next codeAchat when the component mounts
-    const generateNextCodeAchat = () => {
-      const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-000000';
-      const lastNumber = parseInt(lastCode.split('-')[1], 10);
-      const newCode = `CS-${String(lastNumber + 1).padStart(6, '0')}`;
-      setCodeAchat(newCode);
-      localStorage.setItem('lastCodeAchat', newCode);
+    const fetchDataAndGenerateCode = async () => {
+      await dispatch(fetchProductData());
+      await dispatch(fetchProjetData());
+      await dispatch(fetchAchatempoData());
+      await dispatch(fetchClientData());
+      await dispatch(fetchHistoriqueData());
+      await dispatch(fetchVenteData());
+  
+      // await generateNextCodeAchat();
+      if (!didRunRef.current) {
+        await generateNextCodeAchat();
+        didRunRef.current = true;
+      }
     };
 
-    generateNextCodeAchat();
+
+    // Generate the next codeAchat when the component mounts
+    
+    
+    fetchDataAndGenerateCode();
+    // generateNextCodeAchat();
   }, [dispatch]);
+  const generateNextCodeAchat = () => {
+    // const lastCode = localStorage.getItem('lastCodeAchat') || 'CS-000000';
+    // const lastNumber = parseInt(lastCode.split('-')[1], 10);
+    // const newCode = `CS-${String(lastNumber + 1).padStart(6, '0')}`;
+    // setCodeAchat(newCode);
+    // localStorage.setItem('lastCodeAchat', newCode);
+
+    // const lastCodeSortie = venteData[venteData.length - 1];
+    // const lastCodeSortieINT = parseInt(lastCodeSortie.code_Sortie.split('-')[1], 10) + 1;
+    // const newCodeSortie = `CS-${String(lastCodeSortieINT).padStart(6, '0')}`;
+    // console.log("codeSortieINT code sortie:", newCodeSortie)
+    
+    // setCodeAchat(newCodeSortie);
+    if (venteData && venteData.length > 0) {
+      // const lastCodeSortie = venteData[venteData.length - 1].code_Sortie;
+      const lastCodeSortie = venteData[venteData.length - 1].code_Sortie || localStorage.getItem('lastCodeSortie');
+      const lastCodeSortieINT = parseInt(lastCodeSortie.split('-')[1], 10) + 1;
+      const newCodeSortie = `CS-${String(lastCodeSortieINT).padStart(6, '0')}`;
+      console.log("codeSortieINT code sortie:", newCodeSortie);
+      setCodeAchat(newCodeSortie);
+      localStorage.setItem('lastCodeSortie', newCodeSortie);
+    } else {
+      console.log("venteData is empty or undefined.");
+      // Handle cases where venteData is empty, e.g., set a default value
+      // setCodeAchat("CS-000001");
+    }
+  };
   // const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
   const handleAddLine = () => {
     setLines([...lines, { demandeCode: '', projetCode: '', quantite: '', partenaire: '', note: ''}]);
   };
+
 
   const handleChange = (index, key, value) => {
     const newLines = [...lines];
@@ -154,13 +195,39 @@ const handleSubmit = async () => {
 
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
-    
+
+
+    // Check if any line is missing required fields
+    const hasMissingFields = lines.some(line => 
+      !line.demandeCode || !line.partenaire || !line.note || !line.quantite
+    );
+
+    if (hasMissingFields) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Tous les champs doivent être remplis pour chaque ligne.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      return; // Exit the function if any line is missing required fields
+    }
+
     for (const line of lines) {
-      console.log("===============>line====>", line)
+        // Check for empty fields
+        if (!line.demandeCode || !line.partenaire || !line.note || !line.quantite) {
+          Swal.fire({
+            title: 'Error',
+            text: 'Tous les champs doivent être remplis.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+          return; // Exit the function if any required field is emptye
+        }
+        // console.log("===============>line====>", line)
       // if (line.demandeCode && line.projetCode && line.quantite && line.partenaire) {
       if (line.demandeCode && line.quantite && line.partenaire && line.note) {
         const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
-        console.log("===>article: ",article)
+        // console.log("===>article: ",article)
         const designation = article?.Description_Article || '';
         const id_Article = article?.id_Article || null;
         const nom_Projet = projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || '';
@@ -205,24 +272,6 @@ const handleSubmit = async () => {
           Partenaire: Partenaire,
           note: note,
         };
-        // const achatPayload = {
-        //   code: line.demandeCode,
-        //   designation: designation,
-        //   quantite: parseInt(line.quantite, 10),
-        //   code_Projet: checkCodeProjet,
-        //   nom_Projet: checkNomProjet,
-        //   // code_Projet: line.projetCode,
-        //   // nom_Projet: nom_Projet,
-        //   check_Delivery: false,
-        //   code_Achat: codeAchat,
-        //   user_Dmd: user.username,
-        //   date: formattedDate,
-        //   qte_Reçu: 0,
-        //   qte_Magasin: qte_Magasin,
-        //   id_Article: id_Article,
-        //   Partenaire: Partenaire,
-        //   // code_Produit: code_Produit 
-        // };
         console.log("qte=========>", parseInt(line.quantite, 10) + qte_Magasin)
         const historiqueData = {
           type_Op:"Sortie=>",
@@ -263,20 +312,20 @@ const handleSubmit = async () => {
     // setDemandeCode('');
     // setVenteDetails(null);
     // setQuantite('');
-  })
-  .catch(error => {
-    console.error("Post historique Data Error:", error);
-  });
+        })
+        .catch(error => {
+          console.error("Post historique Data Error:", error);
+        });
     const quantityReceived = qte_Magasin - parseInt(line.quantite, 10);
     // if (qte_Magasin <= 0) return console.log("qte_magasin is <= 0")
     //============================================================
     // if (typeUser === "Utilisateur"){
+
       await dispatch(updateQteMagasin({
         productId: id_Article,
         qte_Magasin: quantityReceived
       }));
-      
-      
+
       // console.error("qte_Magasin******", qte_Magasin);
       // console.error("quantityReceived: qte-parse=***", quantityReceived);
       // console.error("parseInt(line.quantite, 10)", parseInt(line.quantite, 10));
@@ -295,19 +344,21 @@ const handleSubmit = async () => {
           confirmButtonText: 'OK'
         });
         console.error('Demande or Projet details or quantite or n_Serie or Client are not available');
+        return;
       }
     }
 
     // Reset lines after successful submission
     setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: '', note: ''}]);
 
-    // window.location.reload();
+    window.location.reload();
   } catch (error) {
     console.error('Error submitting data:', error.message);
   }
 };
 
 
+console.log("****lines***=>",lines)
 
   const handleKeyPress = (event, index) => {
     if (event.key === 'Enter' && index === lines.length - 1) {
