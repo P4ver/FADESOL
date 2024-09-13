@@ -66,7 +66,6 @@ const useStyles = makeStyles({
   },
   searchInput: {
     marginRight: 10,
-
   },
 });
 
@@ -95,11 +94,6 @@ function ListeSortXUser() {
   const filteredAchatData = achatempoData.filter(data => data.user_Dmd === user.username);
   const filteredVenteData = venteData.filter(data => data.user_Dmd === user.username);
   console.log("filteredVenteData***:",filteredVenteData)
-  const lookNewQteMagasin = (id_Article) =>{
-    const findQteMagasinUpdate = productData.find(p => p.id_Article  == id_Article)
-    console.log("=>==>=>=>", findQteMagasinUpdate)
-    return findQteMagasinUpdate.qte_Magasin
-  }
 
   useEffect(() => {
     if (updateSuccess) {
@@ -108,82 +102,9 @@ function ListeSortXUser() {
     }
   }, [updateSuccess]);
 
-  const handleInputChange = (id, value) => {
-    setQteRecu(prevState => ({
-      ...prevState,
-      [id]: value,
-    }));
-  };
 
 
-  const handleFormSubmit = async (id) => {
-    const quantityReceived = qteRecu[id];
-    console.log("handleSubmit quantityReceived",quantityReceived)
-    if (quantityReceived !== undefined) {
-      console.log('Updating quantity received for ID:', id);
-      console.log('New quantity received:', quantityReceived);
-      try {
-        // Dispatching updateAchatempoData action
-        await dispatch(updateAchatempoData({
-          id_Achat: id,
-          updatedAchatempoData: { qte_Reçu: quantityReceived }
-        }));
-  
-        // Dispatching updateProductData action
-        console.log('Dispatching updateProductData action...');
-        await dispatch(updateProductData({ productId: id, updatedProductData: { qte_magasin: quantityReceived } }));
-        console.log('updateProductData action dispatched successfully.');
-        
-        setUpdateSuccess(true);
-      } catch (error) {
-        console.error('Error updating quantity received:', error);
-        alert('Failed to update quantity received.');
-      }
-    } else {
-      alert('Please enter a quantity received.');
-    }
-  };
 
-  const handleDelete = (id) => {
-    confirmAlert({
-      title: 'Confirmation',
-      message: 'Are you sure you want to delete this demand?',
-      buttons: [
-        {
-          label: 'Yes',
-          onClick: () => dispatch(deleteAchatempoData(id)),
-        },
-        {
-          label: 'No',
-          onClick: () => {},
-        }
-      ]
-    });
-  };
-
-  const getStatus = (quantite, qteRecu) => {
-    if (qteRecu === 0) {
-      return (
-        <span className="text-red-500">
-          <FaTruck className={classes.statusIcon} /> Pending
-        </span>
-      );
-    } else if (quantite > qteRecu) {
-      return (
-        <span className="text-green-500">
-          <FaTruck className={classes.statusIcon} /> Partiellement livré
-        </span>
-      );
-    } else if (quantite === qteRecu) {
-      return (
-        <span className="text-blue-500">
-          <FaCheck className={classes.statusIcon} /> Livré
-        </span>
-      );
-    } else {
-      return 'Unknown';
-    }
-  };
 
   const openModal = (achat) => {
     setSelectedAchat(achat);
@@ -226,48 +147,7 @@ function ListeSortXUser() {
     handleDeleteDuplicates();
   }, [achatData, qteRecu]);
 
-  const handleValidation = async () => {
-    try {
-      const updatePromises = Object.keys(qteRecu).map(async id => {
 
-        await dispatch(updateAchatempoData({
-          id_Achat: id,
-          updatedAchatempoData: { qte_Reçu: qteRecu[id] }
-        }));
-  
-        const updatedItem = achatempoData.find(item => item.id_Achat == id);
-        console.log("updatedItem : ", updatedItem)
-        if (!updatedItem) {
-          throw new Error(`Item with id ${id} not found in achatempoData`);
-        }
-        const product = productData.find(p => p.Numéro_Article == updatedItem.code);
-        // console.log("product", productData.map(pr=>pr))
-        console.log("product=>+>", product)
-        if (!product) {
-          throw new Error(`Product with designation ${updatedItem.designation} not found`);
-        }
-        // console.log("============>updatedItem: qte Reçu",updatedItem.qte_Reçu)
-        const newQteMagasin = (parseInt(qteRecu[id]) - updatedItem.qte_Reçu) + product.qte_Magasin;
-        console.log("product.id_Article : ", product.id_Article)
-        console.log("newQteMagasin : ", newQteMagasin)
-        console.log("parseInt(qteRecu[id]) : ", parseInt(qteRecu[id]))
-        console.log("updatedItem.qte_Reçu", updatedItem.qte_Reçu)
-        console.log("product.qte_Magasin", product.qte_Magasin)
-        await dispatch(updateQteMagasin({
-          productId: product.id_Article,
-          qte_Magasin: newQteMagasin
-        }));
-      });
-      await Promise.all(updatePromises);
-      setUpdateSuccess(true);
-      setModalIsOpen(false);
-  
-      // Rest of the function...
-    } catch (error) {
-      console.error('Error updating quantities:', error);
-      alert('Failed to update quantities.');
-    }
-  };
 
   const handlePrint = () => {
     const printContents = document.getElementById('print-area').innerHTML;
@@ -295,48 +175,14 @@ function ListeSortXUser() {
 
     return 'Unknown';
   };
-  const renderStatus = (status) => {
-    switch (status) {
-      case 'Pending':
-        return <p className='text-red-600'>Pending</p>;
-      case 'Livré':
-        return <p className='text-blue-600'>Livré</p>;
-      case 'Partiellement livré':
-        return <p className='text-green-600'>Partiellement livré</p>;
-      default:
-        return <p>Unknown</p>;
-    }
-  };
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
-  };
 
-  const handleFilterChange = (event) => {
-    setFilterType(event.target.value);
-  };
 
-  const filteredAndSearchedData = filteredAchatData.filter((data) => {
-    const matchesSearchQuery = data.code_Achat.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilterType =
-      filterType === 'all' ||
-      (filterType === 'livre' && getGeneralStatus(data.code_Achat) === 'Livré') ||
-      (filterType === 'partiellement_livre' && getGeneralStatus(data.code_Achat) === 'Partiellement livré') ||
-      (filterType === 'pending' && getGeneralStatus(data.code_Achat) === 'Pending');
 
-    return matchesSearchQuery && matchesFilterType;
-  });
 
-  const handleEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditedProduct(prevProduct => ({
-      ...prevProduct,
-      [name]: value
-    }));
-  };
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
   
-// console.log("from listdemand:",achatempoData)
+console.log("from sortXuser:",filteredAchatData)
   return (
     <div>
       <Typography variant="h5" gutterBottom>Liste des Demandes de Sortie</Typography>
@@ -496,6 +342,10 @@ function ListeSortXUser() {
       <tr>
         <td><h6>Onduleur</h6></td>
         <td>: {selectedAchat?.note}</td>
+      </tr>
+      <tr>
+        <td><h6>Groupe d'articles</h6></td>
+        <td>: {selectedAchat?.Groupe_Articles}</td>
       </tr>
 
       

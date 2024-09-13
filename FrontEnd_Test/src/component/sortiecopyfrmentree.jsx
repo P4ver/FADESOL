@@ -263,7 +263,7 @@ const didRunRef = useRef(false);
           throw new Error(`Article with code ${line.demandeCode} not found`);
         }
         const code_Prd = productData.find(item => item.id_Article === id_Article)?.Numéro_Article || '';
-
+        const GroupeArticle = productData.find(item => item.id_Article === id_Article)?.Groupe_Articles || '';
         const ventePayload = {
           code_Produit: line.demandeCode,
           designation_Produit: designation,
@@ -276,7 +276,9 @@ const didRunRef = useRef(false);
           id_Article: id_Article,
           Partenaire: Partenaire,
           note: note,
+          Groupe_Articles: GroupeArticle
         };
+        console.log("ventePayload",ventePayload)
         if (parseInt(line.quantite, 10) > qte_Magasin ) {
           Swal.fire({
             title: 'Error',
@@ -349,7 +351,7 @@ const didRunRef = useRef(false);
     // Reset lines after successful submission
     setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: '', note: ''}]);
 
-    window.location.reload();
+    // window.location.reload();
   } catch (error) {
     console.error('Error submitting data:', error.message);
   }
