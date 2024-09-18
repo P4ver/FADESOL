@@ -193,7 +193,7 @@ const handleSubmit = async () => {
           check_Delivery: false,
           code_Achat: codeAchat,
           user_Dmd: user.username,
-          date: formattedDate,
+          // date: formattedDate,
           qte_Reçu: 0,
           qte_Magasin: qte_Magasin,
           id_Article: id_Article,
