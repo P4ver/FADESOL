@@ -150,13 +150,12 @@ const Entree = () => {
   const generateNextCodeAchat = () => {
     // setCodeAchat(newCodeSortie);
     if (achatempoData && achatempoData.length > 0) {
-      // const lastCodeSortie = venteData[venteData.length - 1].code_Sortie;
-      const lastCodeSortie = achatempoData[achatempoData.length - 1].code_Sortie || localStorage.getItem('lastCodeAchat');
-      const lastCodeSortieINT = parseInt(lastCodeSortie.split('-')[1], 10) + 1;
-      const newCodeSortie = `CE-${String(lastCodeSortieINT).padStart(6, '0')}`;
-      console.log("codeEntreeINT code Entree:", newCodeSortie);
-      setCodeAchat(newCodeSortie);
-      localStorage.setItem('lastCodeAchat', newCodeSortie);
+      const lastCodeEntree = achatempoData[achatempoData.length - 1].code_Achat || localStorage.getItem('lastCodeAchat');
+      const lastCodeEntreeINT = parseInt(lastCodeEntree.split('-')[1], 10) + 1;
+      const newCodeEntree = `CE-${String(lastCodeEntreeINT).padStart(6, '0')}`;
+      console.log("codeEntreeINT code Entree:", newCodeEntree);
+      setCodeAchat(newCodeEntree);
+      localStorage.setItem('lastCodeAchat', newCodeEntree);
     } else {
       console.log("achatempoData is empty or undefined.");
       // Handle cases where venteData is empty, e.g., set a default value
