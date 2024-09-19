@@ -457,7 +457,7 @@ function ListeDemande() {
       [name]: value
     }));
   };
-// console.log("***filteredAchatData==>",filteredAchatData.map(data => data.code_Achat))
+// console.log("***filteredAchatData==>",filteredAchatData.map(data => data))
 // console.log("from listdemand:",achatempoData)
   return (
     <div>
@@ -484,6 +484,7 @@ function ListeDemande() {
               <TableCell>ID</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Client</TableCell>
+              <TableCell>Groupe Articles</TableCell>
               <TableCell>Utilisateur</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Actions</TableCell>
@@ -508,7 +509,7 @@ function ListeDemande() {
             })}
           </TableCell>
           <TableCell>{firstDemand.Partenaire}</TableCell>
-          {/* <TableCell>{firstDemand.date}</TableCell> */}
+          <TableCell>GA</TableCell>
           <TableCell>{firstDemand.user_Dmd}</TableCell>
           <TableCell>{renderStatus(status)}</TableCell> {/* Use renderStatus to display the status with the correct styling */}
           <TableCell>

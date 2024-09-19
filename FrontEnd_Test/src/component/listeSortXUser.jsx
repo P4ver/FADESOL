@@ -182,10 +182,43 @@ function ListeSortXUser() {
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
   
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+  };
+//fix search
+  const filteredAndSearchedData = filteredVenteData.filter((data) => {
+    // const matchesSearchQuery = data.code_Sortie?.toLowerCase().includes(searchQuery.toLowerCase());
+    // const matchesUserDmd = data.user_Dmd?.toLowerCase().includes(searchQuery.toLowerCase());
+    // const matchesClient = data.Partenaire?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearchQuery = data.code_Sortie 
+  ? data.code_Sortie.toString().toLowerCase().includes(searchQuery.toLowerCase()) 
+  : false;
+
+const matchesUserDmd = data.user_Dmd 
+  ? data.user_Dmd.toString().toLowerCase().includes(searchQuery.toLowerCase()) 
+  : false;
+
+const matchesClient = data.Partenaire 
+  ? data.Partenaire.toString().toLowerCase().includes(searchQuery.toLowerCase()) 
+  : false;
+
+
+    return matchesSearchQuery || matchesUserDmd || matchesClient;
+  });
+
 console.log("from sortXuser:",filteredAchatData)
   return (
     <div>
       <Typography variant="h5" gutterBottom>Liste des Demandes de Sortie</Typography>
+      <Box className={classes.filterContainer}>
+        <TextField
+          label="Rechercher par Code Sortie"
+          variant="outlined"
+          value={searchQuery}
+          onChange={handleSearch}
+          className={classes.searchInput}
+        />
+      </Box>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table" size='small'>
           <TableHead>
@@ -201,7 +234,8 @@ console.log("from sortXuser:",filteredAchatData)
        
           <TableBody>
   {uniqueCodeVente.map((codeAchat) => {
-    const relatedDemands = filteredVenteData.filter(data => data.code_Sortie === codeAchat);
+    {/* const relatedDemands = filteredVenteData.filter(data => data.code_Sortie === codeAchat); */}
+    const relatedDemands = filteredAndSearchedData.filter(data => data.code_Sortie === codeAchat);
     if (relatedDemands.length === 0) return null; // Skip if no matching demands
     const firstDemand = relatedDemands[0];
     const status = getGeneralStatus(codeAchat);
@@ -384,7 +418,7 @@ console.log("from sortXuser:",filteredAchatData)
 </div>
   <br />
   <div className='my-2 float-right'><p>Signature<span className='text-gray-200'>___________________</span></p></div>
-</div>
+            </div>
           </>
         )}
       </Modal>

@@ -310,6 +310,7 @@ function ListeDemandeUser() {
 
   const filteredAndSearchedData = filteredAchatData.filter((data) => {
     const matchesSearchQuery = data.code_Achat.toLowerCase().includes(searchQuery.toLowerCase());
+    
     const matchesFilterType =
       filterType === 'all' ||
       (filterType === 'livre' && getGeneralStatus(data.code_Achat) === 'Livré') ||

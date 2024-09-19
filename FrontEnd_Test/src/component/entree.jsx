@@ -72,8 +72,9 @@ const Entree = () => {
   const productData = useSelector((state) => state.product.productData);
   const projetData = useSelector((state) => state.projet.projetData);
   const clientData = useSelector((state) => state.client.clientData);
+  const achatempoData = useSelector((state) => state.achatempo.achatempoData);
   const historiqueData = useSelector(state => state.historique.historiqueData);
-
+  console.log("achatempoData",achatempoData)
   const [filteredData, setFilteredData] = useState([]);
 
   const [codeAchat, setCodeAchat] = useState('');
@@ -109,25 +110,55 @@ const Entree = () => {
   console.log("sortie: checkAccess:", checkAccess())
   //=========================================================================================
   const dispatch = useDispatch();
-
+  const didRunRef = useRef(false);
   useEffect(() => {
-    dispatch(fetchProductData());
-    dispatch(fetchProjetData());
-    dispatch(fetchAchatempoData());
-    dispatch(fetchClientData());
-    dispatch(fetchHistoriqueData()); 
+    // dispatch(fetchProductData());
+    // dispatch(fetchProjetData());
+    // dispatch(fetchAchatempoData());
+    // dispatch(fetchClientData());
+    // dispatch(fetchHistoriqueData()); 
 
     // Generate the next codeAchat when the component mounts
-    const generateNextCodeAchat = () => {
-      const lastCode = localStorage.getItem('lastCodeAchat') || 'CE-000000';
-      const lastNumber = parseInt(lastCode.split('-')[1], 10);
-      const newCode = `CE-${String(lastNumber + 1).padStart(6, '0')}`;
-      setCodeAchat(newCode);
-      localStorage.setItem('lastCodeAchat', newCode);
-    };
+    // const generateNextCodeAchat = () => {
+    //   const lastCode = localStorage.getItem('lastCodeAchat') || 'CE-000000';
+    //   const lastNumber = parseInt(lastCode.split('-')[1], 10);
+    //   const newCode = `CE-${String(lastNumber + 1).padStart(6, '0')}`;
+    //   setCodeAchat(newCode);
+    //   localStorage.setItem('lastCodeAchat', newCode);
+    // };
+    const fetchDataAndGenerateCode = async () => {
+      await dispatch(fetchProductData());
+      await dispatch(fetchProjetData());
+      await dispatch(fetchAchatempoData());
+      await dispatch(fetchClientData());
+      await dispatch(fetchHistoriqueData());
 
-    generateNextCodeAchat();
+  
+      // await generateNextCodeAchat();
+      if (!didRunRef.current) {
+        await generateNextCodeAchat();
+        didRunRef.current = true;
+      }
+    };
+    fetchDataAndGenerateCode();
   }, [dispatch]);
+  const generateNextCodeAchat = () => {
+    // setCodeAchat(newCodeSortie);
+    if (achatempoData && achatempoData.length > 0) {
+      // const lastCodeSortie = venteData[venteData.length - 1].code_Sortie;
+      const lastCodeSortie = achatempoData[achatempoData.length - 1].code_Sortie || localStorage.getItem('lastCodeAchat');
+      const lastCodeSortieINT = parseInt(lastCodeSortie.split('-')[1], 10) + 1;
+      const newCodeSortie = `CE-${String(lastCodeSortieINT).padStart(6, '0')}`;
+      console.log("codeEntreeINT code Entree:", newCodeSortie);
+      setCodeAchat(newCodeSortie);
+      localStorage.setItem('lastCodeAchat', newCodeSortie);
+    } else {
+      console.log("achatempoData is empty or undefined.");
+      // Handle cases where venteData is empty, e.g., set a default value
+      // setCodeAchat("CS-000001");
+    }
+  };
+
   // console.log("ooooouseroooo",user.username)
   // console.log("===>historiqueData==>:", historiqueData)
   const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
@@ -343,7 +374,8 @@ await dispatch(postHistoriqueData(historiqueData))
 
       <Typography variant="h5" align="center" gutterBottom>Entree</Typography>
 
-      {/* <div className='border px-4 py-2 mb-4'>
+      {/* 
+      <div className='border px-4 py-2 mb-4'>
         <label className='pr-2 font-bold'>Client :</label>
         <input
           type="text"
@@ -366,7 +398,8 @@ await dispatch(postHistoriqueData(historiqueData))
             ))}
           </ul>
         )}
-      </div> */}
+      </div>
+     */}
 
       <table className="min-w-full border-collapse">
         <thead>

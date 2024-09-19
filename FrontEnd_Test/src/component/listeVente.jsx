@@ -307,24 +307,21 @@ function ListeSortXUser() {
         return <p>Unknown</p>;
     }
   };
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
   const handleFilterChange = (event) => {
     setFilterType(event.target.value);
   };
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+  };
+//fix search
+  const filteredAndSearchedData = filteredVenteData.filter((data) => {
+    const matchesSearchQuery = data.code_Sortie.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesUserDmd = data.user_Dmd?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesClient = data.Partenaire?.toLowerCase().includes(searchQuery.toLowerCase());
 
-  const filteredAndSearchedData = filteredAchatData.filter((data) => {
-    const matchesSearchQuery = data.code_Achat.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilterType =
-      filterType === 'all' ||
-      (filterType === 'livre' && getGeneralStatus(data.code_Achat) === 'Livré') ||
-      (filterType === 'partiellement_livre' && getGeneralStatus(data.code_Achat) === 'Partiellement livré') ||
-      (filterType === 'pending' && getGeneralStatus(data.code_Achat) === 'Pending');
-
-    return matchesSearchQuery && matchesFilterType;
+    return matchesSearchQuery || matchesUserDmd || matchesClient;
   });
+
 
   const handleEditChange = (e) => {
     const { name, value } = e.target;
@@ -340,6 +337,15 @@ function ListeSortXUser() {
   return (
     <div>
       <Typography variant="h5" gutterBottom>Liste des Demandes de Sortie</Typography>
+      <Box className={classes.filterContainer}>
+        <TextField
+          label="Rechercher par Code Achat"
+          variant="outlined"
+          value={searchQuery}
+          onChange={handleSearch}
+          className={classes.searchInput}
+        />
+      </Box>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table" size='small'>
           <TableHead>
@@ -347,15 +353,15 @@ function ListeSortXUser() {
               <TableCell>ID</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Client</TableCell>
+              <TableCell>GroupeArticle</TableCell>
               <TableCell>Utilisateur</TableCell>
-              {/* <TableCell>Status</TableCell> */}
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
        
           <TableBody>
   {uniqueCodeVente.map((codeAchat) => {
-    const relatedDemands = venteData.filter(data => data.code_Sortie === codeAchat);
+    const relatedDemands = filteredAndSearchedData.filter(data => data.code_Sortie === codeAchat);
     if (relatedDemands.length === 0) return null; // Skip if no matching demands
     const firstDemand = relatedDemands[0];
     const status = getGeneralStatus(codeAchat);
@@ -371,7 +377,7 @@ function ListeSortXUser() {
             })}
           </TableCell>
           <TableCell>{firstDemand.Partenaire}</TableCell>
-          {/* <TableCell>{formattedDate}</TableCell> */}
+          <TableCell>{firstDemand.Groupe_Articles}</TableCell>
           <TableCell>{firstDemand.user_Dmd}</TableCell>
           {/* <TableCell>{renderStatus(status)}</TableCell> Use renderStatus to display the status with the correct styling */}
           <TableCell>
