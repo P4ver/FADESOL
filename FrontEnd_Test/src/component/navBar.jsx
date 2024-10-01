@@ -78,7 +78,7 @@ const NavBar = () => {
             </li>
             <li className="max-w-96">
               <div className="relative w-full max-w-md sm:-ml-2 ">
-                <svg
+                {/* <svg
                   aria-hidden="true"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -89,13 +89,13 @@ const NavBar = () => {
                     d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                     clipRule="evenodd"
                   />
-                </svg>
-                <input
+                </svg> */}
+                {/* <input
                   type="text"
                   role="search"
                   placeholder="Search..."
                   className="py-2 pl-10 pr-4 w-full border-2 placeholder-gray-400 focus:bg-gray-50 rounded-lg"
-                />
+                /> */}
               </div>
             </li>
             <li className="flex items-center justify-between">

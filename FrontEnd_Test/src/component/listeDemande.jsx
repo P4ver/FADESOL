@@ -256,7 +256,7 @@ function ListeDemande() {
         }
         const product = productData.find(p => p.Numéro_Article == updatedItem.code);
         // console.log("product", productData.map(pr=>pr))
-        console.log("product=>+>", product)
+        console.log("product=>>", product)
         if (!product) {
           throw new Error(`Product with designation ${updatedItem.designation} not found`);
         }
@@ -442,7 +442,7 @@ function ListeDemande() {
     // Check if the data matches the filter type
     const matchesFilterType =
       filterType === 'all' ||
-      (filterType === 'livre' && status === 'Livré') ||
+      (filterType === 'livre' && (status === 'Livré' || status === '=====')) ||
       (filterType === 'partiellement_livre' && status === 'Partiellement livré') ||
       (filterType === 'pending' && status === 'Pending');
   
@@ -484,7 +484,6 @@ function ListeDemande() {
               <TableCell>ID</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Client</TableCell>
-              <TableCell>Groupe Articles</TableCell>
               <TableCell>Utilisateur</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Actions</TableCell>
@@ -509,7 +508,6 @@ function ListeDemande() {
             })}
           </TableCell>
           <TableCell>{firstDemand.Partenaire}</TableCell>
-          <TableCell>GA</TableCell>
           <TableCell>{firstDemand.user_Dmd}</TableCell>
           <TableCell>{renderStatus(status)}</TableCell> {/* Use renderStatus to display the status with the correct styling */}
           <TableCell>

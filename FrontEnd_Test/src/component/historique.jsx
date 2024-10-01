@@ -125,11 +125,12 @@ const Historique = () => {
       (item.user_Dmd && item.user_Dmd.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (item.date_Op && item.date_Op.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (item.type_Op && item.type_Op.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (item.date_Op && item.code_Produit.toLowerCase().includes(searchTerm.toLowerCase()))
+      (item.code_Produit && item.code_Produit.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.Partenaire && item.Partenaire.toLowerCase().includes(searchTerm.toLowerCase()))
     );
     setFilteredData(filtered);
   }, [historiqueData, searchTerm]);
-
+console.log("historiqueData", historiqueData)
   useEffect(() => {
     // Calculate statistics based on selectedDate
     if (selectedDate) {
