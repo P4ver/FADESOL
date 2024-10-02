@@ -12,6 +12,7 @@ import { GrView } from "react-icons/gr";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProductData } from '../store/productSlice';
 import { deleteProductData, updateProductData, postProductData, duplicateProductData } from '../store/productSlice';
+import {postTransactionData} from '../store/transactionSlice'
 import JsBarcode from 'jsbarcode';
 import { Collapse, Card, CardContent, Menu, MenuItem } from "@material-ui/core";
 import Barcode from 'react-barcode';
@@ -87,6 +88,7 @@ const ProductTable = () => {
     //     Designation_Fadesol: "",
     //     code_Barre: "",
     // });
+
     const [editedProduct, setEditedProduct] = useState({
         Numéro_Article: "",
         Description_Article: "",
@@ -101,6 +103,7 @@ const ProductTable = () => {
     //   ==============================================================
     const [ userValue, setUserValue] = useState(null);
     const [typeUser, setTypeUser] = useState(null);
+    const [loginUserName, setLoginUserName] = useState(null);
     const authState = useSelector(state => state.auth);
     const userState = useSelector(state => state.user);
     useEffect(() => {
@@ -113,7 +116,9 @@ const ProductTable = () => {
     useEffect(() => {
         if (userValue && userState.userData.length > 0) {
           const match = userState.userData.find(usr => usr.login_User == userValue.username);
+          //  console.log("===>match===>", match)
           setTypeUser(match.type_User)
+          setLoginUserName(match.login_User)
         }
       }, [userValue, userState])
       
@@ -245,6 +250,17 @@ const ProductTable = () => {
                 position: toast.POSITION_TOP_RIGHT,
                 autoClose: 3000,
             });
+            console.log("##editProduct###=>",editProduct)
+            await dispatch(postTransactionData({
+                Numéro_Article: editProduct.Numéro_Article,
+                user_Dmd: loginUserName,
+                Type_Transaction: "Update",
+                qte_Edited: editedProduct.qte_Magasin - editProduct.qte_Magasin,
+                qte_Magasin: editedProduct.qte_Magasin,
+                qte_Old: editProduct.qte_Magasin,
+            }))
+            
+            console.log("### after editProduct ### =>",editedProduct.qte_Magasin)
         } catch (error) {
             console.error("Error updating user:", error);
         }

@@ -37,6 +37,7 @@ const vente = require("./routes/venteRoutes")
 const statsRoutes = require('./routes/statsRoutes');
 const returnlist = require('./routes/returnRoutes');
 const historique = require('./routes/historiqueRoutes')
+const transaction = require('./routes/transactionRoutes')
 const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -66,6 +67,7 @@ app.use('/', projet);
 app.use('/', statsRoutes);
 app.use('/', returnlist);
 app.use('/', historique);
+app.use('/', transaction);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'FrontEnd_Test', 'dist', 'index.html'));

@@ -30,6 +30,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import PageHistorique from './pages/pageHistorique';
 import InactivityHandler from './component/InactivityHandler ';
 import SortX from './component/sortiecopyfrmentree';
+import Transactions from './component/transactionComponent';
+import PageTransaction from './pages/pageTransaction';
 disableReactDevTools();
 
 function App() {
@@ -58,6 +60,7 @@ function App() {
                 <Route path="/historique" element={<PageHistorique />} />
                 <Route path="/return" element={<PageReturn />} />
                 <Route path="/livraison" element={<PageLivraison />} />
+                <Route path="/transaction" element={<PageTransaction/>} />
               </Route>
             </Route>
           </Routes>
