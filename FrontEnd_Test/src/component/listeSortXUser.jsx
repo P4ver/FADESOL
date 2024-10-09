@@ -102,10 +102,6 @@ function ListeSortXUser() {
     }
   }, [updateSuccess]);
 
-
-
-
-
   const openModal = (achat) => {
     setSelectedAchat(achat);
     setModalIsOpen(true);
@@ -147,8 +143,6 @@ function ListeSortXUser() {
     handleDeleteDuplicates();
   }, [achatData, qteRecu]);
 
-
-
   const handlePrint = () => {
     const printContents = document.getElementById('print-area').innerHTML;
     const originalContents = document.body.innerHTML;
@@ -175,9 +169,6 @@ function ListeSortXUser() {
 
     return 'Unknown';
   };
-
-
-
 
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
@@ -233,36 +224,36 @@ console.log("from sortXuser:",filteredAchatData)
           </TableHead>
        
           <TableBody>
-  {uniqueCodeVente.map((codeAchat) => {
-    {/* const relatedDemands = filteredVenteData.filter(data => data.code_Sortie === codeAchat); */}
-    const relatedDemands = filteredAndSearchedData.filter(data => data.code_Sortie === codeAchat);
-    if (relatedDemands.length === 0) return null; // Skip if no matching demands
-    const firstDemand = relatedDemands[0];
-    const status = getGeneralStatus(codeAchat);
-    return (
-      <React.Fragment key={codeAchat}>
-        <TableRow>
-          <TableCell>{firstDemand.code_Sortie}</TableCell>
-          <TableCell>
-          {new Date(firstDemand.date_Vente).toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          })}
-          </TableCell>
-          <TableCell>{firstDemand.Partenaire}</TableCell>
-          {/* <TableCell>{formattedDate}</TableCell> */}
-          <TableCell>{firstDemand.user_Dmd}</TableCell>
-          {/* <TableCell>{renderStatus(status)}</TableCell> Use renderStatus to display the status with the correct styling */}
-          <TableCell>
-            <IconButton onClick={() => openModal(firstDemand)}><div className='text-blue-500'><FaEye /></div></IconButton>
-            {/* <IconButton onClick={() => handleDelete(firstDemand.id_Achat)}><div className='text-red-500'><FaTimes /></div></IconButton> */}
-          </TableCell>
-        </TableRow>
-      </React.Fragment>
-    );
-  })}
-</TableBody>
+            {uniqueCodeVente.map((codeAchat) => {
+              {/* const relatedDemands = filteredVenteData.filter(data => data.code_Sortie === codeAchat); */}
+              const relatedDemands = filteredAndSearchedData.filter(data => data.code_Sortie === codeAchat);
+              if (relatedDemands.length === 0) return null; // Skip if no matching demands
+              const firstDemand = relatedDemands[0];
+              const status = getGeneralStatus(codeAchat);
+              return (
+                <React.Fragment key={codeAchat}>
+                  <TableRow>
+                    <TableCell>{firstDemand.code_Sortie}</TableCell>
+                    <TableCell>
+                    {new Date(firstDemand.date_Vente).toLocaleDateString('en-GB', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                    })}
+                    </TableCell>
+                    <TableCell>{firstDemand.Partenaire}</TableCell>
+                    {/* <TableCell>{formattedDate}</TableCell> */}
+                    <TableCell>{firstDemand.user_Dmd}</TableCell>
+                    {/* <TableCell>{renderStatus(status)}</TableCell> Use renderStatus to display the status with the correct styling */}
+                    <TableCell>
+                      <IconButton onClick={() => openModal(firstDemand)}><div className='text-blue-500'><FaEye /></div></IconButton>
+                      {/* <IconButton onClick={() => handleDelete(firstDemand.id_Achat)}><div className='text-red-500'><FaTimes /></div></IconButton> */}
+                    </TableCell>
+                  </TableRow>
+                </React.Fragment>
+              );
+            })}
+          </TableBody>
         </Table>
       </TableContainer>
 

@@ -3,11 +3,25 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "build": {
+  "appId": "com.example.myapp",
+  "win": {
+    "target": "nsis",
+    "icon": "path/to/icon.ico"
+  },
+  "files": [
+    "dist/**/*",
+    "electron-main.js",
+    "preload.js"
+  ]
+},
   "scripts": {
     "dev": "vite",
     "build": "vite build && (cd ../serveur && npm install)",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "electron": "electron electron-main.js",
+    "dist": "electron-builder"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -23,6 +37,7 @@
     "axios": "^1.6.8",
     "canvas": "^2.11.2",
     "dotenv": "^16.4.5",
+    "electron-builder": "^25.1.7",
     "framer-motion": "^11.2.12",
     "html2canvas": "^1.4.1",
     "install": "^0.13.0",
@@ -58,6 +73,7 @@
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
+    "electron": "^32.1.2",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",

@@ -25,6 +25,7 @@ import jsPDF from 'jspdf';
 import { IoDuplicateOutline } from "react-icons/io5";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import { Link } from 'react-router-dom';
 
 
 const BarcodeCanvas = ({ value, id }) => {
@@ -88,7 +89,6 @@ const ProductTable = () => {
     //     Designation_Fadesol: "",
     //     code_Barre: "",
     // });
-
     const [editedProduct, setEditedProduct] = useState({
         Numéro_Article: "",
         Description_Article: "",
@@ -116,7 +116,6 @@ const ProductTable = () => {
     useEffect(() => {
         if (userValue && userState.userData.length > 0) {
           const match = userState.userData.find(usr => usr.login_User == userValue.username);
-          //  console.log("===>match===>", match)
           setTypeUser(match.type_User)
           setLoginUserName(match.login_User)
         }
@@ -250,7 +249,6 @@ const ProductTable = () => {
                 position: toast.POSITION_TOP_RIGHT,
                 autoClose: 3000,
             });
-            console.log("##editProduct###=>",editProduct)
             await dispatch(postTransactionData({
                 Numéro_Article: editProduct.Numéro_Article,
                 user_Dmd: loginUserName,
@@ -259,8 +257,6 @@ const ProductTable = () => {
                 qte_Magasin: editedProduct.qte_Magasin,
                 qte_Old: editProduct.qte_Magasin,
             }))
-            
-            console.log("### after editProduct ### =>",editedProduct.qte_Magasin)
         } catch (error) {
             console.error("Error updating user:", error);
         }
@@ -578,6 +574,11 @@ const downloadCombinedImage = async (numArticle, Gamme) => {
     return (
         <>
             <Paper>
+            {!checkAccess() && 
+                <Link to="/dashboard" className=" w-16 flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 text-white px-2 text-xl rounded-lg shadow-2xl">
+                Back
+                </Link>
+            }
             <Toolbar>
                 <Typography variant="h6" style={{ flex: '1' }}>Product Table</Typography>
                 <button
