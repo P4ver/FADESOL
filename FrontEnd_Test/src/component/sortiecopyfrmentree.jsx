@@ -90,6 +90,20 @@ const SortX = () => {
   const [typeUser, setTypeUser] = useState(null);
   const userState = useSelector(state => state.user);
 
+  //===============================Client====================================================
+  const [selectedClient, setSelectedClient] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const [filteredClients, setFilteredClients] = useState([]);
+  const [showList, setShowList] = useState(false);
+  //===============================Nom de Projet=============================================
+  const [NomProjetInput, setNomProjetInput] = useState('');
+    //================================Numero Articl (search)================================================
+    const [inputCodeValue, setInputCodeValue] = useState('');
+    const [filteredCodes, setFilteredCodes] = useState([]);
+    const [showCodeList, setShowCodeList] = useState(false);
+  //=========================================================================================
+
+console.log("NomProjetInput",NomProjetInput)
   useEffect(() => {
     if (authState.user) {
       setUser(authState.user);
@@ -142,17 +156,6 @@ const didRunRef = useRef(false);
   }, [dispatch]);
 
   const generateNextCodeAchat = () => {
-    // const lastCode = localStorage.getItem('lastCodeAchat') || 'CS-000000';
-    // const lastNumber = parseInt(lastCode.split('-')[1], 10);
-    // const newCode = `CS-${String(lastNumber + 1).padStart(6, '0')}`;
-    // setCodeAchat(newCode);
-    // localStorage.setItem('lastCodeAchat', newCode);
-
-    // const lastCodeSortie = venteData[venteData.length - 1];
-    // const lastCodeSortieINT = parseInt(lastCodeSortie.code_Sortie.split('-')[1], 10) + 1;
-    // const newCodeSortie = `CS-${String(lastCodeSortieINT).padStart(6, '0')}`;
-    // console.log("codeSortieINT code sortie:", newCodeSortie)
-    
     // setCodeAchat(newCodeSortie);
     if (venteData && venteData.length > 0) {
       // const lastCodeSortie = venteData[venteData.length - 1].code_Sortie;
@@ -173,57 +176,64 @@ const didRunRef = useRef(false);
   const handleAddLine = () => {
     setLines([...lines, { demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: ''}]);
   };
-
+  const handleFocus = (index) => {
+    setShowCodeList(index);  // Show the dropdown for the focused row
+  };
   const handleChange = (index, key, value) => {
     const newLines = [...lines];
     newLines[index][key] = value;
     setLines(newLines);
-  };
 
+    if (key === 'demandeCode' && value.length > 0) {
+      setShowCodeList(index);  // Show list only if there's input
+    } else {
+      setShowCodeList(null);  // Hide list if input is empty
+    }
+  };
+// console.log("sortie : selectedClient",selectedClient)
   const lastClickTimeRef = useRef(0);
 
   const handleSubmit = async () => {
   try {
 
     const now = Date.now();
-    if (now - lastClickTimeRef.current < 1000) return; // Ignore clicks within 1 second
+    if (now - lastClickTimeRef.current < 2000) return; // Ignore clicks within 1 second
 
     lastClickTimeRef.current = now;
 
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
-    
-
+        
     // Check if any line is missing required fields
-    const hasMissingFields = lines.some(line => 
-      !line.demandeCode || !line.partenaire || !line.note || !line.quantite
-    );
+    // const hasMissingFields = lines.some(line => 
+    //   !line.demandeCode || !line.partenaire || !line.note || !line.quantite
+    // );
 
-    if (hasMissingFields) {
-      Swal.fire({
-        title: 'Error',
-        text: 'Tous les champs doivent être remplis pour chaque ligne.',
-        icon: 'error',
-        confirmButtonText: 'OK'
-      });
-      return; // Exit the function if any line is missing required fields
-    }
+    // if (hasMissingFields) {
+    //   Swal.fire({
+    //     title: 'Error',
+    //     text: 'Tous les champs doivent être remplis pour chaque ligne.',
+    //     icon: 'error',
+    //     confirmButtonText: 'OK'
+    //   });
+    //   return; // Exit the function if any line is missing required fields
+    // }
 
     for (const line of lines) {
         // Check for empty fields
-        if (!line.demandeCode || !line.partenaire || !line.note || !line.quantite) {
-          Swal.fire({
-            title: 'Error',
-            text: 'Tous les champs doivent être remplis.',
-            icon: 'error',
-            confirmButtonText: 'OK'
-          });
-          return; // Exit the function if any required field is emptye
-        }
+        // if (!line.demandeCode || !line.partenaire || !line.note || !line.quantite) {
+        //   Swal.fire({
+        //     title: 'Error',
+        //     text: 'Tous les champs doivent être remplis.',
+        //     icon: 'error',
+        //     confirmButtonText: 'OK'
+        //   });
+        //   return; // Exit the function if any required field is emptye
+        // }
       
-      // console.log("===============>line====>", line)
       // if (line.demandeCode && line.projetCode && line.quantite && line.partenaire) {
-      if (line.demandeCode && line.quantite && line.partenaire && line.note) {
+      // if (line.demandeCode && line.quantite && selectedClient && line.note) {
+      if (line.demandeCode && line.quantite && selectedClient && NomProjetInput) {
         const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
         console.log("===>article: ",article)
         const designation = article?.Description_Article || '';
@@ -235,10 +245,9 @@ const didRunRef = useRef(false);
         const note = line.note || '';
         let checkCodeProjet = "sans"; // Initialize with default value
         let checkNomProjet = "sans"; // Initialize with default value 
-      
-        if (line.projetCode) {
+        if (NomProjetInput) {
           // checkCodeProjet = line.projetCode;
-          checkNomProjet = line.nomProjet;
+          checkNomProjet = NomProjetInput;
         }
 
         if (qte_Magasin <= 0 ) {
@@ -262,13 +271,13 @@ const didRunRef = useRef(false);
           designation_Produit: designation,
           qte_Produit: parseInt(line.quantite, 10),
           code_Projet: checkCodeProjet,
-          nom_Projet: line.nomProjet,
+          nom_Projet: checkNomProjet,
           n_Serie:"trt test",
           code_Sortie: codeAchat,
           user_Dmd: user.username,
           id_Article: id_Article,
-          Partenaire: Partenaire,
-          note: note,
+          Partenaire: selectedClient,
+          note: "Without Onduleur Name",
           Groupe_Articles: GroupeArticle
         };
         console.log("ventePayload",ventePayload)
@@ -296,24 +305,6 @@ const didRunRef = useRef(false);
           Partenaire: Partenaire,
         }
 
-      await dispatch(postHistoriqueData(historiqueData))
-        .then(response => {
-          console.log("Post historique Data Response:", response);
-          // Swal.fire({
-          //   title: 'Success',
-          //   text: 'Sortie effectuée avec succès dans le stock',
-          //   icon: 'success',
-          //   confirmButtonText: 'OK'
-          // });
-          toast.success('Sortie effectuée avec succès')
-          // Clear the input fields on successful submission
-          // setDemandeCode('');
-          // setVenteDetails(null);
-          // setQuantite('');
-        })
-        .catch(error => {
-          console.error("Post historique Data Error:", error);
-        });
     const quantityReceived = qte_Magasin - parseInt(line.quantite, 10);
     //============================================================
     // if (typeUser === "Utilisateur"){
@@ -329,19 +320,29 @@ const didRunRef = useRef(false);
         if (response.error) {
           throw new Error(response.error.message);
         }
+        await dispatch(postHistoriqueData(historiqueData))
+        .then(response => {
+          console.log("Post historique Data Response:", response);
+          toast.success('Sortie effectuée avec succès')
+        })
+        .catch(error => {
+          console.error("Post historique Data Error:", error);
+        });
       }else {//<<<<===========
         Swal.fire({
           title: 'Error',
-          text: 'Les détails de Demande ou Projet ou quantité ou n_Serie ou Client ne sont pas disponibles.',
+          text: 'Les détails de Demande ou Projet ou quantité ou Nom de Projet ou Client ne sont pas disponibles.',
           icon: 'error',
           confirmButtonText: 'OK'
         });
-        console.error('Demande or Projet details or quantite or n_Serie or Client are not available');
+        console.error('Demande or Projet details or quantite or Nom de Projet or Client are not available');
         return;
       }
     }
 
     // Reset lines after successful submission
+    setInputValue('')
+    setNomProjetInput('')
     setLines([{ demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: ''}]);
 
     // window.location.reload();
@@ -350,7 +351,7 @@ const didRunRef = useRef(false);
   }
 };
 
-
+// console.log("===============>lines====>", lines)
 
   const handleKeyPress = (event, index) => {
     if (event.key === 'Enter' && index === lines.length - 1) {
@@ -358,10 +359,6 @@ const didRunRef = useRef(false);
     }
   };
 
-  const [selectedClient, setSelectedClient] = useState('');
-  const [inputValue, setInputValue] = useState('');
-  const [filteredClients, setFilteredClients] = useState([]);
-  const [showList, setShowList] = useState(false);
 
   const handleClientChange = (value) => {
     setInputValue(value);
@@ -389,34 +386,106 @@ const didRunRef = useRef(false);
   };
   // console.log('@@select client@@',selectedClient)
 
-  const [showListe, setShowListe] = useState(false);
+  const [showFullListe, setShowFullListe] = useState(false);
 
   const toggleListe = () => {
-    setShowListe(!showListe);
+    setShowFullListe(!showFullListe);
   };
+  const handleNomProjetInput = (value) => {
+    setNomProjetInput(value);  
+  };
+  // =========================================================
+  const handleCodeSelect = (article, index) => {
+    const updatedLines = [...lines];
+    updatedLines[index].demandeCode = article.Numéro_Article;
+    setLines(updatedLines);
+    setShowCodeList(null);  
+  };
+  // =========================================================
+  // const handleOnduleurInput = (value) => {
+  //   setOnduleurInput(value);  
+  // };
+  // =========================================================
   return (
-    <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
-    {!checkAccess() && 
+    <div className="max-w-[75%] mx-auto p-4 bg-white rounded-lg shadow-md">
+      {!checkAccess() && 
         <Link to="/dashboard" className=" w-16 flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 text-white px-2 text-xl rounded-lg shadow-2xl">
           Back
         </Link>
-    }
+      }
         <Typography variant="h5" align="center" gutterBottom>Sortie</Typography>
+        {/* current date and time */}
+        <div className="px-4 py-2 my-4">
+          <label className='pr-2 font-bold'>Date <span className='ml-20'>: </span></label>
+          <span>
+            {new Date().toLocaleDateString('en-GB')} {/* dd/mm/yyyy format */}
+            {' '}
+            {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} {/* hh:mm format */}
+          </span>
+        </div>
+
+      {/* Client */}
+        <div className='px-4 py-2 my-4'>
+        <label className='pr-2 font-bold'>Client<span className='ml-20'>: </span></label>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => handleClientChange(e.target.value)}
+          placeholder="Select or type client"
+          className='outline-none w-[50%]'
+        />
+
+        {showList && (
+          <ul className="border mt-1 max-h-40 overflow-y-auto">
+            {filteredClients.map(client => (
+              <li
+                key={client.id}
+                onClick={() => handleClientSelect(client)}
+                className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+              >
+                {client.Partenaire}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      {/* nom de projet */}
+      <div className='px-4 py-2 my-4'>
+        <label className='pr-2 font-bold'>Nom de Projet <span className='ml-5'>: </span></label>
+          <input
+            type="text"
+            value={NomProjetInput}
+            onChange={(e) => handleNomProjetInput(e.target.value)}
+            placeholder="Nom de Projet"
+            className='outline-none w-[50%]'
+          />
+      </div>
+      {/* Onduleur */}
+      {/* <div className='border px-4 py-2 my-4'>
+        <label className='pr-2 font-bold'>Onduleur <span className='ml-5'>: </span></label>
+          <input
+            type="text"
+            value={OnduleurInput}
+            onChange={(e) => handleOnduleurInput(e.target.value)}
+            placeholder="Nom de Projet"
+            className='outline-none w-[50%]'
+          />
+      </div> */}
       <table className="min-w-full border-collapse">
         <thead>
           <tr>
-            <th className="border px-4 py-2">Numero Article ou Code Barre</th>
-            <th className="border px-4 py-2">Designation Fournisseur</th>
-            <th className="border px-4 py-2">Designation Fadesol</th>
+            <th className="border px-4 py-2 w-56">Code</th>
+            {/* <th className="border px-4 py-2">Designation Fournisseur</th> */}
+            <th className="border px-4 py-2">Designation</th>
             {/* {checkAccess() && <> */}
-              <th className="border px-4 py-2">Nom de Projet</th>
+              {/* <th className="border px-4 py-2">Nom de Projet</th> */}
               {/* <th className="border px-4 py-2">Projet Nom</th> */}
             {/* </>} */}
             {/* <th className="border px-4 py-2">Client</th> */}
-            <th className="border px-4 py-2">Quantité Magasin</th>
-            <th className="border px-4 py-2">Quantité</th>
-            <th className="border px-4 py-2">Onduleur</th>
-            <th className="border px-4 py-2">Action</th>
+            <th className="border px-4 py-2 w-40">Quantité Magasin</th>
+            <th className="border px-4 py-2 w-32">Quantité</th>
+            {/* <th className="border px-4 py-2">Onduleur</th> */}
+            <th className="border px-4 py-2 w-20">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -428,11 +497,27 @@ const didRunRef = useRef(false);
                   value={line.demandeCode}
                   placeholder='Enter Numero article ou Code Barre'
                   onChange={(e) => handleChange(index, 'demandeCode', e.target.value)}
+                  onFocus={() => handleFocus(index)}
                   className="w-full px-2 py-1 border-none"
                   // onKeyPress={(e) => handleKeyPress(e, index)}
                 />
+
+                {showCodeList === index && ( 
+                  <ul className="border mt-1 max-h-40 overflow-y-auto">
+                    {productData.filter(article => article.Numéro_Article.toLowerCase().includes(line.demandeCode.toLowerCase())).map(article => (
+                      <li
+                        key={article.id_Article}
+                        onClick={() => handleCodeSelect(article, index)} 
+                        className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+                      >
+                        {article.Numéro_Article}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
               </td>
-              <td className="border px-4 py-2">
+              {/* <td className="border px-4 py-2">
                 <input
                   type="text"
                   value={line.demandeCode ? productData.find(demande =>
@@ -441,7 +526,7 @@ const didRunRef = useRef(false);
                   className="w-full px-2 py-1 border-none"
                   disabled
                 />
-              </td>
+              </td> */}
               <td>
                 <input
                   type="text"
@@ -452,8 +537,9 @@ const didRunRef = useRef(false);
                   disabled
                 />
               </td>
+
               {/* {checkAccess() && 
-              <>        */}
+              <>       
                   <td className="border px-4 py-2">
                   <input
                     type="text"
@@ -464,14 +550,14 @@ const didRunRef = useRef(false);
                     onKeyPress={(e) => handleKeyPress(e, index)}
                   />
                 </td>
-                  {/* <td className="border px-4 py-2">
+                  <td className="border px-4 py-2">
                   <input
                     type="text"
                     value={projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || ''}
                     className="w-full px-2 py-1 border-none"
                     disabled
-                  /></td> */}
-              {/* </>} */}
+                  /></td>
+              </>} */}
        
               <td className="border px-4 py-2">
               <input
@@ -494,7 +580,7 @@ const didRunRef = useRef(false);
                   onKeyPress={(e) => handleKeyPress(e, index)}
                 />
               </td>
-              <td className="border px-4 py-2">
+              {/* <td className="border px-4 py-2">
                 <input
                   type="text"
                   value={line.note || ''} // Bind the note value
@@ -502,7 +588,7 @@ const didRunRef = useRef(false);
                   onChange={(e) => handleChange(index, 'note', e.target.value)} // Handle note change
                   className="w-full px-2 py-1 border-none"
                 />
-              </td>
+              </td> */}
               <td className="border px-4 py-2">
                 {index === lines.length - 1 && (
                   <IconButton onClick={handleAddLine}>
@@ -517,7 +603,7 @@ const didRunRef = useRef(false);
         </tbody>
       </table>
 
-      <div className='border px-4 py-2 my-4'>
+      {/* <div className='border px-4 py-2 my-4'>
         <label className='pr-2 font-bold'>Client :</label>
         <input
           type="text"
@@ -541,7 +627,7 @@ const didRunRef = useRef(false);
             ))}
           </ul>
         )}
-      </div>
+      </div> */}
 
 
       <div className="text-center mt-4">
@@ -552,10 +638,10 @@ const didRunRef = useRef(false);
         onClick={toggleListe}
         className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow-md transition duration-300"
       >
-        {showListe ? 'Masquer la liste de Sortie' : 'Afficher la liste de Sortie'}
+        {showFullListe ? 'Masquer la liste de Sortie' : 'Afficher la liste de Sortie'}
       </button>
 
-      {!loading && !checkAccess() && showListe && <ListeSortXUser />}
+      {!loading && !checkAccess() && showFullListe && <ListeSortXUser />}
       <ToastContainer />
     </div>
   );

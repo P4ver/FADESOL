@@ -69,7 +69,7 @@ const useStyles = makeStyles({
 });
 const Entree = () => {
   const classes = useStyles();
-  const [lines, setLines] = useState([{ demandeCode: '', nomProjet: '', quantite: '' }]);
+  const [lines, setLines] = useState([{ demandeCode: '', nomProjet: '', quantite: '', partenaire: '' }]);
   const productData = useSelector((state) => state.product.productData);
   const projetData = useSelector((state) => state.projet.projetData);
   const clientData = useSelector((state) => state.client.clientData);
@@ -87,6 +87,21 @@ const Entree = () => {
   const [userAth, setUser] = useState(null);
   const [typeUser, setTypeUser] = useState(null);
   const userState = useSelector(state => state.user);
+  
+  //===============================Client====================================================
+  const [selectedClient, setSelectedClient] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const [filteredClients, setFilteredClients] = useState([]);
+  const [showList, setShowList] = useState(false);
+  //===============================Nom de Projet=============================================
+  const [NomProjetInput, setNomProjetInput] = useState('');
+  //================================Numero Articl (search)================================================
+  const [inputCodeValue, setInputCodeValue] = useState('');
+  const [filteredCodes, setFilteredCodes] = useState([]);
+  const [showCodeList, setShowCodeList] = useState(false);
+  //=========================================================================================
+
+
 
   useEffect(() => {
     if (authState.user) {
@@ -108,7 +123,8 @@ const Entree = () => {
     else return false
   }
 
-  console.log("sortie: checkAccess:", checkAccess())
+  // console.log("NomProjetInput", NomProjetInput)
+  console.log("Entree: checkAccess:", checkAccess())
   //=========================================================================================
   const dispatch = useDispatch();
   const didRunRef = useRef(false);
@@ -161,27 +177,35 @@ const Entree = () => {
   };
 console.log("achatempoData.length", achatempoData.length)
 // console.log("lastCodeEntree", lastCodeEntree)
-  // console.log("ooooouseroooo",user.username)
-  // console.log("===>historiqueData==>:", historiqueData)
   const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
   // console.log("historiqueForUser==>:",historiqueForUser)
   const handleAddLine = () => {
     setLines([...lines, { demandeCode: '', nomProjet: '', quantite: '', partenaire: ''}]);
   };
 
+  const handleFocus = (index) => {
+    setShowCodeList(index);  // Show the dropdown for the focused row
+  };
+
   const handleChange = (index, key, value) => {
     const newLines = [...lines];
     newLines[index][key] = value;
     setLines(newLines);
+
+    if (key === 'demandeCode' && value.length > 0) {
+      setShowCodeList(index);  // Show list only if there's input
+    } else {
+      setShowCodeList(null);  // Hide list if input is empty
+    }
+
   };
-
+  console.log("entree : selectedClient",selectedClient)
   const lastClickTimeRef = useRef(0);
-
 const handleSubmit = async () => {
   try {
 
     const now = Date.now();
-    if (now - lastClickTimeRef.current < 1000) return; // Ignore clicks within 1 second
+    if (now - lastClickTimeRef.current < 2000) return; // Ignore clicks within 1 second
 
     lastClickTimeRef.current = now;
 
@@ -190,7 +214,8 @@ const handleSubmit = async () => {
     
     for (const line of lines) {
       // if (line.demandeCode && line.projetCode && line.quantite && line.partenaire) {
-      if (line.demandeCode && line.quantite && line.partenaire) {
+      // if (line.demandeCode && line.quantite && line.partenaire) {
+      if (line.demandeCode && line.quantite && selectedClient && NomProjetInput) {
         const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
         const designation = article?.Description_Article || '';
         const id_Article = article?.id_Article || null;
@@ -202,13 +227,16 @@ const handleSubmit = async () => {
         let checkCodeProjet = "sans"; // Initialize with default value
         let checkNomProjet = "sans"; // Initialize with default value 
       
-        if (line.nomProjet) {
+        if (NomProjetInput) {
           // checkCodeProjet = line.projetCode;
-          checkNomProjet = line.nomProjet;
+          // checkNomProjet = line.nomProjet;
+          checkNomProjet = NomProjetInput;
+          
         }
 
         // console.log("line from input:",line)
         // console.log("Partenaire:",Partenaire)
+        console.log("selectedClient from handlesubmit:",selectedClient)
         
         if (id_Article === null) {
           throw new Error(`Article with code ${line.demandeCode} not found`);
@@ -220,7 +248,7 @@ const handleSubmit = async () => {
           designation: designation,
           quantite: parseInt(line.quantite, 10),
           code_Projet: checkCodeProjet,
-          nom_Projet: line.nomProjet,
+          nom_Projet: checkNomProjet,
           // code_Projet: line.projetCode,
           // nom_Projet: nom_Projet,
           check_Delivery: false,
@@ -230,7 +258,7 @@ const handleSubmit = async () => {
           qte_Reçu: 0,
           qte_Magasin: qte_Magasin,
           id_Article: id_Article,
-          Partenaire: Partenaire,
+          Partenaire: selectedClient,
           // code_Produit: code_Produit 
         };
         console.log("qte=========>", parseInt(line.quantite, 10) + qte_Magasin)
@@ -246,39 +274,23 @@ const handleSubmit = async () => {
           user_Dmd: user.username,
           qte_Produit: parseInt(line.quantite, 10),
           id_Article: id_Article,
-          Partenaire: Partenaire,
+          Partenaire: selectedClient,
+          // Partenaire: Partenaire,
         }
-        const ToAchatData={
-          code_Achat: codeAchat,
-          user_Dmd: user.username,
-          code: code_Prd,
-          code_Projet: checkCodeProjet,
-          nom_Projet: checkNomProjet,
-          date: formattedDate,
-          designation_Produit: designation,
-          quantite: parseInt(line.quantite, 10),
-          // id_Article: id_Article,
-          Partenaire: Partenaire,
-        }
+        // const ToAchatData={
+        //   code_Achat: codeAchat,
+        //   user_Dmd: user.username,
+        //   code: code_Prd,
+        //   code_Projet: checkCodeProjet,
+        //   nom_Projet: checkNomProjet,
+        //   date: formattedDate,
+        //   designation_Produit: designation,
+        //   quantite: parseInt(line.quantite, 10),
+        //   // id_Article: id_Article,
+        //   Partenaire: selectedClient,
+        //   // Partenaire: Partenaire,
+        // }
 
-await dispatch(postHistoriqueData(historiqueData))
-  .then(response => {
-    console.log("Post historique Data Response:", response);
-    // Swal.fire({
-    //   title: 'Success',
-    //   text: 'Sortie effectuée avec succès dans le stock',
-    //   icon: 'success',
-    //   confirmButtonText: 'OK'
-    // });
-    toast.success('Entree effectuée avec succès dans le stock')
-    // Clear the input fields on successful submission
-    // setDemandeCode('');
-    // setVenteDetails(null);
-    // setQuantite('');
-  })
-  .catch(error => {
-    console.error("Post historique Data Error:", error);
-  });
     const quantityReceived = parseInt(line.quantite, 10) + qte_Magasin;
     console.log("parseInt(line.quantite, 10)==============>", parseInt(line.quantite, 10))
     console.log("quantityReceived==============>", quantityReceived)
@@ -290,7 +302,7 @@ await dispatch(postHistoriqueData(historiqueData))
         productId: id_Article,
         qte_Magasin: quantityReceived
       }));
-      await dispatch(postAchatData(ToAchatData));
+      // await dispatch(postAchatData(ToAchatData));
     }
     //============================================================
     
@@ -298,10 +310,31 @@ await dispatch(postHistoriqueData(historiqueData))
         // Dispatch postAchatempoData thunk with achatPayload
         const response = await dispatch(postAchatempoData(achatPayload));
         console.log("===Res===>", response);
-        // Handle response/error
+
         if (response.error) {
           throw new Error(response.error.message);
-        }
+        } 
+
+       await dispatch(postHistoriqueData(historiqueData))
+      .then(response => {
+        console.log("Post historique Data Response:", response);
+        // Swal.fire({
+        //   title: 'Success',
+        //   text: 'Sortie effectuée avec succès dans le stock',
+        //   icon: 'success',
+        //   confirmButtonText: 'OK'
+        // });
+        toast.success('Entree effectuée avec succès dans le stock')
+        // Clear the input fields on successful submission
+        // setDemandeCode('');
+        // setVenteDetails(null);
+        // setQuantite('');
+      })
+      .catch(error => {
+        console.error("Post historique Data Error:", error);
+      });
+        // Handle response/error
+
       }else {//<<<<===========
         Swal.fire({
           title: 'Error',
@@ -314,15 +347,17 @@ await dispatch(postHistoriqueData(historiqueData))
     }
 
     // Reset lines after successful submission
+    setInputValue('')
+    setNomProjetInput('')
+    // setSelectedClient('')
     setLines([{ demandeCode: '', nomProjet: '', quantite: '', partenaire: ''}]);
-
-    window.location.reload();
+    // window.location.reload();
   } catch (error) {
     console.error('Error submitting data:', error.message);
   }
 };
 
-
+console.log("entree lines",lines)
 
   const handleKeyPress = (event, index) => {
     if (event.key === 'Enter' && index === lines.length - 1) {
@@ -330,20 +365,6 @@ await dispatch(postHistoriqueData(historiqueData))
     }
   };
   
-
-  const handlePrint = () => {
-    const printContents = document.getElementById('print-area').innerHTML;
-    const originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
-    window.location.reload();
-  };
-
-  const [selectedClient, setSelectedClient] = useState('');
-  const [inputValue, setInputValue] = useState('');
-  const [filteredClients, setFilteredClients] = useState([]);
-  const [showList, setShowList] = useState(false);
 
   const handleClientChange = (value) => {
     setInputValue(value);
@@ -369,35 +390,115 @@ await dispatch(postHistoriqueData(historiqueData))
       setLines(lines.map(line => ({ ...line, partenaire: client.Partenaire })));
     }
   };
-  const [showListe, setShowListe] = useState(false);
 
-  // Step 2: Toggle the state when button is clicked
+
+  const [showFullListe, setShowFullListe] = useState(false);
+
+  //Toggle the state when button is clicked
   const toggleListe = () => {
-    setShowListe(!showListe);
+    setShowFullListe(!showFullListe);
   };
 
+  const handleNomProjetInput = (value) => {
+    setNomProjetInput(value);  
+  };
+
+// =========================================================
+
+
+// const handleCodeChange = (value) => {
+//   setInputCodeValue(value);
+//   if (value) {
+//     const filtered = productData.filter(article =>
+//       article.Numéro_Article.toLowerCase().includes(value.toLowerCase())
+//     );
+//     console.log("filtered", filtered)
+//     setFilteredCodes(filtered);
+//     setShowCodeList(true); // Show the list when typing
+//   } else {
+//     setFilteredCodes([]);
+//     setShowCodeList(false); // Hide the list if input is empty
+//   }
+// };
+const handleCodeSelect = (article, index) => {
+  const updatedLines = [...lines];
+  updatedLines[index].demandeCode = article.Numéro_Article;
+  setLines(updatedLines);
+  setShowCodeList(null);  
+};
+
+console.log("inputCodeValue", inputCodeValue)
   return (
-    <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
+    <div className="max-w-[75%] mx-auto p-4 bg-white rounded-lg shadow-md">
     {!checkAccess() && 
         <Link to="/dashboard" className=" w-16 flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 text-white px-2 text-xl rounded-lg shadow-2xl">
           Back
         </Link>
     }
       <Typography variant="h5" align="center" gutterBottom>Entree</Typography>
+
+      {/* current date and time */}
+      <div className="px-4 py-2 my-4">
+        <label className='pr-2 font-bold'>Date <span className='ml-20'> : </span></label>
+        <span>
+          {new Date().toLocaleDateString('en-GB')} {/* dd/mm/yyyy format */}
+          {' '}
+          {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} {/* hh:mm format */}
+        </span>
+      </div>
+
+      {/* Client */}
+      <div className='px-4 py-2 my-4'>
+        <label className='pr-2 font-bold'>Client<span className='ml-20'>: </span></label>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => handleClientChange(e.target.value)}
+          placeholder="Select or type client"
+          className='outline-none w-[50%]'
+        />
+
+        {showList && (
+          <ul className="border mt-1 max-h-40 overflow-y-auto">
+            {filteredClients.map(client => (
+              <li
+                key={client.id}
+                onClick={() => handleClientSelect(client)}
+                className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+              >
+                {client.Partenaire}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* nom de projet */}
+      <div className='px-4 py-2 my-4'>
+        <label className='pr-2 font-bold'>Nom de Projet <span className='ml-5'>: </span></label>
+          <input
+            type="text"
+            value={NomProjetInput}
+            onChange={(e) => handleNomProjetInput(e.target.value)}
+            placeholder="Nom de Projet"
+            className='outline-none w-[50%]'
+          />
+      </div>
+
       <table className="min-w-full border-collapse">
         <thead>
           <tr>
-            <th className="border px-4 py-2">Numero Article ou Code Barre</th>
-            <th className="border px-4 py-2">Designation Fournisseur</th>
-            <th className="border px-4 py-2">Designation Fadesol</th>
+            <th className="border px-4 py-2 w-56">Code</th>
+            {/* <th className="border px-4 py-2">Designation Fournisseur</th> */}
+            <th className="border px-4 py-2">Designation</th>
             {/* {checkAccess() && <> */}
-              <th className="border px-4 py-2">Nom de Projet</th>
+              {/* <th className="border px-4 py-2">Nom de Projet</th> */}
               {/* <th className="border px-4 py-2">Projet Nom</th> */}
             {/* </>} */}
             {/* <th className="border px-4 py-2">Client</th> */}
-            <th className="border px-4 py-2">Quantité Magasin</th>
-            <th className="border px-4 py-2">Quantité</th>
-            <th className="border px-4 py-2">Action</th>
+            {/* <th className="border px-4 py-2 w-40">Quantité Magasin</th> */}
+            <th className="border px-4 py-2 w-32">Quantité</th>
+            <th className="border px-4 py-2 w-20">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -407,13 +508,30 @@ await dispatch(postHistoriqueData(historiqueData))
                 <input
                   type="text"
                   value={line.demandeCode}
+                  // value={inputCodeValue}
                   placeholder='Enter Numero article ou Code Barre'
                   onChange={(e) => handleChange(index, 'demandeCode', e.target.value)}
+                  onFocus={() => handleFocus(index)}
+                  // onChange={(e) => handleCodeChange(e.target.value)}
                   className="w-full px-2 py-1 border-none"
-                  // onKeyPress={(e) => handleKeyPress(e, index)}
                 />
+
+                {showCodeList === index && ( 
+                    <ul className="border mt-1 max-h-40 overflow-y-auto">
+                      {productData.filter(article => article.Numéro_Article.toLowerCase().includes(line.demandeCode.toLowerCase())).map(article => (
+                        <li
+                          key={article.id_Article}
+                          onClick={() => handleCodeSelect(article, index)} 
+                          className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+                        >
+                          {article.Numéro_Article}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                
               </td>
-              <td className="border px-4 py-2">
+              {/* <td className="border px-4 py-2">
                 <input
                   type="text"
                   value={line.demandeCode ? productData.find(demande =>
@@ -422,7 +540,7 @@ await dispatch(postHistoriqueData(historiqueData))
                   className="w-full px-2 py-1 border-none"
                   disabled
                 />
-              </td>
+              </td> */}
               <td>
                 <input
                   type="text"
@@ -435,16 +553,18 @@ await dispatch(postHistoriqueData(historiqueData))
               </td>
               {/* {checkAccess() && 
               <>        */}
-                  <td className="border px-4 py-2">
+
+                {/* <td className="border px-4 py-2">
                   <input
                     type="text"
                     value={line.nomProjet}
-                    placeholder='Enter Projet Code'
+                    placeholder='Enter Projet Name'
                     onChange={(e) => handleChange(index, 'nomProjet', e.target.value)}
                     className="w-full px-2 py-1 border-none"
                     onKeyPress={(e) => handleKeyPress(e, index)}
                   />
-                </td>
+                </td> */}
+
                   {/*
                   <td className="border px-4 py-2">
                   <input
@@ -457,7 +577,7 @@ await dispatch(postHistoriqueData(historiqueData))
 
               {/* </>} */}
      
-              <td className="border px-4 py-2">
+              {/* <td className="border px-4 py-2">
               <input
                   type="text"
                   value={line.demandeCode ? productData.find(demande =>
@@ -467,7 +587,7 @@ await dispatch(postHistoriqueData(historiqueData))
                   disabled
                 />
      
-              </td>
+              </td> */}
               <td className="border px-4 py-2">
                 <input
                   type="number"
@@ -492,30 +612,6 @@ await dispatch(postHistoriqueData(historiqueData))
         </tbody>
       </table>
 
-      <div className='border px-4 py-2 my-4'>
-        <label className='pr-2 font-bold'>Client :</label>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => handleClientChange(e.target.value)}
-          placeholder="Select or type client"
-          className='outline-none w-[50%]'
-        />
-
-        {showList && (
-          <ul className="border mt-1 max-h-40 overflow-y-auto">
-            {filteredClients.map(client => (
-              <li
-                key={client.id}
-                onClick={() => handleClientSelect(client)}
-                className="cursor-pointer px-2 py-1 hover:bg-gray-200"
-              >
-                {client.Partenaire}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
 
       <div className="text-center mt-4">
         <button onClick={handleSubmit} className="bg-customGreen text-white hover:bg-green-600 px-4 py-2 rounded-md">Create</button>
@@ -525,10 +621,10 @@ await dispatch(postHistoriqueData(historiqueData))
         onClick={toggleListe}
         className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow-md transition duration-300"
         >
-        {showListe ? 'Masquer la liste de demande' : 'Afficher la liste de demande'}
+        {showFullListe ? 'Masquer la liste de demande' : 'Afficher la liste de demande'}
       </button>
 
-      {!loading && !checkAccess() && showListe && <ListeDemandeUser />}
+      {!loading && !checkAccess() && showFullListe && <ListeDemandeUser />}
       {/* {!loading && !checkAccess() && <ListeDemandeUser />} */}
       <ToastContainer />
     </div>
