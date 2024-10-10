@@ -16,6 +16,7 @@ import ListeSortXUser from './listeSortXUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles({
@@ -70,7 +71,7 @@ const useStyles = makeStyles({
 
 const SortX = () => {
   const classes = useStyles();
-  const [lines, setLines] = useState([{ demandeCode: '', projetCode: '', quantite: '', partenaire: '', note: '' }]);
+  const [lines, setLines] = useState([{ demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: '' }]);
   const productData = useSelector((state) => state.product.productData);
   const projetData = useSelector((state) => state.projet.projetData);
   const clientData = useSelector((state) => state.client.clientData);
@@ -136,14 +137,6 @@ const didRunRef = useRef(false);
       }
     };
 
-    // Generate the next codeAchat when the component mounts
-    // const generateNextCodeAchat = () => {
-    //   const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-000000';
-    //   const lastNumber = parseInt(lastCode.split('-')[1], 10);
-    //   const newCode = `CS-${String(lastNumber + 1).padStart(6, '0')}`;
-    //   setCodeAchat(newCode);
-    //   localStorage.setItem('lastCodeAchat', newCode);
-    // };
     fetchDataAndGenerateCode();
     // generateNextCodeAchat();
   }, [dispatch]);
@@ -178,7 +171,7 @@ const didRunRef = useRef(false);
 
   // const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
   const handleAddLine = () => {
-    setLines([...lines, { demandeCode: '', projetCode: '', quantite: '', partenaire: '', note: ''}]);
+    setLines([...lines, { demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: ''}]);
   };
 
   const handleChange = (index, key, value) => {
@@ -244,8 +237,8 @@ const didRunRef = useRef(false);
         let checkNomProjet = "sans"; // Initialize with default value 
       
         if (line.projetCode) {
-          checkCodeProjet = line.projetCode;
-          checkNomProjet = nom_Projet;
+          // checkCodeProjet = line.projetCode;
+          checkNomProjet = line.nomProjet;
         }
 
         if (qte_Magasin <= 0 ) {
@@ -264,13 +257,12 @@ const didRunRef = useRef(false);
         }
         const code_Prd = productData.find(item => item.id_Article === id_Article)?.Numéro_Article || '';
         const GroupeArticle = productData.find(item => item.id_Article === id_Article)?.Groupe_Articles || '';
-
         const ventePayload = {
           code_Produit: line.demandeCode,
           designation_Produit: designation,
           qte_Produit: parseInt(line.quantite, 10),
           code_Projet: checkCodeProjet,
-          nom_Projet: checkNomProjet,
+          nom_Projet: line.nomProjet,
           n_Serie:"trt test",
           code_Sortie: codeAchat,
           user_Dmd: user.username,
@@ -279,6 +271,7 @@ const didRunRef = useRef(false);
           note: note,
           Groupe_Articles: GroupeArticle
         };
+        console.log("ventePayload",ventePayload)
         if (parseInt(line.quantite, 10) > qte_Magasin ) {
           Swal.fire({
             title: 'Error',
@@ -349,9 +342,10 @@ const didRunRef = useRef(false);
     }
 
     // Reset lines after successful submission
-    setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: '', note: ''}]);
+    setLines([{ demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: ''}]);
 
     window.location.reload();
+    
   } catch (error) {
     console.error('Error submitting data:', error.message);
   }
@@ -365,7 +359,6 @@ const didRunRef = useRef(false);
     }
   };
 
-  
   const [selectedClient, setSelectedClient] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [filteredClients, setFilteredClients] = useState([]);
@@ -395,49 +388,31 @@ const didRunRef = useRef(false);
       setLines(lines.map(line => ({ ...line, partenaire: client.Partenaire })));
     }
   };
-  console.log('@@select client@@',selectedClient)
+  // console.log('@@select client@@',selectedClient)
 
+  const [showListe, setShowListe] = useState(false);
+
+  const toggleListe = () => {
+    setShowListe(!showListe);
+  };
   return (
     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
-      {/* <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography> */}
-      <Typography variant="h5" align="center" gutterBottom>Sortie</Typography>
-
-      {/* <div className='border px-4 py-2 mb-4'>
-        <label className='pr-2 font-bold'>Client :</label>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => handleClientChange(e.target.value)}
-          placeholder="Select or type client"
-          className='outline-none w-[50%]'
-        />
-
-        {showList && (
-          <ul className="border mt-1 max-h-40 overflow-y-auto">
-            {filteredClients.map(client => (
-              <li
-                key={client.id}
-                onClick={() => handleClientSelect(client)}
-                className="cursor-pointer px-2 py-1 hover:bg-gray-200"
-              >
-                {client.Partenaire}
-              </li>
-            ))}
-          </ul>
-        )}
-    </div> */}
-
-
+    {!checkAccess() && 
+        <Link to="/dashboard" className=" w-16 flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 text-white px-2 text-xl rounded-lg shadow-2xl">
+          Back
+        </Link>
+    }
+        <Typography variant="h5" align="center" gutterBottom>Sortie</Typography>
       <table className="min-w-full border-collapse">
         <thead>
           <tr>
             <th className="border px-4 py-2">Numero Article ou Code Barre</th>
             <th className="border px-4 py-2">Designation Fournisseur</th>
             <th className="border px-4 py-2">Designation Fadesol</th>
-            {checkAccess() && <>
-              <th className="border px-4 py-2">Projet Code</th>
-              <th className="border px-4 py-2">Projet Nom</th>
-            </>}
+            {/* {checkAccess() && <> */}
+              <th className="border px-4 py-2">Nom de Projet</th>
+              {/* <th className="border px-4 py-2">Projet Nom</th> */}
+            {/* </>} */}
             {/* <th className="border px-4 py-2">Client</th> */}
             <th className="border px-4 py-2">Quantité Magasin</th>
             <th className="border px-4 py-2">Quantité</th>
@@ -478,47 +453,27 @@ const didRunRef = useRef(false);
                   disabled
                 />
               </td>
-              {checkAccess() && 
-              <>       
+              {/* {checkAccess() && 
+              <>        */}
                   <td className="border px-4 py-2">
                   <input
                     type="text"
-                    value={line.projetCode}
-                    placeholder='Enter Projet Code'
-                    onChange={(e) => handleChange(index, 'projetCode', e.target.value)}
+                    value={line.nomProjet}
+                    placeholder='Enter Projet Nom'
+                    onChange={(e) => handleChange(index, 'nomProjet', e.target.value)}
                     className="w-full px-2 py-1 border-none"
                     onKeyPress={(e) => handleKeyPress(e, index)}
                   />
                 </td>
-                  <td className="border px-4 py-2">
+                  {/* <td className="border px-4 py-2">
                   <input
                     type="text"
                     value={projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || ''}
                     className="w-full px-2 py-1 border-none"
                     disabled
-                  /></td>
-              </>}
-
-
-               {/* <td className="border px-4 py-2">
-                  <select
-                    value={line.partenaire}
-                    onChange={e => handleChange(index, 'partenaire', e.target.value)}
-                    className="w-full px-2 py-1 border-none"
-                  >
-                    <option value="">Sélectionner un client</option>
-                    {clientData
-                    .slice()
-                    .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire))
-                    .map(client => (
-                      <option key={client.id} value={client.Partenaire}>
-                        {client.Partenaire}
-                      </option>
-                    ))}
-                  </select>
-                </td> */}
-
-            
+                  /></td> */}
+              {/* </>} */}
+       
               <td className="border px-4 py-2">
               <input
                   type="text"
@@ -575,7 +530,8 @@ const didRunRef = useRef(false);
 
         {showList && (
           <ul className="border mt-1 max-h-40 overflow-y-auto">
-            {filteredClients.map(client => (
+            {filteredClients
+            .map(client => (
               <li
                 key={client.id}
                 onClick={() => handleClientSelect(client)}
@@ -593,15 +549,20 @@ const didRunRef = useRef(false);
         <button onClick={handleSubmit} className="bg-customGreen text-white hover:bg-green-600 px-4 py-2 rounded-md">Create</button>
       </div>
 
+      <button
+        onClick={toggleListe}
+        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow-md transition duration-300"
+      >
+        {showListe ? 'Masquer la liste de Sortie' : 'Afficher la liste de Sortie'}
+      </button>
 
-      {!loading && !checkAccess() && <ListeSortXUser />}
+      {!loading && !checkAccess() && showListe && <ListeSortXUser />}
       <ToastContainer />
     </div>
   );
 };
 
 export default SortX;
-
 
 
 // import React, { useState, useEffect } from 'react';
@@ -618,6 +579,12 @@ export default SortX;
 // import ListeDemandeUser from './listeDemandeUser';
 // import { fetchVenteData, postVenteData } from '../store/venteSlice';
 // import ListeSortXUser from './listeSortXUser';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
+// import { useRef } from 'react';
+// import { Link } from 'react-router-dom';
+
+
 // const useStyles = makeStyles({
 //   table: {
 //     minWidth: 650,
@@ -670,11 +637,12 @@ export default SortX;
 
 // const SortX = () => {
 //   const classes = useStyles();
-//   const [lines, setLines] = useState([{ demandeCode: '', projetCode: '', quantite: '' }]);
+//   const [lines, setLines] = useState([{ demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: '' }]);
 //   const productData = useSelector((state) => state.product.productData);
 //   const projetData = useSelector((state) => state.projet.projetData);
 //   const clientData = useSelector((state) => state.client.clientData);
 //   const historiqueData = useSelector(state => state.historique.historiqueData);
+//   const { venteData } = useSelector(state => state.vente);
 
 //   const [filteredData, setFilteredData] = useState([]);
 
@@ -711,29 +679,73 @@ export default SortX;
 //   console.log("sortie: checkAccess:", checkAccess())
 //   //=========================================================================================
 //   const dispatch = useDispatch();
-
+// const didRunRef = useRef(false);
 //   useEffect(() => {
-//     dispatch(fetchProductData());
-//     dispatch(fetchProjetData());
-//     dispatch(fetchAchatempoData());
-//     dispatch(fetchClientData());
-//     dispatch(fetchHistoriqueData()); 
-//     dispatch(fetchVenteData()); 
+//     // dispatch(fetchProductData());
+//     // dispatch(fetchProjetData());
+//     // dispatch(fetchAchatempoData());
+//     // dispatch(fetchClientData());
+//     // dispatch(fetchHistoriqueData()); 
+//     // dispatch(fetchVenteData());
 
-//     // Generate the next codeAchat when the component mounts
-//     const generateNextCodeAchat = () => {
-//       const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-00000';
-//       const lastNumber = parseInt(lastCode.split('-')[1], 10);
-//       const newCode = `CS-${String(lastNumber + 1).padStart(5, '0')}`;
-//       setCodeAchat(newCode);
-//       localStorage.setItem('lastCodeAchat', newCode);
+//     const fetchDataAndGenerateCode = async () => {
+//       await dispatch(fetchProductData());
+//       await dispatch(fetchProjetData());
+//       await dispatch(fetchAchatempoData());
+//       await dispatch(fetchClientData());
+//       await dispatch(fetchHistoriqueData());
+//       await dispatch(fetchVenteData());
+  
+//       // await generateNextCodeAchat();
+//       if (!didRunRef.current) {
+//         await generateNextCodeAchat();
+//         didRunRef.current = true;
+//       }
 //     };
 
-//     generateNextCodeAchat();
+//     // Generate the next codeAchat when the component mounts
+//     // const generateNextCodeAchat = () => {
+//     //   const lastCode = localStorage.getItem('lastCodeAchat') || 'CA-000000';
+//     //   const lastNumber = parseInt(lastCode.split('-')[1], 10);
+//     //   const newCode = `CS-${String(lastNumber + 1).padStart(6, '0')}`;
+//     //   setCodeAchat(newCode);
+//     //   localStorage.setItem('lastCodeAchat', newCode);
+//     // };
+//     fetchDataAndGenerateCode();
+//     // generateNextCodeAchat();
 //   }, [dispatch]);
+
+//   const generateNextCodeAchat = () => {
+//     // const lastCode = localStorage.getItem('lastCodeAchat') || 'CS-000000';
+//     // const lastNumber = parseInt(lastCode.split('-')[1], 10);
+//     // const newCode = `CS-${String(lastNumber + 1).padStart(6, '0')}`;
+//     // setCodeAchat(newCode);
+//     // localStorage.setItem('lastCodeAchat', newCode);
+
+//     // const lastCodeSortie = venteData[venteData.length - 1];
+//     // const lastCodeSortieINT = parseInt(lastCodeSortie.code_Sortie.split('-')[1], 10) + 1;
+//     // const newCodeSortie = `CS-${String(lastCodeSortieINT).padStart(6, '0')}`;
+//     // console.log("codeSortieINT code sortie:", newCodeSortie)
+    
+//     // setCodeAchat(newCodeSortie);
+//     if (venteData && venteData.length > 0) {
+//       // const lastCodeSortie = venteData[venteData.length - 1].code_Sortie;
+//       const lastCodeSortie = venteData[venteData.length - 1].code_Sortie || localStorage.getItem('lastCodeSortie');
+//       const lastCodeSortieINT = parseInt(lastCodeSortie.split('-')[1], 10) + 1;
+//       const newCodeSortie = `CS-${String(lastCodeSortieINT).padStart(6, '0')}`;
+//       console.log("codeSortieINT code sortie:", newCodeSortie);
+//       setCodeAchat(newCodeSortie);
+//       localStorage.setItem('lastCodeSortie', newCodeSortie);
+//     } else {
+//       console.log("venteData is empty or undefined.");
+//       // Handle cases where venteData is empty, e.g., set a default value
+//       // setCodeAchat("CS-000001");
+//     }
+//   };
+
 //   // const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
 //   const handleAddLine = () => {
-//     setLines([...lines, { demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
+//     setLines([...lines, { demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: ''}]);
 //   };
 
 //   const handleChange = (index, key, value) => {
@@ -742,15 +754,50 @@ export default SortX;
 //     setLines(newLines);
 //   };
 
-// const handleSubmit = async () => {
+//   const lastClickTimeRef = useRef(0);
+
+//   const handleSubmit = async () => {
 //   try {
+
+//     const now = Date.now();
+//     if (now - lastClickTimeRef.current < 1000) return; // Ignore clicks within 1 second
+
+//     lastClickTimeRef.current = now;
+
 //     const currentDate = new Date();
 //     const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
     
+
+//     // Check if any line is missing required fields
+//     const hasMissingFields = lines.some(line => 
+//       !line.demandeCode || !line.partenaire || !line.note || !line.quantite
+//     );
+
+//     if (hasMissingFields) {
+//       Swal.fire({
+//         title: 'Error',
+//         text: 'Tous les champs doivent être remplis pour chaque ligne.',
+//         icon: 'error',
+//         confirmButtonText: 'OK'
+//       });
+//       return; // Exit the function if any line is missing required fields
+//     }
+
 //     for (const line of lines) {
-//       console.log("===============>line====>", line)
+//         // Check for empty fields
+//         if (!line.demandeCode || !line.partenaire || !line.note || !line.quantite) {
+//           Swal.fire({
+//             title: 'Error',
+//             text: 'Tous les champs doivent être remplis.',
+//             icon: 'error',
+//             confirmButtonText: 'OK'
+//           });
+//           return; // Exit the function if any required field is emptye
+//         }
+      
+//       // console.log("===============>line====>", line)
 //       // if (line.demandeCode && line.projetCode && line.quantite && line.partenaire) {
-//       if (line.demandeCode && line.quantite && line.partenaire) {
+//       if (line.demandeCode && line.quantite && line.partenaire && line.note) {
 //         const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
 //         console.log("===>article: ",article)
 //         const designation = article?.Description_Article || '';
@@ -759,50 +806,56 @@ export default SortX;
 //         const qte_Magasin = article?.qte_Magasin || '';
 //         const Partenaire = clientData.find(client=>client.Partenaire == line.partenaire)?.Partenaire || '';
 //         // const Partenaire = clientData.map(client=>client.Partenaire)
-
+//         const note = line.note || '';
 //         let checkCodeProjet = "sans"; // Initialize with default value
 //         let checkNomProjet = "sans"; // Initialize with default value 
       
-//         if (line.projetCode) {
-//           checkCodeProjet = line.projetCode;
-//           checkNomProjet = nom_Projet;
+//         if (line.nomProjet) {
+//           // checkCodeProjet = line.projetCode;
+//           checkNomProjet = line.nomProjet;
 //         }
+
+//         if (qte_Magasin <= 0 ) {
+//           Swal.fire({
+//             title: 'Error',
+//             text: 'La quantité Magasin n\'est pas disponible.',
+//             icon: 'error',
+//             confirmButtonText: 'OK'
+//           });
+//           throw new Error(`Article with code ${line.demandeCode} has no stock`);
+//         }
+
 
 //         if (id_Article === null) {
 //           throw new Error(`Article with code ${line.demandeCode} not found`);
 //         }
 //         const code_Prd = productData.find(item => item.id_Article === id_Article)?.Numéro_Article || '';
+//         const GroupeArticle = productData.find(item => item.id_Article === id_Article)?.Groupe_Articles || '';
 
 //         const ventePayload = {
 //           code_Produit: line.demandeCode,
 //           designation_Produit: designation,
 //           qte_Produit: parseInt(line.quantite, 10),
 //           code_Projet: checkCodeProjet,
-//           nom_Projet: checkNomProjet,
+//           nom_Projet: line.nomProjet,
 //           n_Serie:"trt test",
 //           code_Sortie: codeAchat,
 //           user_Dmd: user.username,
 //           id_Article: id_Article,
 //           Partenaire: Partenaire,
+//           note: note,
+//           Groupe_Articles: GroupeArticle
 //         };
-//         // const achatPayload = {
-//         //   code: line.demandeCode,
-//         //   designation: designation,
-//         //   quantite: parseInt(line.quantite, 10),
-//         //   code_Projet: checkCodeProjet,
-//         //   nom_Projet: checkNomProjet,
-//         //   // code_Projet: line.projetCode,
-//         //   // nom_Projet: nom_Projet,
-//         //   check_Delivery: false,
-//         //   code_Achat: codeAchat,
-//         //   user_Dmd: user.username,
-//         //   date: formattedDate,
-//         //   qte_Reçu: 0,
-//         //   qte_Magasin: qte_Magasin,
-//         //   id_Article: id_Article,
-//         //   Partenaire: Partenaire,
-//         //   // code_Produit: code_Produit 
-//         // };
+//         if (parseInt(line.quantite, 10) > qte_Magasin ) {
+//           Swal.fire({
+//             title: 'Error',
+//             text: 'la quantité que vous voulez n\'est pas disponible.',
+//             icon: 'error',
+//             confirmButtonText: 'OK'
+//           });
+//           throw new Error(`Article with code ${line.demandeCode} has no stock`);
+//         }
+
 //         console.log("qte=========>", parseInt(line.quantite, 10) + qte_Magasin)
 //         const historiqueData = {
 //           type_Op:"Sortie=>",
@@ -826,15 +879,15 @@ export default SortX;
 //           //   icon: 'success',
 //           //   confirmButtonText: 'OK'
 //           // });
-    
-//     // Clear the input fields on successful submission
-//     // setDemandeCode('');
-//     // setVenteDetails(null);
-//     // setQuantite('');
-//   })
-//   .catch(error => {
-//     console.error("Post historique Data Error:", error);
-//   });
+//           toast.success('Sortie effectuée avec succès')
+//           // Clear the input fields on successful submission
+//           // setDemandeCode('');
+//           // setVenteDetails(null);
+//           // setQuantite('');
+//         })
+//         .catch(error => {
+//           console.error("Post historique Data Error:", error);
+//         });
 //     const quantityReceived = qte_Magasin - parseInt(line.quantite, 10);
 //     //============================================================
 //     // if (typeUser === "Utilisateur"){
@@ -842,7 +895,7 @@ export default SortX;
 //         productId: id_Article,
 //         qte_Magasin: quantityReceived
 //       }));
-      
+
 //     // }
 //     const response = await dispatch(postVenteData(ventePayload))
 //     //============================================================
@@ -858,13 +911,14 @@ export default SortX;
 //           confirmButtonText: 'OK'
 //         });
 //         console.error('Demande or Projet details or quantite or n_Serie or Client are not available');
+//         return;
 //       }
 //     }
 
 //     // Reset lines after successful submission
-//     setLines([{ demandeCode: '', projetCode: '', quantite: '', partenaire: ''}]);
+//     setLines([{ demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: ''}]);
 
-//     // window.location.reload();
+//     window.location.reload();
 //   } catch (error) {
 //     console.error('Error submitting data:', error.message);
 //   }
@@ -877,23 +931,92 @@ export default SortX;
 //       handleAddLine();
 //     }
 //   };
+
   
+//   const [selectedClient, setSelectedClient] = useState('');
+//   const [inputValue, setInputValue] = useState('');
+//   const [filteredClients, setFilteredClients] = useState([]);
+//   const [showList, setShowList] = useState(false);
+
+//   const handleClientChange = (value) => {
+//     setInputValue(value);
+//     if (value) {
+//       const filtered = clientData.filter(client =>
+//         client.Partenaire.toLowerCase().includes(value.toLowerCase())
+//       );
+//       // console.log("filtered",filtered)
+//       setFilteredClients(filtered);
+//       setShowList(true); // Show the list when typing
+//     } else {
+//       setFilteredClients([]);
+//       setShowList(false); // Hide the list if input is empty
+//     }
+//   };
+
+//   const handleClientSelect = (client) => {
+//     console.log("client**", client.Partenaire)
+//     setSelectedClient(client.Partenaire);
+//     setInputValue(client.Partenaire);
+//     setShowList(false); // Hide the list after selecting a client
+//     if (client.Partenaire && lines.some(line => line.partenaire !== client.Partenaire)) {
+//       setLines(lines.map(line => ({ ...line, partenaire: client.Partenaire })));
+//     }
+//   };
+//   console.log('@@select client@@',selectedClient)
+//   const [showListe, setShowListe] = useState(false);
+//   const toggleListe = () => {
+//     setShowListe(!showListe);
+//   };
 //   return (
 //     <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
-//       <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography>
+//         {!checkAccess() && 
+//         <Link to="/dashboard" className=" w-16 flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 text-white px-2 text-xl rounded-lg shadow-2xl">
+//           Back
+//         </Link>
+//     }
+//       {/* <Typography variant="h5" align="center" gutterBottom>Opération Magasinier</Typography> */}
+//       <Typography variant="h5" align="center" gutterBottom>Sortie</Typography>
+
+//       {/* <div className='border px-4 py-2 mb-4'>
+//         <label className='pr-2 font-bold'>Client :</label>
+//         <input
+//           type="text"
+//           value={inputValue}
+//           onChange={(e) => handleClientChange(e.target.value)}
+//           placeholder="Select or type client"
+//           className='outline-none w-[50%]'
+//         />
+
+//         {showList && (
+//           <ul className="border mt-1 max-h-40 overflow-y-auto">
+//             {filteredClients.map(client => (
+//               <li
+//                 key={client.id}
+//                 onClick={() => handleClientSelect(client)}
+//                 className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+//               >
+//                 {client.Partenaire}
+//               </li>
+//             ))}
+//           </ul>
+//         )}
+//     </div> */}
+
+
 //       <table className="min-w-full border-collapse">
 //         <thead>
 //           <tr>
 //             <th className="border px-4 py-2">Numero Article ou Code Barre</th>
 //             <th className="border px-4 py-2">Designation Fournisseur</th>
 //             <th className="border px-4 py-2">Designation Fadesol</th>
-//             {checkAccess() && <>
-//               <th className="border px-4 py-2">Projet Code</th>
-//               <th className="border px-4 py-2">Projet Nom</th>
-//             </>}
-//             <th className="border px-4 py-2">Client</th>
+//             {/* {checkAccess() && <> */}
+//               <th className="border px-4 py-2">Nom de Projet</th>
+//               {/* <th className="border px-4 py-2">Projet Nom</th> */}
+//             {/* </>} */}
+//             {/* <th className="border px-4 py-2">Client</th> */}
 //             <th className="border px-4 py-2">Quantité Magasin</th>
 //             <th className="border px-4 py-2">Quantité</th>
+//             <th className="border px-4 py-2">Onduleur</th>
 //             <th className="border px-4 py-2">Action</th>
 //           </tr>
 //         </thead>
@@ -930,41 +1053,35 @@ export default SortX;
 //                   disabled
 //                 />
 //               </td>
-//               {checkAccess() && 
-//               <>       
+//               {/* {checkAccess() && 
+//               <>        */}
 //                   <td className="border px-4 py-2">
 //                   <input
 //                     type="text"
-//                     value={line.projetCode}
-//                     placeholder='Enter Projet Code'
-//                     onChange={(e) => handleChange(index, 'projetCode', e.target.value)}
+//                     value={line.nomProjet}
+//                     placeholder='Enter nomProjet'
+//                     onChange={(e) => handleChange(index, 'nomProjet', e.target.value)}
 //                     className="w-full px-2 py-1 border-none"
 //                     onKeyPress={(e) => handleKeyPress(e, index)}
 //                   />
 //                 </td>
-//                   <td className="border px-4 py-2">
+//                   {/* <td className="border px-4 py-2">
 //                   <input
 //                     type="text"
 //                     value={projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || ''}
 //                     className="w-full px-2 py-1 border-none"
 //                     disabled
-//                   /></td>
+//                   /></td> */}
+//               {/* </>} */}
 
-//               </>}
 
-
-//                <td className="border px-4 py-2">
+//                {/* <td className="border px-4 py-2">
 //                   <select
 //                     value={line.partenaire}
 //                     onChange={e => handleChange(index, 'partenaire', e.target.value)}
 //                     className="w-full px-2 py-1 border-none"
 //                   >
 //                     <option value="">Sélectionner un client</option>
-//                     {/* {clientData.map(client => (
-//                       <option key={client.id} value={client.Partenaire}>
-//                         {client.Partenaire}
-//                       </option>
-//                     ))} */}
 //                     {clientData
 //                     .slice()
 //                     .sort((a, b) => a.Partenaire.localeCompare(b.Partenaire))
@@ -974,7 +1091,7 @@ export default SortX;
 //                       </option>
 //                     ))}
 //                   </select>
-//                 </td>
+//                 </td> */}
 
             
 //               <td className="border px-4 py-2">
@@ -999,6 +1116,15 @@ export default SortX;
 //                 />
 //               </td>
 //               <td className="border px-4 py-2">
+//                 <input
+//                   type="text"
+//                   value={line.note || ''} // Bind the note value
+//                   placeholder='Enter Note'
+//                   onChange={(e) => handleChange(index, 'note', e.target.value)} // Handle note change
+//                   className="w-full px-2 py-1 border-none"
+//                 />
+//               </td>
+//               <td className="border px-4 py-2">
 //                 {index === lines.length - 1 && (
 //                   <IconButton onClick={handleAddLine}>
 //                     <div className="flex h-8 w-8 items-center justify-center bg-customGreen rounded-full text-white hover:text-black hover:shadow ml-2">
@@ -1011,15 +1137,47 @@ export default SortX;
 //           ))}
 //         </tbody>
 //       </table>
+
+//       <div className='border px-4 py-2 my-4'>
+//         <label className='pr-2 font-bold'>Client :</label>
+//         <input
+//           type="text"
+//           value={inputValue}
+//           onChange={(e) => handleClientChange(e.target.value)}
+//           placeholder="Select or type client"
+//           className='outline-none w-[50%]'
+//         />
+
+//         {showList && (
+//           <ul className="border mt-1 max-h-40 overflow-y-auto">
+//             {filteredClients.map(client => (
+//               <li
+//                 key={client.id}
+//                 onClick={() => handleClientSelect(client)}
+//                 className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+//               >
+//                 {client.Partenaire}
+//               </li>
+//             ))}
+//           </ul>
+//         )}
+//       </div>
+
+
 //       <div className="text-center mt-4">
 //         <button onClick={handleSubmit} className="bg-customGreen text-white hover:bg-green-600 px-4 py-2 rounded-md">Create</button>
 //       </div>
-//       {/* {!checkAccess() && 
-//         <ListeDemandeUser/>
-//       } */}
 
-//       {!loading && !checkAccess() && <ListeSortXUser />}
+//       <button
+//         onClick={toggleListe}
+//         className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow-md transition duration-300"
+//       >
+//         {showListe ? 'Masquer la liste de Sortie' : 'Afficher la liste de Sortie'}
+//       </button>
+//       {!loading && !checkAccess() && showListe && <ListeSortXUser />}
 
+//       {/* {!loading && !checkAccess() && <ListeSortXUser />} */}
+//       <ToastContainer />
 //     </div>
 //   );
 // };
