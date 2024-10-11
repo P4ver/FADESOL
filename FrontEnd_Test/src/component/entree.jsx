@@ -439,7 +439,7 @@ console.log("inputCodeValue", inputCodeValue)
 
       {/* current date and time */}
       <div className="px-4 py-2 my-4">
-        <label className='pr-2 font-bold'>Date <span className='ml-20'> : </span></label>
+        <label className='pr-2 font-bold'>Date </label><span className='ml-20 font-bold mr-1'> : </span>
         <span>
           {new Date().toLocaleDateString('en-GB')} {/* dd/mm/yyyy format */}
           {' '}

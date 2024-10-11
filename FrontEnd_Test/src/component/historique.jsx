@@ -115,8 +115,8 @@ console.log("filteredData", filteredData)
                 <th className="px-4 py-2">Code Produit</th>
                 <th className="px-4 py-2">Designation</th>
                 <th className="px-4 py-2">Quantite</th>
-                <th className="px-4 py-2">N° Serie</th>
-                <th className="px-4 py-2">Code Projet</th>
+                {/* <th className="px-4 py-2">N° Serie</th> */}
+                {/* <th className="px-4 py-2">Code Projet</th> */}
                 <th className="px-4 py-2">Nom Projet</th>
                 <th className="px-4 py-2">Partenaire</th>
                 <th className="px-4 py-2">User</th>
@@ -131,8 +131,8 @@ console.log("filteredData", filteredData)
                   <td className="border px-4 py-2">{item.code_Produit}</td>
                   <td className="border px-4 py-2">{item.designation_Produit}</td>
                   <td className="border px-4 py-2">{item.qte_Produit}</td>
-                  <td className="border px-4 py-2">{item.n_Serie}</td>
-                  <td className="border px-4 py-2">{item.code_Projet}</td>
+                  {/* <td className="border px-4 py-2">{item.n_Serie}</td> */}
+                  {/* <td className="border px-4 py-2">{item.code_Projet}</td> */}
                   <td className="border px-4 py-2">{item.nom_Projet}</td>
                   <td className="border px-4 py-2">{item.Partenaire}</td>
                   <td className="border px-4 py-2">{item.user_Dmd}</td>

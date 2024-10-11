@@ -102,6 +102,8 @@ const SortX = () => {
     const [filteredCodes, setFilteredCodes] = useState([]);
     const [showCodeList, setShowCodeList] = useState(false);
   //=========================================================================================
+  const [saveArray, setSaveArray] = useState([{ demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: '' }]);
+  //=========================================================================================
 
 console.log("NomProjetInput",NomProjetInput)
   useEffect(() => {
@@ -174,8 +176,23 @@ const didRunRef = useRef(false);
 
   // const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
   const handleAddLine = () => {
+    console.log("addline+")
+    console.log("addline lines",lines)
+    for (const line of lines) {
+      const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
+      const qte_Magasin = article?.qte_Magasin || '';
+      console.log("addline article", article)
+      console.log("addline qte_Magasin",qte_Magasin)
+      console.log("addline qte",line.quantite)
+      if (line.quantite > qte_Magasin) {
+        toast.error(`La quantité demandée pour l'article ${article.Numéro_Article} est supérieure à la quantité en stock!`);
+        return;
+      }
+    }
     setLines([...lines, { demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: ''}]);
   };
+
+  // console.log("saveArray",saveArray)
   const handleFocus = (index) => {
     setShowCodeList(index);  // Show the dropdown for the focused row
   };
@@ -192,6 +209,7 @@ const didRunRef = useRef(false);
   };
 // console.log("sortie : selectedClient",selectedClient)
   const lastClickTimeRef = useRef(0);
+
 
   const handleSubmit = async () => {
   try {
@@ -218,7 +236,7 @@ const didRunRef = useRef(false);
     //   });
     //   return; // Exit the function if any line is missing required fields
     // }
-
+ 
     for (const line of lines) {
         // Check for empty fields
         // if (!line.demandeCode || !line.partenaire || !line.note || !line.quantite) {
@@ -235,7 +253,9 @@ const didRunRef = useRef(false);
       // if (line.demandeCode && line.quantite && selectedClient && line.note) {
       if (line.demandeCode && line.quantite && selectedClient && NomProjetInput) {
         const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
-        console.log("===>article: ",article)
+        console.log("===>article: ",article)   
+        console.log("inside of lines", lines)
+        // console.log("qte_Magasin", qte_Magasin)
         const designation = article?.Description_Article || '';
         const id_Article = article?.id_Article || null;
         const nom_Projet = projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || '';
@@ -253,12 +273,12 @@ const didRunRef = useRef(false);
         if (qte_Magasin <= 0 ) {
           Swal.fire({
             title: 'Error',
-            text: 'La quantité Magasin n\'est pas disponible.',
+            text: `La quantité Magasin de ${line.demandeCode} n\'est pas disponible.`,
             icon: 'error',
             confirmButtonText: 'OK'
-          });
+          }); 
           throw new Error(`Article with code ${line.demandeCode} has no stock`);
-        }
+        } 
 
 
         if (id_Article === null) {
@@ -284,7 +304,7 @@ const didRunRef = useRef(false);
         if (parseInt(line.quantite, 10) > qte_Magasin ) {
           Swal.fire({
             title: 'Error',
-            text: 'la quantité que vous voulez n\'est pas disponible.',
+            text: `la quantité de ${line.demandeCode}  que vous voulez n\'est pas disponible.`,
             icon: 'error',
             confirmButtonText: 'OK'
           });
@@ -351,7 +371,7 @@ const didRunRef = useRef(false);
   }
 };
 
-// console.log("===============>lines====>", lines)
+console.log("lines====>", lines)
 
   const handleKeyPress = (event, index) => {
     if (event.key === 'Enter' && index === lines.length - 1) {
@@ -416,7 +436,7 @@ const didRunRef = useRef(false);
         <Typography variant="h5" align="center" gutterBottom>Sortie</Typography>
         {/* current date and time */}
         <div className="px-4 py-2 my-4">
-          <label className='pr-2 font-bold'>Date <span className='ml-20'>: </span></label>
+          <label className='pr-2 font-bold'>Date </label><span className='ml-20 font-bold mr-1'> : </span>
           <span>
             {new Date().toLocaleDateString('en-GB')} {/* dd/mm/yyyy format */}
             {' '}
