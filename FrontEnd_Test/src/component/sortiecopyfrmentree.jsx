@@ -175,23 +175,47 @@ const didRunRef = useRef(false);
   };
 
   // const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
+  // const handleAddLine = () => {
+  //   console.log("addline+")
+  //   console.log("addline lines",lines)
+  //   for (const line of lines) {
+  //     const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
+  //     const qte_Magasin = article?.qte_Magasin || '';
+  //     console.log("addline article", article)
+  //     console.log("addline qte_Magasin",qte_Magasin)
+  //     console.log("addline qte",line.quantite)
+  //     if (line.quantite > qte_Magasin) {
+  //       toast.error(`La quantité demandée pour l'article ${article.Numéro_Article} est supérieure à la quantité en stock!`);
+  //       return;
+  //     }
+  //   }
+  //   setLines([...lines, { demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: ''}]);
+  // };
   const handleAddLine = () => {
-    console.log("addline+")
-    console.log("addline lines",lines)
-    for (const line of lines) {
+    // Check if any line has a quantity in stock less than 3
+    const hasLowStock = lines.some(line => {
       const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
       const qte_Magasin = article?.qte_Magasin || '';
-      console.log("addline article", article)
-      console.log("addline qte_Magasin",qte_Magasin)
-      console.log("addline qte",line.quantite)
+      console.log("addline article", article);
+      console.log("addline lines", lines);
+      console.log("addline qte_Magasin", qte_Magasin);
+      console.log("addline qte", line.quantite);
+  
       if (line.quantite > qte_Magasin) {
         toast.error(`La quantité demandée pour l'article ${article.Numéro_Article} est supérieure à la quantité en stock!`);
-        return;
+        return true;
       }
-    }
-    setLines([...lines, { demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: ''}]);
-  };
 
+      return false;
+    });
+  
+    // If any line has an issue, stop the function
+    if (hasLowStock) return;
+  
+    // Proceed to add a new line if no issues
+    setLines([...lines, { demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: '' }]);
+  };
+  
   // console.log("saveArray",saveArray)
   const handleFocus = (index) => {
     setShowCodeList(index);  // Show the dropdown for the focused row
@@ -236,7 +260,49 @@ const didRunRef = useRef(false);
     //   });
     //   return; // Exit the function if any line is missing required fields
     // }
- 
+    // ===========================first test===================================
+    // lines.some(line => {
+    //   const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
+    //   const qte_Magasin = article?.qte_Magasin || '';
+    //   if (line.quantite > qte_Magasin) {
+    //     toast.error(`La quantité demandée pour l'article ${article.Numéro_Article} est supérieure à la quantité en stock!`);
+    //     return true;
+    //   }
+    //   console.log("submit lines", lines)
+    //   console.log("submit qte", line.quantite)
+    //   // else{
+
+    //   // }
+    //   console.log("submit article", article)
+    //   // throw new Error(`chlag a drag`);
+    //   // console.log("qte_Magasin", qte_Magasin)
+    // });
+    // =============================second test not send if does not achieve the condition===================================
+    const hasError = lines.some(line => {
+      const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
+      const qte_Magasin = article?.qte_Magasin || '';
+      
+      // Check if quantity is greater than available stock
+      if (line.quantite > qte_Magasin) {
+        toast.error(`La quantité demandée pour l'article ${article?.Numéro_Article} est supérieure à la quantité en stock!`);
+        return true; // If condition fails, stop further checks
+      }
+      
+      console.log("submit lines", lines);
+      console.log("submit article", article);
+      
+      return false; // Otherwise, continue checking other lines
+    });
+    
+    // If any line failed, stop the process
+    if (hasError) {
+      console.log("One or more lines have invalid quantities, halting process.");
+      return; // Stop further execution if there's an error
+    }
+    
+    // Proceed with the next steps if no error occurred
+    console.log("All lines passed the check, proceeding...");
+    //==========================================================================================================================
     for (const line of lines) {
         // Check for empty fields
         // if (!line.demandeCode || !line.partenaire || !line.note || !line.quantite) {
