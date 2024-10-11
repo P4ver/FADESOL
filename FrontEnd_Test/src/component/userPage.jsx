@@ -16,9 +16,9 @@ const UserPage = () => {
         <Link to="/entree" className="h-36 flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 text-white py-6 px-12 text-4xl rounded-lg shadow-2xl transform transition duration-500 hover:bg-gradient-to-r hover:from-green-500 hover:to-blue-600 hover:scale-110 hover:rotate-3 hover:shadow-2xl hover:animate-pulse">
           Entree
         </Link>
-        <Link to="/products" className="h-36 flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 text-white py-6 px-12 text-4xl rounded-lg shadow-2xl transform transition duration-500 hover:bg-gradient-to-r hover:from-green-500 hover:to-blue-600 hover:scale-110 hover:rotate-3 hover:shadow-2xl hover:animate-pulse">
+        {/* <Link to="/products" className="h-36 flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 text-white py-6 px-12 text-4xl rounded-lg shadow-2xl transform transition duration-500 hover:bg-gradient-to-r hover:from-green-500 hover:to-blue-600 hover:scale-110 hover:rotate-3 hover:shadow-2xl hover:animate-pulse">
           Produits
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
