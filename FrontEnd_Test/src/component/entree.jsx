@@ -180,6 +180,35 @@ console.log("achatempoData.length", achatempoData.length)
   const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
   // console.log("historiqueForUser==>:",historiqueForUser)
   const handleAddLine = () => {
+    const hasLowStock = lines.some(line => {
+      const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
+      const qte_Magasin = article?.qte_Magasin || '';
+      if (!line.demandeCode){
+        Swal.fire({
+          title: 'Error',
+          text: `vous devez d'abord remplir cette ligne.`,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+        throw new Error(`vous devez d'abord remplir cette ligne.`);
+      }
+      if (line.demandeCode) {
+        if (!line.quantite){
+          Swal.fire({
+            title: 'Error',
+            text: `Veuillez entrer la quantité pour l'article ${article.Numéro_Article} !`,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+          // toast.error(`Veuillez entrer la quantité pour l'article ${article.Numéro_Article} !`);
+          return true;
+        }
+      }
+      return false;
+    });
+  
+    // If any line has an issue, stop the function
+    if (hasLowStock) return;
     setLines([...lines, { demandeCode: '', nomProjet: '', quantite: '', partenaire: ''}]);
   };
 
@@ -212,6 +241,88 @@ const handleSubmit = async () => {
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
     
+    // if (!selectedClient){
+    //   toast.error(`le client doit être rempli`);
+    // }
+    // if (!NomProjetInput){
+    //   toast.error(`le nom projet doit être rempli`);
+    // }
+    // ================================================================
+    const hasError = lines.some(line => {
+      const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
+      const qte_Magasin = article?.qte_Magasin || '';
+          if (!selectedClient){
+            Swal.fire({
+              title: 'Error',
+              text: `le client doit être rempli`,
+              icon: 'error',
+              confirmButtonText: 'OK'
+            }); 
+            throw new Error(`le client doit être rempli`);
+            // toast.error(`le client doit être rempli`);
+          }
+        else if (!NomProjetInput){
+          Swal.fire({
+            title: 'Error',
+            text: `le nom de projet doit être rempli`,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+          throw new Error(`le nom de projet doit être rempli`);
+        }
+        if (lines.length == 1){
+          if (!line.demandeCode){
+            Swal.fire({
+              title: 'Error',
+              text: `Code doit être rempli.`,
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+            // toast.error(`Code doit être rempli.`);
+          }
+          // if (!line.quantite){
+          //   toast.error(`Quantite doit être rempli.`);
+          // }
+          else if (line.demandeCode){
+            if (!line.quantite){
+              Swal.fire({
+                title: 'Error',
+                text: `Quantite de ${line.demandeCode} doit être remplie.`,
+                icon: 'error',
+                confirmButtonText: 'OK'
+              });
+              // toast.error(`Quantite de ${line.demandeCode} doit être rempli.`);
+            }
+          }
+        }
+
+        if (lines.length > 1){
+          if (line.demandeCode){
+            if (!line.quantite){
+              Swal.fire({
+                title: 'Error',
+                text: `Quantite de ${line.demandeCode} doit être remplie`,
+                icon: 'error',
+                confirmButtonText: 'OK'
+              });
+              // toast.error(`Quantite doit être rempli ${line.demandeCode}`);
+              throw new Error(`Quantite doit être rempli ${line.demandeCode}`);
+            }
+          }
+        }
+        // if (lines.length > 1 && !line.demandeCode){
+          
+        // }
+
+      return false; // Otherwise, continue checking other lines
+    });
+    
+    // If any line failed, stop the process
+    if (hasError) {
+      console.log("One or more lines have invalid quantities, halting process.");
+      return; // Stop further execution if there's an error
+    }
+    console.log("All lines passed the check, proceeding...");
     for (const line of lines) {
       // if (line.demandeCode && line.projetCode && line.quantite && line.partenaire) {
       // if (line.demandeCode && line.quantite && line.partenaire) {
@@ -335,14 +446,16 @@ const handleSubmit = async () => {
       });
         // Handle response/error
 
-      }else {//<<<<===========
-        Swal.fire({
-          title: 'Error',
-          text: 'Les détails de Demande ou Projet ou quantité ou n_Serie ou Client ne sont pas disponibles.',
-          icon: 'error',
-          confirmButtonText: 'OK'
-        });
-        console.error('Demande or Projet details or quantite or n_Serie or Client are not available');
+      }
+      else if (lines.length == 1) {
+        // Swal.fire({
+        //   title: 'Error',
+        //   text: 'Les détails de Demande ou Projet ou quantité ou n_Serie ou Client ne sont pas disponibles.',
+        //   icon: 'error',
+        //   confirmButtonText: 'OK'
+        // });
+        // console.error('Demande or Projet details or quantite or n_Serie or Client are not available');
+        return;
       }
     }
 

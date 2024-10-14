@@ -200,12 +200,35 @@ const didRunRef = useRef(false);
       console.log("addline lines", lines);
       console.log("addline qte_Magasin", qte_Magasin);
       console.log("addline qte", line.quantite);
-      if (!line.quantite){
-        toast.error(`Veuillez renseigner la quantité pour l'article ${article.Numéro_Article}!`);
-        return true;
+      if (!line.demandeCode){
+        Swal.fire({
+          title: 'Error',
+          text: `vous devez d'abord remplir cette ligne.`,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+        throw new Error(`vous devez d'abord remplir cette ligne.`);
+      }
+      if (line.demandeCode) {
+        if (!line.quantite){
+          Swal.fire({
+            title: 'Error',
+            text: `Veuillez entrer la quantité pour l'article ${article.Numéro_Article} !`,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+          // toast.error(`Veuillez entrer la quantité pour l'article ${article.Numéro_Article} !`);
+          return true;
+        }
       }
       if (line.quantite > qte_Magasin) {
-        toast.error(`La quantité demandée pour l'article ${article.Numéro_Article} est supérieure à la quantité en stock!`);
+        Swal.fire({
+          title: 'Error',
+          text: `La quantité demandée pour l'article ${article.Numéro_Article} est supérieure à la quantité en stock!`,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+        // toast.error(`La quantité demandée pour l'article ${article.Numéro_Article} est supérieure à la quantité en stock!`);
         return true;
       }
 
@@ -242,7 +265,7 @@ const didRunRef = useRef(false);
   try {
 
     const now = Date.now();
-    if (now - lastClickTimeRef.current < 2000) return; // Ignore clicks within 1 second
+    if (now - lastClickTimeRef.current < 1700) return; // Ignore clicks within 1 second
 
     lastClickTimeRef.current = now;
 
@@ -263,52 +286,94 @@ const didRunRef = useRef(false);
     //   });
     //   return; // Exit the function if any line is missing required fields
     // }
-    if (!selectedClient){
-      toast.error(`le client doit être rempli`);
-    }
-    if (!NomProjetInput){
-      toast.error(`le nom projet doit être rempli`);
-    }
+    // if (!selectedClient){
+    //   Swal.fire({
+    //     title: 'Error',
+    //     text: `le client doit être rempli`,
+    //     icon: 'error',
+    //     confirmButtonText: 'OK'
+    //   }); 
+    //   // toast.error(`le client doit être rempli`);
+    // }
+    // if (!NomProjetInput){
+    //   toast.error(`le nom projet doit être rempli`);
+    // }
     // ================================================================
     const hasError = lines.some(line => {
       const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
       const qte_Magasin = article?.qte_Magasin || '';
       console.log("hasError lines",lines)
       console.log("hasError lines.lenght", lines.length)
-
+          if (!selectedClient){
+            Swal.fire({
+              title: 'Error',
+              text: `le client doit être rempli`,
+              icon: 'error',
+              confirmButtonText: 'OK'
+            }); 
+            throw new Error(`le client doit être rempli`);
+            // toast.error(`le client doit être rempli`);
+          }
+        else if (!NomProjetInput){
+          Swal.fire({
+            title: 'Error',
+            text: `le nom de projet doit être rempli`,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+          throw new Error(`le nom de projet doit être rempli`);
+        }
         if (lines.length == 1){
           if (!line.demandeCode){
-            toast.error(`Code doit être rempli`);
+            Swal.fire({
+              title: 'Error',
+              text: `Code doit être rempli.`,
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+            // toast.error(`Code doit être rempli.`);
           }
-          if (!line.quantite){
-            toast.error(`Quantite doit être rempli ${line.demandeCode}`);
+          // if (!line.quantite){
+          //   toast.error(`Quantite doit être rempli.`);
+          // }
+          else if (line.demandeCode){
+            if (!line.quantite){
+              Swal.fire({
+                title: 'Error',
+                text: `Quantite de ${line.demandeCode} doit être remplie.`,
+                icon: 'error',
+                confirmButtonText: 'OK'
+              });
+              // toast.error(`Quantite de ${line.demandeCode} doit être rempli.`);
+            }
           }
         }
 
         if (lines.length > 1){
           if (line.demandeCode){
             if (!line.quantite){
-              toast.error(`Quantite doit être rempli ${line.demandeCode}`);
+              Swal.fire({
+                title: 'Error',
+                text: `Quantite de ${line.demandeCode} doit être remplie`,
+                icon: 'error',
+                confirmButtonText: 'OK'
+              });
+              // toast.error(`Quantite doit être rempli ${line.demandeCode}`);
               throw new Error(`Quantite doit être rempli ${line.demandeCode}`);
             }
           }
         }
-        // if (lines.length > 1 && !line.demandeCode){
-          
-        // }
 
 
-        // =========================origine==============================
-        // if (!line.demandeCode){
-        //   toast.error(`Code doit être rempli`);
-        // }
-        // if (!line.quantite){
-        //   toast.error(`Quantite doit être rempli ${line.demandeCode}`);
-        // }
-        // =============================================================
       // Check if quantity is greater than available stock
       if (line.quantite > qte_Magasin) {
-        toast.error(`La quantité demandée pour l'article ${article?.Numéro_Article} est supérieure à la quantité en stock!`);
+        Swal.fire({
+          title: 'Error',
+          text: `La quantité demandée pour l'article ${article?.Numéro_Article} est supérieure à la quantité en stock!`,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+        // toast.error(`La quantité demandée pour l'article ${article?.Numéro_Article} est supérieure à la quantité en stock!`);
         return true; // If condition fails, stop further checks
       }
       
@@ -327,18 +392,7 @@ const didRunRef = useRef(false);
     // Proceed with the next steps if no error occurred
     console.log("All lines passed the check, proceeding...");
     //==========================================================================================================================
-    for (const line of lines) {
-        // Check for empty fields
-        // if (!line.demandeCode || !line.partenaire || !line.note || !line.quantite) {
-        //   Swal.fire({
-        //     title: 'Error',
-        //     text: 'Tous les champs doivent être remplis.',
-        //     icon: 'error',
-        //     confirmButtonText: 'OK'
-        //   });
-        //   return; // Exit the function if any required field is emptye
-        // }
-      
+    for (const line of lines) {   
       // if (line.demandeCode && line.projetCode && line.quantite && line.partenaire) {
       // if (line.demandeCode && line.quantite && selectedClient && line.note) {
       if (line.demandeCode && line.quantite && selectedClient && NomProjetInput) {
@@ -439,7 +493,17 @@ const didRunRef = useRef(false);
           console.error("Post historique Data Error:", error);
         });
       }
-      // else if (lines.length == 1) {
+      else if (lines.length == 1) {
+        // Swal.fire({
+        //   title: 'Error',
+        //   text: 'tous les cases doit être rempli.',
+        //   icon: 'error',
+        //   confirmButtonText: 'OK'
+        // });
+        // console.error('Demande or Projet details or quantite or Nom de Projet or Client are not available');
+        return;
+      }
+      // else {
       //   Swal.fire({
       //     title: 'Error',
       //     text: 'tous les cases doit être rempli.',
@@ -449,16 +513,6 @@ const didRunRef = useRef(false);
       //   console.error('Demande or Projet details or quantite or Nom de Projet or Client are not available');
       //   return;
       // }
-      else {
-        Swal.fire({
-          title: 'Error',
-          text: 'tous les cases doit être rempli.',
-          icon: 'error',
-          confirmButtonText: 'OK'
-        });
-        console.error('Demande or Projet details or quantite or Nom de Projet or Client are not available');
-        return;
-      }
     }
 
     // Reset lines after successful submission
