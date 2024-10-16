@@ -526,9 +526,13 @@ const didRunRef = useRef(false);
     <>
     {loadingProcess && (
       <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
-        <div className="loader"></div>
-        {/* Optional: Add a spinner or loading text */}
-        <p className="text-white">Loading...</p>
+      <div className='flex justify-center items-center py-14 rounded-md text-black flex-col w-[300px] bg-slate-50'>
+        <div className='flex'>
+          <div className="mx-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"> </div>
+          <p className="text-lg">Chargement...</p>
+        </div>
+        <div className="pt-10">Cela peut prendre quelques secondes.</div>
+      </div>
       </div>  
     )}
       <div className="max-w-[75%] mx-auto p-4 bg-white rounded-lg shadow-md">
