@@ -102,10 +102,7 @@ const SortX = () => {
     const [filteredCodes, setFilteredCodes] = useState([]);
     const [showCodeList, setShowCodeList] = useState(false);
   //=========================================================================================
-  const [saveArray, setSaveArray] = useState([{ demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: '' }]);
-  //=========================================================================================
-
-console.log("NomProjetInput",NomProjetInput)
+  const [loadingProcess, setLoadingProcess] = useState(null);
   useEffect(() => {
     if (authState.user) {
       setUser(authState.user);
@@ -119,24 +116,18 @@ console.log("NomProjetInput",NomProjetInput)
       setLoading(false);
     }
   }, [userAth, userState]);
-  console.log("typeUser!",typeUser)
+  // console.log("typeUser!",typeUser)
   const checkAccess = ()=>{
     if (typeUser === "Super Admin") return true
     else if (typeUser === "Admin") return true
     else return false
   }
 
-  console.log("sortie: checkAccess:", checkAccess())
+  // console.log("sortie: checkAccess:", checkAccess())
   //=========================================================================================
   const dispatch = useDispatch();
 const didRunRef = useRef(false);
   useEffect(() => {
-    // dispatch(fetchProductData());
-    // dispatch(fetchProjetData());
-    // dispatch(fetchAchatempoData());
-    // dispatch(fetchClientData());
-    // dispatch(fetchHistoriqueData()); 
-    // dispatch(fetchVenteData());
 
     const fetchDataAndGenerateCode = async () => {
       await dispatch(fetchProductData());
@@ -175,31 +166,15 @@ const didRunRef = useRef(false);
   };
 
   // const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
-  // const handleAddLine = () => {
-  //   console.log("addline+")
-  //   console.log("addline lines",lines)
-  //   for (const line of lines) {
-  //     const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
-  //     const qte_Magasin = article?.qte_Magasin || '';
-  //     console.log("addline article", article)
-  //     console.log("addline qte_Magasin",qte_Magasin)
-  //     console.log("addline qte",line.quantite)
-  //     if (line.quantite > qte_Magasin) {
-  //       toast.error(`La quantité demandée pour l'article ${article.Numéro_Article} est supérieure à la quantité en stock!`);
-  //       return;
-  //     }
-  //   }
-  //   setLines([...lines, { demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: ''}]);
-  // };
   const handleAddLine = () => {
     // Check if any line has a quantity in stock less than 3
     const hasLowStock = lines.some(line => {
       const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
       const qte_Magasin = article?.qte_Magasin || '';
-      console.log("addline article", article);
-      console.log("addline lines", lines);
-      console.log("addline qte_Magasin", qte_Magasin);
-      console.log("addline qte", line.quantite);
+      // console.log("addline article", article);
+      // console.log("addline lines", lines);
+      // console.log("addline qte_Magasin", qte_Magasin);
+      // console.log("addline qte", line.quantite);
       if (!line.demandeCode){
         Swal.fire({
           title: 'Error',
@@ -262,48 +237,21 @@ const didRunRef = useRef(false);
 
 
   const handleSubmit = async () => {
-  try {
-
+    setLoadingProcess(true)
+    try {
+    console.log("############################BEGIN###################################")
     const now = Date.now();
     if (now - lastClickTimeRef.current < 1700) return; // Ignore clicks within 1 second
 
     lastClickTimeRef.current = now;
-
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
-        
-    // Check if any line is missing required fields
-    // const hasMissingFields = lines.some(line => 
-    //   !line.demandeCode || !line.partenaire || !line.note || !line.quantite
-    // );
-
-    // if (hasMissingFields) {
-    //   Swal.fire({
-    //     title: 'Error',
-    //     text: 'Tous les champs doivent être remplis pour chaque ligne.',
-    //     icon: 'error',
-    //     confirmButtonText: 'OK'
-    //   });
-    //   return; // Exit the function if any line is missing required fields
-    // }
-    // if (!selectedClient){
-    //   Swal.fire({
-    //     title: 'Error',
-    //     text: `le client doit être rempli`,
-    //     icon: 'error',
-    //     confirmButtonText: 'OK'
-    //   }); 
-    //   // toast.error(`le client doit être rempli`);
-    // }
-    // if (!NomProjetInput){
-    //   toast.error(`le nom projet doit être rempli`);
-    // }
     // ================================================================
     const hasError = lines.some(line => {
       const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
       const qte_Magasin = article?.qte_Magasin || '';
-      console.log("hasError lines",lines)
-      console.log("hasError lines.lenght", lines.length)
+      // console.log("hasError lines",lines)
+      // console.log("hasError lines.lenght", lines.length)
           if (!selectedClient){
             Swal.fire({
               title: 'Error',
@@ -363,8 +311,6 @@ const didRunRef = useRef(false);
             }
           }
         }
-
-
       // Check if quantity is greater than available stock
       if (line.quantite > qte_Magasin) {
         Swal.fire({
@@ -377,8 +323,8 @@ const didRunRef = useRef(false);
         return true; // If condition fails, stop further checks
       }
       
-      console.log("submit lines", lines);
-      console.log("submit article", article);
+      // console.log("submit lines", lines);
+      // console.log("submit article", article);
       
       return false; // Otherwise, continue checking other lines
     });
@@ -444,7 +390,7 @@ const didRunRef = useRef(false);
           note: "Without Onduleur Name",
           Groupe_Articles: GroupeArticle
         };
-        console.log("ventePayload",ventePayload)
+        // console.log("ventePayload",ventePayload)
         if (parseInt(line.quantite, 10) > qte_Magasin ) {
           Swal.fire({
             title: 'Error',
@@ -454,8 +400,7 @@ const didRunRef = useRef(false);
           });
           throw new Error(`Article with code ${line.demandeCode} has no stock`);
         }
-
-        console.log("qte=========>", parseInt(line.quantite, 10) + qte_Magasin)
+        // console.log("qte=========>", parseInt(line.quantite, 10) + qte_Magasin)
         const historiqueData = {
           type_Op:"Sortie=>",
           code_Produit: code_Prd,
@@ -494,13 +439,6 @@ const didRunRef = useRef(false);
         });
       }
       else if (lines.length == 1) {
-        // Swal.fire({
-        //   title: 'Error',
-        //   text: 'tous les cases doit être rempli.',
-        //   icon: 'error',
-        //   confirmButtonText: 'OK'
-        // });
-        // console.error('Demande or Projet details or quantite or Nom de Projet or Client are not available');
         return;
       }
       // else {
@@ -519,14 +457,16 @@ const didRunRef = useRef(false);
     setInputValue('')
     setNomProjetInput('')
     setLines([{ demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: ''}]);
-
+    console.log("############################END###################################")
     // window.location.reload();
   } catch (error) {
     console.error('Error submitting data:', error.message);
+  }finally {
+    setLoadingProcess(false); // Stop loading after the operation completes
   }
 };
 
-console.log("lines====>", lines)
+// console.log("lines====>", lines)
 
   const handleKeyPress = (event, index) => {
     if (event.key === 'Enter' && index === lines.length - 1) {
@@ -581,244 +521,254 @@ console.log("lines====>", lines)
   //   setOnduleurInput(value);  
   // };
   // =========================================================
+  console.log("loadingProcess",loadingProcess)
   return (
-    <div className="max-w-[75%] mx-auto p-4 bg-white rounded-lg shadow-md">
-      {!checkAccess() && 
-        <Link to="/dashboard" className=" w-16 flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 text-white px-2 text-xl rounded-lg shadow-2xl">
-          Back
-        </Link>
-      }
-        <Typography variant="h5" align="center" gutterBottom>Sortie</Typography>
-        {/* current date and time */}
-        <div className="px-4 py-2 my-4">
-          <label className='pr-2 font-bold'>Date </label><span className='ml-20 font-bold mr-1'> : </span>
-          <span>
-            {new Date().toLocaleDateString('en-GB')} {/* dd/mm/yyyy format */}
-            {' '}
-            {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} {/* hh:mm format */}
-          </span>
+    <>
+    {loadingProcess && (
+      <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
+        <div className="loader"></div>
+        {/* Optional: Add a spinner or loading text */}
+        <p className="text-white">Loading...</p>
+      </div>  
+    )}
+      <div className="max-w-[75%] mx-auto p-4 bg-white rounded-lg shadow-md">
+        {!checkAccess() && 
+          <Link to="/dashboard" className=" w-16 flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 text-white px-2 text-xl rounded-lg shadow-2xl">
+            Back
+          </Link>
+        }
+          <Typography variant="h5" align="center" gutterBottom>Sortie</Typography>
+          {/* current date and time */}
+          <div className="px-4 py-2 my-4">
+            <label className='pr-2 font-bold'>Date </label><span className='ml-20 font-bold mr-1'> : </span>
+            <span>
+              {new Date().toLocaleDateString('en-GB')} {/* dd/mm/yyyy format */}
+              {' '}
+              {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} {/* hh:mm format */}
+            </span>
+          </div>
+
+        {/* Client */}
+          <div className='px-4 py-2 my-4'>
+          <label className='pr-2 font-bold'>Client<span className='ml-20'>: </span></label>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => handleClientChange(e.target.value)}
+            placeholder="Select or type client"
+            className='outline-none w-[50%]'
+          />
+
+          {showList && (
+            <ul className="border mt-1 max-h-40 overflow-y-auto">
+              {filteredClients.map(client => (
+                <li
+                  key={client.id}
+                  onClick={() => handleClientSelect(client)}
+                  className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+                >
+                  {client.Partenaire}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-
-      {/* Client */}
+        {/* nom de projet */}
         <div className='px-4 py-2 my-4'>
-        <label className='pr-2 font-bold'>Client<span className='ml-20'>: </span></label>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => handleClientChange(e.target.value)}
-          placeholder="Select or type client"
-          className='outline-none w-[50%]'
-        />
-
-        {showList && (
-          <ul className="border mt-1 max-h-40 overflow-y-auto">
-            {filteredClients.map(client => (
-              <li
-                key={client.id}
-                onClick={() => handleClientSelect(client)}
-                className="cursor-pointer px-2 py-1 hover:bg-gray-200"
-              >
-                {client.Partenaire}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      {/* nom de projet */}
-      <div className='px-4 py-2 my-4'>
-        <label className='pr-2 font-bold'>Nom de Projet <span className='ml-5'>: </span></label>
-          <input
-            type="text"
-            value={NomProjetInput}
-            onChange={(e) => handleNomProjetInput(e.target.value)}
-            placeholder="Nom de Projet"
-            className='outline-none w-[50%]'
-          />
-      </div>
-      {/* Onduleur */}
-      {/* <div className='border px-4 py-2 my-4'>
-        <label className='pr-2 font-bold'>Onduleur <span className='ml-5'>: </span></label>
-          <input
-            type="text"
-            value={OnduleurInput}
-            onChange={(e) => handleOnduleurInput(e.target.value)}
-            placeholder="Nom de Projet"
-            className='outline-none w-[50%]'
-          />
-      </div> */}
-      <table className="min-w-full border-collapse">
-        <thead>
-          <tr>
-            <th className="border px-4 py-2 w-56">Code</th>
-            {/* <th className="border px-4 py-2">Designation Fournisseur</th> */}
-            <th className="border px-4 py-2">Designation</th>
-            {/* {checkAccess() && <> */}
-              {/* <th className="border px-4 py-2">Nom de Projet</th> */}
-              {/* <th className="border px-4 py-2">Projet Nom</th> */}
-            {/* </>} */}
-            {/* <th className="border px-4 py-2">Client</th> */}
-            <th className="border px-4 py-2 w-40">Quantité Magasin</th>
-            <th className="border px-4 py-2 w-32">Quantité</th>
-            {/* <th className="border px-4 py-2">Onduleur</th> */}
-            <th className="border px-4 py-2 w-20">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lines.map((line, index) => (
-            <tr key={index}>
-              <td className="border px-4 py-2">
-                <input
-                  type="text"
-                  value={line.demandeCode}
-                  placeholder='Enter Numero article ou Code Barre'
-                  onChange={(e) => handleChange(index, 'demandeCode', e.target.value)}
-                  onFocus={() => handleFocus(index)}
-                  className="w-full px-2 py-1 border-none"
-                  // onKeyPress={(e) => handleKeyPress(e, index)}
-                />
-
-                {showCodeList === index && ( 
-                  <ul className="border mt-1 max-h-40 overflow-y-auto">
-                    {productData.filter(article => article.Numéro_Article.toLowerCase().includes(line.demandeCode.toLowerCase())).map(article => (
-                      <li
-                        key={article.id_Article}
-                        onClick={() => handleCodeSelect(article, index)} 
-                        className="cursor-pointer px-2 py-1 hover:bg-gray-200"
-                      >
-                        {article.Numéro_Article}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-              </td>
-              {/* <td className="border px-4 py-2">
-                <input
-                  type="text"
-                  value={line.demandeCode ? productData.find(demande =>
-                    demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode
-                  )?.Description_Article : ''}
-                  className="w-full px-2 py-1 border-none"
-                  disabled
-                />
-              </td> */}
-              <td>
-                <input
-                  type="text"
-                  value={line.demandeCode ? productData.find(demande =>
-                    demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode
-                  )?.Designation_Fadesol : ''}
-                  className="w-full px-2 py-1 border-none"
-                  disabled
-                />
-              </td>
-
-              {/* {checkAccess() && 
-              <>       
-                  <td className="border px-4 py-2">
+          <label className='pr-2 font-bold'>Nom de Projet <span className='ml-5'>: </span></label>
+            <input
+              type="text"
+              value={NomProjetInput}
+              onChange={(e) => handleNomProjetInput(e.target.value)}
+              placeholder="Nom de Projet"
+              className='outline-none w-[50%]'
+            />
+        </div>
+        {/* Onduleur */}
+        {/* <div className='border px-4 py-2 my-4'>
+          <label className='pr-2 font-bold'>Onduleur <span className='ml-5'>: </span></label>
+            <input
+              type="text"
+              value={OnduleurInput}
+              onChange={(e) => handleOnduleurInput(e.target.value)}
+              placeholder="Nom de Projet"
+              className='outline-none w-[50%]'
+            />
+        </div> */}
+        <table className="min-w-full border-collapse">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2 w-56">Code</th>
+              {/* <th className="border px-4 py-2">Designation Fournisseur</th> */}
+              <th className="border px-4 py-2">Designation</th>
+              {/* {checkAccess() && <> */}
+                {/* <th className="border px-4 py-2">Nom de Projet</th> */}
+                {/* <th className="border px-4 py-2">Projet Nom</th> */}
+              {/* </>} */}
+              {/* <th className="border px-4 py-2">Client</th> */}
+              <th className="border px-4 py-2 w-40">Quantité Magasin</th>
+              <th className="border px-4 py-2 w-32">Quantité</th>
+              {/* <th className="border px-4 py-2">Onduleur</th> */}
+              <th className="border px-4 py-2 w-20">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {lines.map((line, index) => (
+              <tr key={index}>
+                <td className="border px-4 py-2">
                   <input
                     type="text"
-                    value={line.nomProjet}
-                    placeholder='Enter Projet Nom'
-                    onChange={(e) => handleChange(index, 'nomProjet', e.target.value)}
+                    value={line.demandeCode}
+                    placeholder='Enter Numero article ou Code Barre'
+                    onChange={(e) => handleChange(index, 'demandeCode', e.target.value)}
+                    onFocus={() => handleFocus(index)}
+                    className="w-full px-2 py-1 border-none"
+                    // onKeyPress={(e) => handleKeyPress(e, index)}
+                  />
+
+                  {showCodeList === index && ( 
+                    <ul className="border mt-1 max-h-40 overflow-y-auto">
+                      {productData.filter(article => article.Numéro_Article.toLowerCase().includes(line.demandeCode.toLowerCase())).map(article => (
+                        <li
+                          key={article.id_Article}
+                          onClick={() => handleCodeSelect(article, index)} 
+                          className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+                        >
+                          {article.Numéro_Article}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                </td>
+                {/* <td className="border px-4 py-2">
+                  <input
+                    type="text"
+                    value={line.demandeCode ? productData.find(demande =>
+                      demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode
+                    )?.Description_Article : ''}
+                    className="w-full px-2 py-1 border-none"
+                    disabled
+                  />
+                </td> */}
+                <td>
+                  <input
+                    type="text"
+                    value={line.demandeCode ? productData.find(demande =>
+                      demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode
+                    )?.Designation_Fadesol : ''}
+                    className="w-full px-2 py-1 border-none"
+                    disabled
+                  />
+                </td>
+
+                {/* {checkAccess() && 
+                <>       
+                    <td className="border px-4 py-2">
+                    <input
+                      type="text"
+                      value={line.nomProjet}
+                      placeholder='Enter Projet Nom'
+                      onChange={(e) => handleChange(index, 'nomProjet', e.target.value)}
+                      className="w-full px-2 py-1 border-none"
+                      onKeyPress={(e) => handleKeyPress(e, index)}
+                    />
+                  </td>
+                    <td className="border px-4 py-2">
+                    <input
+                      type="text"
+                      value={projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || ''}
+                      className="w-full px-2 py-1 border-none"
+                      disabled
+                    /></td>
+                </>} */}
+        
+                <td className="border px-4 py-2">
+                <input
+                    type="text"
+                    value={line.demandeCode ? productData.find(demande =>
+                      demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode
+                    )?.qte_Magasin : ''}
+                    className="w-full px-2 py-1 border-none"
+                    disabled
+                  />
+      
+                </td>
+                <td className="border px-4 py-2">
+                  <input
+                    type="number"
+                    value={line.quantite}
+                    placeholder='Enter Quantité'
+                    onChange={(e) => handleChange(index, 'quantite', e.target.value)}
                     className="w-full px-2 py-1 border-none"
                     onKeyPress={(e) => handleKeyPress(e, index)}
                   />
                 </td>
-                  <td className="border px-4 py-2">
+                {/* <td className="border px-4 py-2">
                   <input
                     type="text"
-                    value={projetData.find(projet => projet.code_Projet == line.projetCode)?.nom_Projet || ''}
+                    value={line.note || ''} // Bind the note value
+                    placeholder='Enter Note'
+                    onChange={(e) => handleChange(index, 'note', e.target.value)} // Handle note change
                     className="w-full px-2 py-1 border-none"
-                    disabled
-                  /></td>
-              </>} */}
-       
-              <td className="border px-4 py-2">
-              <input
-                  type="text"
-                  value={line.demandeCode ? productData.find(demande =>
-                    demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode
-                  )?.qte_Magasin : ''}
-                  className="w-full px-2 py-1 border-none"
-                  disabled
-                />
-     
-              </td>
-              <td className="border px-4 py-2">
-                <input
-                  type="number"
-                  value={line.quantite}
-                  placeholder='Enter Quantité'
-                  onChange={(e) => handleChange(index, 'quantite', e.target.value)}
-                  className="w-full px-2 py-1 border-none"
-                  onKeyPress={(e) => handleKeyPress(e, index)}
-                />
-              </td>
-              {/* <td className="border px-4 py-2">
-                <input
-                  type="text"
-                  value={line.note || ''} // Bind the note value
-                  placeholder='Enter Note'
-                  onChange={(e) => handleChange(index, 'note', e.target.value)} // Handle note change
-                  className="w-full px-2 py-1 border-none"
-                />
-              </td> */}
-              <td className="border px-4 py-2">
-                {index === lines.length - 1 && (
-                  <IconButton onClick={handleAddLine}>
-                    <div className="flex h-8 w-8 items-center justify-center bg-customGreen rounded-full text-white hover:text-black hover:shadow ml-2">
-                      <AiOutlinePlusCircle />
-                    </div>
-                  </IconButton>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* <div className='border px-4 py-2 my-4'>
-        <label className='pr-2 font-bold'>Client :</label>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => handleClientChange(e.target.value)}
-          placeholder="Select or type client"
-          className='outline-none w-[50%]'
-        />
-
-        {showList && (
-          <ul className="border mt-1 max-h-40 overflow-y-auto">
-            {filteredClients
-            .map(client => (
-              <li
-                key={client.id}
-                onClick={() => handleClientSelect(client)}
-                className="cursor-pointer px-2 py-1 hover:bg-gray-200"
-              >
-                {client.Partenaire}
-              </li>
+                  />
+                </td> */}
+                <td className="border px-4 py-2">
+                  {index === lines.length - 1 && (
+                    <IconButton onClick={handleAddLine}>
+                      <div className="flex h-8 w-8 items-center justify-center bg-customGreen rounded-full text-white hover:text-black hover:shadow ml-2">
+                        <AiOutlinePlusCircle />
+                      </div>
+                    </IconButton>
+                  )}
+                </td>
+              </tr>
             ))}
-          </ul>
-        )}
-      </div> */}
+          </tbody>
+        </table>
+
+        {/* <div className='border px-4 py-2 my-4'>
+          <label className='pr-2 font-bold'>Client :</label>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => handleClientChange(e.target.value)}
+            placeholder="Select or type client"
+            className='outline-none w-[50%]'
+          />
+
+          {showList && (
+            <ul className="border mt-1 max-h-40 overflow-y-auto">
+              {filteredClients
+              .map(client => (
+                <li
+                  key={client.id}
+                  onClick={() => handleClientSelect(client)}
+                  className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+                >
+                  {client.Partenaire}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div> */}
 
 
-      <div className="text-center mt-4">
-        <button onClick={handleSubmit} className="bg-customGreen text-white hover:bg-green-600 px-4 py-2 rounded-md">Create</button>
+        <div className="text-center mt-4">
+          <button onClick={handleSubmit} className="bg-customGreen text-white hover:bg-green-600 px-4 py-2 rounded-md">Create</button>
+        </div>
+
+        <button
+          onClick={toggleListe}
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow-md transition duration-300"
+        >
+          {showFullListe ? 'Masquer la liste de Sortie' : 'Afficher la liste de Sortie'}
+        </button>
+
+        {!loading && !checkAccess() && showFullListe && <ListeSortXUser />}
+        <ToastContainer />
       </div>
-
-      <button
-        onClick={toggleListe}
-        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow-md transition duration-300"
-      >
-        {showFullListe ? 'Masquer la liste de Sortie' : 'Afficher la liste de Sortie'}
-      </button>
-
-      {!loading && !checkAccess() && showFullListe && <ListeSortXUser />}
-      <ToastContainer />
-    </div>
+    </>
   );
 };
 

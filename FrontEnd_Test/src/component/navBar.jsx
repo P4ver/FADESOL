@@ -32,7 +32,7 @@ const NavBar = () => {
     }
   }, [authState.user, userData]);
 
-  console.log("##userRole:::",userRole)
+  // console.log("##userRole:::",userRole)
   const handleDropdownClick = () => {
     setShowDropdown(!showDropdown);
   };
@@ -47,10 +47,10 @@ const NavBar = () => {
     setShowNotifications(!showNotifications);
   };
 
-  console.log("navbar =====+======> historiqueData : ", historiqueData)
-  console.log("authState: ", authState);
-  console.log("userState: ", userState);
-  console.log("userData: ", userData);
+  // console.log("navbar =====+======> historiqueData : ", historiqueData)
+  // console.log("authState: ", authState);
+  // console.log("userState: ", userState);
+  // console.log("userData: ", userData);
 
   useEffect(() => {
     const socket = io(`${API_BASE_URL}`);
