@@ -13,7 +13,7 @@ export const fetchUserData = createAsyncThunk(
       if (response.status !== 200) {
         throw new Error('Failed to fetch user data');
       }
-      console.log('FUD:res:', response.data);
+      // console.log('FUD:res:', response.data);
       
       return response.data;
     } catch (error) {
