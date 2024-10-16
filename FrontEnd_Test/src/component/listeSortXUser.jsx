@@ -94,7 +94,7 @@ function ListeSortXUser() {
 
   const filteredAchatData = achatempoData.filter(data => data.user_Dmd === user.username);
   const filteredVenteData = venteData.filter(data => data.user_Dmd === user.username);
-  console.log("filteredVenteData***:",filteredVenteData)
+  // console.log("filteredVenteData***:",filteredVenteData)
   const lookNewQteMagasin = (id_Article) =>{
     const findQteMagasinUpdate = productData.find(p => p.id_Article  == id_Article)
     console.log("=>==>=>=>", findQteMagasinUpdate)
@@ -198,7 +198,7 @@ function ListeSortXUser() {
   // const uniqueCodeAchats = [...new Set(filteredAchatData.map(data => data.code_Achat))];
   const uniqueCodeVente = [...new Set(filteredVenteData.map(data => data.code_Sortie))]
 
-  console.log("fronSOrtX",uniqueCodeVente)
+  // console.log("fronSOrtX",uniqueCodeVente)
 
   useEffect(() => {
     const handleDeleteDuplicates = async () => {
