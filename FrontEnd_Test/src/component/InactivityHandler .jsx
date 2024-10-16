@@ -15,7 +15,7 @@ const InactivityHandler = () => {
 
   const resetTimer = () => {
     clearTimeout(inactivityTimeout);
-    inactivityTimeout = setTimeout(logout, 5 * 60 * 1000); // 
+    inactivityTimeout = setTimeout(logout, 60 * 60 * 1000); // 
   };
 
   useEffect(() => {
