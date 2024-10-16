@@ -37,7 +37,8 @@ const LoginComponent = () => {
       // const response = await axios.post(`${API_BASE_URL}/auth/login`, { ...formData, recaptchaToken }, {
         withCredentials: true,
       });
-      console.log('Login successful:', response.config.data);
+      console.log('#Login successful');
+      // console.log('Login successful:', response.config.data);
       localStorage.setItem('isAuthenticated', 'true');
       const objtext = response.config.data;
       const obj = JSON.parse(objtext);

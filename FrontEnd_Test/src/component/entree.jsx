@@ -75,7 +75,7 @@ const Entree = () => {
   const clientData = useSelector((state) => state.client.clientData);
   const achatempoData = useSelector((state) => state.achatempo.achatempoData);
   const historiqueData = useSelector(state => state.historique.historiqueData);
-  console.log("achatempoData",achatempoData)
+  // console.log("achatempoData",achatempoData)
   const [filteredData, setFilteredData] = useState([]);
 
   const [codeAchat, setCodeAchat] = useState('');
@@ -116,7 +116,7 @@ const Entree = () => {
       setLoading(false);
     }
   }, [userAth, userState]);
-  console.log("typeUser!",typeUser)
+  // console.log("typeUser!",typeUser)
   const checkAccess = ()=>{
     if (typeUser === "Super Admin") return true
     else if (typeUser === "Admin") return true
@@ -124,25 +124,11 @@ const Entree = () => {
   }
 
   // console.log("NomProjetInput", NomProjetInput)
-  console.log("Entree: checkAccess:", checkAccess())
+  // console.log("Entree: checkAccess:", checkAccess())
   //=========================================================================================
   const dispatch = useDispatch();
   const didRunRef = useRef(false);
   useEffect(() => {
-    // dispatch(fetchProductData());
-    // dispatch(fetchProjetData());
-    // dispatch(fetchAchatempoData());
-    // dispatch(fetchClientData());
-    // dispatch(fetchHistoriqueData()); 
-
-    // Generate the next codeAchat when the component mounts
-    // const generateNextCodeAchat = () => {
-    //   const lastCode = localStorage.getItem('lastCodeAchat') || 'CE-000000';
-    //   const lastNumber = parseInt(lastCode.split('-')[1], 10);
-    //   const newCode = `CE-${String(lastNumber + 1).padStart(6, '0')}`;
-    //   setCodeAchat(newCode);
-    //   localStorage.setItem('lastCodeAchat', newCode);
-    // };
     const fetchDataAndGenerateCode = async () => {
       await dispatch(fetchProductData());
       await dispatch(fetchProjetData());
@@ -175,7 +161,7 @@ const Entree = () => {
       // setCodeAchat("CS-000001");
     }
   };
-console.log("achatempoData.length", achatempoData.length)
+// console.log("achatempoData.length", achatempoData.length)
 // console.log("lastCodeEntree", lastCodeEntree)
   const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
   // console.log("historiqueForUser==>:",historiqueForUser)
@@ -228,13 +214,13 @@ console.log("achatempoData.length", achatempoData.length)
     }
 
   };
-  console.log("entree : selectedClient",selectedClient)
+  // console.log("entree : selectedClient",selectedClient)
   const lastClickTimeRef = useRef(0);
 const handleSubmit = async () => {
   try {
 
     const now = Date.now();
-    if (now - lastClickTimeRef.current < 3000) return; // Ignore clicks within 1 second
+    if (now - lastClickTimeRef.current < 2000) return; // Ignore clicks within 1 second
 
     lastClickTimeRef.current = now;
 
@@ -347,7 +333,7 @@ const handleSubmit = async () => {
 
         // console.log("line from input:",line)
         // console.log("Partenaire:",Partenaire)
-        console.log("selectedClient from handlesubmit:",selectedClient)
+        // console.log("selectedClient from handlesubmit:",selectedClient)
         
         if (id_Article === null) {
           throw new Error(`Article with code ${line.demandeCode} not found`);
@@ -417,7 +403,7 @@ const handleSubmit = async () => {
     }
     //============================================================
     
-        console.log("===achatpayload===>", achatPayload);
+        // console.log("===achatpayload===>", achatPayload);
         // Dispatch postAchatempoData thunk with achatPayload
         const response = await dispatch(postAchatempoData(achatPayload));
         console.log("===Res===>", response);
@@ -429,17 +415,7 @@ const handleSubmit = async () => {
        await dispatch(postHistoriqueData(historiqueData))
       .then(response => {
         console.log("Post historique Data Response:", response);
-        // Swal.fire({
-        //   title: 'Success',
-        //   text: 'Sortie effectuée avec succès dans le stock',
-        //   icon: 'success',
-        //   confirmButtonText: 'OK'
-        // });
         toast.success('Entree effectuée avec succès dans le stock')
-        // Clear the input fields on successful submission
-        // setDemandeCode('');
-        // setVenteDetails(null);
-        // setQuantite('');
       })
       .catch(error => {
         console.error("Post historique Data Error:", error);
@@ -462,7 +438,6 @@ const handleSubmit = async () => {
     // Reset lines after successful submission
     setInputValue('')
     setNomProjetInput('')
-    // setSelectedClient('')
     setLines([{ demandeCode: '', nomProjet: '', quantite: '', partenaire: ''}]);
     // window.location.reload();
   } catch (error) {
@@ -470,7 +445,7 @@ const handleSubmit = async () => {
   }
 };
 
-console.log("entree lines",lines)
+// console.log("entree lines",lines)
 
   const handleKeyPress = (event, index) => {
     if (event.key === 'Enter' && index === lines.length - 1) {
@@ -495,7 +470,7 @@ console.log("entree lines",lines)
   };
 
   const handleClientSelect = (client) => {
-    console.log("client**", client.Partenaire)
+    // console.log("client**", client.Partenaire)
     setSelectedClient(client.Partenaire);
     setInputValue(client.Partenaire);
     setShowList(false); // Hide the list after selecting a client
@@ -540,7 +515,7 @@ const handleCodeSelect = (article, index) => {
   setShowCodeList(null);  
 };
 
-console.log("inputCodeValue", inputCodeValue)
+// console.log("inputCodeValue", inputCodeValue)
   return (
     <div className="max-w-[75%] mx-auto p-4 bg-white rounded-lg shadow-md">
     {!checkAccess() && 
@@ -746,9 +721,8 @@ console.log("inputCodeValue", inputCodeValue)
 
 export default Entree;
 
+//=========================================================================
 
-
-// ===============================================================
 
 // import React, { useState, useEffect } from 'react';
 // import { useSelector, useDispatch } from 'react-redux';
@@ -931,6 +905,35 @@ export default Entree;
 //   const historiqueForUser = historiqueData.filter(historic => historic.user_Dmd === user.username)
 //   // console.log("historiqueForUser==>:",historiqueForUser)
 //   const handleAddLine = () => {
+//     const hasLowStock = lines.some(line => {
+//       const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
+//       const qte_Magasin = article?.qte_Magasin || '';
+//       if (!line.demandeCode){
+//         Swal.fire({
+//           title: 'Error',
+//           text: `vous devez d'abord remplir cette ligne.`,
+//           icon: 'error',
+//           confirmButtonText: 'OK'
+//         });
+//         throw new Error(`vous devez d'abord remplir cette ligne.`);
+//       }
+//       if (line.demandeCode) {
+//         if (!line.quantite){
+//           Swal.fire({
+//             title: 'Error',
+//             text: `Veuillez entrer la quantité pour l'article ${article.Numéro_Article} !`,
+//             icon: 'error',
+//             confirmButtonText: 'OK'
+//           });
+//           // toast.error(`Veuillez entrer la quantité pour l'article ${article.Numéro_Article} !`);
+//           return true;
+//         }
+//       }
+//       return false;
+//     });
+  
+//     // If any line has an issue, stop the function
+//     if (hasLowStock) return;
 //     setLines([...lines, { demandeCode: '', nomProjet: '', quantite: '', partenaire: ''}]);
 //   };
 
@@ -956,13 +959,95 @@ export default Entree;
 //   try {
 
 //     const now = Date.now();
-//     if (now - lastClickTimeRef.current < 2000) return; // Ignore clicks within 1 second
+//     if (now - lastClickTimeRef.current < 3000) return; // Ignore clicks within 1 second
 
 //     lastClickTimeRef.current = now;
 
 //     const currentDate = new Date();
 //     const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
     
+//     // if (!selectedClient){
+//     //   toast.error(`le client doit être rempli`);
+//     // }
+//     // if (!NomProjetInput){
+//     //   toast.error(`le nom projet doit être rempli`);
+//     // }
+//     // ================================================================
+//     const hasError = lines.some(line => {
+//       const article = productData.find(demande => demande.Numéro_Article === line.demandeCode || demande.code_Barre === line.demandeCode);
+//       const qte_Magasin = article?.qte_Magasin || '';
+//           if (!selectedClient){
+//             Swal.fire({
+//               title: 'Error',
+//               text: `le client doit être rempli`,
+//               icon: 'error',
+//               confirmButtonText: 'OK'
+//             }); 
+//             throw new Error(`le client doit être rempli`);
+//             // toast.error(`le client doit être rempli`);
+//           }
+//         else if (!NomProjetInput){
+//           Swal.fire({
+//             title: 'Error',
+//             text: `le nom de projet doit être rempli`,
+//             icon: 'error',
+//             confirmButtonText: 'OK'
+//           });
+//           throw new Error(`le nom de projet doit être rempli`);
+//         }
+//         if (lines.length == 1){
+//           if (!line.demandeCode){
+//             Swal.fire({
+//               title: 'Error',
+//               text: `Code doit être rempli.`,
+//               icon: 'error',
+//               confirmButtonText: 'OK'
+//             });
+//             // toast.error(`Code doit être rempli.`);
+//           }
+//           // if (!line.quantite){
+//           //   toast.error(`Quantite doit être rempli.`);
+//           // }
+//           else if (line.demandeCode){
+//             if (!line.quantite){
+//               Swal.fire({
+//                 title: 'Error',
+//                 text: `Quantite de ${line.demandeCode} doit être remplie.`,
+//                 icon: 'error',
+//                 confirmButtonText: 'OK'
+//               });
+//               // toast.error(`Quantite de ${line.demandeCode} doit être rempli.`);
+//             }
+//           }
+//         }
+
+//         if (lines.length > 1){
+//           if (line.demandeCode){
+//             if (!line.quantite){
+//               Swal.fire({
+//                 title: 'Error',
+//                 text: `Quantite de ${line.demandeCode} doit être remplie`,
+//                 icon: 'error',
+//                 confirmButtonText: 'OK'
+//               });
+//               // toast.error(`Quantite doit être rempli ${line.demandeCode}`);
+//               throw new Error(`Quantite doit être rempli ${line.demandeCode}`);
+//             }
+//           }
+//         }
+//         // if (lines.length > 1 && !line.demandeCode){
+          
+//         // }
+
+//       return false; // Otherwise, continue checking other lines
+//     });
+    
+//     // If any line failed, stop the process
+//     if (hasError) {
+//       console.log("One or more lines have invalid quantities, halting process.");
+//       return; // Stop further execution if there's an error
+//     }
+//     console.log("All lines passed the check, proceeding...");
 //     for (const line of lines) {
 //       // if (line.demandeCode && line.projetCode && line.quantite && line.partenaire) {
 //       // if (line.demandeCode && line.quantite && line.partenaire) {
@@ -1086,14 +1171,16 @@ export default Entree;
 //       });
 //         // Handle response/error
 
-//       }else {//<<<<===========
-//         Swal.fire({
-//           title: 'Error',
-//           text: 'Les détails de Demande ou Projet ou quantité ou n_Serie ou Client ne sont pas disponibles.',
-//           icon: 'error',
-//           confirmButtonText: 'OK'
-//         });
-//         console.error('Demande or Projet details or quantite or n_Serie or Client are not available');
+//       }
+//       else if (lines.length == 1) {
+//         // Swal.fire({
+//         //   title: 'Error',
+//         //   text: 'Les détails de Demande ou Projet ou quantité ou n_Serie ou Client ne sont pas disponibles.',
+//         //   icon: 'error',
+//         //   confirmButtonText: 'OK'
+//         // });
+//         // console.error('Demande or Projet details or quantite or n_Serie or Client are not available');
+//         return;
 //       }
 //     }
 
@@ -1190,7 +1277,7 @@ export default Entree;
 
 //       {/* current date and time */}
 //       <div className="px-4 py-2 my-4">
-//         <label className='pr-2 font-bold'>Date <span className='ml-20'> : </span></label>
+//         <label className='pr-2 font-bold'>Date </label><span className='ml-20 font-bold mr-1'> : </span>
 //         <span>
 //           {new Date().toLocaleDateString('en-GB')} {/* dd/mm/yyyy format */}
 //           {' '}
@@ -1383,5 +1470,4 @@ export default Entree;
 // };
 
 // export default Entree;
-
 

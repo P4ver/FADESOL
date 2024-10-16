@@ -13,7 +13,7 @@ export const fetchClientData = createAsyncThunk(
       if (response.status !== 200) {
         throw new Error('Failed to fetch client data');
       }
-      console.log('FCD:res:', response.data);
+      // console.log('FCD:res:', response.data);
       
       return response.data;
     } catch (error) {
