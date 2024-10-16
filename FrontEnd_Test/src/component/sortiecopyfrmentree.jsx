@@ -264,7 +264,7 @@ const didRunRef = useRef(false);
   try {
 
     const now = Date.now();
-    if (now - lastClickTimeRef.current < 1700) return; // Ignore clicks within 1 second
+    if (now - lastClickTimeRef.current < 3000) return; // Ignore clicks within 1 second
 
     lastClickTimeRef.current = now;
 
@@ -656,7 +656,7 @@ console.log("lines====>", lines)
               {/* <th className="border px-4 py-2">Projet Nom</th> */}
             {/* </>} */}
             {/* <th className="border px-4 py-2">Client</th> */}
-            <th className="border px-4 py-2 w-40">Quantité Magasin</th>
+            {/* <th className="border px-4 py-2 w-40">Quantité Magasin</th> */}
             <th className="border px-4 py-2 w-32">Quantité</th>
             {/* <th className="border px-4 py-2">Onduleur</th> */}
             <th className="border px-4 py-2 w-20">Action</th>
@@ -733,7 +733,7 @@ console.log("lines====>", lines)
                   /></td>
               </>} */}
        
-              <td className="border px-4 py-2">
+              {/* <td className="border px-4 py-2">
               <input
                   type="text"
                   value={line.demandeCode ? productData.find(demande =>
@@ -743,7 +743,7 @@ console.log("lines====>", lines)
                   disabled
                 />
      
-              </td>
+              </td> */}
               <td className="border px-4 py-2">
                 <input
                   type="number"

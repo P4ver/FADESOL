@@ -234,7 +234,7 @@ const handleSubmit = async () => {
   try {
 
     const now = Date.now();
-    if (now - lastClickTimeRef.current < 2000) return; // Ignore clicks within 1 second
+    if (now - lastClickTimeRef.current < 3000) return; // Ignore clicks within 1 second
 
     lastClickTimeRef.current = now;
 
