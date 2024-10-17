@@ -10,11 +10,21 @@ const { Server } = require('socket.io');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const path = require('path');
+const os = require('os');
+
+
+const interfaces = os.networkInterfaces();
+const localIP = Object.values(interfaces)
+  .flat()
+  .find(details => details.family === 'IPv4' && !details.internal).address;
+
+console.log(`Local IP address: ${localIP}`);
 
 // Configurer CORS pour Socket.io
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    // origin: `http://${localIP}:5173`,
+    origin: `http://localhost:5173`,
     // origin: 'http://15.236.46.59',
     methods: ['GET', 'POST'],
     credentials: true,
@@ -43,7 +53,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  // origin: `http://${localIP}:5173`,
+  origin: `http://localhost:5173`,
   // origin: 'http://15.236.46.59',
   credentials: true,
 }));
