@@ -40,6 +40,10 @@ const useStyles = makeStyles({
     alignItems: 'center',
     marginBottom: 20,
   },
+  modalContent: {
+    maxHeight: '70vh', // Adjust this value as needed
+    overflowY: 'auto',
+  },
   input: {
     marginBottom: '10px',
     width: '100px',
@@ -406,154 +410,156 @@ function ListeDemandeUser() {
           <Typography variant="h6">Details de la Demande d'Entree</Typography>
           <IconButton onClick={closeModal}><FaTimes /></IconButton>
         </div>
-        {selectedAchat && (
-          <>
-            <Typography variant="subtitle1">Code d'Entree: {selectedAchat.code_Achat}</Typography>
-            <Typography variant="subtitle1">Date: {selectedAchat.date}</Typography>
-            <Typography variant="subtitle1">Utilisateur: {selectedAchat.user_Dmd}</Typography>
-            <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    {/* <TableCell>Code Projet</TableCell> */}
-                    <TableCell>Désignation</TableCell>
-                    <TableCell>Quantité Demandée</TableCell>
-                    {/*<TableCell>Quantité Reçue</TableCell>
-                     <TableCell>Status</TableCell> 
-                    <TableCell>Entrer Qte Reçue</TableCell>*/}
-                    <TableCell>Qte Magasin</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {filteredAchatData.filter(data => data.code_Achat === selectedAchat.code_Achat).map((data) => (
-                    <TableRow key={data.id_Achat}>
-                      {/* <TableCell>{data.code_Projet}</TableCell> */}
-                      <TableCell>{data.designation}</TableCell>
-                      <TableCell>{data.quantite}</TableCell>
-                      {/*<TableCell>{data.qte_Reçu}</TableCell>
-                       <TableCell>{getStatus(data.quantite, data.qte_Reçu)}</TableCell> 
-                      <TableCell>
-                        <TextField
-                          type="number"
-                          className={classes.input}
-                          value={qteRecu[data.id_Achat] || ''}
-                          onChange={(e) => handleInputChange(data.id_Achat, e.target.value)}
-                          />
-                        <IconButton onClick={() => handleFormSubmit(data.id_Achat)}>
-                          <FaCheck />
-                        </IconButton>
-                      </TableCell>*/}
-                      {/* <TableCell>{data.qte_Magasin}</TableCell> */}
-                      <TableCell>{lookNewQteMagasin(data.id_Article)}</TableCell>
+        <div className={classes.modalContent}>
+          {selectedAchat && (
+            <>
+              <Typography variant="subtitle1">Code d'Entree: {selectedAchat.code_Achat}</Typography>
+              <Typography variant="subtitle1">Date: {selectedAchat.date}</Typography>
+              <Typography variant="subtitle1">Utilisateur: {selectedAchat.user_Dmd}</Typography>
+              <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      {/* <TableCell>Code Projet</TableCell> */}
+                      <TableCell>Désignation</TableCell>
+                      <TableCell>Quantité Demandée</TableCell>
+                      {/*<TableCell>Quantité Reçue</TableCell>
+                      <TableCell>Status</TableCell> 
+                      <TableCell>Entrer Qte Reçue</TableCell>*/}
+                      <TableCell>Qte Magasin</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            {/* <Button
-              variant="contained"
-              color="primary"
-              className={classes.validateButton}
-              onClick={handleValidation}
-            >
-              Valider Tout
-            </Button> */}
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.updateButton}
-              onClick={handlePrint}
-            >
-              <FaPrint /> Imprimer
-            </Button>
-            <div id="print-area" className={`${classes.printArea}`}>
-  <div className='w-32'>
-    <img src={logo} alt="Logo" />
+                  </TableHead>
+                  <TableBody>
+                    {filteredAchatData.filter(data => data.code_Achat === selectedAchat.code_Achat).map((data) => (
+                      <TableRow key={data.id_Achat}>
+                        {/* <TableCell>{data.code_Projet}</TableCell> */}
+                        <TableCell>{data.designation}</TableCell>
+                        <TableCell>{data.quantite}</TableCell>
+                        {/*<TableCell>{data.qte_Reçu}</TableCell>
+                        <TableCell>{getStatus(data.quantite, data.qte_Reçu)}</TableCell> 
+                        <TableCell>
+                          <TextField
+                            type="number"
+                            className={classes.input}
+                            value={qteRecu[data.id_Achat] || ''}
+                            onChange={(e) => handleInputChange(data.id_Achat, e.target.value)}
+                            />
+                          <IconButton onClick={() => handleFormSubmit(data.id_Achat)}>
+                            <FaCheck />
+                          </IconButton>
+                        </TableCell>*/}
+                        {/* <TableCell>{data.qte_Magasin}</TableCell> */}
+                        <TableCell>{lookNewQteMagasin(data.id_Article)}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              {/* <Button
+                variant="contained"
+                color="primary"
+                className={classes.validateButton}
+                onClick={handleValidation}
+              >
+                Valider Tout
+              </Button> */}
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.updateButton}
+                onClick={handlePrint}
+              >
+                <FaPrint /> Imprimer
+              </Button>
+              <div id="print-area" className={`${classes.printArea}`}>
+    <div className='w-32'>
+      <img src={logo} alt="Logo" />
+    </div>
+    {/* <h5 className='mt-4'>Demande d'Entree</h5> */}
+
+    <table className='shadow-y-lg  ml-auto w-[50%]'> 
+      <tbody>
+        {/* {[
+          { label: 'Code Entree', value: selectedAchat?.code_Achat },
+          { label: 'Date', value: selectedAchat?.date ? new Date(selectedAchat.date).toISOString().split('T')[0] : '' },
+          { label: 'User', value: selectedAchat?.user_Dmd }
+        ].map((item, idx) => (
+          <tr key={idx}>
+            <td><h6>{item.label}</h6></td>
+            <td>: {item.value}</td>
+          </tr>
+        ))} */}
+        <tr className='font-semibold text-lg'>
+          <td className='w-32'><h6>Entree N°</h6></td>
+          <td>: {selectedAchat?.code_Achat}</td>
+        </tr>
+        <tr>
+          <td><h6>Date</h6></td>
+          <td>: {selectedAchat?.date ? 
+                new Date(selectedAchat.date).toLocaleString('en-GB', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                }).replace(',', '') : '' }
+          </td>
+        </tr>
+        <tr>
+          <td><h6>Demandeur</h6></td>
+          <td>: {selectedAchat?.user_Dmd}</td>
+        </tr>
+        <tr className='font-semibold text-lg'>
+          <td className='flex items-start '><h6>Client</h6></td>
+          <td>: {selectedAchat?.Partenaire}</td>
+        </tr>
+        <tr>
+          <td colSpan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colSpan="2">&nbsp;</td>
+        </tr>
+        {/* <tr>
+          <td><h6>Onduleur</h6></td>
+          <td>: {selectedAchat?.note}</td>
+        </tr> */}
+      </tbody>
+    </table>
+    <br />
+    <br />
+
+    <div className='my-4'>
+    <table className={`${classes.table} w-[10%] border-collapse border border-green-800 rounded-lg shadow-sm mx-auto`}>
+      <thead>
+        <tr className='border'>
+        <th className="border border-black text-[9px] font-semibold text-center py-1">Code</th>
+            <th className="border border-black text-[9px] font-semibold text-center py-1">Désignation</th>
+            {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Client</th> */}
+            <th className="border border-black text-[9px] font-semibold text-center py-1">Quantité</th>
+            {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th> */}
+        </tr>
+      
+      </thead>
+      <tbody>
+        {achatempoData.filter(a => a.code_Achat === selectedAchat?.code_Achat).map((item, idx) => (
+          <tr key={idx} className='border'>
+            <td className=" border border-black text-[9px] text-center  py-1 w-28">{item.code}</td>
+            <td className=" border border-black text-[9px] text-center  py-1 w-96">{item.designation}</td>
+            {/* <td className=" border border-black text-[9px] text-center   py-1 w-1/5">{item.Partenaire}</td> */}
+            <td className=" border border-black text-[9px] text-center py-1 w-11">{item.quantite}</td>
+            {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Magasin}</td> */}
+            {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td> */}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </div>
-  {/* <h5 className='mt-4'>Demande d'Entree</h5> */}
-
-  <table className='shadow-y-lg  ml-auto w-[50%]'> 
-    <tbody>
-      {/* {[
-        { label: 'Code Entree', value: selectedAchat?.code_Achat },
-        { label: 'Date', value: selectedAchat?.date ? new Date(selectedAchat.date).toISOString().split('T')[0] : '' },
-        { label: 'User', value: selectedAchat?.user_Dmd }
-      ].map((item, idx) => (
-        <tr key={idx}>
-          <td><h6>{item.label}</h6></td>
-          <td>: {item.value}</td>
-        </tr>
-      ))} */}
-      <tr className='font-semibold text-lg'>
-        <td className='w-32'><h6>Entree N°</h6></td>
-        <td>: {selectedAchat?.code_Achat}</td>
-      </tr>
-      <tr>
-        <td><h6>Date</h6></td>
-        <td>: {selectedAchat?.date ? 
-              new Date(selectedAchat.date).toLocaleString('en-GB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-              }).replace(',', '') : '' }
-        </td>
-      </tr>
-      <tr>
-        <td><h6>Demandeur</h6></td>
-        <td>: {selectedAchat?.user_Dmd}</td>
-      </tr>
-      <tr className='font-semibold text-lg'>
-        <td className='flex items-start '><h6>Client</h6></td>
-        <td>: {selectedAchat?.Partenaire}</td>
-      </tr>
-      <tr>
-        <td colSpan="2">&nbsp;</td>
-      </tr>
-      <tr>
-        <td colSpan="2">&nbsp;</td>
-      </tr>
-      {/* <tr>
-        <td><h6>Onduleur</h6></td>
-        <td>: {selectedAchat?.note}</td>
-      </tr> */}
-    </tbody>
-  </table>
-  <br />
-  <br />
-
-  <div className='my-4'>
-  <table className={`${classes.table} w-[10%] border-collapse border border-green-800 rounded-lg shadow-sm mx-auto`}>
-    <thead>
-      <tr className='border'>
-      <th className="border border-black text-[9px] font-semibold text-center py-1">Code</th>
-           <th className="border border-black text-[9px] font-semibold text-center py-1">Désignation</th>
-          {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Client</th> */}
-           <th className="border border-black text-[9px] font-semibold text-center py-1">Quantité</th>
-           {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th> */}
-      </tr>
-    
-    </thead>
-    <tbody>
-      {achatempoData.filter(a => a.code_Achat === selectedAchat?.code_Achat).map((item, idx) => (
-        <tr key={idx} className='border'>
-          <td className=" border border-black text-[9px] text-center  py-1 w-28">{item.code}</td>
-          <td className=" border border-black text-[9px] text-center  py-1 w-96">{item.designation}</td>
-          {/* <td className=" border border-black text-[9px] text-center   py-1 w-1/5">{item.Partenaire}</td> */}
-          <td className=" border border-black text-[9px] text-center py-1 w-11">{item.quantite}</td>
-          {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{item.qte_Magasin}</td> */}
-          {/* <td className=" border border-black text-[9px] text-center py-1 w-1/5">{lookNewQteMagasin(item.id_Article)}</td> */}
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
-  <br />
-  <div className='my-2 float-right'><p>Signature<span className='text-gray-200'>___________________.</span></p></div>
-</div>
-          </>
-        )}
+    <br />
+    <div className='my-2 float-right'><p>Signature<span className='text-gray-200'>___________________.</span></p></div>
+  </div>
+            </>
+          )}
+        </div>
       </Modal>
     </div>
   );

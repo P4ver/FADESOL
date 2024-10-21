@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProductData, updateProductData, updateQteMagasin } from '../store/productSlice';
@@ -153,6 +152,8 @@ const didRunRef = useRef(false);
     if (venteData && venteData.length > 0) {
       // const lastCodeSortie = venteData[venteData.length - 1].code_Sortie;
       const lastCodeSortie = venteData[venteData.length - 1].code_Sortie || localStorage.getItem('lastCodeSortie');
+      console.log("######lastCodeSortie:", lastCodeSortie);
+      console.log("######venteData[venteData.length - 1].codesortie:", venteData[venteData.length - 1].code_Sortie);
       const lastCodeSortieINT = parseInt(lastCodeSortie.split('-')[1], 10) + 1;
       const newCodeSortie = `CS-${String(lastCodeSortieINT).padStart(6, '0')}`;
       console.log("codeSortieINT code sortie:", newCodeSortie);

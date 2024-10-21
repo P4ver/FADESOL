@@ -1,5 +1,3 @@
-
-
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -23,7 +21,6 @@ console.log(`Local IP address: ${localIP}`);
 // Configurer CORS pour Socket.io
 const io = new Server(server, {
   cors: {
-    // origin: `http://${localIP}:5173`,
     origin: `http://localhost:5173`,
     // origin: 'http://15.236.46.59',
     methods: ['GET', 'POST'],
@@ -53,7 +50,6 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use(cors({
-  // origin: `http://${localIP}:5173`,
   origin: `http://localhost:5173`,
   // origin: 'http://15.236.46.59',
   credentials: true,
