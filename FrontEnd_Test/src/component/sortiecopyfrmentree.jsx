@@ -611,7 +611,7 @@ const didRunRef = useRef(false);
                 {/* <th className="border px-4 py-2">Projet Nom</th> */}
               {/* </>} */}
               {/* <th className="border px-4 py-2">Client</th> */}
-              <th className="border px-4 py-2 w-40">Quantité Magasin</th>
+              {/*<th className="border px-4 py-2 w-40">Quantité Magasin</th>*/}
               <th className="border px-4 py-2 w-32">Quantité</th>
               {/* <th className="border px-4 py-2">Onduleur</th> */}
               <th className="border px-4 py-2 w-20">Action</th>
@@ -686,7 +686,7 @@ const didRunRef = useRef(false);
                       className="w-full px-2 py-1 border-none"
                       disabled
                     /></td>
-                </>} */}
+                </>} 
         
                 <td className="border px-4 py-2">
                 <input
@@ -698,7 +698,7 @@ const didRunRef = useRef(false);
                     disabled
                   />
       
-                </td>
+                </td>*/}
                 <td className="border px-4 py-2">
                   <input
                     type="number"
