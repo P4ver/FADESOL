@@ -362,32 +362,19 @@ const handleSubmit = async () => {
         console.log("qte=========>", parseInt(line.quantite, 10) + qte_Magasin)
         const historiqueData = {
           type_Op:"entree",
-          code_Produit: code_Prd,
-          designation_Produit: designation,
-          code_Projet: checkCodeProjet,
-          nom_Projet: checkNomProjet,
+          code: code_Prd,
+          designation: designation,
+          // code_Projet: checkCodeProjet,
+          // nom_Projet: checkNomProjet,
           // code_Projet: line.projetCode,
           // nom_Projet: nom_Projet,
-          n_Serie : "======",
+          code_Op: codeAchat,
           user_Dmd: user.username,
-          qte_Produit: parseInt(line.quantite, 10),
-          id_Article: id_Article,
+          qte: parseInt(line.quantite, 10),
+          // id_Article: id_Article,
           Partenaire: selectedClient,
           // Partenaire: Partenaire,
         }
-        // const ToAchatData={
-        //   code_Achat: codeAchat,
-        //   user_Dmd: user.username,
-        //   code: code_Prd,
-        //   code_Projet: checkCodeProjet,
-        //   nom_Projet: checkNomProjet,
-        //   date: formattedDate,
-        //   designation_Produit: designation,
-        //   quantite: parseInt(line.quantite, 10),
-        //   // id_Article: id_Article,
-        //   Partenaire: selectedClient,
-        //   // Partenaire: Partenaire,
-        // }
 
     const quantityReceived = parseInt(line.quantite, 10) + qte_Magasin;
     console.log("parseInt(line.quantite, 10)==============>", parseInt(line.quantite, 10))

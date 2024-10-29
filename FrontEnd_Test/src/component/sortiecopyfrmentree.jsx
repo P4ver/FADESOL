@@ -403,17 +403,19 @@ const didRunRef = useRef(false);
         }
         // console.log("qte=========>", parseInt(line.quantite, 10) + qte_Magasin)
         const historiqueData = {
-          type_Op:"Sortie=>",
-          code_Produit: code_Prd,
-          designation_Produit: designation,
-          code_Projet: checkCodeProjet,
-          nom_Projet: checkNomProjet,
-          n_Serie : "======",
+          type_Op:"sortie",
+          code: code_Prd,
+          designation: designation,
+          // code_Projet: checkCodeProjet,
+          // nom_Projet: checkNomProjet,
+          code_Op: codeAchat,
           user_Dmd: user.username,
-          qte_Produit: parseInt(line.quantite, 10),
-          id_Article: id_Article,
-          Partenaire: Partenaire,
+          qte: parseInt(line.quantite, 10),
+          // id_Article: id_Article,
+          Partenaire: selectedClient,
+          // Partenaire: Partenaire,
         }
+        console.log("historiqueData", historiqueData)
 
     const quantityReceived = qte_Magasin - parseInt(line.quantite, 10);
     //============================================================
