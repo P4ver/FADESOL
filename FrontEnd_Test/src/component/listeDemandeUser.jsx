@@ -144,47 +144,6 @@ function ListeDemandeUser() {
   };
   
 
-
-  const handleDelete = (id) => {
-    confirmAlert({
-      title: 'Confirmation',
-      message: 'Are you sure you want to delete this demand?',
-      buttons: [
-        {
-          label: 'Yes',
-          onClick: () => dispatch(deleteAchatempoData(id)),
-        },
-        {
-          label: 'No',
-          onClick: () => {},
-        }
-      ]
-    });
-  };
-
-  const getStatus = (quantite, qteRecu) => {
-    if (qteRecu === 0) {
-      return (
-        <span className="text-red-500">
-          <FaTruck className={classes.statusIcon} /> Pending
-        </span>
-      );
-    } else if (quantite > qteRecu) {
-      return (
-        <span className="text-green-500">
-          <FaTruck className={classes.statusIcon} /> Partiellement livré
-        </span>
-      );
-    } else if (quantite === qteRecu) {
-      return (
-        <span className="text-blue-500">
-          <FaCheck className={classes.statusIcon} /> Livré
-        </span>
-      );
-    } else {
-      return 'Unknown';
-    }
-  };
   const openModal = (achat) => {
     setSelectedAchat(achat);
     setModalIsOpen(true);
@@ -292,25 +251,6 @@ function ListeDemandeUser() {
 
     return 'Unknown';
   };
-  const renderStatus = (status) => {
-    switch (status) {
-      case 'Pending':
-        return <p className='text-red-600'>Pending</p>;
-      case 'Livré':
-        return <p className='text-blue-600'>Livré</p>;
-      case 'Partiellement livré':
-        return <p className='text-green-600'>Partiellement livré</p>;
-      default:
-        return <p>Unknown</p>;
-    }
-  };
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleFilterChange = (event) => {
-    setFilterType(event.target.value);
-  };
 
   const filteredAndSearchedData = filteredAchatData.filter((data) => {
     const matchesSearchQuery = data.code_Achat.toLowerCase().includes(searchQuery.toLowerCase());
@@ -324,13 +264,6 @@ function ListeDemandeUser() {
     return matchesSearchQuery && matchesFilterType;
   });
 
-  const handleEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditedProduct(prevProduct => ({
-      ...prevProduct,
-      [name]: value
-    }));
-  };
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
   
@@ -479,16 +412,6 @@ function ListeDemandeUser() {
 
     <table className='shadow-y-lg  ml-auto w-[50%]'> 
       <tbody>
-        {/* {[
-          { label: 'Code Entree', value: selectedAchat?.code_Achat },
-          { label: 'Date', value: selectedAchat?.date ? new Date(selectedAchat.date).toISOString().split('T')[0] : '' },
-          { label: 'User', value: selectedAchat?.user_Dmd }
-        ].map((item, idx) => (
-          <tr key={idx}>
-            <td><h6>{item.label}</h6></td>
-            <td>: {item.value}</td>
-          </tr>
-        ))} */}
         <tr className='font-semibold text-lg'>
           <td className='w-32'><h6>Entree N°</h6></td>
           <td>: {selectedAchat?.code_Achat}</td>

@@ -20,7 +20,7 @@ import { fetchVenteData } from '../store/venteSlice';
 Modal.setAppElement('#root');
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles({ 
   table: {
     minWidth: 560,
   },
@@ -70,7 +70,6 @@ const useStyles = makeStyles({
   },
   searchInput: {
     marginRight: 10,
-
   },
 });
 
@@ -100,11 +99,6 @@ function ListeSortXUser() {
   // const filteredVenteData = venteData.filter(data => data.user_Dmd === user.username);
   const filteredVenteData = venteData
   console.log("filteredVenteData***:",filteredVenteData)
-  const lookNewQteMagasin = (id_Article) =>{
-    const findQteMagasinUpdate = productData.find(p => p.id_Article  == id_Article)
-    console.log("=>==>=>=>", findQteMagasinUpdate)
-    return findQteMagasinUpdate.qte_Magasin
-  }
 
   useEffect(() => {
     if (updateSuccess) {
@@ -112,83 +106,6 @@ function ListeSortXUser() {
       console.log("avoid reload")
     }
   }, [updateSuccess]);
-
-  const handleInputChange = (id, value) => {
-    setQteRecu(prevState => ({
-      ...prevState,
-      [id]: value,
-    }));
-  };
-
-
-  const handleFormSubmit = async (id) => {
-    const quantityReceived = qteRecu[id];
-    console.log("handleSubmit quantityReceived",quantityReceived)
-    if (quantityReceived !== undefined) {
-      console.log('Updating quantity received for ID:', id);
-      console.log('New quantity received:', quantityReceived);
-      try {
-        // Dispatching updateAchatempoData action
-        await dispatch(updateAchatempoData({
-          id_Achat: id,
-          updatedAchatempoData: { qte_Reçu: quantityReceived }
-        }));
-  
-        // Dispatching updateProductData action
-        console.log('Dispatching updateProductData action...');
-        await dispatch(updateProductData({ productId: id, updatedProductData: { qte_magasin: quantityReceived } }));
-        console.log('updateProductData action dispatched successfully.');
-        
-        setUpdateSuccess(true);
-      } catch (error) {
-        console.error('Error updating quantity received:', error);
-        alert('Failed to update quantity received.');
-      }
-    } else {
-      alert('Please enter a quantity received.');
-    }
-  };
-
-  const handleDelete = (id) => {
-    confirmAlert({
-      title: 'Confirmation',
-      message: 'Are you sure you want to delete this demand?',
-      buttons: [
-        {
-          label: 'Yes',
-          onClick: () => dispatch(deleteAchatempoData(id)),
-        },
-        {
-          label: 'No',
-          onClick: () => {},
-        }
-      ]
-    });
-  };
-
-  const getStatus = (quantite, qteRecu) => {
-    if (qteRecu === 0) {
-      return (
-        <span className="text-red-500">
-          <FaTruck className={classes.statusIcon} /> Pending
-        </span>
-      );
-    } else if (quantite > qteRecu) {
-      return (
-        <span className="text-green-500">
-          <FaTruck className={classes.statusIcon} /> Partiellement livré
-        </span>
-      );
-    } else if (quantite === qteRecu) {
-      return (
-        <span className="text-blue-500">
-          <FaCheck className={classes.statusIcon} /> Livré
-        </span>
-      );
-    } else {
-      return 'Unknown';
-    }
-  };
 
   const openModal = (achat) => {
     setSelectedAchat(achat);
@@ -201,7 +118,7 @@ function ListeSortXUser() {
   };
 
   // const uniqueCodeAchats = [...new Set(filteredAchatData.map(data => data.code_Achat))];
-  const uniqueCodeVente = [...new Set(venteData.map(data => data.code_Sortie))]
+  const uniqueCodeVente = [...new Set(filteredVenteData.map(data => data.code_Sortie))]
 
   console.log("fronSOrtX",uniqueCodeVente)
 
@@ -231,49 +148,6 @@ function ListeSortXUser() {
     handleDeleteDuplicates();
   }, [achatData, qteRecu]);
 
-  const handleValidation = async () => {
-    try {
-      const updatePromises = Object.keys(qteRecu).map(async id => {
-
-        await dispatch(updateAchatempoData({
-          id_Achat: id,
-          updatedAchatempoData: { qte_Reçu: qteRecu[id] }
-        }));
-  
-        const updatedItem = achatempoData.find(item => item.id_Achat == id);
-        console.log("updatedItem : ", updatedItem)
-        if (!updatedItem) {
-          throw new Error(`Item with id ${id} not found in achatempoData`);
-        }
-        const product = productData.find(p => p.Numéro_Article == updatedItem.code);
-        // console.log("product", productData.map(pr=>pr))
-        console.log("product=>+>", product)
-        if (!product) {
-          throw new Error(`Product with designation ${updatedItem.designation} not found`);
-        }
-        // console.log("============>updatedItem: qte Reçu",updatedItem.qte_Reçu)
-        const newQteMagasin = (parseInt(qteRecu[id]) - updatedItem.qte_Reçu) + product.qte_Magasin;
-        console.log("product.id_Article : ", product.id_Article)
-        console.log("newQteMagasin : ", newQteMagasin)
-        console.log("parseInt(qteRecu[id]) : ", parseInt(qteRecu[id]))
-        console.log("updatedItem.qte_Reçu", updatedItem.qte_Reçu)
-        console.log("product.qte_Magasin", product.qte_Magasin)
-        await dispatch(updateQteMagasin({
-          productId: product.id_Article,
-          qte_Magasin: newQteMagasin
-        }));
-      });
-      await Promise.all(updatePromises);
-      setUpdateSuccess(true);
-      setModalIsOpen(false);
-  
-      // Rest of the function...
-    } catch (error) {
-      console.error('Error updating quantities:', error);
-      alert('Failed to update quantities.');
-    }
-  };
-
   const handlePrint = () => {
     const printContents = document.getElementById('print-area').innerHTML;
     const originalContents = document.body.innerHTML;
@@ -300,51 +174,41 @@ function ListeSortXUser() {
 
     return 'Unknown';
   };
-  const renderStatus = (status) => {
-    switch (status) {
-      case 'Pending':
-        return <p className='text-red-600'>Pending</p>;
-      case 'Livré':
-        return <p className='text-blue-600'>Livré</p>;
-      case 'Partiellement livré':
-        return <p className='text-green-600'>Partiellement livré</p>;
-      default:
-        return <p>Unknown</p>;
-    }
-  };
-  const handleFilterChange = (event) => {
-    setFilterType(event.target.value);
-  };
+
+  const currentDate = new Date();
+  const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
+  
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
   };
 //fix search
   const filteredAndSearchedData = filteredVenteData.filter((data) => {
-    const matchesSearchQuery = data.code_Sortie.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesUserDmd = data.user_Dmd?.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesClient = data.Partenaire?.toLowerCase().includes(searchQuery.toLowerCase());
+    // const matchesSearchQuery = data.code_Sortie?.toLowerCase().includes(searchQuery.toLowerCase());
+    // const matchesUserDmd = data.user_Dmd?.toLowerCase().includes(searchQuery.toLowerCase());
+    // const matchesClient = data.Partenaire?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearchQuery = data.code_Sortie 
+  ? data.code_Sortie.toString().toLowerCase().includes(searchQuery.toLowerCase()) 
+  : false;
+
+const matchesUserDmd = data.user_Dmd 
+  ? data.user_Dmd.toString().toLowerCase().includes(searchQuery.toLowerCase()) 
+  : false;
+
+const matchesClient = data.Partenaire 
+  ? data.Partenaire.toString().toLowerCase().includes(searchQuery.toLowerCase()) 
+  : false;
+
 
     return matchesSearchQuery || matchesUserDmd || matchesClient;
   });
 
-
-  const handleEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditedProduct(prevProduct => ({
-      ...prevProduct,
-      [name]: value
-    }));
-  };
-  const currentDate = new Date();
-  const formattedDate = currentDate.toISOString().slice(0, 10); // Extract yyyy-mm-dd part
-  
-// console.log("from listdemand:",achatempoData)
+console.log("from sortXuser:",filteredAchatData)
   return (
     <div>
       <Typography variant="h5" gutterBottom>Liste des Demandes de Sortie</Typography>
       <Box className={classes.filterContainer}>
         <TextField
-          label="Rechercher par Code Achat"
+          label="Rechercher par Code Sortie"
           variant="outlined"
           value={searchQuery}
           onChange={handleSearch}
@@ -358,42 +222,43 @@ function ListeSortXUser() {
               <TableCell>ID</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Client</TableCell>
-              <TableCell>GroupeArticle</TableCell>
               <TableCell>Utilisateur</TableCell>
+              {/* <TableCell>Status</TableCell> */}
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
        
           <TableBody>
-  {uniqueCodeVente.map((codeAchat) => {
-    const relatedDemands = filteredAndSearchedData.filter(data => data.code_Sortie === codeAchat);
-    if (relatedDemands.length === 0) return null; // Skip if no matching demands
-    const firstDemand = relatedDemands[0];
-    const status = getGeneralStatus(codeAchat);
-    return (
-      <React.Fragment key={codeAchat}>
-        <TableRow>
-          <TableCell>{firstDemand.code_Sortie}</TableCell>
-          <TableCell>
-            {new Date(firstDemand.date_Vente).toLocaleDateString('en-GB', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
+            {uniqueCodeVente.map((codeAchat) => {
+              {/* const relatedDemands = filteredVenteData.filter(data => data.code_Sortie === codeAchat); */}
+              const relatedDemands = filteredAndSearchedData.filter(data => data.code_Sortie === codeAchat);
+              if (relatedDemands.length === 0) return null; // Skip if no matching demands
+              const firstDemand = relatedDemands[0];
+              const status = getGeneralStatus(codeAchat);
+              return (
+                <React.Fragment key={codeAchat}>
+                  <TableRow>
+                    <TableCell>{firstDemand.code_Sortie}</TableCell>
+                    <TableCell>
+                    {new Date(firstDemand.date_Vente).toLocaleDateString('en-GB', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                    })}
+                    </TableCell>
+                    <TableCell>{firstDemand.Partenaire}</TableCell>
+                    {/* <TableCell>{formattedDate}</TableCell> */}
+                    <TableCell>{firstDemand.user_Dmd}</TableCell>
+                    {/* <TableCell>{renderStatus(status)}</TableCell> Use renderStatus to display the status with the correct styling */}
+                    <TableCell>
+                      <IconButton onClick={() => openModal(firstDemand)}><div className='text-blue-500'><FaEye /></div></IconButton>
+                      {/* <IconButton onClick={() => handleDelete(firstDemand.id_Achat)}><div className='text-red-500'><FaTimes /></div></IconButton> */}
+                    </TableCell>
+                  </TableRow>
+                </React.Fragment>
+              );
             })}
-          </TableCell>
-          <TableCell>{firstDemand.Partenaire}</TableCell>
-          <TableCell>{firstDemand.Groupe_Articles}</TableCell>
-          <TableCell>{firstDemand.user_Dmd}</TableCell>
-          {/* <TableCell>{renderStatus(status)}</TableCell> Use renderStatus to display the status with the correct styling */}
-          <TableCell>
-            <IconButton onClick={() => openModal(firstDemand)}><div className='text-blue-500'><FaEye /></div></IconButton>
-            {/* <IconButton onClick={() => handleDelete(firstDemand.id_Achat)}><div className='text-red-500'><FaTimes /></div></IconButton> */}
-          </TableCell>
-        </TableRow>
-      </React.Fragment>
-    );
-  })}
-</TableBody>
+          </TableBody>
         </Table>
       </TableContainer>
 
@@ -423,7 +288,7 @@ function ListeSortXUser() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {venteData.filter(data => data.code_Sortie === selectedAchat.code_Sortie).map((data) => (
+                    {filteredVenteData.filter(data => data.code_Sortie === selectedAchat.code_Sortie).map((data) => (
                       <TableRow key={data.id_Vente}>
                         {/* <TableCell>{data.code_Projet}</TableCell> */}
                         <TableCell>{data.designation_Produit}</TableCell>
@@ -451,30 +316,6 @@ function ListeSortXUser() {
     <table className='w-2/5 shadow-y-lg ml-auto  w-[50%]'> 
           {/* { label: 'Date', value: selectedAchat?.date_Vente ? new Date(selectedAchat.date_Vente).toISOString().split('T')[0] : '' }, */}
       <tbody>
-        {/* {[
-          { label: 'Sortie PDR N°', value: selectedAchat?.code_Sortie },
-          { 
-            label: 'Date', 
-            value: selectedAchat?.date_Vente ? 
-              new Date(selectedAchat.date_Vente).toLocaleString('en-GB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-              }).replace(',', '') : '' 
-          },
-          { label: 'Demandeur', value: selectedAchat?.user_Dmd },
-          { label: 'Client', value: selectedAchat?.Partenaire },
-          { label: 'Onduleur', value: selectedAchat?.note }
-        ].map((item, idx) => (
-          <tr key={idx}>
-            <td><h6>{item.label}</h6></td>
-            <td>: {item.value}</td>
-          </tr>
-        ))} */}
-
-
         <tr className='font-semibold text-lg'>
           <td className='w-32'><h6>Sortie PDR N°</h6></td>
           <td>: {selectedAchat?.code_Sortie}</td>
@@ -509,6 +350,10 @@ function ListeSortXUser() {
           <td><h6>Onduleur</h6></td>
           <td>: {selectedAchat?.note}</td>
         </tr>
+        <tr>
+          <td><h6>Groupe d'articles</h6></td>
+          <td>: {selectedAchat?.Groupe_Articles}</td>
+        </tr>
 
         
       </tbody>
@@ -517,13 +362,13 @@ function ListeSortXUser() {
     <br /> */}
 
     <div className='my-4'>
-    <table className={`${classes.table} border-collapse border border-green-800 rounded-lg shadow-sm mx-auto`}>
+    <table className={`${classes.table} border-collapse border border-green-800 rounded-lg shadow-sm mx-auto `}>
       <thead>
         <tr className='border'>
         <th className="border border-black text-[9px] font-semibold text-center py-1">Code</th>
-            <th className="border border-black text-[9px] font-semibold text-center py-1">Désignation</th>
+            <th className="border border-black text-[9px] font-semibold text-center py-1 ">Désignation</th>
             {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-2/5">Client</th> */}
-            <th className="border border-black text-[9px] font-semibold text-center py-1">Quantité</th>
+            <th className="border border-black text-[9px] font-semibold text-center py-1 ">Quantité</th>
             {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Qte Magasin</th> */}
             {/* <th className="border border-black text-[9px] font-semibold text-center py-1 w-1/5">Projet</th> */}
         </tr>
@@ -546,9 +391,9 @@ function ListeSortXUser() {
   </div>
     <br />
     <div className='my-2 float-right'><p>Signature<span className='text-gray-200'>___________________</span></p></div>
-  </div>
+              </div>
             </>
-          )}
+          )} 
         </div>
       </Modal>
     </div>

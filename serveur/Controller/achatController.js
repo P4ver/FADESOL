@@ -11,19 +11,6 @@ const createAchat = (req, res) => {
             res.send("Les données ont été insérées.")
         })
     })
-    // pool.getConnection((err, connection) => {
-    //     if (err) throw err;
-    //     const { code, code_Projet, designation, quantite, nom_Projet, date, code_Achat, user_Dmd, Partenaire } = req.body; // Added check_Delivery
-    //     connection.query(
-    //         'INSERT INTO achat (code, code_Projet, designation, quantite, nom_Projet, date, code_Achat, user_Dmd, Partenaire) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-    //         [code, code_Projet, designation, quantite, nom_Projet, date,  code_Achat, user_Dmd, Partenaire], // Included check_Delivery in values
-    //         (err, result) => {
-    //             connection.release();
-    //             if (err) return res.status(500).send(err);
-    //             res.send('Achat added.');
-    //         }
-    //     );
-    // });
 };
 
 // Get all achats
@@ -71,24 +58,6 @@ const updateAchat = (req, res) => {
         );
     });
 };
-// const updateAchat = (req, res) => {
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-//         const { id_Achat } = req.params; // Extracting id_Achat from URL parameters
-//         const { check_Delivery } = req.body; // Extracting check_Delivery from request body
-//         connection.query(
-//             'UPDATE achat SET check_Delivery = ? WHERE id_Achat = ?',
-//             [check_Delivery, id_Achat],
-//             (err, result) => {
-//                 connection.release();
-//                 if (err) return res.status(500).send(err);
-//                 res.send('Achat delivery status updated.');
-//             }
-//         );
-//     });
-// };
-
-
 
 // Delete achat
 const deleteAchat = (req, res) => {

@@ -1,18 +1,3 @@
-
-// const mysql = require('mysql');
-
-// const pool = mysql.createPool({
-//     // connectionLimit: 10,
-//     host: 'localhost',
-//     user: 'rjwlqhzfqsno_admin', // Your MySQL username
-//     password: "fadesol@2024", // Your MySQL password
-//     database: 'rjwlqhzfqsno_fadesolcpanel', // Name of the database you created
-//     port: 3306
-// });
-
-// module.exports = pool;
-
-
 const mysql = require('mysql');
 
 const pool = mysql.createPool({
@@ -25,16 +10,3 @@ const pool = mysql.createPool({
 });
 
 module.exports = pool;
-
-// const mysql = require('mysql');
-
-// const pool = mysql.createPool({
-//     // connectionLimit: 10,
-//     host: 'localhost',
-//     user: 'gsprbhwx_admin', // Your MySQL username
-//     password: "fadesol@2024", // Your MySQL password
-//     database: 'gsprbhwx_fadesolcpanel', // Name of the database you created
-//     port: 3306
-// });
-
-// module.exports = pool;

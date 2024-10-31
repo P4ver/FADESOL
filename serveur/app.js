@@ -35,7 +35,6 @@ const produits = require('./routes/productRoutes')
 const fournisseur = require("./routes/fournisseurRoutes")
 const client = require("./routes/clientRoutes")
 const user = require("./routes/userRoutes")
-const barcodeRoutes = require('./routes/barcodeRoutes');
 const demande = require("./routes/demandeRoutes")
 const projet = require("./routes/projetRoutes")
 const achatRoutes = require("./routes/achatempoRoutes")

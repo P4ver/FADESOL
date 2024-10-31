@@ -315,16 +315,16 @@ function ListeSortXUser() {
   };
 //fix search
   const filteredAndSearchedData = filteredHistoriqueData.filter((data) => {
-    const matchesSearchQuery = data.code_Op.toLowerCase().includes(searchQuery.toLowerCase());
+    // const matchesSearchQuery = (data.code_Op?.toLowerCase() || "").includes(searchQuery.toLowerCase());
+    const matchesSearchQuery = data.code_Op?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesUserDmd = data.user_Dmd?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesClient = data.Partenaire?.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    // const matchesDate = selectedDate ? data.date === selectedDate : true;
-    const matchesDate = data.update_at.includes(selectedDate);
-    const matchesCode = data.code.toLowerCase().includes(searchQuery.toLowerCase());
-    console.log('code_article historique: ',data.code.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesTypeOp = data.type_Op?.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesDate = data.update_at?.includes(selectedDate);
+    const matchesCode = data.code?.toLowerCase().includes(searchQuery.toLowerCase());
     // return matchesSearchQuery || matchesUserDmd || matchesClient;
-    return (matchesSearchQuery || matchesUserDmd || matchesClient || matchesCode) && matchesDate;
+    return (matchesSearchQuery || matchesUserDmd || matchesClient || matchesCode || matchesTypeOp) && matchesDate;
   });
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -351,7 +351,7 @@ function ListeSortXUser() {
   const handleDateChange = e => {
     setSelectedDate(e.target.value);
   };
-console.log("selectedDate", selectedDate)
+console.log("selectedAchat####=>", selectedAchat)
   return (
     <div>
       <Typography variant="h5" gutterBottom>Historique</Typography>
@@ -373,6 +373,7 @@ console.log("selectedDate", selectedDate)
         <Table className={classes.table} aria-label="simple table" size='small'>
           <TableHead>
             <TableRow>
+              <TableCell></TableCell>
               <TableCell>ID</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Client</TableCell>
@@ -389,10 +390,14 @@ console.log("selectedDate", selectedDate)
     return (
       <React.Fragment key={codeHisto}>
         <TableRow
+          // style={{
+          //         backgroundColor : index % 2 === 0 ? "#e7e7e7" : "#ffffff", // Alternate row colors
+          //     }}
           style={{
-                  backgroundColor : firstDemand.code_Op.startsWith("CS") ? "#ffcccc" : "#ffffff", // Alternate row colors
+                  backgroundColor : firstDemand.type_Op === "sortie" ? "#ffeeec" : "#ffffff", // Alternate row colors
               }}
         >
+          <TableCell>{firstDemand.type_Op}</TableCell>
           <TableCell>{firstDemand.code_Op}</TableCell>
           <TableCell>{formatDate(firstDemand.update_at)}</TableCell>
           <TableCell>{firstDemand.Partenaire}</TableCell>
@@ -463,10 +468,12 @@ console.log("selectedDate", selectedDate)
     {/* <h5 className='mt-4'>Demande de Sortie</h5> */}
 
     <table className='w-2/5 shadow-y-lg ml-auto  w-[50%]'> 
-          {/* { label: 'Date', value: selectedAchat?.date_Vente ? new Date(selectedAchat.date_Vente).toISOString().split('T')[0] : '' }, */}
       <tbody>
         <tr className='font-semibold text-lg'>
-          <td className='w-32'><h6>Sortie PDR N°</h6></td>
+          <td className='w-32'><h6>{selectedAchat?.type_Op
+      ? selectedAchat.type_Op.charAt(0).toUpperCase() + selectedAchat.type_Op.slice(1).toLowerCase()
+      : ''} PDR N°</h6></td>
+          {/* <td className='w-32'><h6>{selectedAchat?.type_Op.toUpperCase()} PDR N°</h6></td> */}
           <td>: {selectedAchat?.code}</td>
         </tr>
         <tr>

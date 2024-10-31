@@ -46,19 +46,6 @@ const getAchatDetails = (req, res) => {
     });
 };
 
-// Update achat
-// const updateAchat = (req, res) => {
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-//         const { id_Achat } = req.params;
-//         const { code, code_Projet } = req.body;
-//         connection.query('UPDATE achat SET code = ?, code_Projet = ? WHERE id_Achat = ?', [code, code_Projet, id_Achat], (err, result) => {
-//             connection.release();
-//             if (err) return res.status(500).send(err);
-//             res.send('Achat updated.');
-//         });
-//     });
-// };
 const updateAchat = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;

@@ -1,19 +1,17 @@
 import React, { useRef, useState } from 'react';
 import { useEffect } from 'react';
-import { IoQrCode } from "react-icons/io5";
-import { FaBarcode } from "react-icons/fa";
 import {
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
     Switch, Paper, Checkbox, IconButton, Typography, Toolbar, TextField,
     TablePagination, Button, Tabs, Tab, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
 } from '@mui/material';
+
 import { Add, Edit, Delete, Search } from '@mui/icons-material';
 import { GrView } from "react-icons/gr";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProductData } from '../store/productSlice';
 import { deleteProductData, updateProductData, postProductData, duplicateProductData } from '../store/productSlice';
 import {postTransactionData} from '../store/transactionSlice'
-import JsBarcode from 'jsbarcode';
 import { Collapse, Card, CardContent, Menu, MenuItem } from "@material-ui/core";
 import Barcode from 'react-barcode';
 import { QRCode } from 'react-qrcode-logo';
@@ -82,13 +80,6 @@ const ProductTable = () => {
     const [editProduct, setEditProduct] = useState(null);
     const [expandedUser, setExpandedUser] = useState(null); 
 
-    // const [editedProduct, setEditedProduct] = useState({
-    //     Numéro_Article: "",
-    //     Description_Article: "",
-    //     Groupe_Articles: "",
-    //     Designation_Fadesol: "",
-    //     code_Barre: "",
-    // });
     const [editedProduct, setEditedProduct] = useState({
         Numéro_Article: "",
         Description_Article: "",
@@ -161,8 +152,6 @@ const ProductTable = () => {
           const currentDate = new Date().toLocaleDateString();
           await dispatch(postProductData({
             ...formData
-            // Date_Actualisation: currentDate,
-            // Emplacement: formData.Emplacement, // Add this new property
           }));
         setFormData({
             Numéro_Article: "",
@@ -262,14 +251,6 @@ const ProductTable = () => {
         }
     };
 
-    // const filteredProducts = productData ? productData.filter((product) => {
-     
-    //      return (
-    //         (product.Numéro_Article && product.Numéro_Article.toLowerCase().includes(search.toLowerCase())) ||
-    //         (product.Description_Article && product.Description_Article.toLowerCase().includes(search.toLowerCase())) ||
-    //         (product.code_Barre && product.code_Barre.toLowerCase().includes(search.toLowerCase()))
-    //     );
-    // }) : [];
 
     const filteredProducts = productData ? productData.filter((product) => {
      
@@ -284,7 +265,6 @@ const ProductTable = () => {
        );
    }) : [];
 
-    // console.log("=>+>+>+>+>+>+>",filteredProducts.reverse())
     const [anchorEl, setAnchorEl] = useState(null);
 
     const exportToExcel = () => {
