@@ -14,7 +14,6 @@ const obtenirDemandes = (req, res)=>{
 
 const obtenirDemandesID = (req, res)=>{
     pool.getConnection((err, connection)=>{
-        // console.log("eeeeeeeeeeeeeeeeeeeee")
         if (err) throw err
         console.log("connection as id", connection.threadId)
         connection.query('SELECT * FROM demande WHERE id_Demande = ?', [req.params.id], (err, rows)=>{

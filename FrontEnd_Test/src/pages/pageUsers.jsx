@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import TableTest from '../component/table';
+import UserTable from '../component/table';
 import { useSelector } from "react-redux";
 
 const PageUsers = () => {
@@ -37,7 +37,7 @@ const PageUsers = () => {
   return (
     <div>
       {checkAccess() && checkStatus() &&
-        <TableTest />
+        <UserTable />
       }
     </div>
   );

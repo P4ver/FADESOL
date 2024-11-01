@@ -56,7 +56,7 @@ const handleDelete = (id_User) => {
 }
 
 
-//====================== Mise à jour des produits ================================
+//====================== Mise à jour ================================
 
 const handleUpdateChange = (id_User, event) => {
     const { name, value } = event.target;
@@ -105,7 +105,6 @@ return (
         <button type="submit">Ajouter</button>
         </div>
     </form>
-
 <ul>
     {userData.map((user) => (
         <li key={user.id_User}>

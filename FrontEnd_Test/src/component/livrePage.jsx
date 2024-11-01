@@ -1,10 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, Modal, Button } from '@mui/material';
 import { FaCheck ,FaEye} from 'react-icons/fa';
 
-// import { , FaPencilAlt, FaCheck, FaTimes, FaTruck, FaPrint } from 'react-icons/fa';
 
 const DeliveredItemsPage = () => {
   const { achatempoData } = useSelector(state => state.achatempo);
@@ -12,10 +11,32 @@ const DeliveredItemsPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState([]);
 
+  const [user, setUser] = useState(null);
   const authState = useSelector(state => state.auth);
-  const user = authState.user;
+  // const user = authState.user;
 
-  const filteredAchatData = achatempoData.filter(data => data.user_Dmd === user.username);
+
+  const [typeUser, setTypeUser] = useState(null);
+  const userState = useSelector(state => state.user);
+
+
+
+  useEffect(() => {
+    if (authState.user) {
+      setUser(authState.user);
+    }
+  }, [authState]);
+
+  useEffect(() => {
+    if (user && userState.userData.length > 0) {
+      // const match = userState.userData.find(u => u.id == user.id);
+      const match = userState.userData.find(usr => usr.login_User == user.username);
+      setTypeUser(match.type_User)
+    }
+  }, [user, userState]);
+
+
+  const filteredAchatData = achatempoData
 
   // Filter code_Achat where all demands are "Livré" (qte_Reçu === quantite)
   const uniqueCodeAchats = [...new Set(filteredAchatData.map(item => item.code_Achat))]
@@ -27,7 +48,7 @@ const DeliveredItemsPage = () => {
 
   const handleExpand = (codeAchat) => {
     setExpandedItem(codeAchat);
-    setModalData(achatempoData.filter(item => item.code_Achat === codeAchat && item.qte_Reçu === item.quantite));
+    setModalData(achatempoData.filter(item => (item.code_Achat === codeAchat && item.qte_Reçu === item.quantite )));
     setModalOpen(true);
   };
 

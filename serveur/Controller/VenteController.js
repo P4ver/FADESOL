@@ -1,12 +1,27 @@
 const pool = require("../db")
 
+// const createVente = (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         if (err) throw err;
+//         const {code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet } = req.body; // Added check_Delivery
+//         connection.query(
+//             'INSERT INTO vente (code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet) VALUES (?, ?, ?, ?, ?, ?)', 
+//             [code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet], // Included check_Delivery in values
+//             (err, result) => {
+//                 connection.release();
+//                 if (err) return res.status(500).send(err);
+//                 res.send('Vente added.');
+//             }
+//         );
+//     });
+// };
 const createVente = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        const {code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet } = req.body; // Added check_Delivery
+        const {code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd, Partenaire, note, Groupe_Articles, code_Sortie} = req.body; // Added check_Delivery
         connection.query(
-            'INSERT INTO vente (code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet) VALUES (?, ?, ?, ?, ?, ?)', 
-            [code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet], // Included check_Delivery in values
+            'INSERT INTO vente (code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd, Partenaire, note, Groupe_Articles, 	code_Sortie) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+            [code_Produit, designation_Produit, qte_Produit, n_Serie, code_Projet, nom_Projet, user_Dmd, Partenaire, note, Groupe_Articles, code_Sortie], // Included check_Delivery in values
             (err, result) => {
                 connection.release();
                 if (err) return res.status(500).send(err);
@@ -15,7 +30,6 @@ const createVente = (req, res) => {
         );
     });
 };
-
 // Get all ventes
 const getAllVentes = (req, res) => {
     pool.getConnection((err, connection) => {
@@ -28,22 +42,7 @@ const getAllVentes = (req, res) => {
     });
 };
 
-// Get vente details with related demande and projet
-// const getVenteDetails = (req, res) => {
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-//         connection.query(`
-//             SELECT v.id_Vente, v.code, d.designation, d.quantité, v.code_Projet, p.nom_Projet, p.date
-//             FROM vente v
-//             JOIN demande d ON v.code = d.code
-//             JOIN projet p ON v.code_Projet = p.code_Projet
-//         `, (err, results) => {
-//             connection.release();
-//             if (err) return res.status(500).send(err);
-//             res.json(results);
-//         });
-//     });
-// };
+
 
 // Update vente
 const updateVente = (req, res) => {
@@ -75,10 +74,29 @@ const deleteVente = (req, res) => {
         });
     });
 };
+//sup
+const getDailySales = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query(
+            `SELECT DATE_FORMAT(date_Vente, '%Y-%m-%d') AS date,
+                    SUM(qte_Produit) AS totalSales
+             FROM vente
+             GROUP BY DATE_FORMAT(date_Vente, '%Y-%m-%d')
+             ORDER BY date`,
+            (err, results) => {
+                connection.release();
+                if (err) return res.status(500).send(err);
+                res.json(results);
+            }
+        );
+    });
+};
 
 module.exports = {
     createVente,
     getAllVentes,
     updateVente,
-    deleteVente
+    deleteVente,
+    getDailySales
 };

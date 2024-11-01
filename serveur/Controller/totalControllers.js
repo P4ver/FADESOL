@@ -36,8 +36,36 @@ const countAchats = (callback) => {
     });
 };
 
+
+// Fonction pour obtenir le nombre de sorties
+const countSorties = (callback) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query('SELECT COUNT(*) AS sortieCount FROM vente', (err, results) => {
+            connection.release();
+            if (err) return callback(err, null);
+            callback(null, results[0].sortieCount);
+        });
+    });
+};
+
+// Fonction pour obtenir le nombre de return
+const countReturn = (callback) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query('SELECT COUNT(*) AS returnCount FROM listreturn', (err, results) => {
+            connection.release();
+            if (err) return callback(err, null);
+            callback(null, results[0].returnCount); // Utiliser "returnCount" au lieu de "sortieCount"
+        });
+    });
+};
+
 module.exports = {
     countUsers,
     countProducts,
-    countAchats
+    countAchats,
+    countSorties,
+    countReturn,
+
 };

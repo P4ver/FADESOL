@@ -13,7 +13,6 @@ const PageProducts = () => {
   const authState = useSelector(state => state.auth);
   const userState = useSelector(state => state.user);
 
-
   useEffect(() => {
     if (authState.user) {
       setUser(authState.user);
@@ -43,9 +42,9 @@ const PageProducts = () => {
 
   return (
     <div>
-      {checkAccess() && checkStatus() && 
+      { checkStatus() && 
           <ProductTable/>
-      } 
+      }
     </div>
     )
 }
