@@ -351,7 +351,6 @@ function ListeSortXUser() {
   const handleDateChange = e => {
     setSelectedDate(e.target.value);
   };
-console.log("selectedAchat####=>", selectedAchat)
   return (
     <div>
       <Typography variant="h5" gutterBottom>Historique</Typography>

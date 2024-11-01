@@ -153,7 +153,6 @@ const didRunRef = useRef(false);
       // const lastCodeSortie = venteData[venteData.length - 1].code_Sortie;
       const lastCodeSortie = venteData[venteData.length - 1].code_Sortie || localStorage.getItem('lastCodeSortie');
       console.log("######lastCodeSortie:", lastCodeSortie);
-      console.log("######venteData[venteData.length - 1].codesortie:", venteData[venteData.length - 1].code_Sortie);
       const lastCodeSortieINT = parseInt(lastCodeSortie.split('-')[1], 10) + 1;
       const newCodeSortie = `CS-${String(lastCodeSortieINT).padStart(6, '0')}`;
       console.log("codeSortieINT code sortie:", newCodeSortie);
@@ -502,7 +501,6 @@ const didRunRef = useRef(false);
       setLines(lines.map(line => ({ ...line, partenaire: client.Partenaire })));
     }
   };
-  // console.log('@@select client@@',selectedClient)
 
   const [showFullListe, setShowFullListe] = useState(false);
 
@@ -520,11 +518,7 @@ const didRunRef = useRef(false);
     setShowCodeList(null);  
   };
   // =========================================================
-  // const handleOnduleurInput = (value) => {
-  //   setOnduleurInput(value);  
-  // };
-  // =========================================================
-  console.log("loadingProcess",loadingProcess)
+  // console.log("loadingProcess",loadingProcess)
   return (
     <>
     {loadingProcess && (

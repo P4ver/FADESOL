@@ -98,7 +98,6 @@ function ListeSortXUser() {
   const filteredAchatData = achatempoData.filter(data => data.user_Dmd === user.username);
   // const filteredVenteData = venteData.filter(data => data.user_Dmd === user.username);
   const filteredVenteData = venteData
-  console.log("filteredVenteData***:",filteredVenteData)
 
   useEffect(() => {
     if (updateSuccess) {
@@ -119,8 +118,6 @@ function ListeSortXUser() {
 
   // const uniqueCodeAchats = [...new Set(filteredAchatData.map(data => data.code_Achat))];
   const uniqueCodeVente = [...new Set(filteredVenteData.map(data => data.code_Sortie))]
-
-  console.log("fronSOrtX",uniqueCodeVente)
 
   useEffect(() => {
     const handleDeleteDuplicates = async () => {
@@ -202,7 +199,6 @@ const matchesClient = data.Partenaire
     return matchesSearchQuery || matchesUserDmd || matchesClient;
   });
 
-console.log("from sortXuser:",filteredAchatData)
   return (
     <div>
       <Typography variant="h5" gutterBottom>Liste des Demandes de Sortie</Typography>
