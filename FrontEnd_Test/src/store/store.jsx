@@ -10,16 +10,18 @@ import projetReducer from "./projetSlice";
 import achatempoReducer from "./achatempoSlice";
 import achatReducer from "./achatSlice";
 import venteReducer from "./venteSlice";
-import returnReducer from "./returnSlice"
-import historiqueReducer from "./historiqueSlice"
-import clientReducer from "./clientSlice"
-import transactionReducer from "./transactionSlice"
+import returnReducer from "./returnSlice";
+import historiqueReducer from "./historiqueSlice";
+import clientReducer from "./clientSlice";
+import transactionReducer from "./transactionSlice";
 
+// Persist Config
 const persistConfig = {
   key: 'root',
   storage,
 };
 
+// Root Reducer
 const rootReducer = combineReducers({
   product: productReducer,
   user: userReducer,
@@ -28,18 +30,27 @@ const rootReducer = combineReducers({
   projet: projetReducer,
   achatempo: achatempoReducer,
   vente: venteReducer,
-  achat : achatReducer,
-  return : returnReducer,
-  historique : historiqueReducer,
-  client : clientReducer,
-  transaction : transactionReducer,
+  achat: achatReducer,
+  return: returnReducer,
+  historique: historiqueReducer,
+  client: clientReducer,
+  transaction: transactionReducer,
 });
 
+// Persisted Reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+// Store Configuration
 const store = configureStore({
   reducer: persistedReducer,
-  devTools: true // Set to true to always enable dev tools
+  devTools: true, // Enable Redux DevTools
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: {
+        warnAfter: 1000, // Increase the threshold to avoid frequent warnings
+      },
+      serializableCheck: false, // Disable serializability checks
+    }),
 });
 
 export const persistor = persistStore(store);

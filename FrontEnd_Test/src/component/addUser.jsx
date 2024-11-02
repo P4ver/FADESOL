@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUserData, postUserData} from '../../store/userSlice';
+import { fetchUserData, postUserData} from '../store/userSlice';
 
 
 const AddUser = () => {

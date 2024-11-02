@@ -10,10 +10,10 @@ import { Collapse, Card, CardContent, Menu, MenuItem } from "@material-ui/core";
 import Pagination from "@mui/material/Pagination";
 import Switch from "@mui/material/Switch";
 import * as XLSX from "xlsx";
-import AddUser from "./usrDashBoard/addUser";
+import AddUser from "./addUser";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-const TableTest = () => {
+const UserTable = () => {
   const dispatch = useDispatch();
   const { userData, loading, error } = useSelector((state) => state.user);
   const [openDialog, setOpenDialog] = useState(false);
@@ -467,4 +467,4 @@ const checkAccess = ()=>{
   );
 }
 
-export default TableTest;
+export default UserTable;

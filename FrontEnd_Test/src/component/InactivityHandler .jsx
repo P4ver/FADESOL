@@ -2,7 +2,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { handleLogout } from './logout';
+import { handleLogout } from './logoutComponent';
+// import { handleLogout } from './logout';
 
 const InactivityHandler = () => {
   const dispatch = useDispatch();
