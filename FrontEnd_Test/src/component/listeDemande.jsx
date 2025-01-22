@@ -306,6 +306,8 @@ function ListeDemande() {
     }
   };
 
+  console.log("=========")
+
   const handlePrint = () => {
     const printContents = document.getElementById('print-area').innerHTML;
     const originalContents = document.body.innerHTML;
