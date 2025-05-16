@@ -427,15 +427,13 @@ const handleSubmit = async () => {
     setInputValue('')
     setNomProjetInput('')
     setLines([{ demandeCode: '', nomProjet: '', quantite: '', partenaire: ''}]);
-    // window.location.reload();
+    window.location.reload();
   } catch (error) {
     console.error('Error submitting data:', error.message);
   }finally {
     setLoadingProcess(false); // Stop loading after the operation completes
   }
 };
-
-// console.log("entree lines",lines)
 
   const handleKeyPress = (event, index) => {
     if (event.key === 'Enter' && index === lines.length - 1) {
@@ -450,7 +448,6 @@ const handleSubmit = async () => {
       const filtered = clientData.filter(client =>
         client.Partenaire.toLowerCase().includes(value.toLowerCase())
       );
-      // console.log("filtered",filtered)
       setFilteredClients(filtered);
       setShowList(true); // Show the list when typing
     } else {
@@ -460,7 +457,6 @@ const handleSubmit = async () => {
   };
 
   const handleClientSelect = (client) => {
-    // console.log("client**", client.Partenaire)
     setSelectedClient(client.Partenaire);
     setInputValue(client.Partenaire);
     setShowList(false); // Hide the list after selecting a client
@@ -483,21 +479,6 @@ const handleSubmit = async () => {
 
 // =========================================================
 
-
-// const handleCodeChange = (value) => {
-//   setInputCodeValue(value);
-//   if (value) {
-//     const filtered = productData.filter(article =>
-//       article.Numéro_Article.toLowerCase().includes(value.toLowerCase())
-//     );
-//     console.log("filtered", filtered)
-//     setFilteredCodes(filtered);
-//     setShowCodeList(true); // Show the list when typing
-//   } else {
-//     setFilteredCodes([]);
-//     setShowCodeList(false); // Hide the list if input is empty
-//   }
-// };
 const handleCodeSelect = (article, index) => {
   const updatedLines = [...lines];
   updatedLines[index].demandeCode = article.Numéro_Article;
@@ -505,7 +486,6 @@ const handleCodeSelect = (article, index) => {
   setShowCodeList(null);  
 };
 
-// console.log("inputCodeValue", inputCodeValue)
   return (
     <>
     {loadingProcess && (

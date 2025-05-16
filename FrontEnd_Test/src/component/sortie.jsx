@@ -460,7 +460,7 @@ const didRunRef = useRef(false);
     setNomProjetInput('')
     setLines([{ demandeCode: '', nomProjet: '', quantite: '', partenaire: '', note: ''}]);
     console.log("############################END###################################")
-    // window.location.reload();
+    window.location.reload();
   } catch (error) {
     console.error('Error submitting data:', error.message);
   }finally {
